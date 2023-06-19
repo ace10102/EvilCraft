@@ -3,6 +3,8 @@
 doc/info.txt
 /build
 /run
+/libs
+/tools
 
 # Ignore project specific files
 .classpath

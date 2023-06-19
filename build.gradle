@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
         maven {
             name = "forge"
-            url = "http://files.minecraftforge.net/maven"
+            url = "https://maven.minecraftforge.net/"
         }
         maven {
             name = "sonatype"
@@ -11,17 +11,30 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.0.+') {
+            changing = true
+        }
     }
 }
 
+plugins {
+    id 'java-library'
+    id 'eclipse'
+    id("io.freefair.lombok") version "5.0.0"
+}
+
+apply plugin: 'java'
 apply plugin: 'forge'
+apply plugin: 'maven'
 
 loadProperties()
 
 version = config.mod_version
 group = "evilcraft"
 archivesBaseName = "EvilCraft"
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
 def loadProperties() {
     // Config file with custom properties
@@ -48,9 +61,9 @@ def loadProperties() {
 }
 
 apply from: 'gradle/forge.gradle'
-apply from: 'gradle/dev.gradle'
+//apply from: 'gradle/dev.gradle'
 //apply from: 'gradle/chicken.gradle'
-apply from: 'gradle/deploy.gradle'
+//apply from: 'gradle/deploy.gradle'
 
 // Mark API directory as source directory in IDEA.
 idea {
@@ -60,6 +73,6 @@ idea {
 }
 
 // Resolve resources bug in IDEA 14.
-sourceSets {
-    main { output.resourcesDir = output.classesDir }
-}
+//sourceSets {
+//   main { output.resourcesDir = output.classesDir }
+//}
