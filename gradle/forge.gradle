@@ -17,24 +17,24 @@ repositories {
         url "https://maven.ic2.player.to/net"
     }
 }
+
 dependencies {
-    compile files("${config.libs_path}/TConstruct-${config.tconstruct_version}-dev.jar") // http://dvs1.progwml6.com/files/maven
-    compile files("${config.libs_path}/Waila-${config.waila_version}-dev.jar") // http://mobiusstrip.eu/maven/mcp/mobius/waila/Waila/
-    compile files("${config.libs_path}/ForgeMultipart-${config.FMP_version}-dev.jar") // http://files.minecraftforge.net/ForgeMultipart/
-    compile files("${config.libs_path}/forestry_${config.minecraft_version}-${config.forestry_version}-dev.jar") // http://maven.ic2.player.to/
-    compile files("${config.libs_path}/NotEnoughItems-${config.NEI_version}-dev.jar") // http://chickenbones.net/maven/codechicken/NotEnoughItems/
-    compile files("${config.libs_path}/CodeChickenCore-${config.CCC_version}-dev.jar") // http://chickenbones.net/maven/codechicken/CodeChickenCore/
-    compile files("${config.libs_path}/CodeChickenLib-${config.CCL_version}-dev.jar") // http://files.minecraftforge.net/CodeChickenLib/
-    compile files("${config.libs_path}/EquivalentExchange3-${config.minecraft_version}-${config.EE3_version}-dev.jar") // http://files.minecraftforge.net/maven/com/pahimar/ee3/EquivalentExchange3
-    compile files("${config.libs_path}/industrialcraft-2-${config.IC2_version}-dev.jar") // http://maven.ic2.player.to/
-    compile files("${config.libs_path}/BloodMagic-${config.BM_version}-dev.jar") // https://www.dropbox.com/sh/0aqvalqobu61t44/AADZq-GuoDeuNzgg6zueVM_Ca
+    implementation files("${config.libs_path}/TConstruct-${config.tconstruct_version}-dev.jar") // http://dvs1.progwml6.com/files/maven
+    implementation files("${config.libs_path}/Waila-${config.waila_version}-dev.jar") // http://mobiusstrip.eu/maven/mcp/mobius/waila/Waila/
+    implementation files("${config.libs_path}/ForgeMultipart-${config.FMP_version}-dev.jar") // http://files.minecraftforge.net/ForgeMultipart/
+    implementation files("${config.libs_path}/forestry_${config.minecraft_version}-${config.forestry_version}-dev.jar") // http://maven.ic2.player.to/
+    implementation files("${config.libs_path}/NotEnoughItems-${config.NEI_version}-dev.jar") // http://chickenbones.net/maven/codechicken/NotEnoughItems/
+    implementation files("${config.libs_path}/CodeChickenCore-${config.CCC_version}-dev.jar") // http://chickenbones.net/maven/codechicken/CodeChickenCore/
+    implementation files("${config.libs_path}/CodeChickenLib-${config.CCL_version}-dev.jar") // http://files.minecraftforge.net/CodeChickenLib/
+    implementation files("${config.libs_path}/EquivalentExchange3-${config.minecraft_version}-${config.EE3_version}-dev.jar") // http://files.minecraftforge.net/maven/com/pahimar/ee3/EquivalentExchange3
+    implementation files("${config.libs_path}/industrialcraft-2-${config.IC2_version}-dev.jar") // http://maven.ic2.player.to/
+    implementation files("${config.libs_path}/BloodMagic-${config.BM_version}-dev.jar") // https://www.dropbox.com/sh/0aqvalqobu61t44/AADZq-GuoDeuNzgg6zueVM_Ca
 
     // Project lombok
     //compile "org.projectlombok:lombok:1.14.4"
     //compileOnly 'org.projectlombok:lombok:1.14.4'
     //annotationProcessor 'org.projectlombok:lombok:1.14.4'
 }
-
 
 minecraft {
     version = "${config.minecraft_version}-${config.forge_version}"
@@ -50,7 +50,7 @@ minecraft {
 if (project.buildnumber.equals("RELEASE"))
     version = "${config.minecraft_version}-${config.mod_version}"
 else
-    version = "${config.minecraft_version}-${config.mod_version}-${buildnumber}"
+    version = "${config.minecraft_version}-${config.mod_version}"
 
 processResources {
     duplicatesStrategy = 'include'
