@@ -1,6 +1,7 @@
 package evilcraft.core.helper;
 
-import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
+import evilcraft.EvilCraft;
+//import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -13,10 +14,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.Triple;
+import org.apache.logging.log4j.Level;
 import org.lwjgl.opengl.GL11;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+//import java.lang.reflect.InvocationTargetException;
+//import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,22 +82,17 @@ public class RenderHelpers {
      * @param z To be passed to renderer.
      * @param blockIconFromSideAndMetadata To be passed to renderer.
      */
-    public static void renderFaceDirection(ForgeDirection renderDirection,
-            RenderBlocks renderer, Block block, double x, double y, double z,
+    public static void renderFaceDirection(ForgeDirection renderDirection, RenderBlocks renderer, Block block, double x, double y, double z,
             IIcon blockIconFromSideAndMetadata) {
-        try {
-        	Method method = ObfuscationHelpers.getRenderFaceMethod(renderer, renderDirection);
-            //String methodName = ObfuscationHelpers.isObfusicated()?METHODS_RENDERFACE_OBFUSICATED.get(renderDirection):METHODS_RENDERFACE.get(renderDirection);
-            //Method method = renderer.getClass().getMethod(methodName, Block.class, double.class, double.class, double.class, IIcon.class);
-            method.invoke(renderer, block, x, y, z, blockIconFromSideAndMetadata);
-        } catch (SecurityException e2) {
-        	e2.printStackTrace();
-        } catch (IllegalAccessException e3) {
-        	e3.printStackTrace();
-        } catch (IllegalArgumentException e4) {
-        	e4.printStackTrace();
-        } catch (InvocationTargetException e5) {
-        	e5.printStackTrace();
+        switch(renderDirection) {
+        case DOWN: renderer.renderFaceYNeg(block, x, y, z, blockIconFromSideAndMetadata); break;
+        case UP: renderer.renderFaceYPos(block, x, y, z, blockIconFromSideAndMetadata); break;
+        case NORTH: renderer.renderFaceZPos(block, x, y, z, blockIconFromSideAndMetadata); break;
+        case EAST: renderer.renderFaceXPos(block, x, y, z, blockIconFromSideAndMetadata); break;
+        case SOUTH: renderer.renderFaceZNeg(block, x, y, z, blockIconFromSideAndMetadata); break;
+        case WEST: renderer.renderFaceXNeg(block, x, y, z, blockIconFromSideAndMetadata); break;
+        default: EvilCraft.log("Rendering Failure- Invalid ForgeDirection: " + renderDirection.toString(), Level.ERROR);
+            break;
         }
     }
     
@@ -108,7 +105,16 @@ public class RenderHelpers {
      * @see RenderBlocks
      */
     public static void setRenderBlocksUVRotation(RenderBlocks renderer, ForgeDirection side, int rotation) {
-    	ObfuscationHelpers.setUVRotate(renderer, side, ROTATE_UV_ROTATE[rotation]);
+    	switch(side) {
+    	case DOWN: renderer.uvRotateBottom = ROTATE_UV_ROTATE[rotation]; break;
+    	case UP: renderer.uvRotateTop = ROTATE_UV_ROTATE[rotation]; break;
+    	case NORTH: renderer.uvRotateEast = ROTATE_UV_ROTATE[rotation]; break;
+    	case EAST: renderer.uvRotateSouth = ROTATE_UV_ROTATE[rotation]; break;
+    	case SOUTH: renderer.uvRotateWest = ROTATE_UV_ROTATE[rotation]; break;
+    	case WEST: renderer.uvRotateNorth= ROTATE_UV_ROTATE[rotation]; break;
+    	default: EvilCraft.log("Rendering Failure- Invalid ForgeDirection: " + side.toString(), Level.ERROR);
+    	    break;
+    	}
     	/*try {
             String fieldName = ObfuscationHelpers.isObfusicated()?FIELDS_UVROTATE_OBFUSICATED.get(side):FIELDS_UVROTATE.get(side);
             Field field = renderer.getClass().getField(fieldName);
@@ -173,7 +179,9 @@ public class RenderHelpers {
 			renderer.renderMaxY = block.getBlockBoundsMinY();
 			renderer.renderMinZ = block.getBlockBoundsMaxZ();
 			renderer.renderMaxZ = block.getBlockBoundsMinZ();
-			renderer.partialRenderBounds = renderer.minecraftRB.gameSettings.ambientOcclusion >= 2 && (renderer.renderMinX > 0.0D || renderer.renderMaxX < 1.0D || renderer.renderMinY > 0.0D || renderer.renderMaxY < 1.0D || renderer.renderMinZ > 0.0D || renderer.renderMaxZ < 1.0D);
+			renderer.partialRenderBounds = renderer.minecraftRB.gameSettings.ambientOcclusion >= 2 && 
+			        (renderer.renderMinX > 0.0D || renderer.renderMaxX < 1.0D || renderer.renderMinY > 0.0D ||
+			         renderer.renderMaxY < 1.0D || renderer.renderMinZ > 0.0D || renderer.renderMaxZ < 1.0D);
         }
 	}
 	
@@ -269,7 +277,7 @@ public class RenderHelpers {
 	 * @param render The actual fluid renderer.
 	 */
 	public static void renderTileFluidContext(final FluidStack fluid, final double x, final double y,
-											  final double z, final TileEntity tile, final IFluidContextRender render) {
+	        final double z, final TileEntity tile, final IFluidContextRender render) {
 		renderTileFluidContext(fluid, x, y, z, true, tile, render);
 	}
 	
@@ -284,7 +292,7 @@ public class RenderHelpers {
 	 * @param render The actual fluid renderer.
 	 */
 	public static void renderTileFluidContext(final FluidStack fluid, final double x, final double y,
-			final double z, boolean enableAlpha, final TileEntity tile, final IFluidContextRender render) {
+	        final double z, boolean enableAlpha, final TileEntity tile, final IFluidContextRender render) {
 		renderFluidContext(fluid, x, y, z, enableAlpha, new IFluidContextRender() {
 			
 			@Override

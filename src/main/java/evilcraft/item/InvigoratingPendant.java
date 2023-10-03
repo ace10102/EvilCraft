@@ -10,7 +10,7 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.helper.WorldHelpers;
-import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
+//import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.fluid.Blood;
 import evilcraft.modcompat.baubles.BaublesModCompat;
 import net.minecraft.entity.Entity;
@@ -76,14 +76,15 @@ public class InvigoratingPendant extends ConfigurableDamageIndicatedItemFluidCon
     		int reducableDuration = originalReducableDuration;
     		
 	    	@SuppressWarnings("unchecked")
-			Iterator<PotionEffect> it = Lists.newLinkedList(player.getActivePotionEffects()).iterator();
-	    	while(reducableDuration > 0 && it.hasNext() && canConsume(amount, itemStack, player)) {
-	    		PotionEffect effect = it.next();
+			Iterator<PotionEffect> potionList = Lists.newLinkedList(player.getActivePotionEffects()).iterator();
+	    	while(reducableDuration > 0 && potionList.hasNext() && canConsume(amount, itemStack, player)) {
+	    		PotionEffect effect = potionList.next();
 	    		int potionID = effect.getPotionID();
 	    		
 	    		boolean shouldClear = true;
 	    		if(potionID >= 0 && potionID < Potion.potionTypes.length) {
-	    			shouldClear = ObfuscationHelpers.isPotionBadEffect(Potion.potionTypes[potionID]);
+	    			//shouldClear = ObfuscationHelpers.isPotionBadEffect(Potion.potionTypes[potionID]);
+	    		    shouldClear = Potion.potionTypes[potionID].isBadEffect;
 	    		}
                 shouldClear = shouldClear & !effect.getIsAmbient();
 	    		
@@ -98,18 +99,18 @@ public class InvigoratingPendant extends ConfigurableDamageIndicatedItemFluidCon
 	    			if(remaining == toReduce) {
 	    				player.removePotionEffect(potionID);
 	    			} else {
-	    				ObfuscationHelpers.setPotionEffectDuration(effect, remaining - toReduce);
-                        ObfuscationHelpers.onChangedPotionEffect(player, effect, true);
-	    				toDrain = (int) Math.ceil((double) (reductionMultiplier * amount)
-	    						* ((double) toReduce / (double) originalReducableDuration));
+	    			    effect.duration = remaining - toReduce;
+	    				//ObfuscationHelpers.setPotionEffectDuration(effect, remaining - toReduce);
+	    				player.onChangedPotionEffect(effect, true);
+                        //ObfuscationHelpers.onChangedPotionEffect(player, effect, true);
+	    				toDrain = (int)Math.ceil((double)(reductionMultiplier * amount) * ((double)toReduce / (double)originalReducableDuration));
 	    			}
 	    			consume(toDrain, itemStack, player);
 	    		}
 	    	}
     	}
 
-        if(InvigoratingPendantConfig.fireUsage >= 0 && player.isBurning() &&
-                canConsume(InvigoratingPendantConfig.fireUsage, itemStack, player)) {
+        if(InvigoratingPendantConfig.fireUsage >= 0 && player.isBurning() && canConsume(InvigoratingPendantConfig.fireUsage, itemStack, player)) {
             player.extinguish();
             consume(InvigoratingPendantConfig.fireUsage, itemStack, player);
         }
@@ -117,8 +118,7 @@ public class InvigoratingPendant extends ConfigurableDamageIndicatedItemFluidCon
     
 	@Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
-        if(entity instanceof EntityPlayer
-        		&& WorldHelpers.efficientTick(world, TICK_MODULUS, entity.getEntityId())) {
+        if(entity instanceof EntityPlayer && WorldHelpers.efficientTick(world, TICK_MODULUS, entity.getEntityId())) {
         	clearBadEffects(itemStack, (EntityPlayer) entity);
         }
         super.onUpdate(itemStack, world, entity, par4, par5);
@@ -161,5 +161,4 @@ public class InvigoratingPendant extends ConfigurableDamageIndicatedItemFluidCon
 			this.onUpdate(itemStack, entity.worldObj, entity, 0, false);
 		}
 	}
-
 }

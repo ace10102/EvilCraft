@@ -8,7 +8,7 @@ import evilcraft.block.BoxOfEternalClosure;
 import evilcraft.block.SpiritFurnaceConfig;
 import evilcraft.core.helper.MathHelpers;
 import evilcraft.core.helper.WeightedItemStack;
-import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
+import evilcraft.core.helper.obfuscation.MethodHandlesHelper;
 import evilcraft.core.tileentity.tickaction.ITickAction;
 import evilcraft.core.tileentity.upgrade.UpgradeSensitiveEvent;
 import evilcraft.core.tileentity.upgrade.Upgrades;
@@ -138,7 +138,8 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
 			world.setItemDropListener(tile);
 			
 			// Send sound to client
-			String deathSound = ObfuscationHelpers.getDeathSound(entity);
+			//String deathSound = ObfuscationHelpers.getDeathSound(entity);
+			String deathSound = MethodHandlesHelper.getDeathSound(entity);
             if(SpiritFurnaceConfig.mobDeathSounds) {
                 EvilCraft.proxy.sendSoundMinecraft(tile.xCoord + 0.5D, tile.yCoord + 0.5D,
                         tile.zCoord + 0.5D, deathSound, 0.5F + world.rand.nextFloat() * 0.2F, 1.0F);
@@ -170,7 +171,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
                     }
                 } else {
                     // To make sure the entity actually will drop something.
-                    ObfuscationHelpers.setRecentlyHit(entity, 100);
+                    entity.recentlyHit = 100;
 
                     try {
                         // Kill the entity to get the drops
@@ -190,8 +191,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     }
 
 	@Override
-	public void onTick(TileSpiritFurnace tile, ItemStack itemStack, int slot,
-			int tick) {
+	public void onTick(TileSpiritFurnace tile, ItemStack itemStack, int slot, int tick) {
 		// Drain the tank a bit.
 		tile.getTank().drain(getRequiredMb(tile, tick), true);
 		if(tick >= getRequiredTicks(tile, slot, tick)) {

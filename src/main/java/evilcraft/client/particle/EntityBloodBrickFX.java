@@ -1,7 +1,7 @@
 package evilcraft.client.particle;
 
 import evilcraft.Reference;
-import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
+//import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
@@ -18,10 +18,9 @@ import org.lwjgl.opengl.GL11;
  */
 public class EntityBloodBrickFX extends EntityFX {
 	
-	private static final ResourceLocation TEXTURE = new ResourceLocation(
-			Reference.MOD_ID, Reference.TEXTURE_PATH_PARTICLES + "bloodBrickActivation.png");
-	private static final ResourceLocation TEXTURE_FLIPPED = new ResourceLocation(
-			Reference.MOD_ID, Reference.TEXTURE_PATH_PARTICLES + "bloodBrickActivation_flipped.png");
+    private static final ResourceLocation particleTextures = new ResourceLocation("textures/particle/particles.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_PARTICLES + "bloodBrickActivation.png");
+	private static final ResourceLocation TEXTURE_FLIPPED = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_PARTICLES + "bloodBrickActivation_flipped.png");
 	private static final int TESSELATOR_BRIGHTNESS = 240;
 	
 	private ForgeDirection side;
@@ -53,9 +52,9 @@ public class EntityBloodBrickFX extends EntityFX {
 		this.noClip = true;
 		this.setSize(0.01F, 0.01F);
 		
-		this.posX += (double) (side.offsetX) / 30D;
-		this.posY += (double) (side.offsetY) / 30D;
-		this.posZ += (double) (side.offsetZ) / 30D;
+		this.posX += (double)(side.offsetX) / 30D;
+		this.posY += (double)(side.offsetY) / 30D;
+		this.posZ += (double)(side.offsetZ) / 30D;
 		
 		this.prevPosX = posX;
 		this.prevPosY = posY;
@@ -110,8 +109,8 @@ public class EntityBloodBrickFX extends EntityFX {
 		
 		tessellator.startDrawingQuads();
 		tessellator.setBrightness(TESSELATOR_BRIGHTNESS);
-		float brightness = (float) particleAge / (float) (particleMaxAge / 2);
-		if(brightness > 1) brightness = (float) (particleMaxAge - particleAge) / 2 / (float) (particleMaxAge / 2);
+		float brightness = (float)particleAge / (float)(particleMaxAge / 2);
+		if(brightness > 1) brightness = (float)(particleMaxAge - particleAge) / 2 / (float)(particleMaxAge / 2);
 		tessellator.setColorRGBA_F(particleRed, particleGreen, particleBlue, brightness);
 
 		float offsetter = 1.0F;
@@ -125,7 +124,7 @@ public class EntityBloodBrickFX extends EntityFX {
 		GL11.glDepthMask(true);
 
 		GL11.glPopMatrix();
-		Minecraft.getMinecraft().renderEngine.bindTexture(ObfuscationHelpers.getParticleTexture());
+		Minecraft.getMinecraft().renderEngine.bindTexture(particleTextures);
 		tessellator.startDrawingQuads();
 	}
 	
@@ -134,11 +133,9 @@ public class EntityBloodBrickFX extends EntityFX {
 		prevPosX = posX;
 		prevPosY = posY;
 		prevPosZ = posZ;
-
 		if(particleAge++ >= particleMaxAge) {
 			setDead();
 		}
-
 		motionY -= 0.04D * particleGravity;
 		posX += motionX;
 		posY += motionY;
@@ -155,5 +152,4 @@ public class EntityBloodBrickFX extends EntityFX {
 	public void setGravity(float particleGravity) {
 		this.particleGravity = particleGravity;
 	}
-
 }

@@ -6,11 +6,10 @@ import evilcraft.ExtendedDamageSource;
 import evilcraft.core.config.configurable.ConfigurableBlockBasePressurePlate;
 import evilcraft.core.config.extendedconfig.BlockConfig;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
-import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
+import evilcraft.core.entity.monster.EntityNoMob;
 import evilcraft.tileentity.TileSanguinaryPedestal;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,12 +29,12 @@ import java.util.List;
  *
  */
 public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
-    
+
     private static SpikedPlate _instance = null;
-    
+
     @SideOnly(Side.CLIENT)
     protected IIcon blockIconSide;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -46,7 +45,7 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -58,28 +57,28 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
     private SpikedPlate(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.rock);
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-    	blockIconSide = iconRegister.registerIcon(getTextureName() + "_side");
+        blockIconSide = iconRegister.registerIcon(getTextureName() + "_side");
     	super.registerBlockIcons(iconRegister);
     }
-    
+
     @SideOnly(Side.CLIENT)
     @Override
     public IIcon getIcon(int side, int meta) {
         if(ForgeDirection.getOrientation(side) == ForgeDirection.UP) {
-        	return super.getIcon(side, meta);
+            return super.getIcon(side, meta);
         }
         return blockIconSide;
     }
-    
+
     @Override
     public boolean canPlaceBlockAt(World world, int x, int y, int z) {
         return super.canPlaceBlockAt(world, x, y, z) || world.getBlock(x, y - 1, z) == SanguinaryPedestal.getInstance();
     }
-    
+
     /**
      * Damage the given entity.
      * @param world The world.
@@ -89,48 +88,40 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
      * @param z Z
      * @return If the given entity was damaged.
      */
-    protected boolean damageEntity(World world, Entity entity, int x, int y, int z) {
-    	if(!(entity instanceof EntityPlayer) && entity instanceof EntityLivingBase) {
-    		float damage = (float) SpikedPlateConfig.damage;
-    		
-    		// To make sure the entity actually will drop something.
-    		ObfuscationHelpers.setRecentlyHit(((EntityLivingBase) entity), 100);
-    		
-    		if(entity.attackEntityFrom(ExtendedDamageSource.spiked, damage)) {
-	    		TileEntity tile = world.getTileEntity(x, y - 1, z);
-	    		if(tile != null && tile instanceof TileSanguinaryPedestal) {
-	    			int amount = MathHelper.floor_float(damage * (float) SpikedPlateConfig.mobMultiplier);
-	    			((TileSanguinaryPedestal) tile).fillWithPotentialBonus(new FluidStack(TileSanguinaryPedestal.FLUID, amount));
-	    		}
-	    		return true;
-    		}
-    	}
-    	return false;
+    protected boolean damageEntity(World world, EntityLivingBase entity, int x, int y, int z) {
+        if(!(entity instanceof EntityPlayer) && !(entity instanceof EntityNoMob)) {
+            float damage = (float)SpikedPlateConfig.damage;
+            
+          //To make sure the entity actually will drop something.
+            entity.recentlyHit = 100;
+
+            if(entity.attackEntityFrom(ExtendedDamageSource.spiked, damage)) {
+                TileEntity tile = world.getTileEntity(x, y - 1, z);
+                if(tile != null && tile instanceof TileSanguinaryPedestal) {
+                    int amount = MathHelper.floor_float(damage * (float)SpikedPlateConfig.mobMultiplier);
+                    ((TileSanguinaryPedestal)tile).fillWithPotentialBonus(new FluidStack(TileSanguinaryPedestal.FLUID, amount));
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
-	@SuppressWarnings("rawtypes")
-	@Override
-	protected int func_150065_e(World world, int x,
-			int y, int z) {
-		List list = world.getEntitiesWithinAABBExcludingEntity(null, this.func_150061_a(x, y, z));
-		
-		int ret = 0;
-		
-		if(list != null && !list.isEmpty()) {
-            for(Entity entity : (List<Entity>) list) {
+    @SuppressWarnings("unchecked")
+    @Override
+    protected int func_150065_e(World world, int x, int y, int z) { //getPlateState()
+        List<EntityLivingBase> list = world.selectEntitiesWithinAABB(EntityLivingBase.class, this.func_150061_a(x, y, z), null); //getSensitiveAABB()
+
+        int ret = 0;
+
+        if(list != null && !list.isEmpty()) {
+            for (EntityLivingBase entity : list) {
                 if(!entity.doesEntityNotTriggerPressurePlate() && damageEntity(world, entity, x, y, z)) {
                     ret = 15;
                 }
             }
         }
-
         return ret;
-	}
-
-	@Override
-	protected int func_150060_c(int meta) {
-		return meta == 1 ? 15 : 0;
-	}
 
 	@Override
 	protected int func_150066_d(int meta) {
@@ -144,9 +135,7 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
         float f = 0.0775F;
         
         TileEntity tile = world.getTileEntity(x, y - 1, z);
-		if(tile != null && tile instanceof TileSanguinaryPedestal) {
-			offset = -0.025F;
-		}
+        }
 
         if (flag) {
             this.setBlockBounds(f, offset, f, 1.0F - f, 0.03125F + offset, 1.0F - f);
@@ -154,10 +143,6 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
             this.setBlockBounds(f, offset, f, 1.0F - f, 0.0625F + offset, 1.0F - f);
         }
     }
-	
-	@Override
-	public boolean canCreatureSpawn(EnumCreatureType type, IBlockAccess world, int x, int y, int z) {
-		return true;
-    }
 
 }
+    }

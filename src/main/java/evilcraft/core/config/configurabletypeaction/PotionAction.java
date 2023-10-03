@@ -2,7 +2,8 @@ package evilcraft.core.config.configurabletypeaction;
 
 import evilcraft.GeneralConfig;
 import evilcraft.core.config.extendedconfig.PotionConfig;
-import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
+import evilcraft.core.helper.obfuscation.MethodHandlesHelper;
+//import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import net.minecraft.potion.Potion;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -41,8 +42,8 @@ public class PotionAction extends ConfigurableTypeAction<PotionConfig> {
             Potion[] oldPotionTypes = Potion.potionTypes;
             final Potion[] potionTypes = new Potion[size];
             System.arraycopy(oldPotionTypes, 0, potionTypes, 0, oldPotionTypes.length);
-            ObfuscationHelpers.setPotionTypesArray(potionTypes);
+            MethodHandlesHelper.setPotionTypesArray(potionTypes);
+            //ObfuscationHelpers.setPotionTypesArray(potionTypes);
         }
     }
-
 }

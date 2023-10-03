@@ -4,12 +4,11 @@ import java.util.Random;
 
 import net.minecraft.util.ResourceLocation;
 import evilcraft.Reference;
-import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
+import evilcraft.core.helper.obfuscation.MethodHandlesHelper;
 
 /**
  * This can add an evil surrounding to the main menu.
  * @author rubensworks
- *
  */
 public class GuiMainMenuEvilifier {
 
@@ -25,8 +24,7 @@ public class GuiMainMenuEvilifier {
             for(int i = 0; i < evilTitlePanoramaPaths.length; i++) {
                 evilTitlePanoramaPaths[i] = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUIBACKGROUNDS + "evil_panorama_" + i + ".png");
             }
-            ObfuscationHelpers.setTitlePanoramaPaths(evilTitlePanoramaPaths);
+            MethodHandlesHelper.setTitlePanoramaPaths(evilTitlePanoramaPaths);
         }
     }
-
 }

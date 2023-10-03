@@ -2,8 +2,8 @@ package evilcraft.client.particle;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import evilcraft.Reference;
-import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import net.minecraft.client.Minecraft;
+//import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import net.minecraft.client.particle.EntityExplodeFX;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;

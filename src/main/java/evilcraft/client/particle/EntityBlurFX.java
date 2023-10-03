@@ -2,7 +2,7 @@ package evilcraft.client.particle;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import evilcraft.Reference;
-import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
+//import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
@@ -19,8 +19,8 @@ import org.lwjgl.opengl.GL11;
  */
 public class EntityBlurFX extends EntityFX {
 	
-	private static final ResourceLocation TEXTURE = new ResourceLocation(
-			Reference.MOD_ID, Reference.TEXTURE_PATH_PARTICLES + "particleBlur.png");
+    private static final ResourceLocation particleTextures = new ResourceLocation("textures/particle/particles.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_PARTICLES + "particleBlur.png");
 	private static final int TESSELATOR_BRIGHTNESS = 240;
 	private static final int MAX_VIEW_DISTANCE = 30;
 	
@@ -43,9 +43,8 @@ public class EntityBlurFX extends EntityFX {
 	 * @param ageMultiplier The multiplier of the maximum age (this will be multiplied with
 	 * a partially random factor).
 	 */
-	public EntityBlurFX(World world, double x, double y, double z, float scale,
-			double motionX, double motionY, double motionZ, 
-			float red, float green, float blue, float ageMultiplier) {
+	public EntityBlurFX(World world, double x, double y, double z, float scale, double motionX, double motionY,
+	        double motionZ, float red, float green, float blue, float ageMultiplier) {
 		super(world, x, y, z, 0, 0, 0);
 		this.motionX = motionX;
 		this.motionY = motionY;
@@ -57,7 +56,7 @@ public class EntityBlurFX extends EntityFX {
 		this.particleGravity = 0;
 		
 		this.particleScale *= scale;
-		this.particleMaxAge = (int) ((rand.nextFloat() * 0.33F + 0.66F) * ageMultiplier);
+		this.particleMaxAge = (int)((rand.nextFloat() * 0.33F + 0.66F) * ageMultiplier);
 		this.noClip = true;
 		this.setSize(0.01F, 0.01F);
 		
@@ -74,13 +73,10 @@ public class EntityBlurFX extends EntityFX {
 	private void validateDistance() {
 		EntityLivingBase renderentity = FMLClientHandler.instance().getClient().renderViewEntity;
 		int visibleDistance = MAX_VIEW_DISTANCE;
-		
 		if(!FMLClientHandler.instance().getClient().gameSettings.fancyGraphics) {
 			visibleDistance = visibleDistance / 2;
 		}
-
-		if(renderentity == null
-				|| renderentity.getDistance(posX, posY, posZ) > visibleDistance) {
+		if(renderentity == null || renderentity.getDistance(posX, posY, posZ) > visibleDistance) {
 			particleMaxAge = 0;
 		}
 	}
@@ -125,7 +121,7 @@ public class EntityBlurFX extends EntityFX {
 		GL11.glDepthMask(true);
 
 		GL11.glPopMatrix();
-		Minecraft.getMinecraft().renderEngine.bindTexture(ObfuscationHelpers.getParticleTexture());
+		Minecraft.getMinecraft().renderEngine.bindTexture(particleTextures);
 		tessellator.startDrawingQuads();
 	}
 	
@@ -155,5 +151,4 @@ public class EntityBlurFX extends EntityFX {
 	public void setGravity(float particleGravity) {
 		this.particleGravity = particleGravity;
 	}
-
 }

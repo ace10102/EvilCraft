@@ -10,7 +10,7 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.EntityHelpers;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
-import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
+//import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.core.world.FakeWorld;
 import evilcraft.entity.monster.VengeanceSpirit;
@@ -20,7 +20,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
-import net.minecraft.entity.monster.EntityZombie;
+//import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
@@ -132,7 +132,9 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 					try {
 						Class<?> clazz = Class.forName(innerEntity);
                         if(!VengeanceSpirit.canSustainClass(clazz)) return -1;
-						Integer ret = ObfuscationHelpers.getClassToID().get(clazz);
+						//Integer ret = ObfuscationHelpers.getClassToID().get(clazz);
+                        //Integer ret = EntityList.classToIDMapping.containsKey(clazz) ? ((Integer)EntityList.classToIDMapping.get(clazz)) : null;
+                        Integer ret = (Integer)EntityList.classToIDMapping.get(clazz);
 						if(ret == null) {
 							return -1;
 						} else {

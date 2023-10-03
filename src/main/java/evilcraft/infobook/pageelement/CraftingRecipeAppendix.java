@@ -2,7 +2,7 @@ package evilcraft.infobook.pageelement;
 
 import evilcraft.EvilCraft;
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
-import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
+import evilcraft.core.helper.obfuscation.MethodHandlesHelper;
 import evilcraft.infobook.AdvancedButton;
 import evilcraft.infobook.InfoSection;
 import net.minecraft.init.Blocks;
@@ -73,19 +73,15 @@ public class CraftingRecipeAppendix extends RecipeAppendix<IRecipe> {
                 grid[i + j * 3] = prepareItemStacks(getItemStacks(i + j * 3), tick);
             }
         }
-
         // Items
         for(int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                renderItem(gui, x + (SLOT_SIZE + SLOT_OFFSET_X) * i, y+ (SLOT_SIZE + SLOT_OFFSET_Y) * j,
-                        grid[i + j * 3], mx, my, INPUT[i + j * 3]);
+            for(int j = 0; j < 3; j++) {
+                renderItem(gui, x + (SLOT_SIZE + SLOT_OFFSET_X) * i, y + (SLOT_SIZE + SLOT_OFFSET_Y) * j, grid[i + j * 3], mx, my, INPUT[i + j * 3]);
             }
         }
         renderItem(gui, x + START_X_RESULT, y + (SLOT_SIZE + SLOT_OFFSET_Y), result, mx, my, RESULT);
-
         // Crafting Table icon
-        renderItem(gui, x + (SLOT_SIZE + SLOT_OFFSET_X) * 3, y + SLOT_OFFSET_Y + SLOT_SIZE,
-                new ItemStack(Blocks.crafting_table), mx, my, false, null);
+        renderItem(gui, x + (SLOT_SIZE + SLOT_OFFSET_X) * 3, y + SLOT_OFFSET_Y + SLOT_SIZE, new ItemStack(Blocks.crafting_table), mx, my, false, null);
     }
 
     /**
@@ -109,19 +105,19 @@ public class CraftingRecipeAppendix extends RecipeAppendix<IRecipe> {
         return itemStacks;
     }
 
+    @SuppressWarnings("unchecked") 
     protected List<ItemStack> getItemStacks(int index) {
         Object[] itemStacks;
         if(recipe instanceof ShapedRecipes) {
-            itemStacks = formatShapedGrid(((ShapedRecipes) recipe).recipeItems,
-                    ((ShapedRecipes) recipe).recipeWidth, ((ShapedRecipes) recipe).recipeHeight);
+            itemStacks = formatShapedGrid(((ShapedRecipes)recipe).recipeItems, ((ShapedRecipes)recipe).recipeWidth, ((ShapedRecipes)recipe).recipeHeight);
         } else if(recipe instanceof ShapedOreRecipe) {
-            itemStacks = formatShapedGrid(((ShapedOreRecipe) recipe).getInput(),
-                    ObfuscationHelpers.getShapedOreRecipeWidth(((ShapedOreRecipe) recipe)),
-                    ObfuscationHelpers.getShapedOreRecipeHeight(((ShapedOreRecipe) recipe)));
+            itemStacks = formatShapedGrid(((ShapedOreRecipe)recipe).getInput(),
+                    MethodHandlesHelper.getShapedOreRecipeWidth((ShapedOreRecipe)recipe),
+                    MethodHandlesHelper.getShapedOreRecipeHeight((ShapedOreRecipe)recipe));
         } else if(recipe instanceof ShapelessRecipes) {
-            itemStacks = ((ShapelessRecipes) recipe).recipeItems.toArray();
+            itemStacks = ((ShapelessRecipes)recipe).recipeItems.toArray();
         } else if(recipe instanceof ShapelessOreRecipe) {
-            itemStacks = ((ShapelessOreRecipe) recipe).getInput().toArray();
+            itemStacks = ((ShapelessOreRecipe)recipe).getInput().toArray();
         } else {
             EvilCraft.log("Recipe of type " + recipe.getClass() + " is not supported.", Level.ERROR);
             return Collections.EMPTY_LIST;
@@ -129,7 +125,6 @@ public class CraftingRecipeAppendix extends RecipeAppendix<IRecipe> {
         if(itemStacks.length <= index) return Collections.EMPTY_LIST;
         Object element = itemStacks[index];
         if(element == null) return Collections.EMPTY_LIST;
-        return element instanceof ItemStack ? Arrays.asList((ItemStack) element) : (List<ItemStack>) element;
+        return element instanceof ItemStack ? Arrays.asList((ItemStack)element) : (List<ItemStack>)element;
     }
-
 }
