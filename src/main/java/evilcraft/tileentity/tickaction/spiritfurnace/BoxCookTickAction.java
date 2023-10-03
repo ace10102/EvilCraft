@@ -103,6 +103,11 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     
     @Override
     public boolean canTick(TileSpiritFurnace tile, ItemStack itemStack, int slot, int tick) {
+        if(tile.isForceHalt()) {
+            for (int i : tile.getProduceSlots()) {
+                if (tile.getStackInSlot(i) == null) tile.resetWork(false);
+            }
+        }
         if(!tile.isForceHalt() && !tile.isCaughtError() && tile.canWork()
                 && tile.getTank().getFluidAmount() >= getRequiredMb(tile, 0)
         		&& getCookStack(tile) != null && tile.canConsume(getCookStack(tile))) {
