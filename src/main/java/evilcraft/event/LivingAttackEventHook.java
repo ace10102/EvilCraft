@@ -30,10 +30,10 @@ public class LivingAttackEventHook {
         breakingEvent(event);
         poisonTipEvent(event);
     }
-    
+
     private void stealLife(LivingAttackEvent event) {
-        if(Configs.isEnabled(EnchantmentLifeStealingConfig.class) && event.source.getEntity() instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) event.source.getEntity();
+        if(event.source.getEntity() instanceof EntityPlayer && Configs.isEnabled(EnchantmentLifeStealingConfig.class)) {
+            EntityPlayer player = (EntityPlayer)event.source.getEntity();
             ItemStack itemStack = player.getCurrentEquippedItem();
             int enchantmentListID = EnchantmentHelpers.doesEnchantApply(itemStack, EnchantmentLifeStealingConfig._instance.ID);
             if(enchantmentListID > -1) {
@@ -43,10 +43,10 @@ public class LivingAttackEventHook {
             }
         }
     }
-    
+
     private void unusingEvent(LivingAttackEvent event) {
-        if(Configs.isEnabled(EnchantmentUnusingConfig.class) && event.source.getEntity() instanceof EntityLivingBase) {
-            EntityLivingBase entity = (EntityLivingBase) event.source.getEntity();
+        if(event.source.getEntity() instanceof EntityLivingBase && Configs.isEnabled(EnchantmentUnusingConfig.class)) {
+            EntityLivingBase entity = (EntityLivingBase)event.source.getEntity();
             ItemStack itemStack = entity.getEquipmentInSlot(0);
             if(EnchantmentHelpers.doesEnchantApply(itemStack, EnchantmentUnusingConfig._instance.ID) > -1) {
                 if(EnchantmentUnusing.unuseTool(itemStack)) {
@@ -56,10 +56,10 @@ public class LivingAttackEventHook {
             }
         }
     }
-    
+
     private void breakingEvent(LivingAttackEvent event) {
-        if(Configs.isEnabled(EnchantmentBreakingConfig.class) && event.source.getEntity() instanceof EntityLivingBase) {
-            EntityLivingBase entity = (EntityLivingBase) event.source.getEntity();
+        if(event.source.getEntity() instanceof EntityLivingBase && Configs.isEnabled(EnchantmentBreakingConfig.class)) {
+            EntityLivingBase entity = (EntityLivingBase)event.source.getEntity();
             ItemStack itemStack = entity.getEquipmentInSlot(0);
             int enchantmentListID = EnchantmentHelpers.doesEnchantApply(itemStack, EnchantmentBreakingConfig._instance.ID);
             if(enchantmentListID > -1) {
@@ -67,10 +67,10 @@ public class LivingAttackEventHook {
             }
         }
     }
-    
+
     private void poisonTipEvent(LivingAttackEvent event) {
-        if(Configs.isEnabled(EnchantmentPoisonTipConfig.class) && event.source.getEntity() instanceof EntityLivingBase) {
-            EntityLivingBase entity = (EntityLivingBase) event.source.getEntity();
+        if(event.source.getEntity() instanceof EntityLivingBase && Configs.isEnabled(EnchantmentPoisonTipConfig.class)) {
+            EntityLivingBase entity = (EntityLivingBase)event.source.getEntity();
             ItemStack itemStack = entity.getEquipmentInSlot(0);
             int enchantmentListID = EnchantmentHelpers.doesEnchantApply(itemStack, EnchantmentPoisonTipConfig._instance.ID);
             if(enchantmentListID > -1) {
@@ -78,6 +78,5 @@ public class LivingAttackEventHook {
                 EnchantmentPoisonTip.poison((EntityLivingBase)event.entity, level);
             }
         }
-    }
-    
+    }   
 }

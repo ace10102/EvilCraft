@@ -24,10 +24,10 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
  *
  */
 public class LivingUpdateEventHook {
-    
+
     private static final int CHANCE_DROP_EXCREMENT = 500; // Real chance is 1/CHANCE_DROP_EXCREMENT
     private static final int CHANCE_DIE_WITHOUT_ANY_REASON = 1000000; // Real chance is 1/CHANCE_DIE_WITHOUT_ANY_REASON
-    
+
     /**
      * When a sound event is received.
      * @param event The received event.
@@ -40,12 +40,11 @@ public class LivingUpdateEventHook {
 	        transformWerewolfVillager(event);
     	}
     }
-    
+
     private void dropExcrement(LivingUpdateEvent event) {
         if(event.entity instanceof EntityAnimal && Configs.isEnabled(ExcrementPileConfig.class)
-        		&& !event.entity.worldObj.isRemote
-                && event.entity.worldObj.rand.nextInt(CHANCE_DROP_EXCREMENT) == 0) {
-            EntityAnimal entity = (EntityAnimal) event.entity;
+                && !event.entity.worldObj.isRemote && event.entity.worldObj.rand.nextInt(CHANCE_DROP_EXCREMENT) == 0) {
+            EntityAnimal entity = (EntityAnimal)event.entity;
             World world = entity.worldObj;
             int x = MathHelper.floor_double(entity.posX);
             int y = MathHelper.floor_double(entity.posY);
@@ -57,24 +56,22 @@ public class LivingUpdateEventHook {
             }
         }
     }
-    
+
     private void dieWithoutAnyReason(LivingUpdateEvent event) {
         if(event.entity instanceof EntityPlayer && GeneralConfig.dieWithoutAnyReason
-        		&& event.entity.worldObj.rand.nextInt(CHANCE_DIE_WITHOUT_ANY_REASON) == 0
-        		&& !event.entity.worldObj.isRemote) {
-            EntityPlayer entity = (EntityPlayer) event.entity;
+                && !event.entity.worldObj.isRemote && event.entity.worldObj.rand.nextInt(CHANCE_DIE_WITHOUT_ANY_REASON) == 0) {
+            EntityPlayer entity = (EntityPlayer)event.entity;
             entity.attackEntityFrom(ExtendedDamageSource.dieWithoutAnyReason, Float.MAX_VALUE);
         }
     }
-    
+ 
     private void transformWerewolfVillager(LivingUpdateEvent event) {
         if(event.entity instanceof EntityVillager && !event.entity.worldObj.isRemote) {
-            EntityVillager villager = (EntityVillager) event.entity;
+            EntityVillager villager = (EntityVillager)event.entity;
             if(Werewolf.isWerewolfTime(event.entity.worldObj) && Configs.isEnabled(WerewolfVillagerConfig.class)
                     && villager.getProfession() == WerewolfVillagerConfig._instance.getId()) {
                 Werewolf.replaceVillager(villager);
             }
         }
     }
-    
 }
