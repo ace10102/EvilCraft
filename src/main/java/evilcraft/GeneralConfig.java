@@ -59,14 +59,12 @@ public class GeneralConfig extends DummyConfig {
     /**
      * The allowed blood conversions with their ratio.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.FLUID,
-    		comment = "The allowed blood conversions with their ratio. (ratio 2 means that this "
-    				+ "fluid is 1mB of this fluid can be converted into 2mB of EvilCraft Blood.",
-    		changedCallback = BloodConvertersChanged.class)
-    public static String[] bloodConverters = new String[]{
-    	"blood:1.0",
-    	"life essence:1.0",
-        "hell_blood:1.0",
+    @ConfigurableProperty(category = ConfigurableTypeCategory.FLUID, comment = "The allowed blood conversions with their ratio. (ratio 2 means that this fluid is 1mB of this fluid can be converted into 2mB of EvilCraft Blood.", changedCallback = BloodConvertersChanged.class)
+    public static String[] bloodConverters = new String[] {
+            "blood:1.0",
+            "life essence:1.0", // old bloodmagic name
+            "lifeessence:1.0", // gtnh bloodmagic name
+            "hell_blood:1.0",
     };
     
     /**
