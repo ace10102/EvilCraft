@@ -113,7 +113,7 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     
     @Override
     public int tickRate(World world) {
-        return 30;
+        return 60;
     }
     
     @Override
@@ -144,15 +144,11 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     }
 
     private void glow(World world, int x, int y, int z) {
-    	if (!world.isRemote)
-    		return;
-    	
         this.sparkle(world, x, y, z);
-
-        if (!isGlowing(world, x, y, z)) {
+        if(!world.isRemote && !isGlowing(world, x, y, z)) {
             world.setBlockMetadataWithNotify(x, y, z, GLOWINGMETA, 2);// Flag=2 causes client update
             world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
-        }
+    	}
     }
     
     @Override
