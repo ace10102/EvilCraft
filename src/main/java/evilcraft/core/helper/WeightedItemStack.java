@@ -11,7 +11,6 @@ import java.util.Set;
 
 /**
  * An ItemStack that has a certain weight that can be used to occur with a certain chance.
- *
  * @author rubensworks
  */
 @Data
@@ -65,5 +64,4 @@ public class WeightedItemStack {
     public String toString() {
         return "{ItemStack: " + itemStack + "; Weight: " + weight + "}";
     }
-
 }

@@ -27,7 +27,6 @@ import java.util.Map.Entry;
 /**
  * Compatibility plugin for Thermal Expansion.
  * @author rubensworks
- *
  */
 public class ThermalExpansionModCompat implements IModCompat {
 
@@ -38,9 +37,9 @@ public class ThermalExpansionModCompat implements IModCompat {
 
     @Override
     public void onInit(IInitListener.Step step) {
-    	if(step == IInitListener.Step.INIT) {
-    		registerThermalExpansionRecipes();
-    	}
+        if(step == IInitListener.Step.INIT) {
+            registerThermalExpansionRecipes();
+        }
     }
 
     private void registerThermalExpansionRecipes() {
@@ -52,7 +51,7 @@ public class ThermalExpansionModCompat implements IModCompat {
             sawmillUndeadWood.setInteger("energy", 2000);
             sawmillUndeadWood.setTag("input", new NBTTagCompound());
             sawmillUndeadWood.setTag("primaryOutput", new NBTTagCompound());
-    
+
             new ItemStack(UndeadLogConfig._instance.getBlockInstance()).writeToNBT(sawmillUndeadWood.getCompoundTag("input"));
             new ItemStack(UndeadPlankConfig._instance.getBlockInstance(), 6).writeToNBT(sawmillUndeadWood.getCompoundTag("primaryOutput"));
             FMLInterModComms.sendMessage(TE, "SawmillRecipe", sawmillUndeadWood);
@@ -60,31 +59,31 @@ public class ThermalExpansionModCompat implements IModCompat {
 
         // Pulverizer dark ore
         if(Configs.isEnabled(DarkOreConfig.class) && Configs.isEnabled(DarkGemConfig.class)) {
-        	boolean crushedEnabled = Configs.isEnabled(DarkGemCrushedConfig.class);
+            boolean crushedEnabled = Configs.isEnabled(DarkGemCrushedConfig.class);
             NBTTagCompound pulverizerDarkOre = new NBTTagCompound();
             pulverizerDarkOre.setInteger("energy", 2000);
             pulverizerDarkOre.setTag("input", new NBTTagCompound());
             pulverizerDarkOre.setTag("primaryOutput", new NBTTagCompound());
             if(crushedEnabled) {
-	            pulverizerDarkOre.setTag("secondaryOutput", new NBTTagCompound());
-	            pulverizerDarkOre.setInteger("secondaryChance", 30);
+                pulverizerDarkOre.setTag("secondaryOutput", new NBTTagCompound());
+                pulverizerDarkOre.setInteger("secondaryChance", 30);
             }
-    
+
             new ItemStack(DarkOre.getInstance()).writeToNBT(pulverizerDarkOre.getCompoundTag("input"));
             new ItemStack(DarkGem.getInstance(), 2).writeToNBT(pulverizerDarkOre.getCompoundTag("primaryOutput"));
             if(crushedEnabled) {
-            	new ItemStack(DarkGemCrushedConfig._instance.getItemInstance(), 1).writeToNBT(pulverizerDarkOre.getCompoundTag("secondaryOutput"));
+                new ItemStack(DarkGemCrushedConfig._instance.getItemInstance(), 1).writeToNBT(pulverizerDarkOre.getCompoundTag("secondaryOutput"));
             }
             FMLInterModComms.sendMessage(TE, "PulverizerRecipe", pulverizerDarkOre);
         }
-        
+
         // Pulverizer dark ore -> crushed
         if(Configs.isEnabled(DarkGemConfig.class) && Configs.isEnabled(DarkGemCrushedConfig.class)) {
             NBTTagCompound pulverizerDarkOre = new NBTTagCompound();
             pulverizerDarkOre.setInteger("energy", 4000);
             pulverizerDarkOre.setTag("input", new NBTTagCompound());
             pulverizerDarkOre.setTag("primaryOutput", new NBTTagCompound());
-    
+
             new ItemStack(DarkGem.getInstance()).writeToNBT(pulverizerDarkOre.getCompoundTag("input"));
             new ItemStack(DarkGemCrushedConfig._instance.getItemInstance(), 1).writeToNBT(pulverizerDarkOre.getCompoundTag("primaryOutput"));
             FMLInterModComms.sendMessage(TE, "PulverizerRecipe", pulverizerDarkOre);
@@ -135,8 +134,7 @@ public class ThermalExpansionModCompat implements IModCompat {
 
         // Fluid Transposer: blood infuse
         if(Configs.isEnabled(BloodInfuserConfig.class)) {
-            for (IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe :
-                    BloodInfuser.getInstance().getRecipeRegistry().allRecipes()) {
+            for(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe : BloodInfuser.getInstance().getRecipeRegistry().allRecipes()) {
                 if(recipe.getInput().getTier() == 0) {
                     NBTTagCompound bloodInfuse = new NBTTagCompound();
                     bloodInfuse.setInteger("energy", recipe.getProperties().getDuration() * 10);
@@ -193,20 +191,18 @@ public class ThermalExpansionModCompat implements IModCompat {
                     dustSulfur.stackSize = 1;
                     dustSulfur.writeToNBT(pulverizerDustCoal.getCompoundTag("secondaryOutput"));
                 }
-
                 FMLInterModComms.sendMessage(TE, "PulverizerRecipe", pulverizerDustCoal);
             }
         }
     }
-    
+
     @Override
-	public boolean isEnabled() {
-		return true;
-	}
+    public boolean isEnabled() {
+        return true;
+    }
 
-	@Override
-	public String getComment() {
-		return "Sawmill, Pulverizer, Magma Crucible and Fluid Transposer recipes.";
-	}
-
+    @Override
+    public String getComment() {
+        return "Sawmill, Pulverizer, Magma Crucible and Fluid Transposer recipes.";
+    }
 }

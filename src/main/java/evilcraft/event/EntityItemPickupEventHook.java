@@ -9,7 +9,6 @@ import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 /**
  * Event hook for {@link net.minecraftforge.event.entity.player}.
  * @author rubensworks
- *
  */
 public class EntityItemPickupEventHook {
 
@@ -21,11 +20,10 @@ public class EntityItemPickupEventHook {
     public void onTick(EntityItemPickupEvent event) {
         originsOfDarknessObtain(event);
     }
-    
+
     private void originsOfDarknessObtain(EntityItemPickupEvent event) {
         if(event.entityPlayer != null && event.item != null && event.item.getEntityItem().getItem() == OriginsOfDarkness.getInstance()) {
             event.entityPlayer.addStat(Achievements.EVIL_SOURCE, 1);
         }
     }
-    
 }

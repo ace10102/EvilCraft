@@ -16,19 +16,16 @@ import evilcraft.core.recipe.xml.XmlRecipeLoader.XmlRecipeException;
 /**
  * Handler for shapeless recipes.
  * @author rubensworks
- *
  */
 public class ShapelessRecipeTypeHandler extends GridRecipeTypeHandler {
 
-	@Override
-	protected void handleIO(Element input, ItemStack output)
-			throws XmlRecipeException {
-		List<Object> inputs = Lists.newLinkedList();
-		NodeList inputNodes = input.getElementsByTagName("item");
-		for(int i = 0; i < inputNodes.getLength(); i++) {
-			inputs.add(getItem(inputNodes.item(i)));
-		}
-		GameRegistry.addRecipe(new ShapelessOreRecipe(output, inputs.toArray()));
-	}
-
+    @Override
+    protected void handleIO(Element input, ItemStack output) throws XmlRecipeException {
+        List<Object> inputs = Lists.newLinkedList();
+        NodeList inputNodes = input.getElementsByTagName("item");
+        for(int i = 0; i < inputNodes.getLength(); i++) {
+            inputs.add(getItem(inputNodes.item(i)));
+        }
+        GameRegistry.addRecipe(new ShapelessOreRecipe(output, inputs.toArray()));
+    }
 }

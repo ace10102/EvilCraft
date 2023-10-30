@@ -26,9 +26,9 @@ import evilcraft.tileentity.TileInvisibleRedstoneBlock;
 /**
  * An invisible block where players can walk through and disappears after a few ticks.
  * @author immortaleeb
- *
  */
 public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
+
     private static InvisibleRedstoneBlock _instance = null;
 
     /**
@@ -36,7 +36,7 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
      * @param eConfig The config.
      */
     public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if (_instance == null)
+        if(_instance == null)
             _instance = new InvisibleRedstoneBlock(eConfig);
         else
             eConfig.showDoubleInitError();
@@ -56,67 +56,66 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
         setResistance(10.0F);
         setStepSound(soundTypeMetal);
     }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {}
-    
+
+    @Override @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister iconRegister) {
+    }
+
     @Override
     public Item getItemDropped(int meta, Random random, int zero) {
-    	if(Configs.isEnabled(RedstoneGrenadeConfig.class)) {
-    		return RedstoneGrenade.getInstance();
-    	} else {
-    		return null;
-    	}
+        if(Configs.isEnabled(RedstoneGrenadeConfig.class)) {
+            return RedstoneGrenade.getInstance();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public int isProvidingWeakPower(IBlockAccess blockAccess, int x, int y, int z, int side) {
         return 15;
     }
-    
+
     @Override
     public boolean canProvidePower() {
         return true;
     }
-    
+
     @Override
     public int quantityDropped(Random random) {
         return 1;
     }
-    
+
     @Override
     public int getMobilityFlag() {
         return 0;
     }
-    
+
     @Override
     public boolean isReplaceable(IBlockAccess world, int x, int y, int z) {
         return true;
     }
-    
+
     @Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
         return null;
     }
-    
+
     @Override
     public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
         return AxisAlignedBB.getBoundingBox(0, 0, 0, 0, 0, 0);
     }
-    
+
     @Override
     public TileEntity createTileEntity(World world, int metadata) {
         return new TileInvisibleRedstoneBlock(world);
     }
-    
+
     @Override
     public IIcon getIcon(int side, int meta) {
         return RenderHelpers.EMPTYICON;
     }
-    
-    @SuppressWarnings("rawtypes")
-    @Override
+
+    @Override @SuppressWarnings("rawtypes")
     public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
         // Do not appear in creative tab
     }

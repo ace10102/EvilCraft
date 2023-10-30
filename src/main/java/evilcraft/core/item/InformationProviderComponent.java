@@ -12,13 +12,12 @@ import evilcraft.core.IInformationProvider;
 /**
  * A component that can be used for {@link IInformationProvider} implementations.
  * @author rubensworks
- *
  */
 public class InformationProviderComponent {
-    
+
     private boolean hasInfo = false;
     private Block block = null;
-    
+
     /**
      * Make a new instance.
      * @param block The block for which the component is used.
@@ -26,7 +25,7 @@ public class InformationProviderComponent {
     public InformationProviderComponent(Block block) {
         setBlock(block);
     }
-    
+
     /**
      * Add information to the given list for the given item.
      * @param itemStack The {@link ItemStack} to add info for.
@@ -34,14 +33,13 @@ public class InformationProviderComponent {
      * @param list The info list where the info will be added.
      * @param par4 No idea...
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @SideOnly(Side.CLIENT)
+    @SideOnly(Side.CLIENT) @SuppressWarnings({ "rawtypes", "unchecked" })
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         if(hasInfo) {
-            if(((IInformationProvider) block).getInfo(itemStack) != null) {
-                list.add(IInformationProvider.BLOCK_PREFIX + ((IInformationProvider) block).getInfo(itemStack));
+            if(((IInformationProvider)block).getInfo(itemStack) != null) {
+                list.add(IInformationProvider.BLOCK_PREFIX + ((IInformationProvider)block).getInfo(itemStack));
             }
-            ((IInformationProvider) block).provideInformation(itemStack, entityPlayer, list, par4);
+            ((IInformationProvider)block).provideInformation(itemStack, entityPlayer, list, par4);
         }
     }
 
@@ -70,5 +68,4 @@ public class InformationProviderComponent {
         if(block instanceof IInformationProvider)
             this.hasInfo = true;
     }
-    
 }

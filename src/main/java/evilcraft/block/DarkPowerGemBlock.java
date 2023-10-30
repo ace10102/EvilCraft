@@ -12,7 +12,6 @@ import java.util.Random;
 /**
  * Storage block for the dark power gem.
  * @author rubensworks
- *
  */
 public class DarkPowerGemBlock extends ConfigurableBlockConnectedTexture {
 
@@ -58,5 +57,4 @@ public class DarkPowerGemBlock extends ConfigurableBlockConnectedTexture {
     public boolean hasSeperateInventoryBlockIcon() {
         return true;
     }
-
 }

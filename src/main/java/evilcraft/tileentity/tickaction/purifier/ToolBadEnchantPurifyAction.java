@@ -64,8 +64,6 @@ public class ToolBadEnchantPurifyAction implements IPurifierAction {
                 }
             }
         }
-
         return done;
     }
-
 }

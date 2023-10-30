@@ -9,7 +9,6 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 /**
  * Config for the Ender Tear.
  * @author rubensworks
- *
  */
 public class EnderTearConfig extends ItemConfig {
 
@@ -34,17 +33,11 @@ public class EnderTearConfig extends ItemConfig {
      * Make a new instance.
      */
     public EnderTearConfig() {
-        super(
-            true,
-            "enderTear",
-            null,
-            null
-        );
+        super(true, "enderTear", null, null);
     }
 
     @Override
     protected IConfigurable initSubInstance() {
-        return(ConfigurableItem) new ConfigurableItem(this).setMaxStackSize(16);
+        return (ConfigurableItem)new ConfigurableItem(this).setMaxStackSize(16);
     }
-    
 }

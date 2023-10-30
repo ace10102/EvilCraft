@@ -28,7 +28,6 @@ import java.util.Random;
 
 /**
  * A machine that can infuse stuff with blood.
- *
  * @author rubensworks
  */
 public class ColossalBloodChest extends ConfigurableBlockContainerGuiTankInfo implements IDetectionListener {
@@ -37,11 +36,10 @@ public class ColossalBloodChest extends ConfigurableBlockContainerGuiTankInfo im
 
     /**
      * Initialise the configurable.
-     *
      * @param eConfig The config.
      */
     public static void initInstance(ExtendedConfig<BlockConfig> eConfig) {
-        if (_instance == null)
+        if(_instance == null)
             _instance = new ColossalBloodChest(eConfig);
         else
             eConfig.showDoubleInitError();
@@ -49,7 +47,6 @@ public class ColossalBloodChest extends ConfigurableBlockContainerGuiTankInfo im
 
     /**
      * Get the unique instance.
-     *
      * @return The instance.
      */
     public static ColossalBloodChest getInstance() {
@@ -63,21 +60,19 @@ public class ColossalBloodChest extends ConfigurableBlockContainerGuiTankInfo im
         this.setHarvestLevel("axe", 2); // Iron tier
         this.setRotatable(false);
 
-        if (MinecraftHelpers.isClientSide())
+        if(MinecraftHelpers.isClientSide())
             setGUI(GuiColossalBloodChest.class);
         setContainer(ContainerColossalBloodChest.class);
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
         return meta == 1 ? RenderHelpers.EMPTYICON : super.getIcon(side, meta);
     }
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityplayer, int par6, float par7, float par8, float par9) {
-        return !TileColossalBloodChest.canWork(world, new Location(x, y, z)) ||
-                super.onBlockActivated(world, x, y, z, entityplayer, par6, par7, par8, par9);
+        return !TileColossalBloodChest.canWork(world, new Location(x, y, z)) || super.onBlockActivated(world, x, y, z, entityplayer, par6, par7, par8, par9);
     }
 
     @Override
@@ -113,14 +108,13 @@ public class ColossalBloodChest extends ConfigurableBlockContainerGuiTankInfo im
     @Override
     public void onDetect(World world, ILocation location, Size size, boolean valid, ILocation originCorner) {
         Block block = LocationHelpers.getBlock(world, location);
-        if (block == this) {
+        if(block == this) {
             TileColossalBloodChest.detectStructure(world, location, size, valid);
             TileEntity tile = LocationHelpers.getTile(world, location);
-            if (tile != null) {
-                ((TileColossalBloodChest) tile).setSize(valid ? size : Size.NULL_SIZE);
-                ((TileColossalBloodChest) tile).setCenter(originCorner.copy().subtract(new Location(-1, -1, -1)));
+            if(tile != null) {
+                ((TileColossalBloodChest)tile).setSize(valid ? size : Size.NULL_SIZE);
+                ((TileColossalBloodChest)tile).setCenter(originCorner.copy().subtract(new Location(-1, -1, -1)));
             }
         }
     }
-
 }

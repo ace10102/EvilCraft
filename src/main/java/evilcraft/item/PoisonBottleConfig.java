@@ -4,14 +4,12 @@ import evilcraft.Configs;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.fluid.Poison;
 import evilcraft.fluid.PoisonConfig;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 
 /**
  * Config for the {@link PoisonBottle}.
  * @author rubensworks
- *
  */
 public class PoisonBottleConfig extends ItemConfig {
 
@@ -24,12 +22,7 @@ public class PoisonBottleConfig extends ItemConfig {
      * Make a new instance.
      */
     public PoisonBottleConfig() {
-        super(
-        	true,
-            "poisonBottle",
-            null,
-            PoisonBottle.class
-        );
+        super(true, "poisonBottle", null, PoisonBottle.class);
     }
 
     @Override

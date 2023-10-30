@@ -5,10 +5,9 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 /**
  * Config for the {@link VengeanceFocus}.
  * @author rubensworks
- *
  */
 public class VengeanceFocusConfig extends ItemConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -18,12 +17,6 @@ public class VengeanceFocusConfig extends ItemConfig {
      * Make a new instance.
      */
     public VengeanceFocusConfig() {
-        super(
-        	true,
-            "vengeanceFocus",
-            null,
-            VengeanceFocus.class
-        );
+        super(true, "vengeanceFocus", null, VengeanceFocus.class);
     }
-    
 }

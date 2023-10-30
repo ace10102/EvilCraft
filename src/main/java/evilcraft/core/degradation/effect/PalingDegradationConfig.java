@@ -5,7 +5,6 @@ import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 /**
  * Config for {@link evilcraft.core.degradation.effect.PalingDegradation}.
  * @author rubensworks
- *
  */
 public class PalingDegradationConfig extends DegradationEffectConfig {
 
@@ -18,13 +17,6 @@ public class PalingDegradationConfig extends DegradationEffectConfig {
      * Make a new instance.
      */
     public PalingDegradationConfig() {
-        super(
-            true,
-            "paling",
-            null,
-            PalingDegradation.class,
-            1
-        );
+        super(true, "paling", null, PalingDegradation.class, 1);
     }
-    
 }

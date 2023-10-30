@@ -20,34 +20,30 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import java.util.List;
 
 /**
- * A powerful magical mace.
- * The power of it can be changed by Shift + Right clicking.
- * It can be used as primary weapon by just right clicking on entities, it will however
- * use up some blood for that and become unusable when the tank is empty.
- * It can also be used as secondary weapon to do a distortion effect in a certain area
- * with the area increasing depending on how long the item is being charged, this
- * area is smaller with a larger power level, but more powerful.
+ * A powerful magical mace. The power of it can be charged by Shift + Right clicking.
+ * It can be used as primary weapon by just right clicking on entities, it will however use up some blood for that and become unusable when the tank is empty.
+ * It can also be used as secondary weapon to do a distortion effect in a certain area with the area increasing depending on how long the item is being charged,
+ * this area is smaller with a larger power level, but more powerful.
  * @author rubensworks
- *
  */
 public class MaceOfDistortion extends Mace {
-    
+
     private static MaceOfDistortion _instance = null;
-    
+
     /**
      * The amount of ticks that should go between each update of the area of effect particles.
      */
     public static final int AOE_TICK_UPDATE = 20;
-    
+
     private static final int MAXIMUM_CHARGE = 100;
     private static final float MELEE_DAMAGE = 7.0F;
     private static final float RADIAL_DAMAGE = 3.0F;
     private static final int CONTAINER_SIZE = FluidContainerRegistry.BUCKET_VOLUME * 4;
     private static final int HIT_USAGE = 5;
     private static final int POWER_LEVELS = 5;
-    
+
     /**
-     * Initialise the configurable.
+     * Initialize the configurable.
      * @param eConfig The config.
      */
     public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
@@ -68,14 +64,14 @@ public class MaceOfDistortion extends Mace {
     private MaceOfDistortion(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, CONTAINER_SIZE, HIT_USAGE, MAXIMUM_CHARGE, POWER_LEVELS, MELEE_DAMAGE);
     }
-    
+
     @SuppressWarnings("unchecked")
     protected void distortEntities(World world, EntityPlayer player, int itemUsedCount, int power) {
         // Center of the knockback
         double x = player.posX;
         double y = player.posY;
         double z = player.posZ;
-        
+
         // Get the entities in the given area
         double area = getArea(itemUsedCount);
         AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(area, area, area);
@@ -85,30 +81,29 @@ public class MaceOfDistortion extends Mace {
             public boolean isEntityApplicable(Entity entity) {
                 return true;
             }
-            
         });
-        
+
         // Do knockback and damage to the list of entities
         boolean onePlayer = false;
         for(Entity entity : entities) {
-        	if(entity instanceof EntityPlayer) {
-        		onePlayer = true;
-        	}
+            if(entity instanceof EntityPlayer) {
+                onePlayer = true;
+            }
             distortEntity(world, player, entity, x, y, z, itemUsedCount, power);
         }
-        
+
         if(entities.size() >= 10) {
-        	player.addStat(Achievements.DISTORTER, 1);
-        	if(onePlayer) {
-        		player.addStat(Achievements.PLAYER_DISTORTER, 1);
-        	}
+            player.addStat(Achievements.DISTORTER, 1);
+            if(onePlayer) {
+                player.addStat(Achievements.PLAYER_DISTORTER, 1);
+            }
         }
     }
-    
+
     /**
      * Distort an entity.
      * @param world The world.
-     * @param player The player distoring the entity, can be null.
+     * @param player The player distorting the entity, can be null.
      * @param entity The distorted entity.
      * @param x Center X coordinate.
      * @param y Center Y coordinate.
@@ -126,7 +121,7 @@ public class MaceOfDistortion extends Mace {
         double d = (double)MathHelper.sqrt_double(dx * dx + dy * dy + dz * dz);
 
         // No knockback is possible when the absolute distance is zero.
-        if (d != 0.0D) {
+        if(d != 0.0D) {
             dx /= d;
             dy /= d;
             dz /= d;
@@ -139,17 +134,17 @@ public class MaceOfDistortion extends Mace {
                 } else {
                     damageSource = DamageSource.causePlayerDamage(player);
                 }
-                entity.attackEntityFrom(damageSource, (float) (RADIAL_DAMAGE * power));
-                
+                entity.attackEntityFrom(damageSource, (float)(RADIAL_DAMAGE * power));
+
                 if(world.isRemote) {
                     showEntityDistored(world, player, entity, power);
                 }
             }
             if(entity instanceof VengeanceSpirit) {
-            	((VengeanceSpirit) entity).setIsSwarm(true);
+                ((VengeanceSpirit)entity).setIsSwarm(true);
             }
             if(player != null && entity instanceof EntityPlayer) {
-            	player.addStat(Achievements.PLAYER_DISTORTER, 1);
+                player.addStat(Achievements.PLAYER_DISTORTER, 1);
             }
             strength /= 2;
             entity.motionX += dx * strength;
@@ -157,7 +152,7 @@ public class MaceOfDistortion extends Mace {
             entity.motionZ += dz * strength;
         }
     }
-    
+
     @SideOnly(Side.CLIENT)
     protected static void showEntityDistored(World world, EntityPlayer player, Entity entity, int power) {
         // Play a nice sound with the volume depending on the power.

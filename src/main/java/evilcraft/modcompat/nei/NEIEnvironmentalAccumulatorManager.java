@@ -2,7 +2,6 @@ package evilcraft.modcompat.nei;
 
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import com.google.common.collect.Lists;
 import evilcraft.Reference;
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.EnvironmentalAccumulator;
@@ -12,7 +11,6 @@ import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import evilcraft.core.weather.WeatherType;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -27,10 +25,9 @@ import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
 /**
  * Manager for the recipes in {@link EnvironmentalAccumulator}.
  * @author immortaleeb, rubensworks
- *
  */
 public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
-    
+
     private static final String WEATHER_ICONS = Reference.MOD_ID + ":" + Reference.TEXTURE_PATH_GUI + "weathers.png";
     private static final Map<WeatherType, Integer> X_ICON_OFFSETS = new HashMap<WeatherType, Integer>();
     static {
@@ -38,50 +35,34 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
         X_ICON_OFFSETS.put(WeatherType.RAIN, 16);
         X_ICON_OFFSETS.put(WeatherType.LIGHTNING, 32);
     }
-    
+
     private final int progressTargetX = 77;
     private final int progressTargetY = 0;
     private final int progressX = 166;
     private final int progressY = 0;
     private final int progressWidth = 11;
     private final int progressHeight = 60;
-    
+
     private class CachedEnvironmentalAccumulatorRecipe extends CachedRecipe {
-        
+
         private PositionedStack inputStack;
         private WeatherType inputWeather;
         private PositionedStack outputStack;
         private WeatherType outputWeather;
         private int duration;
 
-        public CachedEnvironmentalAccumulatorRecipe(
-                EnvironmentalAccumulatorRecipeComponent input,
-                EnvironmentalAccumulatorRecipeComponent output,
-                EnvironmentalAccumulatorRecipeProperties properties) {
-            this(input.getItemStack(), input.getWeatherType(),
-                 output.getItemStack(), output.getWeatherType(),
-                 properties.getDuration());
+        public CachedEnvironmentalAccumulatorRecipe(EnvironmentalAccumulatorRecipeComponent input, EnvironmentalAccumulatorRecipeComponent output, EnvironmentalAccumulatorRecipeProperties properties) {
+            this(input.getItemStack(), input.getWeatherType(), output.getItemStack(), output.getWeatherType(), properties.getDuration());
         }
-        
-        public CachedEnvironmentalAccumulatorRecipe(
-                ItemStack inputStack, WeatherType inputWeather,
-                ItemStack outputStack, WeatherType outputWeather,
-                int duration) {
-            this.inputStack = 
-                    new PositionedStack(
-                        inputStack,
-                        36, 48
-                    );
-            this.outputStack =
-                    new PositionedStack(
-                            ItemHelpers.getVariants(outputStack),
-                            114, 48
-                    );
+
+        public CachedEnvironmentalAccumulatorRecipe(ItemStack inputStack, WeatherType inputWeather, ItemStack outputStack, WeatherType outputWeather, int duration) {
+            this.inputStack = new PositionedStack(inputStack, 36, 48);
+            this.outputStack = new PositionedStack(ItemHelpers.getVariants(outputStack), 114, 48);
             this.inputWeather = inputWeather;
             this.outputWeather = outputWeather;
             this.duration = duration;
         }
-        
+
         @Override
         public PositionedStack getIngredient() {
             return inputStack;
@@ -99,73 +80,58 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
             int result = 1;
             result = prime * result + getOuterType().hashCode();
             result = prime * result + duration;
-            result = prime * result
-                    + ((inputStack == null) ? 0 : inputStack.hashCode());
-            result = prime * result
-                    + ((inputWeather == null) ? 0 : inputWeather.hashCode());
-            result = prime * result
-                    + ((outputStack == null) ? 0 : outputStack.hashCode());
-            result = prime * result
-                    + ((outputWeather == null) ? 0 : outputWeather.hashCode());
+            result = prime * result + ((inputStack == null) ? 0 : inputStack.hashCode());
+            result = prime * result + ((inputWeather == null) ? 0 : inputWeather.hashCode());
+            result = prime * result + ((outputStack == null) ? 0 : outputStack.hashCode());
+            result = prime * result + ((outputWeather == null) ? 0 : outputWeather.hashCode());
             return result;
         }
 
         @Override
         public boolean equals(Object obj) {
-            if (this == obj)
+            if(this == obj)
                 return true;
-            if (obj == null)
+            if(obj == null)
                 return false;
-            if (getClass() != obj.getClass())
+            if(getClass() != obj.getClass())
                 return false;
-            CachedEnvironmentalAccumulatorRecipe other = (CachedEnvironmentalAccumulatorRecipe) obj;
-            if (!getOuterType().equals(other.getOuterType()))
+            CachedEnvironmentalAccumulatorRecipe other = (CachedEnvironmentalAccumulatorRecipe)obj;
+            if(!getOuterType().equals(other.getOuterType()))
                 return false;
-            if (duration != other.duration)
+            if(duration != other.duration)
                 return false;
-            if (inputStack == null) {
-                if (other.inputStack != null)
+            if(inputStack == null) {
+                if(other.inputStack != null)
                     return false;
-            } else if (!inputStack.equals(other.inputStack))
+            } else if(!inputStack.equals(other.inputStack))
                 return false;
-            if (inputWeather == null) {
-                if (other.inputWeather != null)
+            if(inputWeather == null) {
+                if(other.inputWeather != null)
                     return false;
-            } else if (!inputWeather.equals(other.inputWeather))
+            } else if(!inputWeather.equals(other.inputWeather))
                 return false;
-            if (outputStack == null) {
-                if (other.outputStack != null)
+            if(outputStack == null) {
+                if(other.outputStack != null)
                     return false;
-            } else if (!outputStack.equals(other.outputStack))
+            } else if(!outputStack.equals(other.outputStack))
                 return false;
-            if (outputWeather == null) {
-                if (other.outputWeather != null)
+            if(outputWeather == null) {
+                if(other.outputWeather != null)
                     return false;
-            } else if (!outputWeather.equals(other.outputWeather))
+            } else if(!outputWeather.equals(other.outputWeather))
                 return false;
             return true;
         }
-
         private NEIEnvironmentalAccumulatorManager getOuterType() {
             return NEIEnvironmentalAccumulatorManager.this;
         }
-        
     }
-    
+
     @Override
     public void loadTransferRects() {
-        transferRects.add(
-                new RecipeTransferRect(
-                    new Rectangle(
-                            progressTargetX,
-                            progressTargetY,
-                            progressWidth, progressHeight
-                            ),
-                    getOverlayIdentifier()
-                )
-        );
+        transferRects.add(new RecipeTransferRect(new Rectangle(progressTargetX, progressTargetY, progressWidth, progressHeight), getOverlayIdentifier()));
     }
-    
+
     @Override
     public String getOverlayIdentifier() {
         return EnvironmentalAccumulatorConfig._instance.getNamedId();
@@ -180,19 +146,17 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
     public String getGuiTexture() {
         return Reference.MOD_ID + ":" + EnvironmentalAccumulator.getInstance().getGuiTexture("_nei");
     }
-    
+
     @Override
     public void drawBackground(int recipe) {
         GL11.glColor4f(1, 1, 1, 1);
         changeTexture(getGuiTexture());
         drawTexturedModalRect(0, 0, 0, 0, 166, 165);
     }
-    
+
     private List<CachedEnvironmentalAccumulatorRecipe> getRecipes() {
         List<CachedEnvironmentalAccumulatorRecipe> recipes = new LinkedList<CachedEnvironmentalAccumulatorRecipe>();
-        for (IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, 
-        		EnvironmentalAccumulatorRecipeProperties> recipe : EnvironmentalAccumulator.getInstance().getRecipeRegistry()
-        		.allRecipes()) {
+        for(IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe : EnvironmentalAccumulator.getInstance().getRecipeRegistry().allRecipes()) {
             EnvironmentalAccumulatorRecipeComponent input = (EnvironmentalAccumulatorRecipeComponent)recipe.getInput();
             EnvironmentalAccumulatorRecipeComponent output = (EnvironmentalAccumulatorRecipeComponent)recipe.getOutput();
             EnvironmentalAccumulatorRecipeProperties props = (EnvironmentalAccumulatorRecipeProperties)recipe.getProperties();
@@ -201,12 +165,12 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
         }
         return recipes;
     }
-    
+
     @Override
     public int recipiesPerPage() {
         return 1;
     }
-    
+
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
         if(outputId.equals(getOverlayIdentifier())) {
@@ -217,53 +181,32 @@ public class NEIEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
             super.loadCraftingRecipes(outputId, results);
         }
     }
-    
+
     @Override
     public void loadCraftingRecipes(final ItemStack result) {
-        IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, 
-        	EnvironmentalAccumulatorRecipeProperties> recipe = EnvironmentalAccumulator.getInstance().getRecipeRegistry()
-        	.findRecipeByOutput(
-                new EnvironmentalAccumulatorRecipeComponent(result, WeatherType.ANY)
-        );
+        IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe = EnvironmentalAccumulator.getInstance().getRecipeRegistry().findRecipeByOutput(new EnvironmentalAccumulatorRecipeComponent(result, WeatherType.ANY));
 
-        if (recipe != null) {
-            arecipes.add(new CachedEnvironmentalAccumulatorRecipe(
-                    (EnvironmentalAccumulatorRecipeComponent) recipe.getInput(),
-                    (EnvironmentalAccumulatorRecipeComponent) recipe.getOutput(),
-                    (EnvironmentalAccumulatorRecipeProperties) recipe.getProperties()
-            ));
+        if(recipe != null) {
+            arecipes.add(new CachedEnvironmentalAccumulatorRecipe((EnvironmentalAccumulatorRecipeComponent)recipe.getInput(), (EnvironmentalAccumulatorRecipeComponent)recipe.getOutput(), (EnvironmentalAccumulatorRecipeProperties)recipe.getProperties()));
         }
     }
-    
+
     @Override
     public void loadUsageRecipes(final ItemStack ingredient) {
-        for (IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe :
-                EnvironmentalAccumulator.getInstance().getRecipeRegistry().findRecipesByInput(new EnvironmentalAccumulatorRecipeComponent(ingredient, WeatherType.ANY))) {
-            arecipes.add(new CachedEnvironmentalAccumulatorRecipe(
-                    recipe.getInput(),
-                    recipe.getOutput(),
-                    recipe.getProperties()
-            ));
+        for(IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe : EnvironmentalAccumulator.getInstance().getRecipeRegistry().findRecipesByInput(new EnvironmentalAccumulatorRecipeComponent(ingredient, WeatherType.ANY))) {
+            arecipes.add(new CachedEnvironmentalAccumulatorRecipe(recipe.getInput(), recipe.getOutput(), recipe.getProperties()));
         }
     }
-    
+
     private CachedEnvironmentalAccumulatorRecipe getRecipe(int recipe) {
-        return (CachedEnvironmentalAccumulatorRecipe) arecipes.get(recipe);
+        return (CachedEnvironmentalAccumulatorRecipe)arecipes.get(recipe);
     }
-    
+
     @Override
     public void drawExtras(int recipe) {
         CachedEnvironmentalAccumulatorRecipe cachedRecipe = getRecipe(recipe);
-        drawProgressBar(
-                progressTargetX,
-                progressTargetY,
-                progressX,
-                progressY,
-                progressWidth,
-                progressHeight,
-                Math.max(2, cachedRecipe.duration / 10),
-                3);
-        
+        drawProgressBar(progressTargetX, progressTargetY, progressX, progressY, progressWidth, progressHeight, Math.max(2, cachedRecipe.duration / 10), 3);
+
         Integer inputX = X_ICON_OFFSETS.get(cachedRecipe.inputWeather);
         if(inputX != null) {
             changeTexture(WEATHER_ICONS);

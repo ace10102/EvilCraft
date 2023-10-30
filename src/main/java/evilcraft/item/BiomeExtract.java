@@ -23,16 +23,11 @@ import net.minecraft.world.biome.BiomeGenBase;
 import java.util.List;
 
 /**
- * Class for the WeatherContainer item. Each weather container has a specific
- * WeatherContainerType which contains the actual data and functionality that
- * will be used when using this weather container. The different types of
- * weather containers are identified by their item damage, which equals
- * to the ordinal of the corresponding WeatherContainerType.
- * Any new weather containers should by added by adding an entry in
- * the WeatherContainerType enum.
- *
+ * Class for the WeatherContainer item.
+ * Each weather container has a specific WeatherContainerType which contains the actual data and functionality that will be used when using this weather container.
+ * The different types of weather containers are identified by their item damage, which equals to the ordinal of the corresponding WeatherContainerType.
+ * Any new weather containers should by added by adding an entry in the WeatherContainerType enum.
  * @author immortaleeb
- *
  */
 public class BiomeExtract extends ConfigurableItem {
 
@@ -77,8 +72,7 @@ public class BiomeExtract extends ConfigurableItem {
         return EnumAction.bow;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public boolean requiresMultipleRenderPasses() {
         return true;
     }
@@ -88,8 +82,7 @@ public class BiomeExtract extends ConfigurableItem {
         return metadata == 0 ? 1 : 2;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(ItemStack itemStack, int renderPass) {
         if(renderPass == 0 && itemStack.getItemDamage() > 0) {
             BiomeGenBase biome = getBiome(itemStack);
@@ -109,13 +102,10 @@ public class BiomeExtract extends ConfigurableItem {
             world.spawnEntityInWorld(new EntityBiomeExtract(world, player, itemStack.copy()));
             itemStack.stackSize--;
         }
-
         return itemStack;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT) @SuppressWarnings({ "rawtypes", "unchecked" })
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         BiomeGenBase biome = getBiome(itemStack);
@@ -124,8 +114,7 @@ public class BiomeExtract extends ConfigurableItem {
         }
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister iconRegister) {
         itemIcon = iconRegister.registerIcon(getIconString());
         overlay = iconRegister.registerIcon(getIconString() + "_overlay");
@@ -140,15 +129,13 @@ public class BiomeExtract extends ConfigurableItem {
         return BiomeGenBase.getBiomeGenArray();
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT) @SuppressWarnings({ "rawtypes", "unchecked" })
     public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
         super.getSubItems(item, creativeTabs, list);
         if(BiomeExtractConfig.creativeTabVariants) {
             BiomeGenBase[] biomes = getBiomes();
-            for (int i = 0; i < biomes.length; i++) {
-                if (biomes[i] != null) {
+            for(int i = 0; i < biomes.length; i++) {
+                if(biomes[i] != null) {
                     list.add(createItemStack(biomes[i], 1));
                 }
             }
@@ -156,9 +143,7 @@ public class BiomeExtract extends ConfigurableItem {
     }
 
     /**
-     * Checks wether or not a BiomeExtract is empty (it does not contain any biome)
-     * given its item damage
-     *
+     * Checks wether or not a BiomeExtract is empty (it does not contain any biome) given its item damage
      * @param itemStack Item stack
      * @return true if the BiomeExtract is empty, false other
      */
@@ -168,7 +153,6 @@ public class BiomeExtract extends ConfigurableItem {
 
     /**
      * Returns the biome type for the given ItemStack
-     *
      * @param itemStack ItemStack which holds a BiomeExtract
      * @return biome type of the given ItemStack
      */
@@ -185,7 +169,6 @@ public class BiomeExtract extends ConfigurableItem {
 
     /**
      * Create a stack of a certain type of biome.
-     *
      * @param biome The type ofbopme to make.
      * @param amount The amount per stack.
      * @return The stack.

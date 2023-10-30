@@ -23,5 +23,4 @@ public class InfoBookRegistry {
     public InfoSection getRoot() {
         return main;
     }
-
 }

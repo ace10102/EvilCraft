@@ -9,10 +9,9 @@ import net.minecraft.item.ItemStack;
 /**
  * Config for the Crushed Dark Gem.
  * @author rubensworks
- *
  */
 public class DarkGemCrushedConfig extends ItemConfig implements IFuelHandler {
-    
+
     /**
      * The unique instance.
      */
@@ -22,22 +21,17 @@ public class DarkGemCrushedConfig extends ItemConfig implements IFuelHandler {
      * Make a new instance.
      */
     public DarkGemCrushedConfig() {
-        super(
-        	true,
-            "darkGemCrushed",
-            null,
-            null
-        );
+        super(true, "darkGemCrushed", null, null);
     }
-    
+
     @Override
     public String getOreDictionaryId() {
         return Reference.DICT_GEMDARKCRUSHED;
     }
-    
+
     @Override
     public void onRegistered() {
-    	GameRegistry.registerFuelHandler(this);
+        GameRegistry.registerFuelHandler(this);
     }
 
     @Override
@@ -47,5 +41,4 @@ public class DarkGemCrushedConfig extends ItemConfig implements IFuelHandler {
         }
         return 0;
     }
-    
 }

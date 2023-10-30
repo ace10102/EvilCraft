@@ -18,10 +18,9 @@ import net.minecraft.world.World;
 /**
  * A silverfish for the nether.
  * @author rubensworks
- *
  */
-public class Netherfish extends EntitySilverfish implements IConfigurable{
-    
+public class Netherfish extends EntitySilverfish implements IConfigurable {
+
     private static final int MAX_FIRE_DURATION = 3;
     private static final double FIRE_CHANCE = 0.5;
 
@@ -34,18 +33,18 @@ public class Netherfish extends EntitySilverfish implements IConfigurable{
         this.isImmuneToFire = true;
         this.experienceValue = 10;
     }
-    
+
     @Override
     protected Item getDropItem() {
         return Items.gunpowder;
     }
-    
+
     @Override
     protected void entityInit() {
         super.entityInit();
-        this.dataWatcher.addObject(16, new Byte((byte) 0));
+        this.dataWatcher.addObject(16, new Byte((byte)0));
     }
-    
+
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
@@ -54,7 +53,7 @@ public class Netherfish extends EntitySilverfish implements IConfigurable{
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.8D);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(2.0D);
     }
-    
+
     @Override
     public boolean attackEntityAsMob(Entity entity) {
         // Ignite the attacked entity for a certain duration with a certain chance.
@@ -62,29 +61,30 @@ public class Netherfish extends EntitySilverfish implements IConfigurable{
             entity.setFire(this.rand.nextInt(MAX_FIRE_DURATION));
         return super.attackEntityAsMob(entity);
     }
-    
+
     @Override
     public void onLivingUpdate() {
         // TODO: for some reason, this does not work, although it is called client side, it just doesn't render those damn particles...
         if(!this.worldObj.isRemote) {
-            for (int i = 0; i < 2; ++i) {
-                this.worldObj.spawnParticle("fire", this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, 0.0D, 0.0D, 0.0D);
+            for(int i = 0; i < 2; ++i) {
+                this.worldObj.spawnParticle("fire", this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble()
+                        * (double)this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, 0.0D, 0.0D, 0.0D);
             }
         }
         super.onLivingUpdate();
     }
-    
+
     @Override
     public boolean isBurning() {
         // A line copied from EntityBlaze
         return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
     }
-    
+
     @Override
     protected void updateEntityActionState() {
         // This fish does NOT grief, maybe this could be implemented, maybe not, nobody likes griefing mobs, but it is quite evil though...
-        if (!this.worldObj.isRemote) {
-            if (this.entityToAttack == null && !this.hasPath()) {
+        if(!this.worldObj.isRemote) {
+            if(this.entityToAttack == null && !this.hasPath()) {
                 int i, j, k;
                 i = MathHelper.floor_double(this.posX);
                 j = MathHelper.floor_double(this.posY + 0.5D);
@@ -92,9 +92,10 @@ public class Netherfish extends EntitySilverfish implements IConfigurable{
                 int i2 = this.rand.nextInt(6);
                 Block block = this.worldObj.getBlock(i + Facing.offsetsXForSide[i2], j + Facing.offsetsYForSide[i2], k + Facing.offsetsZForSide[i2]);
                 int metaData = NetherfishSpawn.getInstance().getMetadataFromBlock(block);
-                
-                if (Configs.isEnabled(NetherfishSpawnConfig.class) && metaData >= 0) {
-                    this.worldObj.setBlock(i + Facing.offsetsXForSide[i2], j + Facing.offsetsYForSide[i2], k + Facing.offsetsZForSide[i2], NetherfishSpawn.getInstance(), NetherfishSpawn.getInstance().getMetadataFromBlock(block), 3);
+
+                if(Configs.isEnabled(NetherfishSpawnConfig.class) && metaData >= 0) {
+                    this.worldObj.setBlock(i + Facing.offsetsXForSide[i2], j + Facing.offsetsYForSide[i2], k + Facing.offsetsZForSide[i2],
+                            NetherfishSpawn.getInstance(), NetherfishSpawn.getInstance().getMetadataFromBlock(block), 3);
                     this.spawnExplosionParticle();
                     this.setDead();
                 } else {
@@ -109,5 +110,4 @@ public class Netherfish extends EntitySilverfish implements IConfigurable{
     public ExtendedConfig<?> getConfig() {
         return null;
     }
-    
 }

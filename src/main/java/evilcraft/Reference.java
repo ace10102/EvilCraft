@@ -1,14 +1,11 @@
 package evilcraft;
 
 /**
- * Class that can hold basic static things that are better not hard-coded
- * like mod details, texture paths, ID's...
+ * Class that can hold basic static things that are better not hard-coded like mod details, texture paths, ID's...
  * @author rubensworks
- *
  */
-@SuppressWarnings("javadoc")
 public class Reference {
-	
+
     // Mod info
     public static final String MOD_ID = "evilcraft";
     public static final String MOD_NAME = "EvilCraft";
@@ -20,7 +17,7 @@ public class Reference {
     // IMC keys
     public static final String IMC_BLACKLIST_VENGEANCESPIRIT = "blacklistVengeanceSpirit";
     public static final String IMC_OVERRIDE_SPIRITFURNACE_DROPS = "overrideSpiritFurnaceDrops";
-    
+
     // Paths
     public static final String TEXTURE_PATH_GUI = "textures/gui/";
     public static final String TEXTURE_PATH_SKINS = "textures/skins/";
@@ -30,10 +27,10 @@ public class Reference {
     public static final String TEXTURE_PATH_ITEMS = "textures/items/";
     public static final String TEXTURE_PATH_PARTICLES = "textures/particles/";
     public static final String MODEL_PATH = "models/";
-    
+
     // External locations
     public static final String URL_VERSIONSTATS = "http://rubensworks.net/evilcraft-versionstats/";
-    
+
     // Enchantment ID's
     public static final int ENCHANTMENT_BREAKING = 101;
     public static final int ENCHANTMENT_LIFESTEALING = 102;
@@ -42,13 +39,13 @@ public class Reference {
 
     // Potion effect ID's
     public static final int POTION_PALING = 121;
-    
+
     // Biome ID's
     public static final int BIOME_DEGRADED = 105;
-    
+
     // Villager ID's
     public static final int VILLAGER_WEREWOLF = 66666;
-    
+
     // OREDICT NAMES
     public static final String DICT_MATERIALPOISONOUS = "materialPoisonous";
     public static final String DICT_BLOCKGLASS = "blockGlass";
@@ -68,7 +65,7 @@ public class Reference {
     public static final String DICT_ITEMSKULL = "itemSkull";
     public static final String DICT_DUSTDULL = "dustDull";
     public static final String DICT_FLESH = "materialFlesh";
-    
+
     // MOD ID's
     public static final String MOD_FORGE = "Forge";
     public static final String MOD_THERMALEXPANSION = "ThermalExpansion";
@@ -83,8 +80,8 @@ public class Reference {
     public static final String MOD_THAUMCRAFT = "Thaumcraft";
     public static final String MOD_EE3 = "EE3";
     public static final String MOD_IC2 = "IC2";
-    
+
     // Dependencies
     public static final String MOD_DEPENDENCIES = "required-after:Forge@[10.13.3.1360,);" // See the Forge changelog
-            + "after:"+Reference.MOD_THERMALEXPANSION;
+            + "after:" + Reference.MOD_THERMALEXPANSION;
 }

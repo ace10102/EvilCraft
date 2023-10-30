@@ -23,7 +23,6 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 /**
  * Config for the {@link evilcraft.block.BloodChest}.
  * @author rubensworks
- *
  */
 public class EternalWaterBlockConfig extends BlockContainerConfig {
 
@@ -36,12 +35,7 @@ public class EternalWaterBlockConfig extends BlockContainerConfig {
      * Make a new instance.
      */
     public EternalWaterBlockConfig() {
-        super(
-        	true,
-            "eternalWaterBlock",
-            null,
-            null
-        );
+        super(true, "eternalWaterBlock", null, null);
     }
 
     @Override
@@ -66,8 +60,7 @@ public class EternalWaterBlockConfig extends BlockContainerConfig {
             private IIcon topIcon;
             private IIcon bottomIcon;
 
-            @Override
-            @SideOnly(Side.CLIENT)
+            @Override @SideOnly(Side.CLIENT)
             public void registerBlockIcons(IIconRegister iconRegister) {
                 super.registerBlockIcons(iconRegister);
                 topIcon = iconRegister.registerIcon(getTextureName() + "_top");
@@ -76,8 +69,10 @@ public class EternalWaterBlockConfig extends BlockContainerConfig {
 
             @Override
             public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-                if(side == ForgeDirection.UP.ordinal()) return topIcon;
-                if(side == ForgeDirection.DOWN.ordinal()) return bottomIcon;
+                if(side == ForgeDirection.UP.ordinal())
+                    return topIcon;
+                if(side == ForgeDirection.DOWN.ordinal())
+                    return bottomIcon;
                 return super.getIcon(world, x, y, z, side);
             }
 
@@ -86,26 +81,23 @@ public class EternalWaterBlockConfig extends BlockContainerConfig {
                 return false;
             }
 
-            public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side,
-                                            float xp, float yp, float zp) {
+            public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float xp, float yp, float zp) {
                 ItemStack itemStack = player.inventory.getCurrentItem();
                 if(itemStack != null) {
                     FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStack);
-                    if (fluidStack == null) {
+                    if(fluidStack == null) {
                         ItemStack filledItem = FluidContainerRegistry.fillFluidContainer(TileEternalWaterBlock.WATER, itemStack);
-                        if (filledItem != null && !player.capabilities.isCreativeMode) {
+                        if(filledItem != null && !player.capabilities.isCreativeMode) {
                             InventoryHelpers.tryReAddToStack(player, itemStack, filledItem);
                         }
                     }
                     if(itemStack.getItem() instanceof IFluidContainerItem) {
-                        IFluidContainerItem containerItem = ((IFluidContainerItem) itemStack.getItem());
+                        IFluidContainerItem containerItem = ((IFluidContainerItem)itemStack.getItem());
                         containerItem.fill(itemStack, TileEternalWaterBlock.WATER, true);
                     }
                 }
                 return true;
             }
-
         };
     }
-    
 }

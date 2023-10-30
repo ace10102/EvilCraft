@@ -11,14 +11,12 @@ import net.minecraft.server.MinecraftServer;
  * Event hook for server starting and stopping events.
  * TODO: this can be abstracted quite a lot...
  * @author rubensworks
- *
  */
 public class ServerStatusEventHook {
 
     private static ServerStatusEventHook _instance = null;
 
     private ServerStatusEventHook() {
-
     }
 
     /**
@@ -58,7 +56,7 @@ public class ServerStatusEventHook {
         }
         return data;
     }
-    
+
     private void loadCounters() {
         GlobalCounter.getInstance().reset();
         GlobalCounter.getInstance().readFromNBT(getCounterData().tag);
@@ -90,5 +88,4 @@ public class ServerStatusEventHook {
         WorldSharedTankCache.getInstance().writeToNBT(data.getTankTag());
         data.setDirty(true);
     }
-    
 }

@@ -10,9 +10,8 @@ import net.minecraftforge.fluids.FluidStack;
 /**
  * {@link ITickAction} that can fill empty buckets with blood.
  * @author rubensworks
- *
  */
-public class ItemBucketTickAction extends BloodInfuserTickAction{
+public class ItemBucketTickAction extends BloodInfuserTickAction {
 
     @Override
     public void onTick(TileBloodInfuser tile, ItemStack itemStack, int slot, int tick) {
@@ -27,7 +26,7 @@ public class ItemBucketTickAction extends BloodInfuserTickAction{
             }
         }
     }
-    
+
     @Override
     public int getUnmodifiedRequiredTicks(TileBloodInfuser tile, int slot) {
         return FluidContainerRegistry.BUCKET_VOLUME / MB_PER_TICK;
@@ -37,5 +36,4 @@ public class ItemBucketTickAction extends BloodInfuserTickAction{
     public ItemStack willProduceItem(TileBloodInfuser tile) {
         return new ItemStack(BucketBloodConfig._instance.getItemInstance());
     }
-
 }

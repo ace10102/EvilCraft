@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.entity.Render;
 /**
  * Config for the {@link ControlledZombie}.
  * @author rubensworks
- *
  */
 public class ControlledZombieConfig extends MobConfig {
 
@@ -24,14 +23,9 @@ public class ControlledZombieConfig extends MobConfig {
      * Make a new instance.
      */
     public ControlledZombieConfig() {
-        super(
-        	true,
-            "controlledZombie",
-            null,
-            ControlledZombie.class
-        );
+        super(true, "controlledZombie", null, ControlledZombie.class);
     }
-    
+
     @Override
     public boolean isEnabled() {
         return Configs.isEnabled(NecromancerStaffConfig.class);
@@ -52,10 +46,8 @@ public class ControlledZombieConfig extends MobConfig {
         return 0;
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     public Render getRender() {
         return new RenderControlledZombie(this);
     }
-    
 }

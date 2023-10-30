@@ -1,4 +1,5 @@
 package evilcraft.block;
+
 import evilcraft.core.helper.WorldHelpers;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -15,14 +16,13 @@ import evilcraft.fluid.Poison;
 /**
  * A block for the {@link Poison} fluid.
  * @author rubensworks
- *
  */
 public class FluidBlockPoison extends ConfigurableBlockFluidClassic {
 
     private static FluidBlockPoison _instance = null;
-    
+
     private static final int POISON_DURATION = 5;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -33,7 +33,7 @@ public class FluidBlockPoison extends ConfigurableBlockFluidClassic {
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -44,12 +44,12 @@ public class FluidBlockPoison extends ConfigurableBlockFluidClassic {
 
     private FluidBlockPoison(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Poison.getInstance(), Material.water);
-        
-        if (MinecraftHelpers.isClientSide())
+
+        if(MinecraftHelpers.isClientSide())
             this.setParticleColor(0.0F, 1.0F, 0.0F);
         this.setTickRandomly(true);
     }
-    
+
     @Override
     public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
         if(entity instanceof EntityLivingBase && WorldHelpers.efficientTick(world, (POISON_DURATION / 2) * 20)) {
@@ -57,5 +57,4 @@ public class FluidBlockPoison extends ConfigurableBlockFluidClassic {
         }
         super.onEntityCollidedWithBlock(world, x, y, z, entity);
     }
-
 }

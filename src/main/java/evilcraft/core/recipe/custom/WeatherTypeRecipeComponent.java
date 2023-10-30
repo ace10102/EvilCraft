@@ -16,13 +16,11 @@ public class WeatherTypeRecipeComponent implements IRecipeInput, IRecipeOutput, 
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof WeatherTypeRecipeComponent)) return false;
+        if(!(object instanceof WeatherTypeRecipeComponent)) return false;
 
         WeatherTypeRecipeComponent that = (WeatherTypeRecipeComponent)object;
 
-        return this.weatherType.equals(that.weatherType)
-                || this.weatherType == WeatherType.ANY
-                || that.weatherType == WeatherType.ANY;
+        return this.weatherType.equals(that.weatherType) || this.weatherType == WeatherType.ANY || that.weatherType == WeatherType.ANY;
     }
 
     @Override

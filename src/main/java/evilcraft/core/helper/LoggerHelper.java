@@ -9,17 +9,17 @@ import evilcraft.Reference;
 /**
  * Logger that will be used in this mod.
  * @author rubensworks
- *
  */
 public class LoggerHelper {
-	
+
     private static Logger logger = LogManager.getLogger(Reference.MOD_NAME);
 
     /**
      * Initialize the logger.
      */
-    public static void init() { }
-    
+    public static void init() {
+    }
+
     /**
      * Log a new message.
      * @param logLevel The level to log at.

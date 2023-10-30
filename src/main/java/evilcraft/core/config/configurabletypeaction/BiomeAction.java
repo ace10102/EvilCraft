@@ -9,7 +9,7 @@ import net.minecraftforge.common.config.Property;
  * @author rubensworks
  * @see ConfigurableTypeAction
  */
-public class BiomeAction extends ConfigurableTypeAction<BiomeConfig>{
+public class BiomeAction extends ConfigurableTypeAction<BiomeConfig> {
 
     @Override
     public void preRun(BiomeConfig eConfig, Configuration config, boolean startup) {
@@ -18,10 +18,10 @@ public class BiomeAction extends ConfigurableTypeAction<BiomeConfig>{
         property.setRequiresWorldRestart(true);
         property.setRequiresMcRestart(true);
         property.comment = eConfig.getComment();
-        
+
         if(startup) {
-        	// Update the ID, it could've changed
-        	eConfig.setId(property.getInt());
+            // Update the ID, it could've changed
+            eConfig.setId(property.getInt());
         }
     }
 
@@ -29,10 +29,9 @@ public class BiomeAction extends ConfigurableTypeAction<BiomeConfig>{
     public void postRun(BiomeConfig eConfig, Configuration config) {
         // Save the config inside the correct element
         eConfig.save();
-        
+
         // Register biome
-        //BiomeManager.addSpawnBiome(eConfig.getBiome());
+        // BiomeManager.addSpawnBiome(eConfig.getBiome());
         eConfig.registerBiomeDictionary();
     }
-
 }

@@ -10,10 +10,9 @@ import evilcraft.item.BloodPearlOfTeleportation;
 /**
  * Config for the {@link EntityBloodPearl}.
  * @author rubensworks
- *
  */
 public class EntityBloodPearlConfig extends EntityConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -23,23 +22,16 @@ public class EntityBloodPearlConfig extends EntityConfig {
      * Make a new instance.
      */
     public EntityBloodPearlConfig() {
-        super(
-        	true,
-            "entityBloodPearl",
-            null,
-            EntityBloodPearl.class
-        );
+        super(true, "entityBloodPearl", null, EntityBloodPearl.class);
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     public Render getRender() {
         return new RenderSnowball(BloodPearlOfTeleportation.getInstance());
     }
-    
+
     @Override
     public boolean sendVelocityUpdates() {
         return true;
     }
-    
 }

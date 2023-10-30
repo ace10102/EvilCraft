@@ -13,32 +13,29 @@ import evilcraft.network.packet.FartPacket;
 
 /**
  * A {@link KeyHandler} which handles farts.
- * 
  * @author immortaleeb
- *
  */
 @SideOnly(Side.CLIENT)
 public class FartKeyHandler implements KeyHandler {
-	
-	private boolean fartingEnabled = false;
-	
-	@Override
-	public void onKeyPressed(KeyBinding kb) {
-		EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
-		GameSettings settings = Minecraft.getMinecraft().gameSettings;
-		
-		if (kb == Keys.FART.keyBinding) {
-			fartingEnabled = !fartingEnabled;
-			
-			if (fartingEnabled)
-				player.addChatComponentMessage(new ChatComponentText(L10NHelpers.localize("chat.command.fartingEnabled")));
-			else
-				player.addChatComponentMessage(new ChatComponentText(L10NHelpers.localize("chat.command.fartingDisabled")));
-		}
-		
-		if (fartingEnabled && kb == settings.keyBindSneak) {
-			PacketHandler.sendToServer(new FartPacket(player));
-		}
-	}
-	
+
+    private boolean fartingEnabled = false;
+
+    @Override
+    public void onKeyPressed(KeyBinding kb) {
+        EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
+        GameSettings settings = Minecraft.getMinecraft().gameSettings;
+
+        if(kb == Keys.FART.keyBinding) {
+            fartingEnabled = !fartingEnabled;
+
+            if(fartingEnabled)
+                player.addChatComponentMessage(new ChatComponentText(L10NHelpers.localize("chat.command.fartingEnabled")));
+            else
+                player.addChatComponentMessage(new ChatComponentText(L10NHelpers.localize("chat.command.fartingDisabled")));
+        }
+
+        if(fartingEnabled && kb == settings.keyBindSneak) {
+            PacketHandler.sendToServer(new FartPacket(player));
+        }
+    }
 }

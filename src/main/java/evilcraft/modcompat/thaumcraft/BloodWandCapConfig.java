@@ -8,7 +8,6 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
  * Blood Infused Golden Wand cap that has a slightly higher discount.
  * Textures are based on the ones from Thaumcraft.
  * @author rubensworks
- *
  */
 public class BloodWandCapConfig extends ItemConfig {
 
@@ -21,17 +20,11 @@ public class BloodWandCapConfig extends ItemConfig {
      * Make a new instance.
      */
     public BloodWandCapConfig() {
-        super(
-        	true,
-            "bloodWandCap",
-            null,
-            null
-        );
+        super(true, "bloodWandCap", null, null);
     }
 
     @Override
     protected IConfigurable initSubInstance() {
         return new ConfigurableItem(this);
     }
-    
 }

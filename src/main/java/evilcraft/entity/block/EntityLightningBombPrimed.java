@@ -14,10 +14,9 @@ import java.util.Random;
 /**
  * Entity for primed {@link LightningBomb}.
  * @author rubensworks
- *
  */
-public class EntityLightningBombPrimed extends EntityTNTPrimed implements IConfigurable{
-    
+public class EntityLightningBombPrimed extends EntityTNTPrimed implements IConfigurable {
+
     private static final float EXPLOSION_STRENGTH = 1.0f;
 
     /**
@@ -28,7 +27,7 @@ public class EntityLightningBombPrimed extends EntityTNTPrimed implements IConfi
         super(world);
         setFuse();
     }
-    
+
     /**
      * Make a new instance at the given location in a world by a placer {@link EntityLivingBase}.
      * @param world The world.
@@ -41,11 +40,11 @@ public class EntityLightningBombPrimed extends EntityTNTPrimed implements IConfi
         super(world, x, y, z, placer);
         setFuse();
     }
-    
+
     protected void setFuse() {
         this.fuse = EntityLightningBombPrimedConfig.fuse;
     }
-    
+
     @Override
     public void onUpdate() {
         this.prevPosX = this.posX;
@@ -57,16 +56,16 @@ public class EntityLightningBombPrimed extends EntityTNTPrimed implements IConfi
         this.motionY *= 0.9800000190734863D;
         this.motionZ *= 0.9800000190734863D;
 
-        if (this.onGround) {
+        if(this.onGround) {
             this.motionX *= 0.699999988079071D;
             this.motionZ *= 0.699999988079071D;
             this.motionY *= -0.5D;
         }
 
-        if (this.fuse-- <= 0) {
+        if(this.fuse-- <= 0) {
             this.setDead();
 
-            if (!this.worldObj.isRemote) {
+            if(!this.worldObj.isRemote) {
                 this.explode(this.worldObj, this.posX, this.posY, this.posZ);
             }
         } else {
@@ -76,11 +75,10 @@ public class EntityLightningBombPrimed extends EntityTNTPrimed implements IConfi
 
     private void explode(World world, double x, double y, double z) {
         Random rand = new Random();
-        for (int i = 0; i < 32; ++i) {
+        for(int i = 0; i < 32; ++i) {
             world.spawnParticle("magicCrit", x, y + rand.nextDouble() * 2.0D, z, rand.nextGaussian(), 0.0D, rand.nextGaussian());
         }
-
-        if (!world.isRemote) {
+        if(!world.isRemote) {
             this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, EXPLOSION_STRENGTH, true);
             world.addWeatherEffect(new EntityLightningBolt(world, x, y, z));
         }

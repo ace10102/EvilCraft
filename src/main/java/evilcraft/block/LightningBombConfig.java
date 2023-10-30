@@ -5,10 +5,9 @@ import evilcraft.core.config.extendedconfig.BlockConfig;
 /**
  * Config for the {@link LightningBomb}.
  * @author rubensworks
- *
  */
 public class LightningBombConfig extends BlockConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -18,12 +17,6 @@ public class LightningBombConfig extends BlockConfig {
      * Make a new instance.
      */
     public LightningBombConfig() {
-        super(
-        	true,
-            "lightningBomb",
-            null,
-            LightningBomb.class
-        );
+        super(true, "lightningBomb", null, LightningBomb.class);
     }
-    
 }

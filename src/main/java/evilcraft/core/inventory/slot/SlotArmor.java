@@ -5,7 +5,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -13,7 +12,6 @@ import net.minecraft.util.IIcon;
 /**
  * Slot that is used to hold armor.
  * @author rubensworks
- *
  */
 public class SlotArmor extends Slot {
 
@@ -29,8 +27,7 @@ public class SlotArmor extends Slot {
      * @param player The player entity.
      * @param armorIndex The index of the armor slot.
      */
-    public SlotArmor(IInventory inventory, int index, int x,
-                     int y, EntityPlayer player, int armorIndex) {
+    public SlotArmor(IInventory inventory, int index, int x, int y, EntityPlayer player, int armorIndex) {
         super(inventory, index, x, y);
         this.armorIndex = armorIndex;
         this.player = player;
@@ -43,15 +40,12 @@ public class SlotArmor extends Slot {
 
     @Override
     public boolean isItemValid(ItemStack itemStack) {
-        if (itemStack == null) return false;
+        if(itemStack == null) return false;
         return itemStack.getItem().isValidArmor(itemStack, armorIndex, player);
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public IIcon getBackgroundIconIndex()
-    {
+    @Override @SideOnly(Side.CLIENT)
+    public IIcon getBackgroundIconIndex() {
         return ItemArmor.func_94602_b(armorIndex);
     }
-    
 }

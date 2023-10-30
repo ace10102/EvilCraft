@@ -1,4 +1,5 @@
 package evilcraft.block;
+
 import net.minecraft.block.material.Material;
 import evilcraft.core.config.configurable.ConfigurableBlockSapling;
 import evilcraft.core.config.extendedconfig.BlockConfig;
@@ -7,12 +8,11 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 /**
  * Sapling for the Undead Tree.
  * @author rubensworks
- *
  */
 public class UndeadSapling extends ConfigurableBlockSapling {
-    
+
     private static UndeadSapling _instance = null;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -23,7 +23,7 @@ public class UndeadSapling extends ConfigurableBlockSapling {
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -35,5 +35,4 @@ public class UndeadSapling extends ConfigurableBlockSapling {
     private UndeadSapling(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.plants);
     }
-
 }

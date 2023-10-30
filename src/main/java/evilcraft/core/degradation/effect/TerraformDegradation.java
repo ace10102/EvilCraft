@@ -19,15 +19,13 @@ import evilcraft.core.degradation.StochasticDegradationEffect;
 import evilcraft.core.helper.LocationHelpers;
 
 /**
- * Degradation effect that will terraform certain blocks into the area to
- * other block.
+ * Degradation effect that will terraform certain blocks into the area to other block.
  * @author rubensworks
- *
  */
 public class TerraformDegradation extends StochasticDegradationEffect {
-    
-private static TerraformDegradation _instance = null;
-    
+
+    private static TerraformDegradation _instance = null;
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -38,7 +36,7 @@ private static TerraformDegradation _instance = null;
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -46,24 +44,23 @@ private static TerraformDegradation _instance = null;
     public static TerraformDegradation getInstance() {
         return _instance;
     }
-    
-    private static Map<Block, Map<BlockTypeHolder, Integer>> TERRAFORMATIONS = 
-            new HashMap<Block, Map<BlockTypeHolder, Integer>>();
+
+    private static Map<Block, Map<BlockTypeHolder, Integer>> TERRAFORMATIONS = new HashMap<Block, Map<BlockTypeHolder, Integer>>();
     private static final double CHANCE = 0.1D;
-    
+
     private static Random random = new Random();
-    
-    static{
+
+    static {
         // Default replacement
         putReplacement(null, new BlockTypeHolder(Blocks.cobblestone), 30);
-        
+
         putReplacement(Blocks.stone, new BlockTypeHolder(Blocks.cobblestone));
-        
+
         putReplacement(Blocks.cobblestone, new BlockTypeHolder(Blocks.dirt), 10);
         putReplacement(Blocks.cobblestone, new BlockTypeHolder(Blocks.lava), 30);
-        
+
         putReplacement(Blocks.coal_block, new BlockTypeHolder(Blocks.diamond_block), 10000);
-        
+
         putReplacement(Blocks.dirt, new BlockTypeHolder(Blocks.netherrack), 30);
         putReplacement(Blocks.grass, new BlockTypeHolder(Blocks.netherrack), 20);
         putReplacement(Blocks.mycelium, new BlockTypeHolder(Blocks.netherrack), 5);
@@ -73,23 +70,20 @@ private static TerraformDegradation _instance = null;
         putReplacement(Blocks.dirt, new BlockTypeHolder(Blocks.clay), 20);
         putReplacement(Blocks.grass, new BlockTypeHolder(Blocks.sand), 20);
         putReplacement(Blocks.mycelium, new BlockTypeHolder(Blocks.sand), 20);
-        
+
         if(Configs.isEnabled(NetherfishSpawnConfig.class)) {
-            putReplacement(Blocks.netherrack,
-                    new BlockTypeHolder(NetherfishSpawn.getInstance(),
-                            NetherfishSpawn.getInstance().
-                                getMetadataFromBlock(Blocks.netherrack)), 50);
+            putReplacement(Blocks.netherrack, new BlockTypeHolder(NetherfishSpawn.getInstance(), NetherfishSpawn.getInstance().getMetadataFromBlock(Blocks.netherrack)), 50);
         }
-        
+
         putReplacement(Blocks.sand, new BlockTypeHolder(null));
-        
+
         putReplacement(Blocks.water, new BlockTypeHolder(null));
     }
-    
+
     private static final void putReplacement(Block key, BlockTypeHolder value) {
         putReplacement(key, value, 0);
     }
-    
+
     private static final void putReplacement(Block key, BlockTypeHolder value, int chance) {
         Map<BlockTypeHolder, Integer> mapValue = TERRAFORMATIONS.get(key);
         if(mapValue == null) {
@@ -98,16 +92,15 @@ private static TerraformDegradation _instance = null;
         }
         mapValue.put(value, chance);
     }
-    
+
     private TerraformDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
         super(eConfig, CHANCE);
     }
 
     @Override
     public void runClientSide(IDegradable degradable) {
-        
     }
-    
+
     protected BlockTypeHolder getReplacement(Block block) {
         Map<BlockTypeHolder, Integer> mapValue = TERRAFORMATIONS.get(block);
         if(mapValue == null) { // Fetch the default replacement.
@@ -115,7 +108,7 @@ private static TerraformDegradation _instance = null;
         }
         if(mapValue != null) {
             Object[] keys = mapValue.keySet().toArray();
-            BlockTypeHolder holder = (BlockTypeHolder) keys[random.nextInt(keys.length)];
+            BlockTypeHolder holder = (BlockTypeHolder)keys[random.nextInt(keys.length)];
             Integer chance = mapValue.get(holder);
             if(chance == null || chance == 0 || random.nextInt(chance) == 0) {
                 return holder;
@@ -127,19 +120,16 @@ private static TerraformDegradation _instance = null;
     @Override
     public void runServerSide(IDegradable degradable) {
         World world = degradable.getWorld();
-        
-        ILocation blockPoint = LocationHelpers.getRandomPointInSphere(
-                degradable.getLocation(), degradable.getRadius());
+
+        ILocation blockPoint = LocationHelpers.getRandomPointInSphere(degradable.getLocation(), degradable.getRadius());
         int x = blockPoint.getCoordinates()[0];
         int y = blockPoint.getCoordinates()[1];
         int z = blockPoint.getCoordinates()[2];
-        
+
         Block block = world.getBlock(x, y, z);
         BlockTypeHolder replace = getReplacement(block);
-        
-        if(replace != null
-                && !degradable.getLocation().equals(blockPoint)
-                && world.getTileEntity(x, y, z) == null) {
+
+        if(replace != null && !degradable.getLocation().equals(blockPoint) && world.getTileEntity(x, y, z) == null) {
             if(replace.getBlock() == null) {
                 world.setBlockToAir(x, y, z);
             } else if(replace.getBlock().getBlockHardness(world, x, y, z) > 0) {
@@ -147,5 +137,4 @@ private static TerraformDegradation _instance = null;
             }
         }
     }
-
 }

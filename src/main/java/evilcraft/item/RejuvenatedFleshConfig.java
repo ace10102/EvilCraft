@@ -7,7 +7,6 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 /**
  * Config for the Rejuvenated Flesh.
  * @author rubensworks
- *
  */
 public class RejuvenatedFleshConfig extends ItemConfig {
 
@@ -30,12 +29,6 @@ public class RejuvenatedFleshConfig extends ItemConfig {
      * Make a new instance.
      */
     public RejuvenatedFleshConfig() {
-        super(
-        	true,
-            "rejuvenatedFlesh",
-            null,
-            RejuvenatedFlesh.class
-        );
+        super(true, "rejuvenatedFlesh", null, RejuvenatedFlesh.class);
     }
-    
 }

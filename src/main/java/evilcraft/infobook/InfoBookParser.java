@@ -49,14 +49,10 @@ public class InfoBookParser {
     private static final Map<String, IInfoSectionFactory> SECTION_FACTORIES = Maps.newHashMap();
     static {
         SECTION_FACTORIES.put("", new IInfoSectionFactory() {
-
             @Override
-            public InfoSection create(InfoSection parent, int childIndex, String unlocalizedName,
-                                      ArrayList<String> paragraphs, List<SectionAppendix> appendixes,
-                                      ArrayList<String> tagList) {
+            public InfoSection create(InfoSection parent, int childIndex, String unlocalizedName, ArrayList<String> paragraphs, List<SectionAppendix> appendixes, ArrayList<String> tagList) {
                 return new InfoSection(parent, childIndex, unlocalizedName, paragraphs, appendixes, tagList);
             }
-
         });
     }
 
@@ -64,66 +60,49 @@ public class InfoBookParser {
     private static final Set<String> IGNORED_APPENDIX_FACTORIES = Sets.newHashSet();
     static {
         APPENDIX_FACTORIES.put("image", new IAppendixFactory() {
-
             @Override
             public SectionAppendix create(Element node) throws InvalidAppendixException {
-                return new ImageAppendix(new ResourceLocation(node.getTextContent()),
-                        Integer.parseInt(node.getAttribute("width")), Integer.parseInt(node.getAttribute("height")));
+                return new ImageAppendix(new ResourceLocation(node.getTextContent()), Integer.parseInt(node.getAttribute("width")), Integer.parseInt(node.getAttribute("height")));
             }
-
         });
         APPENDIX_FACTORIES.put("craftingRecipe", new IAppendixFactory() {
-
             @Override
             public SectionAppendix create(Element node) throws InvalidAppendixException {
                 return new CraftingRecipeAppendix(CraftingHelpers.findCraftingRecipe(createStack(node), getIndex(node)));
             }
-
         });
         if(Configs.isEnabled(BloodInfuserConfig.class)) {
             APPENDIX_FACTORIES.put("bloodInfuserRecipe", new IAppendixFactory() {
-
                 @Override
                 public SectionAppendix create(Element node) throws InvalidAppendixException {
                     ItemStack itemStack = createStack(node);
-                    List<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>>
-                            recipes = BloodInfuser.getInstance().getRecipeRegistry().
-                            findRecipesByOutput(new ItemStackRecipeComponent(itemStack));
+                    List<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>> recipes = BloodInfuser.getInstance().getRecipeRegistry().findRecipesByOutput(new ItemStackRecipeComponent(itemStack));
                     int index = getIndex(node);
-                    if (index >= recipes.size())
-                        throw new InvalidAppendixException("Could not find Blood Infuser recipe for " +
-                                itemStack.getItem().getUnlocalizedName() + "with index " + index);
+                    if(index >= recipes.size())
+                        throw new InvalidAppendixException("Could not find Blood Infuser recipe for " + itemStack.getItem().getUnlocalizedName() + "with index " + index);
                     return new BloodInfuserRecipeAppendix(recipes.get(index));
                 }
-
             });
         } else {
             IGNORED_APPENDIX_FACTORIES.add("bloodInfuserRecipe");
         }
         APPENDIX_FACTORIES.put("furnaceRecipe", new IAppendixFactory() {
-
             @Override
             public SectionAppendix create(Element node) throws InvalidAppendixException {
                 return new FurnaceRecipeAppendix(CraftingHelpers.findFurnaceRecipe(createStack(node), getIndex(node)));
             }
-
         });
         if(Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
             APPENDIX_FACTORIES.put("envirAccRecipe", new IAppendixFactory() {
-
                 @Override
                 public SectionAppendix create(Element node) throws InvalidAppendixException {
                     ItemStack itemStack = createStack(node);
-                    List<IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties>>
-                            recipes = EnvironmentalAccumulator.getInstance().getRecipeRegistry().
-                            findRecipesByOutput(new EnvironmentalAccumulatorRecipeComponent(itemStack, WeatherType.ANY));
+                    List<IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties>> recipes = EnvironmentalAccumulator.getInstance().getRecipeRegistry().findRecipesByOutput(new EnvironmentalAccumulatorRecipeComponent(itemStack, WeatherType.ANY));
                     int index = getIndex(node);
-                    if (index >= recipes.size())
-                        throw new InvalidAppendixException("Could not find Environmental Accumulator recipe for " +
-                                itemStack.getItem().getUnlocalizedName() + "with index " + index);
+                    if(index >= recipes.size())
+                        throw new InvalidAppendixException("Could not find Environmental Accumulator recipe for " + itemStack.getItem().getUnlocalizedName() + "with index " + index);
                     return new EnvironmentalAccumulatorRecipeAppendix(recipes.get(index));
                 }
-
             });
         } else {
             IGNORED_APPENDIX_FACTORIES.add("envirAccRecipe");
@@ -133,42 +112,30 @@ public class InfoBookParser {
     private static final Map<String, IAppendixItemFactory> APPENDIX_LIST_FACTORIES = Maps.newHashMap();
     static {
         APPENDIX_LIST_FACTORIES.put("craftingRecipe", new IAppendixItemFactory() {
-
             @Override
             public SectionAppendix create(ItemStack itemStack) throws InvalidAppendixException {
                 return new CraftingRecipeAppendix(CraftingHelpers.findCraftingRecipe(itemStack, 0));
             }
-
         });
         APPENDIX_LIST_FACTORIES.put("bloodInfuserRecipe", new IAppendixItemFactory() {
-
             @Override
             public SectionAppendix create(ItemStack itemStack) throws InvalidAppendixException {
-                List<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>>
-                        recipes = BloodInfuser.getInstance().getRecipeRegistry().
-                        findRecipesByOutput(new ItemStackRecipeComponent(itemStack));
+                List<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>> recipes = BloodInfuser.getInstance().getRecipeRegistry().findRecipesByOutput(new ItemStackRecipeComponent(itemStack));
                 return new BloodInfuserRecipeAppendix(recipes.get(0));
             }
-
         });
         APPENDIX_LIST_FACTORIES.put("furnaceRecipe", new IAppendixItemFactory() {
-
             @Override
             public SectionAppendix create(ItemStack itemStack) throws InvalidAppendixException {
                 return new FurnaceRecipeAppendix(CraftingHelpers.findFurnaceRecipe(itemStack, 0));
             }
-
         });
         APPENDIX_LIST_FACTORIES.put("envirAccRecipe", new IAppendixItemFactory() {
-
             @Override
             public SectionAppendix create(ItemStack itemStack) throws InvalidAppendixException {
-                List<IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties>>
-                        recipes = EnvironmentalAccumulator.getInstance().getRecipeRegistry().
-                        findRecipesByOutput(new EnvironmentalAccumulatorRecipeComponent(itemStack, WeatherType.ANY));
+                List<IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties>> recipes = EnvironmentalAccumulator.getInstance().getRecipeRegistry().findRecipesByOutput(new EnvironmentalAccumulatorRecipeComponent(itemStack, WeatherType.ANY));
                 return new EnvironmentalAccumulatorRecipeAppendix(recipes.get(0));
             }
-
         });
     }
 
@@ -208,11 +175,11 @@ public class InfoBookParser {
             InfoSection root = buildSection(null, 0, doc.getDocumentElement());
             root.registerSection(new InfoSectionTagIndex(root));
             return root;
-        } catch (ParserConfigurationException e) {
+        } catch(ParserConfigurationException e) {
             e.printStackTrace();
-        } catch (SAXException e) {
+        } catch(SAXException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch(IOException e) {
             e.printStackTrace();
         }
         throw new InfoBookException("Info Book XML is invalid.");
@@ -227,13 +194,12 @@ public class InfoBookParser {
         ArrayList<String> paragraphList = Lists.newArrayListWithCapacity(paragraphs.getLength());
         ArrayList<SectionAppendix> appendixList = Lists.newArrayListWithCapacity(appendixes.getLength());
         ArrayList<String> tagList = Lists.newArrayListWithCapacity(tags.getLength());
-        InfoSection section = createSection(parent, childIndex, sectionElement.getAttribute("type"),
-                sectionElement.getAttribute("name"), paragraphList, appendixList, tagList);
+        InfoSection section = createSection(parent, childIndex, sectionElement.getAttribute("type"), sectionElement.getAttribute("name"), paragraphList, appendixList, tagList);
 
         if(sections.getLength() > 0) {
             int subChildIndex = 0;
-            for (int i = 0; i < sections.getLength(); i++) {
-                Element subsection = (Element) sections.item(i);
+            for(int i = 0; i < sections.getLength(); i++) {
+                Element subsection = (Element)sections.item(i);
                 if(subsection.getParentNode() == sectionElement) {
                     InfoSection subsubsection = buildSection(section, subChildIndex, subsection);
                     if(subsubsection != null) {
@@ -243,8 +209,8 @@ public class InfoBookParser {
                 }
             }
         } else {
-            for (int j = 0; j < tags.getLength(); j++) {
-                Element tag = (Element) tags.item(j);
+            for(int j = 0; j < tags.getLength(); j++) {
+                Element tag = (Element)tags.item(j);
                 String tagString = tag.getTextContent();
                 String type = "config";
                 if(tag.hasAttribute("type")) {
@@ -254,44 +220,40 @@ public class InfoBookParser {
                 if(!conditionHandler.isSatisfied(tag.getTextContent())) {
                     return null;
                 }
-                // Yes, I know this isn't very clean, I am currently more interested in eating grapes than abstracting
-                // this whole conditional system.
+                // Yes, I know this isn't very clean, I am currently more interested in eating grapes than abstracting this whole conditional system.
                 if(conditionHandler instanceof ConfigRecipeConditionHandler) {
                     tagList.add(tagString);
                 }
             }
-            for (int j = 0; j < paragraphs.getLength(); j++) {
-                Element paragraph = (Element) paragraphs.item(j);
+            for(int j = 0; j < paragraphs.getLength(); j++) {
+                Element paragraph = (Element)paragraphs.item(j);
                 paragraphList.add(paragraph.getTextContent());
             }
-            for (int j = 0; j < appendixes.getLength(); j++) {
+            for(int j = 0; j < appendixes.getLength(); j++) {
                 try {
-                    Element appendix = (Element) appendixes.item(j);
+                    Element appendix = (Element)appendixes.item(j);
                     appendixList.add(createAppendix(appendix.getAttribute("type"), appendix));
-                } catch (InvalidAppendixException e) {
+                } catch(InvalidAppendixException e) {
                     // Skip this appendix.
                 }
             }
-            for (int j = 0; j < appendixLists.getLength(); j++) {
-                Element appendixListNode = (Element) appendixLists.item(j);
+            for(int j = 0; j < appendixLists.getLength(); j++) {
+                Element appendixListNode = (Element)appendixLists.item(j);
                 String type = appendixListNode.getAttribute("type");
                 Collection<ItemStack> itemStacks = Recipes.taggedOutput.get(appendixListNode.getTextContent());
                 for(ItemStack itemStack : itemStacks) {
                     try {
                         appendixList.add(createAppendix(appendixListNode.getAttribute("type"), itemStack));
-                    } catch (InvalidAppendixException e) {
+                    } catch(InvalidAppendixException e) {
                         // Skip this appendix.
                     }
                 }
             }
         }
-
         return section;
     }
 
-    protected static InfoSection createSection(InfoSection parent, int childIndex, String type, String unlocalizedName,
-                                               ArrayList<String> paragraphs, List<SectionAppendix> appendixes,
-                                               ArrayList<String> tagList) {
+    protected static InfoSection createSection(InfoSection parent, int childIndex, String type, String unlocalizedName, ArrayList<String> paragraphs, List<SectionAppendix> appendixes, ArrayList<String> tagList) {
         if(type == null) type = "";
         IInfoSectionFactory factory = SECTION_FACTORIES.get(type);
         if(factory == null) {
@@ -323,38 +285,28 @@ public class InfoBookParser {
 
     protected static interface IInfoSectionFactory {
 
-        public InfoSection create(InfoSection parent, int childIndex, String unlocalizedName,
-                                  ArrayList<String> paragraphs, List<SectionAppendix> appendixes,
-                                  ArrayList<String> tagList);
-
+        public InfoSection create(InfoSection parent, int childIndex, String unlocalizedName, ArrayList<String> paragraphs, List<SectionAppendix> appendixes, ArrayList<String> tagList);
     }
 
     protected static interface IAppendixFactory {
 
         public SectionAppendix create(Element node) throws InvalidAppendixException;
-
     }
 
     protected static interface IAppendixItemFactory {
 
         public SectionAppendix create(ItemStack itemStack) throws InvalidAppendixException;
-
     }
 
     public static class InfoBookException extends RuntimeException {
-
         public InfoBookException(String message) {
             super(message);
         }
-
     }
 
     public static class InvalidAppendixException extends Exception {
-
         public InvalidAppendixException(String message) {
             super(message);
         }
-
     }
-
 }

@@ -22,5 +22,4 @@ public class Wrapper<T> {
     public T get() {
         return this.value;
     }
-
 }

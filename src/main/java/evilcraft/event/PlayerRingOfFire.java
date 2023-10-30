@@ -15,7 +15,6 @@ import java.util.UUID;
 /**
  * Event hook for showing the ring of fire.
  * @author rubensworks
- *
  */
 public class PlayerRingOfFire {
 
@@ -35,25 +34,22 @@ public class PlayerRingOfFire {
      */
     @SubscribeEvent
     public void onLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-		spawnRing(event.player);
+        spawnRing(event.player);
     }
-	
-	/**
+
+    /**
      * When a player respawn event is received.
      * @param event The received event.
      */
     @SubscribeEvent
     public void onRespawn(PlayerEvent.PlayerRespawnEvent event) {
-		spawnRing(event.player);
+        spawnRing(event.player);
     }
-    
+
     private void spawnRing(EntityPlayer player) {
-    	if(!player.worldObj.isRemote && player.getGameProfile() != null
-    			&& ALLOW_RING.contains(player.getGameProfile().getId())) {
-    		PacketHandler.sendToAllAround(new RingOfFirePacket(player),
-    				LocationHelpers.createTargetPointFromLocation(player.worldObj,
-    						new Location((int) player.posX, (int) player.posY, (int) player.posZ), 50));
-    	}
+        if(!player.worldObj.isRemote && player.getGameProfile() != null && ALLOW_RING.contains(player.getGameProfile().getId())) {
+            PacketHandler.sendToAllAround(new RingOfFirePacket(player), 
+                    LocationHelpers.createTargetPointFromLocation(player.worldObj, new Location((int)player.posX, (int)player.posY, (int)player.posZ), 50));
+        }
     }
-    
 }

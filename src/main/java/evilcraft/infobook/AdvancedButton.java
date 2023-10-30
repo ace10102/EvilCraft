@@ -44,15 +44,12 @@ public class AdvancedButton extends GuiButton {
     @Override
     public void drawButton(Minecraft minecraft, int mouseX, int mouseY) {
         if(isVisible() && isHover(mouseX, mouseY)) {
-            minecraft.fontRenderer.drawString(("§n") +
-                            displayString + "§r", xPosition, xPosition,
-                    RenderHelpers.RGBToInt(100, 100, 150));
+            minecraft.fontRenderer.drawString(("§n") + displayString + "§r", xPosition, xPosition, RenderHelpers.RGBToInt(100, 100, 150));
         }
     }
 
     protected boolean isHover(int mouseX, int mouseY) {
-        return mouseX >= this.xPosition && mouseY >= this.yPosition &&
-                mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+        return mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
     }
 
     public boolean isVisible() {
@@ -66,12 +63,10 @@ public class AdvancedButton extends GuiButton {
     public static class Enum {
 
         private Enum() {
-
         }
 
         public static Enum create() {
             return new Enum();
         }
-
     }
 }

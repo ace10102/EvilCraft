@@ -16,12 +16,11 @@ import evilcraft.world.biome.BiomeDegraded;
 /**
  * Makes biomes darker.
  * @author rubensworks
- *
  */
 public class BiomeDegradation extends ConfigurableDegradationEffect implements IOrganicSpreadable {
 
     private static BiomeDegradation _instance = null;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -32,7 +31,7 @@ public class BiomeDegradation extends ConfigurableDegradationEffect implements I
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -40,11 +39,11 @@ public class BiomeDegradation extends ConfigurableDegradationEffect implements I
     public static BiomeDegradation getInstance() {
         return _instance;
     }
-    
+
     private static final Class<? extends BiomeGenBase> BIOME_CLASS = BiomeDegraded.class;
     private static final BiomeGenBase BIOME = BiomeDegraded.getInstance();
     private static final int DIMENSIONS = 2;
-    
+
     private BiomeDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
         super(eConfig);
     }
@@ -56,13 +55,11 @@ public class BiomeDegradation extends ConfigurableDegradationEffect implements I
 
     @Override
     public void runClientSide(IDegradable degradable) {
-        
     }
 
     @Override
     public void runServerSide(IDegradable degradable) {
-        OrganicSpread spread =
-                new OrganicSpread(degradable.getWorld(), DIMENSIONS, degradable.getRadius(), this);
+        OrganicSpread spread = new OrganicSpread(degradable.getWorld(), DIMENSIONS, degradable.getRadius(), this);
         int[] c = degradable.getLocation().getCoordinates();
         ILocation location = new Location(c[0], c[2]);
         spread.spreadTick(location);
@@ -70,13 +67,11 @@ public class BiomeDegradation extends ConfigurableDegradationEffect implements I
 
     @Override
     public boolean isDone(World world, ILocation location) {
-        return world.getBiomeGenForCoords(location.getCoordinates()[0], location.getCoordinates()[1])
-                .getClass().equals(BIOME_CLASS);
+        return world.getBiomeGenForCoords(location.getCoordinates()[0], location.getCoordinates()[1]).getClass().equals(BIOME_CLASS);
     }
 
     @Override
     public void spreadTo(World world, ILocation location) {
         WorldHelpers.setBiome(world, location.getCoordinates()[0], location.getCoordinates()[1], BIOME);
     }
-    
 }

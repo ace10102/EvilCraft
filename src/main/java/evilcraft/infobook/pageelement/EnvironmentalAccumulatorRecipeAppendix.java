@@ -2,7 +2,6 @@ package evilcraft.infobook.pageelement;
 
 import evilcraft.Reference;
 import evilcraft.api.recipes.custom.IRecipe;
-import evilcraft.block.BloodInfuser;
 import evilcraft.block.EnvironmentalAccumulator;
 import evilcraft.block.SanguinaryEnvironmentalAccumulator;
 import evilcraft.client.gui.container.GuiOriginsOfDarkness;
@@ -85,9 +84,7 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<IReci
         renderItem(gui, x + SLOT_OFFSET_X, y + SLOT_OFFSET_Y, input, mx, my, INPUT);
         renderItem(gui, x + START_X_RESULT, y + SLOT_OFFSET_Y, result, mx, my, RESULT);
 
-        renderItem(gui, x + middle, y + SLOT_OFFSET_Y, new ItemStack(sanguinary
-                ? SanguinaryEnvironmentalAccumulator.getInstance()
-                : EnvironmentalAccumulator.getInstance()), mx, my, false, null);
+        renderItem(gui, x + middle, y + SLOT_OFFSET_Y, new ItemStack(sanguinary ? SanguinaryEnvironmentalAccumulator.getInstance() : EnvironmentalAccumulator.getInstance()), mx, my, false, null);
 
         // Draw weathers
         Integer inputX = X_ICON_OFFSETS.get(recipe.getInput().getWeatherType());

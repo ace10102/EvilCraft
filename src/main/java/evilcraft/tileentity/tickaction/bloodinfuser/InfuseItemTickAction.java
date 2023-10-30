@@ -14,14 +14,12 @@ import org.apache.commons.lang3.mutable.MutableInt;
 /**
  * {@link ITickAction} that can infuse items with blood.
  * @author rubensworks
- *
  */
-public class InfuseItemTickAction extends BloodInfuserTickAction{
+public class InfuseItemTickAction extends BloodInfuserTickAction {
 
     @Override
     public boolean canTick(TileBloodInfuser tile, ItemStack itemStack, int slot, int tick) {
-        return super.canTick(tile, itemStack, slot, tick) &&
-                tile.getTank().getFluidAmount() >= getRequiredFluidAmount(tile, getRecipe(tile));
+        return super.canTick(tile, itemStack, slot, tick) && tile.getTank().getFluidAmount() >= getRequiredFluidAmount(tile, getRecipe(tile));
     }
 
     @Override
@@ -37,39 +35,33 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
         }
     }
 
-    protected int getRequiredFluidAmount(TileBloodInfuser tile, IRecipe<ItemFluidStackAndTierRecipeComponent,
-            ItemStackRecipeComponent, DurationXpRecipeProperties> recipe) {
+    protected int getRequiredFluidAmount(TileBloodInfuser tile, IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe) {
         MutableInt amount = new MutableInt(recipe.getInput().getFluidStack().amount);
-        Upgrades.sendEvent(tile,
-                new UpgradeSensitiveEvent<MutableInt>(amount, TileBloodInfuser.UPGRADEEVENT_BLOODUSAGE));
+        Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableInt>(amount, TileBloodInfuser.UPGRADEEVENT_BLOODUSAGE));
         return Math.max(1, amount.getValue());
     }
-    
-    private IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>
-        getRecipe(TileBloodInfuser tile) {
+
+    private IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> getRecipe(TileBloodInfuser tile) {
         return tile.getRecipe(getInfuseStack(tile));
     }
-    
+
     @Override
     public int getUnmodifiedRequiredTicks(TileBloodInfuser tile, int slot) {
         return getUnmodifiedRequiredTicks(tile, getRecipe(tile));
     }
-    
-    private int getUnmodifiedRequiredTicks(TileBloodInfuser tile,
-                                 IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe) {
+
+    private int getUnmodifiedRequiredTicks(TileBloodInfuser tile, IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe) {
         return recipe.getProperties().getDuration();
     }
 
-    private int getRequiredTicks(TileBloodInfuser tile,
-                                 IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe) {
+    private int getRequiredTicks(TileBloodInfuser tile, IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe) {
         MutableInt duration = new MutableInt(getUnmodifiedRequiredTicks(tile, recipe));
         Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableInt>(duration, TileBloodInfuser.UPGRADEEVENT_SPEED));
         return duration.getValue();
     }
-    
+
     @Override
     public ItemStack willProduceItem(TileBloodInfuser tile) {
         return getRecipe(tile).getOutput().getItemStack();
     }
-    
 }

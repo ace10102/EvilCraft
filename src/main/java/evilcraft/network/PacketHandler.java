@@ -33,85 +33,81 @@ import evilcraft.core.helper.Helpers.IDType;
 /**
  * Advanced packet handler of {@link PacketBase} instances.
  * An alternative would be {@link SimpleNetworkWrapper}.
- * Partially based on the SecretRooms mod packet handling:
- * https://github.com/AbrarSyed/SecretRoomsMod-forge
+ * Partially based on the SecretRooms mod packet handling: https://github.com/AbrarSyed/SecretRoomsMod-forge
  * @author rubensworks
- *
  */
 @Sharable
 public final class PacketHandler {
 
-	private static Codec CODEC;
-    private static final EnumMap<Side, FMLEmbeddedChannel> CHANNELS =
-    		Maps.newEnumMap(Side.class);
-	
+    private static Codec CODEC;
+    private static final EnumMap<Side, FMLEmbeddedChannel> CHANNELS = Maps.newEnumMap(Side.class);
+
     private PacketHandler() {
-    	
     }
-    
+
     /**
      * Initialize the packet handler.
      */
     public static void init() {
-        if (!CHANNELS.isEmpty()) {
+        if(!CHANNELS.isEmpty()) {
             return;
         }
-        
+
         CODEC = new Codec();
 
         CHANNELS.putAll(NetworkRegistry.INSTANCE.newChannel(Reference.MOD_ID, CODEC, new HandlerServer()));
-        
+
         // add handlers
-        if (FMLCommonHandler.instance().getSide().isClient()) {
+        if(FMLCommonHandler.instance().getSide().isClient()) {
             // for the client
             FMLEmbeddedChannel channel = CHANNELS.get(Side.CLIENT);
             String codecName = channel.findChannelHandlerNameForType(Codec.class);
             channel.pipeline().addAfter(codecName, "ClientHandler", new HandlerClient());
         }
     }
-    
+
     /**
      * Register a new packet.
      * @param packetType The class of the packet.
      */
     public static void register(Class<? extends PacketBase> packetType) {
-    	CODEC.addDiscriminator(Helpers.getNewId(IDType.PACKET), packetType);
+        CODEC.addDiscriminator(Helpers.getNewId(IDType.PACKET), packetType);
     }
-    
+
     /**
      * Get the client-side channel.
      * @return The client channel.
      */
     public static FMLEmbeddedChannel getClientChannel() {
-    	return CHANNELS.get(Side.CLIENT);
+        return CHANNELS.get(Side.CLIENT);
     }
-    
+
     /**
      * Get the server-side channel.
      * @return The server channel.
      */
     public static FMLEmbeddedChannel getServerChannel() {
-    	return CHANNELS.get(Side.SERVER);
+        return CHANNELS.get(Side.SERVER);
     }
-    
+
     /**
      * Send a packet to the server.
      * @param packet The packet.
      */
     public static void sendToServer(PacketBase packet) {
-    	getClientChannel().attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.TOSERVER);
-    	getClientChannel().writeAndFlush(packet);
+        getClientChannel().attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.TOSERVER);
+        getClientChannel().writeAndFlush(packet);
     }
-    
+
     /**
      * Send a packet to the player.
      * @param packet The packet.
      * @param player The player.
      */
     public static void sendToPlayer(PacketBase packet, EntityPlayer player) {
-    	getServerChannel().attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
-    	getServerChannel().attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(player);
-    	getServerChannel().writeAndFlush(packet);
+        getServerChannel().attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
+        getServerChannel().attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(player);
+        getServerChannel().writeAndFlush(packet);
     }
 
     /**
@@ -120,9 +116,9 @@ public final class PacketHandler {
      * @param point The area to send to.
      */
     public static void sendToAllAround(PacketBase packet, NetworkRegistry.TargetPoint point) {
-    	getServerChannel().attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALLAROUNDPOINT);
-    	getServerChannel().attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(point);
-    	getServerChannel().writeAndFlush(packet);
+        getServerChannel().attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALLAROUNDPOINT);
+        getServerChannel().attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(point);
+        getServerChannel().writeAndFlush(packet);
     }
 
     /**
@@ -131,20 +127,20 @@ public final class PacketHandler {
      * @param dimension The dimension to send to.
      */
     public static void sendToDimension(PacketBase packet, int dimension) {
-    	getServerChannel().attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.DIMENSION);
-    	getServerChannel().attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(dimension);
-    	getServerChannel().writeAndFlush(packet);
+        getServerChannel().attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.DIMENSION);
+        getServerChannel().attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(dimension);
+        getServerChannel().writeAndFlush(packet);
     }
-    
+
     /**
      * Send a packet to everything.
      * @param packet The packet.
      */
     public static void sendToAll(PacketBase packet) {
-    	getServerChannel().attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALL);
-    	getServerChannel().writeAndFlush(packet);
+        getServerChannel().attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALL);
+        getServerChannel().writeAndFlush(packet);
     }
-    
+
     /**
      * Convert the given packet to a minecraft packet.
      * @param packet The packet.
@@ -153,17 +149,15 @@ public final class PacketHandler {
     public static Packet toMcPacket(PacketBase packet) {
         return CHANNELS.get(FMLCommonHandler.instance().getEffectiveSide()).generatePacketFrom(packet);
     }
-    
+
     /**
      * Coder/Decoder for using the FML messages in this system.
      * @author rubensworks
-     *
      */
     private static final class Codec extends FMLIndexedMessageToMessageCodec<PacketBase> {
-    	
+
         @Override
-        public void encodeInto(ChannelHandlerContext ctx, PacketBase packet, ByteBuf target)
-        		throws Exception {
+        public void encodeInto(ChannelHandlerContext ctx, PacketBase packet, ByteBuf target) throws Exception {
             ByteArrayDataOutput output = ByteStreams.newDataOutput();
             packet.encode(output);
             target.writeBytes(output.toByteArray());
@@ -175,38 +169,29 @@ public final class PacketHandler {
             input.skipBytes(1); // skip the packet identifier byte
             packet.decode(input);
         }
-        
     }
-    
-    @Sharable
-    @SideOnly(Side.CLIENT)
+
+    @Sharable @SideOnly(Side.CLIENT)
     private static final class HandlerClient extends SimpleChannelInboundHandler<PacketBase> {
-        
-    	@Override
-        protected void channelRead0(ChannelHandlerContext ctx, PacketBase packet)
-        		throws Exception {
+
+        @Override
+        protected void channelRead0(ChannelHandlerContext ctx, PacketBase packet) throws Exception {
             Minecraft mc = Minecraft.getMinecraft();
             packet.actionClient(mc.theWorld, mc.thePlayer);
         }
-    	
     }
 
     @Sharable
     private static final class HandlerServer extends SimpleChannelInboundHandler<PacketBase> {
-        
-    	@Override
-        protected void channelRead0(ChannelHandlerContext ctx, PacketBase packet)
-        		throws Exception {
-            if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
+
+        @Override
+        protected void channelRead0(ChannelHandlerContext ctx, PacketBase packet) throws Exception {
+            if(FMLCommonHandler.instance().getEffectiveSide().isClient()) {
                 // nothing on the client thread
                 return;
             }
-            
-            EntityPlayerMP player = ((NetHandlerPlayServer) ctx.channel()
-            		.attr(NetworkRegistry.NET_HANDLER).get()).playerEntity;
+            EntityPlayerMP player = ((NetHandlerPlayServer)ctx.channel().attr(NetworkRegistry.NET_HANDLER).get()).playerEntity;
             packet.actionServer(player.worldObj, player);
         }
-    	
     }
-    
 }

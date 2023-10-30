@@ -7,15 +7,14 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 /**
  * Config for the {@link BurningGemStone}.
  * @author rubensworks
- *
  */
 public class BurningGemStoneConfig extends ItemConfig {
-    
+
     /**
      * The unique instance.
      */
     public static BurningGemStoneConfig _instance;
-    
+
     /**
      * How much damage this item can take.
      */
@@ -26,12 +25,6 @@ public class BurningGemStoneConfig extends ItemConfig {
      * Make a new instance.
      */
     public BurningGemStoneConfig() {
-        super(
-        	true,
-            "burningGemStone",
-            null,
-            BurningGemStone.class
-        );
+        super(true, "burningGemStone", null, BurningGemStone.class);
     }
-    
 }

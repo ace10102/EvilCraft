@@ -8,7 +8,6 @@ import evilcraft.core.config.extendedconfig.BlockConfig;
 /**
  * FMP helper class for registering microblock.
  * @author rubensworks
- *
  */
 public class ForgeMultipartHelper {
 
@@ -18,8 +17,7 @@ public class ForgeMultipartHelper {
      */
     public static void registerMicroblock(BlockConfig eConfig) {
         if(Loader.isModLoaded(Reference.MOD_FMP)) {
-            ForgeMultipart.registerBlock((Block) eConfig.getSubInstance());
+            ForgeMultipart.registerBlock((Block)eConfig.getSubInstance());
         }
     }
-    
 }

@@ -6,7 +6,6 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 /**
  * Group interface of {@link IConfigurable} and {@link IDegradationEffect}.
  * @author rubensworks
- *
  */
 public abstract class ConfigurableDegradationEffect implements IConfigurable, IDegradationEffect {
 
@@ -20,9 +19,8 @@ public abstract class ConfigurableDegradationEffect implements IConfigurable, ID
     @SuppressWarnings("rawtypes")
     protected ConfigurableDegradationEffect(ExtendedConfig eConfig) {
         this.setConfig(eConfig);
-        
     }
-    
+
     @SuppressWarnings("rawtypes")
     private void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
@@ -32,5 +30,4 @@ public abstract class ConfigurableDegradationEffect implements IConfigurable, ID
     public ExtendedConfig<?> getConfig() {
         return eConfig;
     }
-
 }

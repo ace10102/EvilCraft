@@ -11,15 +11,13 @@ import java.util.LinkedList;
 /**
  * A TileEntity with Tank and Inventory that can tick.
  * It uses a list of {@link TickComponent} that are able to tick.
- * And these components will contain a collection of {@link ITickAction}
- * that can perform specific actions depending on the condition of the {@link TickComponent}.
+ * And these components will contain a collection of {@link ITickAction} that can perform specific actions depending on the condition of the {@link TickComponent}.
  * @author rubensworks
- * @param <T> The subclass of {@link TankInventoryTileEntity}, will be in
- * most cases just the extension class.
+ * @param <T> The subclass of {@link TankInventoryTileEntity}, will be in most cases just the extension class.
  * @see TickComponent
  */
 public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTileEntity> extends TankInventoryTileEntity {
-    
+
     private LinkedList<TickComponent<T, ITickAction<T>>> tickers;
     private int currentState = -1;
     private int previousState = -1;
@@ -33,12 +31,11 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
      * @param acceptedFluid Type of Fluid to accept.
      * @param stackSize The maximum stacksize each slot can have.
      */
-    public TickingTankInventoryTileEntity(int inventorySize,
-                                          String inventoryName, int tankSize, String tankName, Fluid acceptedFluid, int stackSize) {
+    public TickingTankInventoryTileEntity(int inventorySize, String inventoryName, int tankSize, String tankName, Fluid acceptedFluid, int stackSize) {
         super(inventorySize, inventoryName, stackSize, tankSize, tankName, acceptedFluid);
         tickers = new LinkedList<TickComponent<T, ITickAction<T>>>();
     }
-    
+
     /**
      * Make a new TickingTankInventoryTileEntity.
      * @param inventorySize Amount of slots in the inventory.
@@ -47,11 +44,10 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
      * @param tankName Internal name of the tank.
      * @param acceptedFluid Type of Fluid to accept.
      */
-    public TickingTankInventoryTileEntity(int inventorySize,
-            String inventoryName, int tankSize, String tankName, Fluid acceptedFluid) {
+    public TickingTankInventoryTileEntity(int inventorySize, String inventoryName, int tankSize, String tankName, Fluid acceptedFluid) {
         this(inventorySize, inventoryName, tankSize, tankName, acceptedFluid, 64);
     }
-    
+
     /**
      * Add a new ticker.
      * @param ticker The ticker to (try) run every tick.
@@ -61,7 +57,7 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
         tickers.add(ticker);
         return tickers.size() - 1;
     }
-    
+
     /**
      * Get the tickers this TileEntity has.
      * @return List of added tickers.
@@ -69,12 +65,12 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
     public LinkedList<TickComponent<T, ITickAction<T>>> getTickers() {
         return this.tickers;
     }
-    
+
     @Override
     public boolean canUpdate() {
         return true;
     }
-    
+
     @Override
     public void readFromNBT(NBTTagCompound data) {
         super.readFromNBT(data);
@@ -105,11 +101,11 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
         }
         data.setTag("tickers", tickerList);
     }
-    
+
     @Override
     public void updateTileEntity() {
         super.updateTileEntity();
-        
+
         // Update tickers.
         if(!worldObj.isRemote) {
             boolean redstone = worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
@@ -119,7 +115,7 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
                 }
             }
         }
-        
+
         if(!worldObj.isRemote) {
             // Update state server->clients.
             int newState = getNewState();
@@ -135,12 +131,13 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
             }
         }
     }
-    
+
     /**
      * Get the new (numerical) state for this tile entity.
      * @return The new state.
      */
     public abstract int getNewState();
+
     /**
      * What needs to happen when the (numerical) state is changed.
      */
@@ -153,5 +150,4 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
     public int getCurrentState() {
         return currentState;
     }
-
 }

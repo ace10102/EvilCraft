@@ -9,7 +9,6 @@ import evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 /**
  * A slot that only accepts repairable items.
  * @author rubensworks
- *
  */
 public class SlotRepairable extends Slot {
 
@@ -20,24 +19,21 @@ public class SlotRepairable extends Slot {
      * @param x X coordinate.
      * @param y Y coordinate.
      */
-    public SlotRepairable(IInventory inventory, int index, int x,
-            int y) {
+    public SlotRepairable(IInventory inventory, int index, int x, int y) {
         super(inventory, index, x, y);
     }
-    
+
     @Override
     public boolean isItemValid(ItemStack itemStack) {
         return checkIsItemValid(itemStack);
     }
-    
+
     /**
      * Check if the given item is valid for this slot type.
      * @param itemStack The item that will be checked.
      * @return If the given item is valid.
      */
     public static boolean checkIsItemValid(ItemStack itemStack) {
-        return itemStack != null && RegistryManager.getRegistry(IBloodChestRepairActionRegistry.class).
-        		isItemValidForSlot(itemStack);
+        return itemStack != null && RegistryManager.getRegistry(IBloodChestRepairActionRegistry.class).isItemValidForSlot(itemStack);
     }
-
 }

@@ -19,38 +19,20 @@ import net.minecraft.item.ItemStack;
 /**
  * Container for the {@link BloodInfuser}.
  * @author rubensworks
- *
  */
 public class ContainerBloodInfuser extends ContainerTileWorking<TileBloodInfuser> {
-    
+
     private static final int INVENTORY_OFFSET_X = 8;
     private static final int INVENTORY_OFFSET_Y = 84;
-    
-    /**
-     * Container slot X coordinate.
-     */
+
+
     public static final int SLOT_CONTAINER_X = 8;
-    /**
-     * Container slot Y coordinate.
-     */
     public static final int SLOT_CONTAINER_Y = 36;
-    
-    /**
-     * Infuse slot X coordinate.
-     */
+
     public static final int SLOT_INFUSE_X = 79;
-    /**
-     * Infuse slot Y coordinate.
-     */
     public static final int SLOT_INFUSE_Y = 36;
-    
-    /**
-     * Infuse result slot X coordinate.
-     */
+
     public static final int SLOT_INFUSE_RESULT_X = 133;
-    /**
-     * Infuse result slot Y coordinate.
-     */
     public static final int SLOT_INFUSE_RESULT_Y = 36;
 
     private static final int UPGRADE_INVENTORY_OFFSET_X = -22;
@@ -71,20 +53,16 @@ public class ContainerBloodInfuser extends ContainerTileWorking<TileBloodInfuser
 
             public void onPickupFromSlot(EntityPlayer player, ItemStack itemStack) {
                 IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>
-                        recipe = BloodInfuser.getInstance().getRecipeRegistry().
-                        findRecipeByOutput(new ItemStackRecipeComponent(itemStack));
+                    recipe = BloodInfuser.getInstance().getRecipeRegistry().findRecipeByOutput(new ItemStackRecipeComponent(itemStack));
                 if(recipe != null) {
-                    EntityHelpers.spawnXpAtPlayer(player.worldObj, player, (int) Math.floor(recipe.getProperties().getXp() * itemStack.stackSize));
+                    EntityHelpers.spawnXpAtPlayer(player.worldObj, player, (int)Math.floor(recipe.getProperties().getXp() * itemStack.stackSize));
                     FMLCommonHandler.instance().bus().post(new BloodInfuserRemoveEvent(player, itemStack));
                 }
                 super.onPickupFromSlot(player, itemStack);
             }
-
         }); // Infuse result slot
 
         this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y);
-
         this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }
-    
 }

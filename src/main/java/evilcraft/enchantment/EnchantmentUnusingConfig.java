@@ -6,10 +6,9 @@ import evilcraft.core.config.extendedconfig.EnchantmentConfig;
 /**
  * Config for {@link EnchantmentUnusing}.
  * @author rubensworks
- *
  */
 public class EnchantmentUnusingConfig extends EnchantmentConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -19,12 +18,6 @@ public class EnchantmentUnusingConfig extends EnchantmentConfig {
      * Make a new instance.
      */
     public EnchantmentUnusingConfig() {
-        super(
-            Reference.ENCHANTMENT_UNUSING,
-            "unusing",
-            null,
-            EnchantmentUnusing.class
-        );
+        super(Reference.ENCHANTMENT_UNUSING, "unusing", null, EnchantmentUnusing.class);
     }
-    
 }

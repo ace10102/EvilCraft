@@ -10,23 +10,21 @@ import evilcraft.core.config.extendedconfig.FluidConfig;
  * @author rubensworks
  * @see ConfigurableTypeAction
  */
-public class FluidAction extends ConfigurableTypeAction<FluidConfig>{
+public class FluidAction extends ConfigurableTypeAction<FluidConfig> {
 
     @Override
     public void preRun(FluidConfig eConfig, Configuration config, boolean startup) {
-        
     }
 
     @Override
     public void postRun(FluidConfig eConfig, Configuration config) {
         // Save the config inside the correct element
         eConfig.save();
-        
-        // Register
-        FluidRegistry.registerFluid((Fluid) eConfig.getSubInstance());
-        
-        // Add I18N
-        //LanguageRegistry.instance().addStringLocalization("fluid.fluids."+eConfig.NAMEDID, eConfig.NAME);
-    }
 
+        // Register
+        FluidRegistry.registerFluid((Fluid)eConfig.getSubInstance());
+
+        // Add I18N
+        // LanguageRegistry.instance().addStringLocalization("fluid.fluids."+eConfig.NAMEDID, eConfig.NAME);
+    }
 }

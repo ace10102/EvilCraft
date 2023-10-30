@@ -21,7 +21,6 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 /**
  * Event hook for {@link LivingUpdateEvent}.
  * @author rubensworks
- *
  */
 public class LivingUpdateEventHook {
 
@@ -34,16 +33,16 @@ public class LivingUpdateEventHook {
      */
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void onLivingUpdate(LivingUpdateEvent event) {
-    	if(WorldHelpers.efficientTick(event.entity.worldObj, 80)) {
-	        dropExcrement(event);
-	        dieWithoutAnyReason(event);
-	        transformWerewolfVillager(event);
-    	}
+        if(WorldHelpers.efficientTick(event.entity.worldObj, 80)) {
+            dropExcrement(event);
+            dieWithoutAnyReason(event);
+            transformWerewolfVillager(event);
+        }
     }
 
     private void dropExcrement(LivingUpdateEvent event) {
-        if(event.entity instanceof EntityAnimal && Configs.isEnabled(ExcrementPileConfig.class)
-                && !event.entity.worldObj.isRemote && event.entity.worldObj.rand.nextInt(CHANCE_DROP_EXCREMENT) == 0) {
+        if(event.entity instanceof EntityAnimal && !event.entity.worldObj.isRemote
+                && Configs.isEnabled(ExcrementPileConfig.class) && event.entity.worldObj.rand.nextInt(CHANCE_DROP_EXCREMENT) == 0) {
             EntityAnimal entity = (EntityAnimal)event.entity;
             World world = entity.worldObj;
             int x = MathHelper.floor_double(entity.posX);
@@ -64,7 +63,7 @@ public class LivingUpdateEventHook {
             entity.attackEntityFrom(ExtendedDamageSource.dieWithoutAnyReason, Float.MAX_VALUE);
         }
     }
- 
+
     private void transformWerewolfVillager(LivingUpdateEvent event) {
         if(event.entity instanceof EntityVillager && !event.entity.worldObj.isRemote) {
             EntityVillager villager = (EntityVillager)event.entity;

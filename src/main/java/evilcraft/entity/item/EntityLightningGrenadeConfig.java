@@ -10,10 +10,9 @@ import evilcraft.item.LightningGrenade;
 /**
  * Config for {@link EntityLightningGrenade}.
  * @author rubensworks
- *
  */
 public class EntityLightningGrenadeConfig extends EntityConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -23,23 +22,16 @@ public class EntityLightningGrenadeConfig extends EntityConfig {
      * Make a new instance.
      */
     public EntityLightningGrenadeConfig() {
-        super(
-        	true,
-            "entityLightningGrenade",
-            null,
-            EntityLightningGrenade.class
-        );
+        super(true, "entityLightningGrenade", null, EntityLightningGrenade.class);
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     public Render getRender() {
         return new RenderSnowball(LightningGrenade.getInstance());
     }
-    
+
     @Override
     public boolean sendVelocityUpdates() {
         return true;
     }
-    
 }

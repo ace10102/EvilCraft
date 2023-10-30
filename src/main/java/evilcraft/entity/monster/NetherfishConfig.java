@@ -12,33 +12,27 @@ import evilcraft.core.helper.RenderHelpers;
 /**
  * Config for the {@link Netherfish}.
  * @author rubensworks
- *
  */
 public class NetherfishConfig extends MobConfig {
-    
+
     /**
      * The unique instance.
      */
     public static NetherfishConfig _instance;
-    
+
     /**
      * Should the Netherfish be enabled?
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.MOB, comment = "Should the Netherfish be enabled?", requiresMcRestart = true)
-    public static boolean isEnabled = true;    
+    public static boolean isEnabled = true;
 
     /**
      * Make a new instance.
      */
     public NetherfishConfig() {
-        super(
-        	true,
-            "netherfish",
-            null,
-            Netherfish.class
-        );
+        super(true, "netherfish", null, Netherfish.class);
     }
-    
+
     @Override
     public boolean isEnabled() {
         return isEnabled;
@@ -53,11 +47,9 @@ public class NetherfishConfig extends MobConfig {
     public int getForegroundEggColor() {
         return RenderHelpers.RGBToInt(160, 45, 27);
     }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT)
     public Render getRender() {
         return new RenderNetherfish(this);
     }
-    
 }

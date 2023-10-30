@@ -14,7 +14,7 @@ import evilcraft.entity.monster.Werewolf;
  * @author Davivs69
  */
 public class ModelWerewolf extends ModelBiped {
-    //fields
+    // fields
     ModelRenderer bipedEar1;
     ModelRenderer bipedEar2;
     ModelRenderer Upper_Jaw;
@@ -108,7 +108,7 @@ public class ModelWerewolf extends ModelBiped {
         model.rotateAngleY = y;
         model.rotateAngleZ = z;
     }
-    
+
     @Override
     public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity) {
         super.setRotationAngles(par1, par2, par3, par4, par5, par6, entity);
@@ -117,18 +117,17 @@ public class ModelWerewolf extends ModelBiped {
         bipedLeftArm.setRotationPoint(7F, -8F, 0F);
         bipedRightLeg.setRotationPoint(-3F, 6F, 0F);
         bipedLeftLeg.setRotationPoint(3F, 6F, 0F);
-        
+
         this.bipedEar1.rotateAngleY = this.bipedHead.rotateAngleY;
         this.bipedEar1.rotateAngleX = this.bipedHead.rotateAngleX;
         this.bipedEar2.rotateAngleY = this.bipedHead.rotateAngleY;
         this.bipedEar2.rotateAngleX = this.bipedHead.rotateAngleX;
-        
+
         if(entity instanceof Werewolf) {
-            Werewolf werewolf = (Werewolf) entity;
+            Werewolf werewolf = (Werewolf)entity;
             float barkRotation = werewolf.getBarkProgressScaled(0.1745329F);
             setRotation(Upper_Jaw, this.bipedHead.rotateAngleX + 0F, this.bipedHead.rotateAngleY + 0F, 0F);
             setRotation(Lower_Jaw, this.bipedHead.rotateAngleX + barkRotation, this.bipedHead.rotateAngleY + 0F, 0F);
         }
     }
-
 }

@@ -10,16 +10,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 /**
- * A sceptre that can spawn thunderstorms.
+ * A scepter that can spawn thunderstorms.
  * @author rubensworks
- *
  */
 public class SceptreOfThunder extends ConfigurableItem {
 
     private static SceptreOfThunder _instance = null;
 
     /**
-     * Initialise the configurable.
+     * Initialize the configurable.
      * @param eConfig The config.
      */
     public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
@@ -48,5 +47,4 @@ public class SceptreOfThunder extends ConfigurableItem {
         if(!player.capabilities.isCreativeMode) --itemStack.stackSize;
         return itemStack;
     }
-
 }

@@ -1,6 +1,5 @@
 package evilcraft.item;
 
-import evilcraft.core.IInformationProvider;
 import evilcraft.core.helper.ItemHelpers;
 import evilcraft.core.helper.L10NHelpers;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,7 +13,6 @@ import java.util.List;
 /**
  * Helpers for items.
  * @author rubensworks
- *
  */
 public class ItemPowerableHelpers {
 
@@ -52,8 +50,7 @@ public class ItemPowerableHelpers {
             if(!world.isRemote) {
                 int newPower = (getPower(itemStack) + 1) % powerLevels;
                 setPower(itemStack, newPower);
-                player.addChatMessage(new ChatComponentText(EnumChatFormatting.ITALIC
-                        + L10NHelpers.localize("item.powerable.setPower", newPower)));
+                player.addChatMessage(new ChatComponentText(EnumChatFormatting.ITALIC + L10NHelpers.localize("item.powerable.setPower", newPower)));
             }
             return true;
         }
@@ -77,5 +74,4 @@ public class ItemPowerableHelpers {
     public static void addPostInformation(ItemStack itemStack, List<String> lines) {
         lines.add(EnumChatFormatting.BOLD + L10NHelpers.localize("item.powerable.info.power", getPower(itemStack)));
     }
-	
 }

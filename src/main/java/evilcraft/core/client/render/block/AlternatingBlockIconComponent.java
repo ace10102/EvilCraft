@@ -8,33 +8,31 @@ import net.minecraft.world.IBlockAccess;
 
 /**
  * A component to be used in Blocks. Depending on the amount of alternateIcons,
- * this component will make sure that depending on the location of the block, different
- * icons will be displayed. Icons must be available in the following format:
- * 'textureNameBase_{0-(alternateIcons-1)}'
- * 
+ * this component will make sure that depending on the location of the block, different icons will be displayed.
+ * Icons must be available in the following format: 'textureNameBase_{0-(alternateIcons-1)}'
+ *
  * To use this the following methods should be called:
  * <ul>
  * <li>Constructor should only be called once in Block.</li>
  * <li>registerIcons should be called from registerIcons in the Block, super call is not needed.</li>
  * <li>getAlternateIcon should be called from getBlockTexture in Block.</li>
  * <li>getBaseIcon should be called from getIcon in Block, since this call is now only used by inventory blocks.</li>
- *  </ul>
+ * </ul>
  * @author rubensworks
- *
  */
 public class AlternatingBlockIconComponent {
-    
+
     private IIcon[] alternateIcons;
     private Random random = new Random();
-    
+
     /**
      * Make a new instance.
      * @param alternateIcons The amount of icons to alternate.
      */
     public AlternatingBlockIconComponent(int alternateIcons) {
-        this.alternateIcons =  new IIcon[alternateIcons];
+        this.alternateIcons = new IIcon[alternateIcons];
     }
-    
+
     /**
      * Register icons
      * @param textureNameBase The base texture name.
@@ -53,7 +51,7 @@ public class AlternatingBlockIconComponent {
     public IIcon[] getAlternateIcons() {
         return alternateIcons;
     }
-    
+
     /**
      * Get one from the alternate icons depending on the coordinates and side of the block.
      * @param world The world.

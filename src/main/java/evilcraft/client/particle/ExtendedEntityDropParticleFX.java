@@ -8,11 +8,9 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-
 /**
  * Particle that appears underneath blocks for simulating drops.
  * Courtesy of BuildCraft: https://github.com/BuildCraft/BuildCraft/blob/master/common/buildcraft/energy/render/EntityDropParticleFX.java
- *
  */
 @SideOnly(Side.CLIENT)
 public class ExtendedEntityDropParticleFX extends EntityFX {
@@ -44,7 +42,7 @@ public class ExtendedEntityDropParticleFX extends EntityFX {
         this.setSize(0.01F, 0.01F);
         this.particleGravity = 0.06F;
         this.bobTimer = 40;
-        this.particleMaxAge = (int) (64.0D / (Math.random() * 0.8D + 0.2D));
+        this.particleMaxAge = (int)(64.0D / (Math.random() * 0.8D + 0.2D));
         this.motionX = this.motionY = this.motionZ = 0.0D;
     }
 
@@ -54,9 +52,9 @@ public class ExtendedEntityDropParticleFX extends EntityFX {
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
 
-        this.motionY -= (double) this.particleGravity;
+        this.motionY -= (double)this.particleGravity;
 
-        if (this.bobTimer-- > 0) {
+        if(this.bobTimer-- > 0) {
             this.motionX *= 0.02D;
             this.motionY *= 0.02D;
             this.motionZ *= 0.02D;
@@ -70,11 +68,11 @@ public class ExtendedEntityDropParticleFX extends EntityFX {
         this.motionY *= 0.9800000190734863D;
         this.motionZ *= 0.9800000190734863D;
 
-        if (this.particleMaxAge-- <= 0) {
+        if(this.particleMaxAge-- <= 0) {
             this.setDead();
         }
 
-        if (this.onGround) {
+        if(this.onGround) {
             this.setParticleTextureIndex(114);
 
             this.motionX *= 0.699999988079071D;
@@ -83,10 +81,10 @@ public class ExtendedEntityDropParticleFX extends EntityFX {
 
         Material material = this.worldObj.getBlock(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)).getMaterial();
 
-        if (material.isLiquid() || material.isSolid()) {
-            double d0 = (double) ((float) (MathHelper.floor_double(this.posY) + 1) - BlockLiquid.getLiquidHeightPercent(this.worldObj.getBlockMetadata(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ))));
+        if(material.isLiquid() || material.isSolid()) {
+            double d0 = (double)((float)(MathHelper.floor_double(this.posY) + 1) - BlockLiquid.getLiquidHeightPercent(this.worldObj.getBlockMetadata(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ))));
 
-            if (this.posY < d0) {
+            if(this.posY < d0) {
                 this.setDead();
             }
         }

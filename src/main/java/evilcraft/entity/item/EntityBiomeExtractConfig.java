@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.entity.Render;
 /**
  * Config for the {@link EntityWeatherContainer}.
  * @author rubensworks
- *
  */
 public class EntityBiomeExtractConfig extends EntityConfig {
 
@@ -23,20 +22,14 @@ public class EntityBiomeExtractConfig extends EntityConfig {
      * Make a new instance.
      */
     public EntityBiomeExtractConfig() {
-        super(
-        	true,
-            "entityBiomeExtract",
-            null,
-            EntityBiomeExtract.class
-        );
+        super(true, "entityBiomeExtract", null, EntityBiomeExtract.class);
     }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT)
     public Render getRender() {
         return new RenderThrowable(BiomeExtract.getInstance());
     }
-    
+
     @Override
     public boolean sendVelocityUpdates() {
         return true;

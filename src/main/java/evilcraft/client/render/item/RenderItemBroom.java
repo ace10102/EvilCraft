@@ -16,7 +16,6 @@ import org.lwjgl.opengl.GL11;
 /**
  * Item renderer for the {@link Broom}.
  * @author rubensworks
- *
  */
 public class RenderItemBroom extends RenderModel<ModelBroom> implements IItemRenderer {
 
@@ -28,6 +27,7 @@ public class RenderItemBroom extends RenderModel<ModelBroom> implements IItemRen
         super(config);
     }
 
+    @SuppressWarnings("rawtypes")
     protected ResourceLocation createResourceLocation(ExtendedConfig config) {
         return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + config.getNamedId() + "Entity.png");
     }
@@ -38,11 +38,10 @@ public class RenderItemBroom extends RenderModel<ModelBroom> implements IItemRen
     }
 
     @Override
-    public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item,
-            ItemRendererHelper helper) {
+    public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
         return true;
     }
-    
+
     @Override
     protected ModelBroom constructModel() {
         return new ModelBroom();
@@ -50,31 +49,31 @@ public class RenderItemBroom extends RenderModel<ModelBroom> implements IItemRen
 
     @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
-        switch (type) {
-            case ENTITY: {
-                renderBroom(0.5F, 0.5F, 0.5F, 0.17F, 0, 0, 0);
-                break;
-            }
-            case EQUIPPED: {
-                renderBroom(5.0F, 4.0F, 5.0F, 0.17F, 10F, 50F, -180F);
-                break;
-            }
-            case EQUIPPED_FIRST_PERSON: {
-                renderBroom(1.0F, 1.0F, 1.0F, 0.17F, 10F, -60F, 90F);
-                break;
-            }
-            case INVENTORY: {
-                renderBroom(0.0F, -1.0F, 0.0F, 0.088F, 10F, 10F, 0F);
-                break;
-            }
-            default:
-                break;
+        switch(type) {
+        case ENTITY: {
+            renderBroom(0.5F, 0.5F, 0.5F, 0.17F, 0, 0, 0);
+            break;
+        }
+        case EQUIPPED: {
+            renderBroom(5.0F, 4.0F, 5.0F, 0.17F, 10F, 50F, -180F);
+            break;
+        }
+        case EQUIPPED_FIRST_PERSON: {
+            renderBroom(1.0F, 1.0F, 1.0F, 0.17F, 10F, -60F, 90F);
+            break;
+        }
+        case INVENTORY: {
+            renderBroom(0.0F, -1.0F, 0.0F, 0.088F, 10F, 10F, 0F);
+            break;
+        }
+        default:
+            break;
         }
     }
-    
+
     private void renderBroom(float x, float y, float z, float scale, float rotationX, float rotationY, float rotationZ) {
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(getEntityTexture(null));
-        
+
         GL11.glPushMatrix();
         GL11.glScalef(scale, scale, scale);
         GL11.glTranslatef(x, y, z);
@@ -86,9 +85,7 @@ public class RenderItemBroom extends RenderModel<ModelBroom> implements IItemRen
     }
 
     @Override
-    public void doRender(Entity entity, double d0, double d1, double d2,
-            float f, float f1) {
+    public void doRender(Entity entity, double d0, double d1, double d2, float f, float f1) {
         // Not required here.
     }
-
 }

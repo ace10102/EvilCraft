@@ -10,7 +10,6 @@ import net.minecraft.nbt.NBTTagList;
 /**
  * A basic inventory implementation.
  * @author rubensworks
- *
  */
 public class SimpleInventory implements IInventory {
 
@@ -42,8 +41,8 @@ public class SimpleInventory implements IInventory {
 
     @Override
     public ItemStack decrStackSize(int slotId, int count) {
-        if (slotId < _contents.length && _contents[slotId] != null) {
-            if (_contents[slotId].stackSize > count) {
+        if(slotId < _contents.length && _contents[slotId] != null) {
+            if(_contents[slotId].stackSize > count) {
                 ItemStack result = _contents[slotId].splitStack(count);
                 onInventoryChanged();
                 return result;
@@ -58,12 +57,12 @@ public class SimpleInventory implements IInventory {
 
     @Override
     public void setInventorySlotContents(int slotId, ItemStack itemstack) {
-        if (slotId >= _contents.length || slotId < 0) {
+        if(slotId >= _contents.length || slotId < 0) {
             return;
         }
         this._contents[slotId] = itemstack;
 
-        if (itemstack != null && itemstack.stackSize > this.getInventoryStackLimit()) {
+        if(itemstack != null && itemstack.stackSize > this.getInventoryStackLimit()) {
             itemstack.stackSize = this.getInventoryStackLimit();
         }
         onInventoryChanged();
@@ -111,19 +110,19 @@ public class SimpleInventory implements IInventory {
      */
     public void readFromNBT(NBTTagCompound data, String tag) {
         NBTTagList nbttaglist = data.getTagList(tag, MinecraftHelpers.NBTTag_Types.NBTTagCompound.ordinal());
-        
-        for (int j = 0; j < _contents.length; ++j)
+
+        for(int j = 0; j < _contents.length; ++j)
             _contents[j] = null;
 
-        for (int j = 0; j < nbttaglist.tagCount(); ++j) {
-            NBTTagCompound slot = (NBTTagCompound) nbttaglist.getCompoundTagAt(j);
+        for(int j = 0; j < nbttaglist.tagCount(); ++j) {
+            NBTTagCompound slot = (NBTTagCompound)nbttaglist.getCompoundTagAt(j);
             int index;
-            if (slot.hasKey("index")) {
+            if(slot.hasKey("index")) {
                 index = slot.getInteger("index");
             } else {
                 index = slot.getByte("Slot");
             }
-            if (index >= 0 && index < _contents.length) {
+            if(index >= 0 && index < _contents.length) {
                 _contents[index] = ItemStack.loadItemStackFromNBT(slot);
             }
         }
@@ -144,8 +143,8 @@ public class SimpleInventory implements IInventory {
      */
     public void writeToNBT(NBTTagCompound data, String tag) {
         NBTTagList slots = new NBTTagList();
-        for (byte index = 0; index < _contents.length; ++index) {
-            if (_contents[index] != null && _contents[index].stackSize > 0) {
+        for(byte index = 0; index < _contents.length; ++index) {
+            if(_contents[index] != null && _contents[index].stackSize > 0) {
                 NBTTagCompound slot = new NBTTagCompound();
                 slots.appendTag(slot);
                 slot.setByte("Slot", index);
@@ -157,7 +156,7 @@ public class SimpleInventory implements IInventory {
 
     @Override
     public ItemStack getStackInSlotOnClosing(int slotId) {
-        if (this._contents[slotId] == null) {
+        if(this._contents[slotId] == null) {
             return null;
         }
 
@@ -184,8 +183,8 @@ public class SimpleInventory implements IInventory {
         return true;
     }
 
-	@Override
-	public void markDirty() {
-		
-	}
+    @Override
+    public void markDirty() {
+
+    }
 }

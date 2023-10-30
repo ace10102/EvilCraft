@@ -1,4 +1,5 @@
 package evilcraft.block;
+
 import java.util.Random;
 
 import net.minecraft.block.material.Material;
@@ -12,12 +13,11 @@ import evilcraft.item.DarkGem;
 /**
  * A storage block for {@link DarkGem}.
  * @author rubensworks
- *
  */
 public class DarkBlock extends ConfigurableBlockConnectedTexture {
-    
+
     private static DarkBlock _instance = null;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -28,7 +28,7 @@ public class DarkBlock extends ConfigurableBlockConnectedTexture {
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -43,20 +43,19 @@ public class DarkBlock extends ConfigurableBlockConnectedTexture {
         this.setStepSound(soundTypeMetal);
         this.setHarvestLevel("pickaxe", 2); // Iron tier
     }
-    
+
     @Override
     public boolean isBeaconBase(IBlockAccess worldObj, int x, int y, int z, int beaconX, int beaconY, int beaconZ) {
-    	return true;
+        return true;
     }
-    
+
     @Override
     public Item getItemDropped(int par1, Random random, int zero) {
         return Item.getItemFromBlock(this);
     }
-    
+
     @Override
     public boolean hasSeperateInventoryBlockIcon() {
         return true;
     }
-
 }

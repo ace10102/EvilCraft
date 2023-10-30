@@ -10,7 +10,6 @@ import net.minecraft.init.Items;
 /**
  * Container for the {@link BloodChest}.
  * @author rubensworks
- *
  */
 public class ContainerPrimedPendant extends ItemInventoryContainer<PrimedPendant> {
 
@@ -22,8 +21,8 @@ public class ContainerPrimedPendant extends ItemInventoryContainer<PrimedPendant
     public ContainerPrimedPendant(EntityPlayer player, int itemIndex) {
         super(player.inventory, PrimedPendant.getInstance(), itemIndex);
 
-        addSlotToContainer(new SlotSingleItem(getItem().getSupplementaryInventory(player, getItemStack(player), itemIndex),
-                0, SLOT_X, SLOT_Y, Items.potionitem));
+        addSlotToContainer(new SlotSingleItem(getItem().getSupplementaryInventory(player, getItemStack(player), itemIndex), 0, SLOT_X, SLOT_Y, Items.potionitem));
+
         this.addPlayerInventory(player.inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }
 

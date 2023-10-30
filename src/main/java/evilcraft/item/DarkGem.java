@@ -19,16 +19,15 @@ import javax.annotation.Nullable;
 /**
  * Gem that drops from {@link DarkOre}.
  * @author rubensworks
- *
  */
 public class DarkGem extends ConfigurableItem {
-    
+
     private static DarkGem _instance = null;
     private static final int REQUIRED_BLOOD_BLOCKS = 5;
     private static final int TICK_MODULUS = 5;
-    
+
     /**
-     * Initialise the configurable.
+     * Initialize the configurable.
      * @param eConfig The config.
      */
     public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
@@ -37,7 +36,7 @@ public class DarkGem extends ConfigurableItem {
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -49,14 +48,12 @@ public class DarkGem extends ConfigurableItem {
     private DarkGem(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig);
     }
-    
+
     @Override
     public boolean onEntityItemUpdate(final EntityItem entityItem) {
-        // This will transform a dark gem into a blood infusion core when it finds 
-        // REQUIRED_BLOOD_BLOCKS blood fluid blocks in the neighbourhood.
-        if(Configs.isEnabled(BloodInfusionCoreConfig.class) && !entityItem.worldObj.isRemote
-        		&& WorldHelpers.efficientTick(entityItem.worldObj, TICK_MODULUS, 
-        				(int) entityItem.posX, (int) entityItem.posY, (int) entityItem.posZ)) {
+        // This will transform a dark gem into a blood infusion core when it finds
+        // REQUIRED_BLOOD_BLOCKS blood fluid blocks in the neighborhood.
+        if(Configs.isEnabled(BloodInfusionCoreConfig.class) && !entityItem.worldObj.isRemote && WorldHelpers.efficientTick(entityItem.worldObj, TICK_MODULUS, (int)entityItem.posX, (int)entityItem.posY, (int)entityItem.posZ)) {
             final int x = MathHelper.floor_double(entityItem.posX);
             final int y = MathHelper.floor_double(entityItem.posY);
             final int z = MathHelper.floor_double(entityItem.posZ);
@@ -67,18 +64,18 @@ public class DarkGem extends ConfigurableItem {
                 final int[] xs = new int[REQUIRED_BLOOD_BLOCKS];
                 final int[] ys = new int[REQUIRED_BLOOD_BLOCKS];
                 final int[] zs = new int[REQUIRED_BLOOD_BLOCKS];
-                
+
                 // Save first coordinate
                 xs[0] = x;
                 ys[0] = y;
                 zs[0] = z;
-                
-                // Search in neighbourhood
+
+                // Search in neighborhood
                 WorldHelpers.foldArea(world, 3, x, y, z, new WorldHelpers.WorldFoldingFunction<Integer, Integer>() {
-                    @Nullable
-                    @Override
+                    @Override @Nullable
                     public Integer apply(@Nullable Integer amount, World world, int xi, int yi, int zi) {
-                        if(amount == null || amount == -1) return amount;
+                        if(amount == null || amount == -1)
+                            return amount;
                         if(!(xi == x && yi == y && zi == z) && isValidBlock(world, xi, yi, zi)) {
                             // Save next coordinate
                             xs[amount] = xi;
@@ -94,7 +91,7 @@ public class DarkGem extends ConfigurableItem {
                                 // Retrace coordinate steps and remove all those blocks + spawn particles
                                 for(int restep = 0; restep < amount; restep++) {
                                     world.setBlockToAir(xs[restep], ys[restep], zs[restep]);
-                                    if (world.isRemote)
+                                    if(world.isRemote)
                                         BloodStainedBlock.splash(world, xs[restep], ys[restep] - 1, zs[restep]);
                                     world.notifyBlocksOfNeighborChange(xs[restep], ys[restep], zs[restep], Blocks.air);
                                 }
@@ -108,10 +105,8 @@ public class DarkGem extends ConfigurableItem {
         }
         return false;
     }
-    
-    private boolean isValidBlock(IBlockAccess world, int x, int y, int z) {
-        return world.getBlock(x, y, z) == FluidBlockBlood.getInstance()
-                && FluidBlockBlood.getInstance().isSourceBlock(world, x, y, z);
-    }
 
+    private boolean isValidBlock(IBlockAccess world, int x, int y, int z) {
+        return world.getBlock(x, y, z) == FluidBlockBlood.getInstance() && FluidBlockBlood.getInstance().isSourceBlock(world, x, y, z);
+    }
 }

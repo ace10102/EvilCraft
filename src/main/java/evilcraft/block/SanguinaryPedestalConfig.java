@@ -17,10 +17,9 @@ import net.minecraft.util.ResourceLocation;
 /**
  * Config for the {@link SanguinaryPedestal}.
  * @author rubensworks
- *
  */
 public class SanguinaryPedestalConfig extends BlockContainerConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -36,24 +35,16 @@ public class SanguinaryPedestalConfig extends BlockContainerConfig {
      * Make a new instance.
      */
     public SanguinaryPedestalConfig() {
-        super(
-        	true,
-            "sanguinaryPedestal",
-            null,
-            SanguinaryPedestal.class
-        );
+        super(true, "sanguinaryPedestal", null, SanguinaryPedestal.class);
     }
-    
+
     @Override
     public void onRegistered() {
         if(MinecraftHelpers.isClientSide()) {
-        	ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "pedestal.png");
-        	ModelWavefront model = new ModelPedestal(texture);
-            ClientProxy.TILE_ENTITY_RENDERERS.put(TileSanguinaryPedestal.class,
-            		new RenderTileEntitySanguinaryPedestal(model, texture));
-            ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(SanguinaryPedestal.getInstance()),
-            		new RenderItemSanguinaryPedestal(model, texture));
+            ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "pedestal.png");
+            ModelWavefront model = new ModelPedestal(texture);
+            ClientProxy.TILE_ENTITY_RENDERERS.put(TileSanguinaryPedestal.class, new RenderTileEntitySanguinaryPedestal(model, texture));
+            ClientProxy.ITEM_RENDERERS.put(Item.getItemFromBlock(SanguinaryPedestal.getInstance()), new RenderItemSanguinaryPedestal(model, texture));
         }
     }
-    
 }

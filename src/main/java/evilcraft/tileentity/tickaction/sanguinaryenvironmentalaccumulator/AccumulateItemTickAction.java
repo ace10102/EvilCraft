@@ -15,7 +15,6 @@ import org.apache.commons.lang3.mutable.MutableInt;
 /**
  * {@link ITickAction} that can accumulate the environment to an item using blood..
  * @author rubensworks
- *
  */
 public class AccumulateItemTickAction implements ITickAction<TileSanguinaryEnvironmentalAccumulator> {
 
@@ -42,8 +41,7 @@ public class AccumulateItemTickAction implements ITickAction<TileSanguinaryEnvir
         IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe = getRecipe(tile);
         if(tick >= getRequiredTicks(tile, recipe)) {
             if(recipe != null) {
-                if(addToProduceSlot(tile, recipe.getProperties().getResultOverride().getResult(tile.getWorldObj(),
-                        tile.xCoord, tile.yCoord, tile.zCoord, recipe.getOutput().getConditionalItemStack(itemStack)))) {
+                if(addToProduceSlot(tile, recipe.getProperties().getResultOverride().getResult(tile.getWorldObj(), tile.xCoord, tile.yCoord, tile.zCoord, recipe.getOutput().getConditionalItemStack(itemStack)))) {
                     tile.getInventory().decrStackSize(tile.getConsumeSlot(), 1);
                     tile.getVirtualTank().drain(getRequiredFluidAmount(tile, recipe), true);
                 }
@@ -63,29 +61,27 @@ public class AccumulateItemTickAction implements ITickAction<TileSanguinaryEnvir
     }
 
     protected int getRequiredFluidAmount(TileSanguinaryEnvironmentalAccumulator tile,
-                                         IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe) {
+            IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe) {
         MutableInt amount = new MutableInt(getUsage(recipe.getProperties()));
-        Upgrades.sendEvent(tile,
-                new UpgradeSensitiveEvent<MutableInt>(amount, TileSanguinaryEnvironmentalAccumulator.UPGRADEEVENT_BLOODUSAGE));
+        Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableInt>(amount, TileSanguinaryEnvironmentalAccumulator.UPGRADEEVENT_BLOODUSAGE));
         return Math.max(1, amount.getValue());
     }
-    
-    private IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties>
-        getRecipe(TileSanguinaryEnvironmentalAccumulator tile) {
+
+    private IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> getRecipe(TileSanguinaryEnvironmentalAccumulator tile) {
         return tile.getRecipe(tile.getStackInSlot(TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE));
     }
 
     protected int getUnmodifiedRequiredTicks(TileSanguinaryEnvironmentalAccumulator tile, int slot) {
         return getUnmodifiedRequiredTicks(tile, getRecipe(tile));
     }
-    
+
     private int getUnmodifiedRequiredTicks(TileSanguinaryEnvironmentalAccumulator tile,
-                                           IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe) {
+            IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe) {
         return recipe.getProperties().getDuration();
     }
 
     private int getRequiredTicks(TileSanguinaryEnvironmentalAccumulator tile,
-                                 IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe) {
+            IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe) {
         MutableInt duration = new MutableInt(getUnmodifiedRequiredTicks(tile, recipe));
         Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableInt>(duration, TileSanguinaryEnvironmentalAccumulator.UPGRADEEVENT_SPEED));
         return duration.getValue();
@@ -104,5 +100,4 @@ public class AccumulateItemTickAction implements ITickAction<TileSanguinaryEnvir
     public boolean addToProduceSlot(TileSanguinaryEnvironmentalAccumulator tile, ItemStack itemStack) {
         return InventoryHelpers.addToSlot(tile.getInventory(), tile.getProduceSlot(), itemStack);
     }
-    
 }

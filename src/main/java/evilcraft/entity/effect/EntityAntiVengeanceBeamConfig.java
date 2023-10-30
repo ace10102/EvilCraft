@@ -9,10 +9,9 @@ import evilcraft.core.config.extendedconfig.EntityConfig;
 /**
  * Config for the {@link EntityAntiVengeanceBeam}.
  * @author rubensworks
- *
  */
 public class EntityAntiVengeanceBeamConfig extends EntityConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -22,28 +21,21 @@ public class EntityAntiVengeanceBeamConfig extends EntityConfig {
      * Make a new instance.
      */
     public EntityAntiVengeanceBeamConfig() {
-        super(
-        	true,
-            "entityNeutronBeam",
-            null,
-            EntityAntiVengeanceBeam.class
-        );
-    }
-    
-    @Override
-    public boolean isDisableable() {
-    	return false;
+        super(true, "entityNeutronBeam", null, EntityAntiVengeanceBeam.class);
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
-    public Render getRender() {
-    	return new RenderNull();
+    public boolean isDisableable() {
+        return false;
     }
-    
+
+    @Override @SideOnly(Side.CLIENT)
+    public Render getRender() {
+        return new RenderNull();
+    }
+
     @Override
     public boolean sendVelocityUpdates() {
         return true;
     }
-    
 }

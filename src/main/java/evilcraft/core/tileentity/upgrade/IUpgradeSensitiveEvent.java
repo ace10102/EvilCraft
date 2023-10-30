@@ -15,5 +15,4 @@ public interface IUpgradeSensitiveEvent<O> {
      * @return The type of this event.
      */
     public Upgrades.UpgradeEventType getType();
-
 }

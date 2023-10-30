@@ -10,9 +10,7 @@ import net.minecraft.util.ResourceLocation;
 
 /**
  * Renderer for a netherfish
- * 
  * @author rubensworks
- *
  */
 public class RenderControlledZombie extends RenderBiped {
 
@@ -26,10 +24,9 @@ public class RenderControlledZombie extends RenderBiped {
         super(new ModelZombie(), 0.5F, 1.0F);
         this.texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + config.getNamedId() + ".png");
     }
-    
+
     @Override
     protected ResourceLocation getEntityTexture(Entity entity) {
         return texture;
     }
-
 }

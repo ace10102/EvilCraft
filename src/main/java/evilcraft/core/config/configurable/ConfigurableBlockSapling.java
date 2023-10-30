@@ -20,9 +20,8 @@ import java.util.Random;
 /**
  * Block extending from a sapling that can hold ExtendedConfigs
  * @author rubensworks
- *
  */
-public class ConfigurableBlockSapling extends BlockSapling implements IConfigurable{
+public class ConfigurableBlockSapling extends BlockSapling implements IConfigurable {
 
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
@@ -34,7 +33,7 @@ public class ConfigurableBlockSapling extends BlockSapling implements IConfigura
      * @param eConfig Config for this block.
      * @param material Material of this block.
      */
-    @SuppressWarnings({ "rawtypes" })
+    @SuppressWarnings("rawtypes")
     public ConfigurableBlockSapling(ExtendedConfig eConfig, Material material) {
         this.setConfig(eConfig);
         this.setBlockName(eConfig.getUnlocalizedName());
@@ -42,7 +41,8 @@ public class ConfigurableBlockSapling extends BlockSapling implements IConfigura
         setStepSound(soundTypeGrass);
     }
 
-    private void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {
+    @SuppressWarnings("rawtypes")
+    private void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
 
@@ -53,11 +53,10 @@ public class ConfigurableBlockSapling extends BlockSapling implements IConfigura
 
     @Override
     public String getTextureName() {
-        return Reference.MOD_ID+":"+eConfig.getNamedId();
+        return Reference.MOD_ID + ":" + eConfig.getNamedId();
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         blockIcon = iconRegister.registerIcon(getTextureName());
     }
@@ -67,8 +66,7 @@ public class ConfigurableBlockSapling extends BlockSapling implements IConfigura
         return this.blockIcon;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
+    @Override @SuppressWarnings({ "rawtypes", "unchecked" })
     public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
         list.add(new ItemStack(item, 1, 0));
     }
@@ -78,16 +76,16 @@ public class ConfigurableBlockSapling extends BlockSapling implements IConfigura
         return meta;
     }
 
-    //isSameSapling
+    // isSameSapling
     @Override
     public boolean func_149880_a(World world, int x, int y, int z, int meta) {
         return world.getBlock(x, y, z) == this && (world.getBlockMetadata(x, y, z)) == meta;
     }
 
-    //growTree
+    // growTree
     @Override
     public void func_149878_d(World world, int x, int y, int z, Random random) {
-        if (world.isRemote) {
+        if(world.isRemote) {
             return;
         }
 
@@ -97,5 +95,4 @@ public class ConfigurableBlockSapling extends BlockSapling implements IConfigura
             world.setBlock(x, y, z, this, 0, 4);
         }
     }
-
 }

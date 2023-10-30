@@ -14,51 +14,20 @@ import java.util.List;
 /**
  * GUI for the {@link GuiSanguinaryEnvironmentalAccumulator}.
  * @author rubensworks
- *
  */
 public class GuiSanguinaryEnvironmentalAccumulator extends GuiWorking<TileSanguinaryEnvironmentalAccumulator> {
 
-    /**
-     * Texture width.
-     */
     public static final int TEXTUREWIDTH = 176;
-    /**
-     * Texture height.
-     */
     public static final int TEXTUREHEIGHT = 166;
 
-    /**
-     * Progress width.
-     */
     public static final int PROGRESSWIDTH = 24;
-    /**
-     * Progress height.
-     */
     public static final int PROGRESSHEIGHT = 16;
-    /**
-     * Progress X.
-     */
     public static final int PROGRESSX = 192;
-    /**
-     * Progress Y.
-     */
     public static final int PROGRESSY = 0;
-    /**
-     * Progress target X.
-     */
     public static final int PROGRESSTARGETX = 77;
-    /**
-     * Progress target Y.
-     */
     public static final int PROGRESSTARGETY = 36;
 
-    /**
-     * Progress target X.
-     */
     public static final int PROGRESS_INVALIDX = 192;
-    /**
-     * Progress target Y.
-     */
     public static final int PROGRESS_INVALIDY = 18;
 
     /**
@@ -84,15 +53,12 @@ public class GuiSanguinaryEnvironmentalAccumulator extends GuiWorking<TileSangui
             }
         }
         if(lines.size() > 1) {
-            this.drawTexturedModalRect(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,
-                    PROGRESS_INVALIDY, PROGRESSWIDTH, PROGRESSHEIGHT);
-            if(isPointInRegion(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESSWIDTH, PROGRESSHEIGHT,
-                    mouseX, mouseY)) {
+            this.drawTexturedModalRect(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX, PROGRESS_INVALIDY, PROGRESSWIDTH, PROGRESSHEIGHT);
+            if(isPointInRegion(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESSWIDTH, PROGRESSHEIGHT, mouseX, mouseY)) {
                 mouseX -= guiLeft;
                 mouseY -= guiTop;
                 drawTooltip(lines, mouseX, mouseY);
             }
         }
     }
-    
 }

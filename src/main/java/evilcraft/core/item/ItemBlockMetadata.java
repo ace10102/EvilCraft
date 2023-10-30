@@ -14,13 +14,11 @@ import net.minecraft.item.ItemStack;
 import java.util.List;
 
 /**
- * An extended {@link ItemBlockWithMetadata} that will automatically add information to the block
- * item if that block implements {@link IInformationProvider}.
+ * An extended {@link ItemBlockWithMetadata} that will automatically add information to the block item if that block implements {@link IInformationProvider}.
  * @author rubensworks
- *
  */
-public class ItemBlockMetadata extends ItemBlockWithMetadata{
-    
+public class ItemBlockMetadata extends ItemBlockWithMetadata {
+
     protected InformationProviderComponent informationProvider;
     protected IBlockRarityProvider rarityProvider = null;
 
@@ -32,17 +30,15 @@ public class ItemBlockMetadata extends ItemBlockWithMetadata{
         super(block, block);
         informationProvider = new InformationProviderComponent(block);
         if(block instanceof IBlockRarityProvider) {
-            rarityProvider = (IBlockRarityProvider) block;
+            rarityProvider = (IBlockRarityProvider)block;
         }
     }
-    
-    @SuppressWarnings("rawtypes")
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT) @SuppressWarnings("rawtypes")
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         L10NHelpers.addOptionalInfo(list, getUnlocalizedName());
-    	informationProvider.addInformation(itemStack, entityPlayer, list, par4);
+        informationProvider.addInformation(itemStack, entityPlayer, list, par4);
     }
 
     @Override
@@ -52,5 +48,4 @@ public class ItemBlockMetadata extends ItemBlockWithMetadata{
         }
         return super.getRarity(itemStack);
     }
-
 }

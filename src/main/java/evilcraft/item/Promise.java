@@ -27,14 +27,12 @@ import java.util.Map;
 /**
  * Promise item singleton.
  * Used for machine upgrades.
- * 
  * @author rubensworks
- *
  */
 public class Promise extends ConfigurableItem {
 
     private static Promise _instance = null;
-    public static final Upgrades.Upgrade[] UPGRADES = new Upgrades.Upgrade[]{
+    public static final Upgrades.Upgrade[] UPGRADES = new Upgrades.Upgrade[] {
             WorkingTileEntity.UPGRADE_TIER1,
             WorkingTileEntity.UPGRADE_TIER2,
             WorkingTileEntity.UPGRADE_TIER3,
@@ -96,33 +94,28 @@ public class Promise extends ConfigurableItem {
         return super.getItemStackLimit(itemStack);
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public boolean hasEffect(ItemStack itemStack, int pass) {
         return pass == 0;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public boolean requiresMultipleRenderPasses() {
         return true;
     }
-    
+
     @Override
     public int getRenderPasses(int metadata) {
         return 2;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(ItemStack itemStack, int renderPass) {
         Upgrades.Upgrade upgrade = getUpgrade(itemStack);
         return renderPass == 0 ? SECONDARY_COLORS.get(upgrade) : MAIN_COLORS.get(upgrade);
     }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    @SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT) @SuppressWarnings({ "rawtypes", "unchecked" })
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         if(Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
@@ -132,22 +125,19 @@ public class Promise extends ConfigurableItem {
             }
         }
     }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister iconRegister) {
         super.registerIcons(iconRegister);
         overlay = iconRegister.registerIcon(getIconString() + "_overlay");
     }
-    
+
     @Override
     public IIcon getIconFromDamageForRenderPass(int meta, int renderpass) {
         return renderpass == 0 ? this.overlay : super.getIconFromDamageForRenderPass(meta, renderpass);
     }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    @SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT) @SuppressWarnings({ "rawtypes", "unchecked" })
     public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
         for(int i = 0; i < UPGRADES.length; i++) {
             list.add(new ItemStack(item, 1, i));
@@ -180,5 +170,4 @@ public class Promise extends ConfigurableItem {
     public EnumRarity getRarity(ItemStack itemStack) {
         return itemStack.getItemDamage() < 3 ? EnumRarity.rare : EnumRarity.uncommon;
     }
-
 }

@@ -64,15 +64,13 @@ public class NEIBloodInfuserFluidsManager extends NEIBloodInfuserManager {
     private void loadAllBloodInfuserRecipes() {
         List<CachedBloodInfuserRecipe> recipes = new LinkedList<CachedBloodInfuserRecipe>();
 
-        for (IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe :
-                BloodInfuser.getInstance().getRecipeRegistry().allRecipes())
+        for(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe : BloodInfuser.getInstance().getRecipeRegistry().allRecipes())
             mbloodinfuser.add(new CachedBloodInfuserRecipe(recipe));
     }
 
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
-        if(outputId.equals(getOverlayIdentifier()) && getClass() == NEIBloodInfuserFluidsManager.class
-                && results[0] instanceof FluidStack && ((FluidStack) results[0]).getFluid() != null)
+        if(outputId.equals(getOverlayIdentifier()) && getClass() == NEIBloodInfuserFluidsManager.class && results[0] instanceof FluidStack && ((FluidStack)results[0]).getFluid() != null)
             for(FluidPair fuel : afluids)
                 arecipes.add(new CachedFluidRecipe(fuel));
     }
@@ -86,5 +84,4 @@ public class NEIBloodInfuserFluidsManager extends NEIBloodInfuserManager {
     public String getOverlayIdentifier() {
         return getFluidOverlayIdentifier();
     }
-
 }

@@ -8,15 +8,14 @@ import evilcraft.core.config.extendedconfig.BlockConfig;
 /**
  * Config for the {@link DarkOre}.
  * @author rubensworks
- *
  */
 public class DarkOreConfig extends BlockConfig {
-    
+
     /**
      * The unique instance.
      */
     public static DarkOreConfig _instance;
-    
+
     /**
      * The amount of blocks per vein.
      */
@@ -42,17 +41,11 @@ public class DarkOreConfig extends BlockConfig {
      * Make a new instance.
      */
     public DarkOreConfig() {
-        super(
-        	true,
-            "darkOre",
-            null,
-            DarkOre.class
-        );
+        super(true, "darkOre", null, DarkOre.class);
     }
-    
+
     @Override
     public String getOreDictionaryId() {
         return Reference.DICT_OREDARK;
     }
-    
 }

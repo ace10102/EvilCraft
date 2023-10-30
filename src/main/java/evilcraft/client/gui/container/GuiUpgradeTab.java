@@ -40,8 +40,6 @@ public class GuiUpgradeTab extends GuiTab {
     }
 
     public static interface SlotEnabledCallback {
-
         public boolean isSlotEnabled(int upgradeSlotId);
-
     }
 }

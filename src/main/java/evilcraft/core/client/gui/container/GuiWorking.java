@@ -8,37 +8,35 @@ import evilcraft.tileentity.TileWorking;
 /**
  * A GUI container that has support for the display of {@link WorkingTileEntity}.
  * @author rubensworks
- *
  * @param <T> The {@link WorkingTileEntity} class, mostly just the extension class.
  */
-public class GuiWorking<T extends TileWorking<?, ?>> extends GuiContainerTankInventory<T>
-        implements GuiUpgradeTab.SlotEnabledCallback {
+public class GuiWorking<T extends TileWorking<?, ?>> extends GuiContainerTankInventory<T> implements GuiUpgradeTab.SlotEnabledCallback {
 
     public static final int UPGRADES_OFFSET_X = 28;
 
     private GuiUpgradeTab upgrades;
 
-	/**
+    /**
      * Make a new instance.
      * @param container The container to make the GUI for.
      * @param tile The tile entity to make the GUI for.
      */
-	public GuiWorking(ExtendedInventoryContainer container, T tile) {
-		super(container, tile);
+    public GuiWorking(ExtendedInventoryContainer container, T tile) {
+        super(container, tile);
         this.upgrades = new GuiUpgradeTab(this, this);
         this.offsetX = UPGRADES_OFFSET_X;
-	}
+    }
 
     @Override
     public boolean isSlotEnabled(int upgradeSlotId) {
         return tile.isUpgradeSlotEnabled(tile.getBasicInventorySize() + upgradeSlotId);
     }
-	
-	@Override
+
+    @Override
     protected boolean isShowProgress() {
         return tile.isWorking();
     }
-    
+
     @Override
     protected int getProgressXScaled(int width) {
         return tile.getWorkTickScaled(24);
@@ -49,5 +47,4 @@ public class GuiWorking<T extends TileWorking<?, ?>> extends GuiContainerTankInv
         super.drawGuiContainerBackgroundLayer(f, x, y);
         upgrades.drawBackground(guiLeft, guiTop);
     }
-
 }

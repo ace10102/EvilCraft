@@ -6,10 +6,9 @@ import evilcraft.world.biome.BiomeDegraded;
 /**
  * Config for {@link BiomeDegraded}.
  * @author rubensworks
- *
  */
 public class SoundDegradationConfig extends DegradationEffectConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -19,13 +18,6 @@ public class SoundDegradationConfig extends DegradationEffectConfig {
      * Make a new instance.
      */
     public SoundDegradationConfig() {
-        super(
-            true,
-            "sound",
-            null,
-            SoundDegradation.class,
-            3
-        );
+        super(true, "sound", null, SoundDegradation.class, 3);
     }
-    
 }

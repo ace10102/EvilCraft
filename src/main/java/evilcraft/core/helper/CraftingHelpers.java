@@ -16,36 +16,33 @@ import java.util.Map;
  */
 public class CraftingHelpers {
 
+    @SuppressWarnings("unchecked")
     public static IRecipe findCraftingRecipe(ItemStack itemStack, int index) throws InfoBookParser.InvalidAppendixException {
         int indexAttempt = index;
-        for(IRecipe recipe : (List<IRecipe>) CraftingManager.getInstance().getRecipeList()) {
+        for(IRecipe recipe : (List<IRecipe>)CraftingManager.getInstance().getRecipeList()) {
             if(itemStacksEqual(recipe.getRecipeOutput(), itemStack) && indexAttempt-- == 0) {
                 return recipe;
             }
         }
-        throw new InfoBookParser.InvalidAppendixException("Could not find crafting recipe for " + itemStack.getItem().getUnlocalizedName() +
-                "with index " + index);
+        throw new InfoBookParser.InvalidAppendixException("Could not find crafting recipe for " + itemStack.getItem().getUnlocalizedName() + "with index " + index);
     }
 
+    @SuppressWarnings("unchecked")
     public static Map.Entry<ItemStack, ItemStack> findFurnaceRecipe(ItemStack itemStack, int index) throws InfoBookParser.InvalidAppendixException {
         int indexAttempt = index;
-        for(Map.Entry<ItemStack, ItemStack> recipe : ((Map<ItemStack, ItemStack>) FurnaceRecipes.smelting().
-                getSmeltingList()).entrySet()) {
+        for(Map.Entry<ItemStack, ItemStack> recipe : ((Map<ItemStack, ItemStack>)FurnaceRecipes.smelting().getSmeltingList()).entrySet()) {
             if(itemStacksEqual(recipe.getValue(), itemStack) && indexAttempt-- == 0) {
                 return recipe;
             }
         }
-        throw new InfoBookParser.InvalidAppendixException("Could not find furnace recipe for " + itemStack.getItem().getUnlocalizedName() +
-                "with index " + index);
+        throw new InfoBookParser.InvalidAppendixException("Could not find furnace recipe for " + itemStack.getItem().getUnlocalizedName() + "with index " + index);
     }
 
     public static boolean itemStacksEqual(ItemStack itemStack1, ItemStack itemStack2) {
-        return itemStack1 != null && itemStack2 != null &&
-               itemStack1.getItem() == itemStack2.getItem() &&
-               (itemStack1.getItemDamage() == itemStack2.getItemDamage() ||
-                       itemStack1.getItemDamage() == OreDictionary.WILDCARD_VALUE ||
-                       itemStack2.getItemDamage() == OreDictionary.WILDCARD_VALUE ||
-                       itemStack1.getItem().isDamageable());
+        return itemStack1 != null && itemStack2 != null && itemStack1.getItem() == itemStack2.getItem() 
+                && (itemStack1.getItemDamage() == itemStack2.getItemDamage()
+                || itemStack1.getItemDamage() == OreDictionary.WILDCARD_VALUE
+                || itemStack2.getItemDamage() == OreDictionary.WILDCARD_VALUE
+                || itemStack1.getItem().isDamageable());
     }
-
 }

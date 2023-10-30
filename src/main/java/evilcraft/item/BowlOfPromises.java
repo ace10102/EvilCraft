@@ -19,7 +19,6 @@ import java.util.List;
 /**
  * A bowl of promises.
  * @author rubensworks
- *
  */
 public class BowlOfPromises extends ConfigurableItem {
 
@@ -69,14 +68,12 @@ public class BowlOfPromises extends ConfigurableItem {
         return itemStack.getItemDamage() >= ACTIVE_META;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public boolean hasEffect(ItemStack itemStack, int pass) {
         return pass == 0 && itemStack.getItemDamage() >= ACTIVE_META;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public boolean requiresMultipleRenderPasses() {
         return true;
     }
@@ -86,8 +83,7 @@ public class BowlOfPromises extends ConfigurableItem {
         return metadata >= ACTIVE_META ? 2 : 1;
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister iconRegister) {
         active_overlay = iconRegister.registerIcon(getIconString() + "_active_overlay");
         active = iconRegister.registerIcon(getIconString() + "_active");
@@ -102,23 +98,19 @@ public class BowlOfPromises extends ConfigurableItem {
         return renderpass == 0 ? active_overlay : active;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(ItemStack itemStack, int renderPass) {
         if(itemStack.getItemDamage() > 1 && renderPass == 0) {
-            float division = (((float) ((((BowlOfPromisesConfig) eConfig).getTiers() -
-                    (itemStack.getItemDamage() - 2)) - 1) / 3) + 1);
-            int channel = (int) (255 / division);
+            float division = (((float)((((BowlOfPromisesConfig)eConfig).getTiers() - (itemStack.getItemDamage() - 2)) - 1) / 3) + 1);
+            int channel = (int)(255 / division);
             return RenderHelpers.RGBToInt(channel, channel, channel);
         }
         return super.getColorFromItemStack(itemStack, renderPass);
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT) @SuppressWarnings({ "rawtypes", "unchecked" })
     public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
-        for(int i = 0; i < ACTIVE_META + ((BowlOfPromisesConfig) eConfig).getTiers(); i++) {
+        for(int i = 0; i < ACTIVE_META + ((BowlOfPromisesConfig)eConfig).getTiers(); i++) {
             list.add(new ItemStack(item, 1, i));
         }
     }
@@ -131,16 +123,12 @@ public class BowlOfPromises extends ConfigurableItem {
         return super.getUnlocalizedName(itemStack) + "." + suffix;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT) @SuppressWarnings({ "rawtypes", "unchecked" })
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         if(itemStack.getItemDamage() >= ACTIVE_META) {
             int tier = itemStack.getItemDamage() - ACTIVE_META;
-            list.add(L10NHelpers.localize(super.getUnlocalizedName(itemStack) + ".strength") + " " +
-                    (tier == 0 ? 0 : L10NHelpers.localize("enchantment.level." + tier)));
+            list.add(L10NHelpers.localize(super.getUnlocalizedName(itemStack) + ".strength") + " " + (tier == 0 ? 0 : L10NHelpers.localize("enchantment.level." + tier)));
         }
     }
-
 }

@@ -23,7 +23,6 @@ import java.util.Set;
 /**
  * Config for the {@link ColossalBloodChest}.
  * @author rubensworks
- *
  */
 public class ColossalBloodChestConfig extends BlockContainerConfig {
 
@@ -54,12 +53,7 @@ public class ColossalBloodChestConfig extends BlockContainerConfig {
      * Make a new instance.
      */
     public ColossalBloodChestConfig() {
-        super(
-        	true,
-            "colossalBloodChest",
-            null,
-            ColossalBloodChest.class
-        );
+        super(true, "colossalBloodChest", null, ColossalBloodChest.class);
     }
 
     @Override
@@ -77,13 +71,11 @@ public class ColossalBloodChestConfig extends BlockContainerConfig {
                 TileWorking.UPGRADE_TIER3);
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public void onRegistered() {
         super.onRegistered();
         ModelBase model = new ModelChest();
         ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "colossalBloodChest.png");
         ClientProxy.TILE_ENTITY_RENDERERS.put(TileColossalBloodChest.class, new RenderTileEntityColossalBloodChest(model, texture));
     }
-    
 }

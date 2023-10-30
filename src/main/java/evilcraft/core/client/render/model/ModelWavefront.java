@@ -8,29 +8,27 @@ import evilcraft.core.helper.RenderHelpers;
 /**
  * Render a {@link WavefrontObject}.
  * @author rubensworks
- *
  */
 public class ModelWavefront extends ModelBase {
 
-	private WavefrontObject model;
-	private ResourceLocation texture;
-	
-	/**
-	 * Make a new instance.
-	 * @param model The model.
-	 * @param texture The texture.
-	 */
-	public ModelWavefront(WavefrontObject model, ResourceLocation texture) {
-		this.model = model;
-		this.texture = texture;
-	}
-	
-	/**
-	 * Render the model with it's texture.
-	 */
-	public void renderAll() {
-    	RenderHelpers.bindTexture(texture);
-    	model.renderAll();
+    private WavefrontObject model;
+    private ResourceLocation texture;
+
+    /**
+     * Make a new instance.
+     * @param model The model.
+     * @param texture The texture.
+     */
+    public ModelWavefront(WavefrontObject model, ResourceLocation texture) {
+        this.model = model;
+        this.texture = texture;
     }
-	
+
+    /**
+     * Render the model with it's texture.
+     */
+    public void renderAll() {
+        RenderHelpers.bindTexture(texture);
+        model.renderAll();
+    }
 }

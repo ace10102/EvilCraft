@@ -57,8 +57,7 @@ public class EE3 {
     public static void registerCrafting() {
         // Blood Infuser recipes
         if(Configs.isEnabled(BloodInfuserConfig.class)) {
-            for (IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe :
-                    BloodInfuser.getInstance().getRecipeRegistry().allRecipes()) {
+            for(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe : BloodInfuser.getInstance().getRecipeRegistry().allRecipes()) {
                 List l = Lists.newArrayList(recipe.getInput().getItemStacks());
                 l.add(recipe.getInput().getFluidStack());
                 RecipeRegistryProxy.addRecipe(recipe.getOutput().getItemStack(), l);
@@ -67,9 +66,7 @@ public class EE3 {
 
         // Environmental Accumulator recipes
         if(Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
-            for (IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent,
-                    EnvironmentalAccumulatorRecipeProperties> recipe : EnvironmentalAccumulator.getInstance().
-                    getRecipeRegistry().allRecipes()) {
+            for(IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe : EnvironmentalAccumulator.getInstance().getRecipeRegistry().allRecipes()) {
                 RecipeRegistryProxy.addRecipe(recipe.getOutput().getItemStack(), Arrays.asList((recipe.getInput().getItemStack())));
             }
         }
@@ -94,5 +91,4 @@ public class EE3 {
             EnergyValueRegistryProxy.addPreAssignedEnergyValue(new ItemStack(itemConfig.getBlockInstance(), 1, meta), energyValue);
         }
     }
-
 }

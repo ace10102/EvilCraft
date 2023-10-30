@@ -13,15 +13,14 @@ import evilcraft.tileentity.TileBloodChest;
 /**
  * Container for the {@link BloodChest}.
  * @author rubensworks
- *
  */
 public class ContainerBloodChest extends TickingChestContainer<TileBloodChest> {
-    
+
     private static final int INVENTORY_OFFSET_X = 28;
     private static final int INVENTORY_OFFSET_Y = 84;
     private static final int ARMOR_INVENTORY_OFFSET_X = 6;
     private static final int ARMOR_INVENTORY_OFFSET_Y = 86;
-    
+
     private static final int CHEST_INVENTORY_OFFSET_X = 100;
     private static final int CHEST_INVENTORY_OFFSET_Y = 27;
     /**
@@ -40,8 +39,11 @@ public class ContainerBloodChest extends TickingChestContainer<TileBloodChest> {
      */
     public ContainerBloodChest(InventoryPlayer inventory, TileBloodChest tile) {
         super(inventory, tile, CHEST_INVENTORY_ROWS, CHEST_INVENTORY_COLUMNS, CHEST_INVENTORY_OFFSET_X, CHEST_INVENTORY_OFFSET_Y);
+
         tile.openInventory();
+
         addSlotToContainer(new SlotFluidContainer(tile, TileBloodChest.SLOT_CONTAINER, 28, 36, tile.getTank())); // Container emptier
+
         this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
         this.addPlayerArmorInventory(inventory, ARMOR_INVENTORY_OFFSET_X, ARMOR_INVENTORY_OFFSET_Y);
     }
@@ -50,11 +52,10 @@ public class ContainerBloodChest extends TickingChestContainer<TileBloodChest> {
     public Slot makeSlot(IInventory inventory, int index, int row, int column) {
         return new SlotRepairable(inventory, index, row, column);
     }
-    
+
     @Override
     public void onContainerClosed(EntityPlayer entityplayer) {
         super.onContainerClosed(entityplayer);
         tile.closeInventory();
     }
-    
 }

@@ -8,17 +8,16 @@ import java.util.Random;
 /**
  * An algorithm that is able to organically spread an object in an area.
  * @author rubensworks
- *
  */
 public class OrganicSpread {
-    
+
     private static Random random = new Random();
-    
+
     private World world;
     private int dimensions;
     private int radius;
     private IOrganicSpreadable spreadable;
-    
+
     /**
      * Make a new instance.
      * @param world The world.
@@ -32,21 +31,21 @@ public class OrganicSpread {
         this.setRadius(radius);
         this.setSpreadable(spreadable);
     }
-    
+
     /**
      * @return the radius
      */
     public int getRadius() {
         return radius;
     }
-    
+
     /**
      * @param radius the radius to set
      */
     public void setRadius(int radius) {
         this.radius = radius;
     }
-    
+
     /**
      * @return the dimensions
      */
@@ -60,7 +59,7 @@ public class OrganicSpread {
     public void setDimensions(int dimensions) {
         this.dimensions = dimensions;
     }
-    
+
     /**
      * @return the spreadable
      */
@@ -74,19 +73,17 @@ public class OrganicSpread {
     public void setSpreadable(IOrganicSpreadable spreadable) {
         this.spreadable = spreadable;
     }
-    
+
     /**
      * Perform one spreading tick so that one new block will be spread to.
      * @param startLocation The location to start spreading from.
      */
     public void spreadTick(ILocation startLocation) {
         if(startLocation.getDimensions() != getDimensions()) {
-            throw new RuntimeException("The dimensions of the given location("
-            		+ startLocation.getDimensions() + ") do not equal " + "this spreading dimensions("
-            		+ getDimensions() + ").");
+            throw new RuntimeException("The dimensions of the given location(" + startLocation.getDimensions() + ") do not equal " + "this spreading dimensions(" + getDimensions() + ").");
         }
         ILocation newLocation = startLocation.copy();
-        
+
         // Safely get a random direction.
         float[] direction = getRandomDirection();
         int attempts = 10;
@@ -94,13 +91,13 @@ public class OrganicSpread {
             direction = getRandomDirection();
             attempts--;
         }
-        
+
         // Copy old coordinates to float array.
         float[] oldCoordinates = new float[newLocation.getDimensions()];
         for(int i = 0; i < newLocation.getDimensions(); i++) {
             oldCoordinates[i] = newLocation.getCoordinates()[i];
         }
-        
+
         // Loop in that direction.
         while(getSpreadable().isDone(world, newLocation) && isInArea(startLocation, oldCoordinates)) {
             // Calculate the new coordinates
@@ -108,26 +105,24 @@ public class OrganicSpread {
             for(int i = 0; i < newCoordinates.length; i++) {
                 newCoordinates[i] = oldCoordinates[i] + direction[i];
             }
-            
+
             // Set the new coordinates
             int[] finalCoordinates = new int[newLocation.getDimensions()];
             for(int i = 0; i < newLocation.getDimensions(); i++) {
-                finalCoordinates[i] = (int) newCoordinates[i];
+                finalCoordinates[i] = (int)newCoordinates[i];
             }
             newLocation.setCoordinates(finalCoordinates);
-            
+
             // Swap
             oldCoordinates = newCoordinates;
         }
-        
-        
-        
+
         // Spread to the new block.
         if(!getSpreadable().isDone(world, newLocation)) {
             getSpreadable().spreadTo(world, newLocation);
         }
     }
-    
+
     protected boolean isInArea(ILocation center, float[] location) {
         int distance = 0;
         for(int i = 0; i < center.getDimensions(); i++) {
@@ -136,7 +131,7 @@ public class OrganicSpread {
         }
         return Math.sqrt(distance) <= getRadius();
     }
-    
+
     protected boolean isBigEnough(float[] direction) {
         float MIN = 0.3F;
         for(float directionElement : direction) {
@@ -146,7 +141,7 @@ public class OrganicSpread {
         }
         return false;
     }
-    
+
     /**
      * Get a random direction to spread in.
      * @return An array of a choice of -1;0;1 per coordinate index.
@@ -158,16 +153,13 @@ public class OrganicSpread {
         }
         return direction;
     }
-    
-    
 
     /**
      * Interface for organically spreadable things.
      * @author rubensworks
-     *
      */
     public interface IOrganicSpreadable {
-        
+
         /**
          * Check if a certain location is already spread to.
          * @param world The world.
@@ -175,13 +167,12 @@ public class OrganicSpread {
          * @return If it is spread to.
          */
         public boolean isDone(World world, ILocation location);
+
         /**
          * Spread to a given location.
          * @param world The world.
          * @param location The location.
          */
         public void spreadTo(World world, ILocation location);
-        
     }
-
 }

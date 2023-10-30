@@ -18,49 +18,46 @@ import net.minecraft.item.ItemStack;
 /**
  * Event hook for {@link ItemCraftedEvent}.
  * @author rubensworks
- *
  */
 public class ItemCraftedEventHook {
-    
+
     /**
      * When an item crafted event is received.
      * @param event The received event.
      */
-	@SubscribeEvent
+    @SubscribeEvent
     public void onCraft(ItemCraftedEvent event) {
         craftBloodExtractor(event);
         craftSpiritFurnace(event);
         craftExaltedCrafter(event);
         craftDeadBush(event);
     }
-    
+
     private void craftBloodExtractor(ItemCraftedEvent event) {
-    	if(Configs.isEnabled(BloodExtractorConfig.class)) {
-	    	Item item = event.crafting.getItem();
-	    	if(event.player != null && item != null && item == BloodExtractor.getInstance()) {
-	    		event.player.addStat(Achievements.SECOND_AGE, 1);
-	        }
-    	}
+        if(Configs.isEnabled(BloodExtractorConfig.class)) {
+            Item item = event.crafting.getItem();
+            if(event.player != null && item != null && item == BloodExtractor.getInstance()) {
+                event.player.addStat(Achievements.SECOND_AGE, 1);
+            }
+        }
     }
-    
+
     private void craftSpiritFurnace(ItemCraftedEvent event) {
-    	if(Configs.isEnabled(SpiritFurnaceConfig.class)) {
-	    	Item item = event.crafting.getItem();
-	    	if(event.player != null && item != null &&
-	    			item == Item.getItemFromBlock(SpiritFurnace.getInstance())) {
-	    		event.player.addStat(Achievements.SPIRIT_COOKER, 1);
-	        }
-    	}
+        if(Configs.isEnabled(SpiritFurnaceConfig.class)) {
+            Item item = event.crafting.getItem();
+            if(event.player != null && item != null && item == Item.getItemFromBlock(SpiritFurnace.getInstance())) {
+                event.player.addStat(Achievements.SPIRIT_COOKER, 1);
+            }
+        }
     }
-    
+
     private void craftExaltedCrafter(ItemCraftedEvent event) {
-    	if(Configs.isEnabled(ExaltedCrafterConfig.class)) {
-	    	Item item = event.crafting.getItem();
-	    	if(event.player != null && item != null &&
-	    			item == ExaltedCrafter.getInstance()) {
-	    		event.player.addStat(Achievements.POWER_CRAFTING, 1);
-	        }
-    	}
+        if(Configs.isEnabled(ExaltedCrafterConfig.class)) {
+            Item item = event.crafting.getItem();
+            if(event.player != null && item != null && item == ExaltedCrafter.getInstance()) {
+                event.player.addStat(Achievements.POWER_CRAFTING, 1);
+            }
+        }
     }
 
     private void craftDeadBush(ItemCraftedEvent event) {

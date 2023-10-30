@@ -16,29 +16,27 @@ import java.util.Map;
 /**
  * This will take care of the logic of custom buckets, so they can be filled like other buckets.
  * @author rubensworks
- *
  */
 public class BucketHandler {
 
     private static BucketHandler _instance;
-    
+
     /**
-     * The map that will map the fluid block to the respective bucket that is capable
-     * to hold the fluid of that block.
+     * The map that will map the fluid block to the respective bucket that is capable to hold the fluid of that block.
      */
     public Map<Block, Item> buckets = new HashMap<Block, Item>();
-    
+
     /**
      * Get the unique instance.
      * @return The unique instance.
      */
     public static BucketHandler getInstance() {
-        if(_instance == null) _instance = new BucketHandler();
+        if(_instance == null)
+            _instance = new BucketHandler();
         return _instance;
     }
 
     private BucketHandler() {
-        
     }
 
     /**
@@ -49,7 +47,7 @@ public class BucketHandler {
     public void onBucketFill(FillBucketEvent event) {
         ItemStack result = fillCustomBucket(event.world, event.target, event.current);
 
-        if (result != null) {
+        if(result != null) {
             event.result = result;
             event.setResult(Result.ALLOW);
         }
@@ -59,8 +57,7 @@ public class BucketHandler {
         Block block = world.getBlock(pos.blockX, pos.blockY, pos.blockZ);
 
         Item bucket = buckets.get(block);
-        if (bucket != null && world.getBlockMetadata(pos.blockX, pos.blockY, pos.blockZ) == 0 &&
-                ItemStack.areItemStacksEqual(current, bucket.getContainerItem(current))) {
+        if(bucket != null && world.getBlockMetadata(pos.blockX, pos.blockY, pos.blockZ) == 0 && ItemStack.areItemStacksEqual(current, bucket.getContainerItem(current))) {
             world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.air);
             return new ItemStack(bucket);
         } else {

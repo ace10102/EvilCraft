@@ -1,7 +1,6 @@
 package evilcraft.command;
 
 import evilcraft.core.helper.L10NHelpers;
-import evilcraft.core.helper.ServerHelpers;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
@@ -15,12 +14,11 @@ import java.util.Map;
 /**
  * The EvilCraft command.
  * @author rubensworks
- *
  */
 public class CommandEvilCraft implements ICommand {
-    
+
     private static final String NAME = "evilcraft";
-    
+
     protected List<String> getAliases() {
         List<String> list = new LinkedList<String>();
         list.add(NAME);
@@ -29,7 +27,7 @@ public class CommandEvilCraft implements ICommand {
         list.add("ec");
         return list;
     }
-    
+
     protected Map<String, ICommand> getSubcommands() {
         Map<String, ICommand> map = new HashMap<String, ICommand>();
         map.put("config", new CommandConfig());
@@ -38,7 +36,7 @@ public class CommandEvilCraft implements ICommand {
         map.put("ignite", new CommandIgnite());
         return map;
     }
-    
+
     private List<String> getSubCommands(String cmd) {
         List<String> completions = new LinkedList<String>();
         for(String full : getSubcommands().keySet()) {
@@ -68,12 +66,11 @@ public class CommandEvilCraft implements ICommand {
         return NAME + " " + possibilities;
     }
 
-    @SuppressWarnings("rawtypes")
-    @Override
+    @SuppressWarnings("rawtypes") @Override
     public List getCommandAliases() {
         return this.getAliases();
     }
-    
+
     protected String[] shortenArgumentList(String[] astring) {
         String[] asubstring = new String[astring.length - 1];
         for(int i = 1; i < astring.length; i++) {
@@ -102,10 +99,8 @@ public class CommandEvilCraft implements ICommand {
         return icommandsender.canCommandSenderUseCommand(MinecraftServer.getServer().getOpPermissionLevel(), this.getCommandName());
     }
 
-    @SuppressWarnings("rawtypes")
-    @Override
-    public List addTabCompletionOptions(ICommandSender icommandsender,
-            String[] astring) {
+    @SuppressWarnings("rawtypes") @Override
+    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring) {
         if(astring.length != 0) {
             ICommand subcommand = getSubcommands().get(astring[0]);
             if(subcommand != null) {
@@ -123,5 +118,4 @@ public class CommandEvilCraft implements ICommand {
     public boolean isUsernameIndex(String[] astring, int i) {
         return false;
     }
-    
 }

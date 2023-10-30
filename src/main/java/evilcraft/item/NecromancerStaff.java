@@ -22,11 +22,11 @@ import net.minecraft.world.World;
  *
  */
 public class NecromancerStaff extends ConfigurableDamageIndicatedItemFluidContainer {
-    
+
     private static NecromancerStaff _instance = null;
-    
+
     private static final int CONTAINER_SIZE = NecromancerStaffConfig.capacity;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -37,7 +37,7 @@ public class NecromancerStaff extends ConfigurableDamageIndicatedItemFluidContai
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -49,30 +49,28 @@ public class NecromancerStaff extends ConfigurableDamageIndicatedItemFluidContai
     private NecromancerStaff(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, CONTAINER_SIZE, Blood.getInstance());
     }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT)
     public boolean isFull3D() {
         return true;
     }
-    
+
     protected void throwNecromancersHead(EntityLivingBase entityLiving, Class<? extends EntityLiving> mobType) {
-    	EntityNecromancersHead head = new EntityNecromancersHead(entityLiving.worldObj, entityLiving);
-    	if(!entityLiving.worldObj.isRemote) {
-    		head.setMobType(mobType);
-    		entityLiving.worldObj.spawnEntityInWorld(head);
+        EntityNecromancersHead head = new EntityNecromancersHead(entityLiving.worldObj, entityLiving);
+        if(!entityLiving.worldObj.isRemote) {
+            head.setMobType(mobType);
+            entityLiving.worldObj.spawnEntityInWorld(head);
         }
     }
-    
+
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-		if(canConsume(NecromancerStaffConfig.usage, itemStack, player)) {
-			consume(NecromancerStaffConfig.usage, itemStack, player);
-			Class<? extends EntityLiving> mobType = EntityZombie.class; // Other types might be allowed in the future.
-			throwNecromancersHead(player, mobType);
-			return itemStack;
-		}
+        if(canConsume(NecromancerStaffConfig.usage, itemStack, player)) {
+            consume(NecromancerStaffConfig.usage, itemStack, player);
+            Class<? extends EntityLiving> mobType = EntityZombie.class; // Other types might be allowed in the future.
+            throwNecromancersHead(player, mobType);
+            return itemStack;
+        }
         return super.onItemRightClick(itemStack, world, player);
     }
-
 }

@@ -5,5 +5,4 @@ package evilcraft.api;
  * @author rubensworks
  */
 public interface IRegistry {
-
 }

@@ -11,11 +11,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-
 /**
  * A blood bubble FX.
  * @author rubensworks
- *
  */
 @SideOnly(Side.CLIENT)
 public class EntityBloodBubbleFX extends EntitySplashFX {
@@ -55,7 +53,7 @@ public class EntityBloodBubbleFX extends EntitySplashFX {
         this.motionX *= 0.85D;
         this.motionY *= 0.85D;
         this.motionZ *= 0.85D;
-        if (this.particleMaxAge-- <= 0) {
+        if(this.particleMaxAge-- <= 0) {
             this.setDead();
         }
     }
@@ -70,27 +68,20 @@ public class EntityBloodBubbleFX extends EntitySplashFX {
      * @param random Random instance.
      * @param rotatedDirection The direction to emit the particles at.
      */
-    @SideOnly(Side.CLIENT)
+    @SideOnly(Side.CLIENT) @SuppressWarnings("rawtypes")
     public static void randomDisplayTick(@Nullable WorkingTileEntity tile, World world, int x, int y, int z, Random random, ForgeDirection rotatedDirection) {
         if(tile != null && random.nextInt(10) == 0) {
-            if (tile.isVisuallyWorking()) {
+            if(tile.isVisuallyWorking()) {
                 for(int i = 0; i < 1 + random.nextInt(5); i++) {
-                    double particleX = x - rotatedDirection.offsetX + (rotatedDirection == ForgeDirection.EAST ? 1 : 0)
-                            + (rotatedDirection == ForgeDirection.NORTH || rotatedDirection == ForgeDirection.SOUTH ?
-                            (0.3 + random.nextDouble() * 0.4) : 0);
+                    double particleX = x - rotatedDirection.offsetX + (rotatedDirection == ForgeDirection.EAST ? 1 : 0) + (rotatedDirection == ForgeDirection.NORTH || rotatedDirection == ForgeDirection.SOUTH ? (0.3 + random.nextDouble() * 0.4) : 0);
                     double particleY = y + 0.1 + random.nextDouble() * 0.5;
-                    double particleZ = z - rotatedDirection.offsetZ + (rotatedDirection == ForgeDirection.SOUTH ? 1 : 0)
-                            + (rotatedDirection == ForgeDirection.EAST || rotatedDirection == ForgeDirection.WEST ?
-                            (0.3 + random.nextDouble() * 0.4) : 0);
+                    double particleZ = z - rotatedDirection.offsetZ + (rotatedDirection == ForgeDirection.SOUTH ? 1 : 0) + (rotatedDirection == ForgeDirection.EAST || rotatedDirection == ForgeDirection.WEST ? (0.3 + random.nextDouble() * 0.4) : 0);
 
                     float particleMotionX = -0.1F + random.nextFloat() * 0.2F;
                     float particleMotionY = 0.01F;
                     float particleMotionZ = -0.1F + random.nextFloat() * 0.2F;
 
-                    FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                            new EntityBloodBubbleFX(world, particleX, particleY, particleZ,
-                                    particleMotionX, particleMotionY, particleMotionZ)
-                    );
+                    FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityBloodBubbleFX(world, particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ));
                 }
             }
         }
@@ -105,7 +96,7 @@ public class EntityBloodBubbleFX extends EntitySplashFX {
      * @param z Z
      * @param random Random instance.
      */
-    @SideOnly(Side.CLIENT)
+    @SideOnly(Side.CLIENT) @SuppressWarnings("rawtypes")
     public static void randomDisplayTick(@Nullable WorkingTileEntity tile, World world, int x, int y, int z, Random random) {
         if(tile != null) {
             randomDisplayTick(tile, world, x, y, z, random, tile.getRotation());

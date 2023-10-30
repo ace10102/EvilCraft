@@ -17,22 +17,19 @@ import evilcraft.block.EnvironmentalAccumulator;
 import evilcraft.core.helper.DirectionHelpers;
 import evilcraft.core.helper.RenderHelpers;
 
-
 /**
  * Renderer purifier.
  * @author rubensworks
- *
  */
 public class RenderEnvironmentalAccumulator implements ISimpleBlockRenderingHandler {
-    
+
     /**
      * The ID for this renderer.
      */
     public static final int ID = RenderingRegistry.getNextAvailableRenderId();
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelID,
-            RenderBlocks renderer) {
+    public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
         renderInventoryBlock(renderer, block, metadata);
@@ -43,34 +40,20 @@ public class RenderEnvironmentalAccumulator implements ISimpleBlockRenderingHand
         Tessellator tessellator = Tessellator.instance;
         block.setBlockBoundsForItemRender();
         renderer.setRenderBoundsFromBlock(block);
-        
+
         // Start GL11
         GL11.glPushMatrix();
         GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
         GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-        
+
         // Loop over sides and render them relative to the given direction.
         for(ForgeDirection renderDirection : DirectionHelpers.DIRECTIONS) {
             tessellator.startDrawingQuads();
-            tessellator.setNormal(
-                    renderDirection.offsetX,
-                    renderDirection.offsetY,
-                    renderDirection.offsetZ
-                    );
-            RenderHelpers.renderFaceDirection(
-                    renderDirection,
-                    renderer,
-                    block,
-                    0.0D, 0.0D, 0.0D,
-                    renderer.getBlockIconFromSideAndMetadata(
-                            block,
-                            renderDirection.ordinal(),
-                            metadata
-                            )
-                    );
+            tessellator.setNormal(renderDirection.offsetX, renderDirection.offsetY, renderDirection.offsetZ);
+            RenderHelpers.renderFaceDirection(renderDirection, renderer, block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, renderDirection.ordinal(), metadata));
             tessellator.draw();
         }
-        
+
         // The rendering of the inside
         IIcon icon = block.getBlockTextureFromSide(ForgeDirection.DOWN.ordinal());
         float f4 = 0.300F;
@@ -105,11 +88,10 @@ public class RenderEnvironmentalAccumulator implements ISimpleBlockRenderingHand
     }
 
     @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z,
-            Block block, int modelId, RenderBlocks renderer) {
-        return renderEnvironmentalAccumulator((EnvironmentalAccumulator) block, world, x, y, z, renderer);
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
+        return renderEnvironmentalAccumulator((EnvironmentalAccumulator)block, world, x, y, z, renderer);
     }
-    
+
     private boolean renderEnvironmentalAccumulator(EnvironmentalAccumulator envirAcc, IBlockAccess blockAccess, int x, int y, int z, RenderBlocks renderer) {
         renderer.renderStandardBlock(envirAcc, x, y, z);
         Tessellator tessellator = Tessellator.instance;
@@ -121,7 +103,7 @@ public class RenderEnvironmentalAccumulator implements ISimpleBlockRenderingHand
         float f3 = (float)(l & 255) / 255.0F;
         float f4;
 
-        if (EntityRenderer.anaglyphEnable) {
+        if(EntityRenderer.anaglyphEnable) {
             float f5 = (f1 * 30.0F + f2 * 59.0F + f3 * 11.0F) / 100.0F;
             f4 = (f1 * 30.0F + f2 * 70.0F) / 100.0F;
             float f6 = (f1 * 30.0F + f3 * 70.0F) / 100.0F;
@@ -141,15 +123,14 @@ public class RenderEnvironmentalAccumulator implements ISimpleBlockRenderingHand
         renderer.renderFaceYNeg(envirAcc, (double)x, (double)((float)y + 1.0F - 0.45F), (double)z, icon);
         return true;
     }
-    
+
     @Override
-	public boolean shouldRender3DInInventory(int modelId) {
-		return true;
-	}
+    public boolean shouldRender3DInInventory(int modelId) {
+        return true;
+    }
 
     @Override
     public int getRenderId() {
         return ID;
     }
-    
 }

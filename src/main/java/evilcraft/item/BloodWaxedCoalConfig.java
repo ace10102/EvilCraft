@@ -10,7 +10,6 @@ import net.minecraft.item.ItemStack;
 /**
  * Config for the Blood-Waxed Coal.
  * @author rubensworks
- *
  */
 public class BloodWaxedCoalConfig extends ItemConfig implements IFuelHandler {
 
@@ -23,22 +22,17 @@ public class BloodWaxedCoalConfig extends ItemConfig implements IFuelHandler {
      * Make a new instance.
      */
     public BloodWaxedCoalConfig() {
-        super(
-        	true,
-            "bloodWaxedCoal",
-            null,
-            null
-        );
+        super(true, "bloodWaxedCoal", null, null);
     }
 
     @Override
     protected IConfigurable initSubInstance() {
         return new ConfigurableItem(this);
     }
-    
+
     @Override
     public void onRegistered() {
-    	GameRegistry.registerFuelHandler(this);
+        GameRegistry.registerFuelHandler(this);
     }
 
     @Override
@@ -48,5 +42,4 @@ public class BloodWaxedCoalConfig extends ItemConfig implements IFuelHandler {
         }
         return 0;
     }
-
 }

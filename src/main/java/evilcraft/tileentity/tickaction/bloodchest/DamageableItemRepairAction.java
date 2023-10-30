@@ -14,12 +14,11 @@ import evilcraft.enchantment.EnchantmentBreakingConfig;
 /**
  * Repair action for damageable items.
  * @author rubensworks
- *
  */
 public class DamageableItemRepairAction implements IBloodChestRepairAction {
 
     private static final int CHANCE_RANDOM_ENCHANT = 10000;
-    
+
     /**
      * All the possible bad enchantments
      */
@@ -29,7 +28,7 @@ public class DamageableItemRepairAction implements IBloodChestRepairAction {
             BAD_ENCHANTS.add(EnchantmentBreaking.getInstance());
         }
     }
-    
+
     @Override
     public boolean isItemValidForSlot(ItemStack itemStack) {
         return itemStack.getItem().isRepairable();
@@ -46,19 +45,12 @@ public class DamageableItemRepairAction implements IBloodChestRepairAction {
             // Repair the item
             int newDamage = itemStack.getItemDamage() - 1;
             itemStack.setItemDamage(newDamage);
-
             // Add bad enchant with a certain chance
-            if (!isBulk && BloodChestConfig.addRandomBadEnchants && random.nextInt(CHANCE_RANDOM_ENCHANT) == 0
-                    && BAD_ENCHANTS.size() > 0) {
+            if(!isBulk && BloodChestConfig.addRandomBadEnchants && random.nextInt(CHANCE_RANDOM_ENCHANT) == 0 && BAD_ENCHANTS.size() > 0) {
                 ConfigurableEnchantment enchantment = BAD_ENCHANTS.get(random.nextInt(BAD_ENCHANTS.size()));
-                itemStack.addEnchantment(
-                        enchantment,
-                        enchantment.getMinLevel() + random.nextInt(
-                                enchantment.getMaxLevel() - enchantment.getMinLevel())
-                );
+                itemStack.addEnchantment(enchantment, enchantment.getMinLevel() + random.nextInt(enchantment.getMaxLevel() - enchantment.getMinLevel()));
             }
         }
         return 1;
     }
-
 }

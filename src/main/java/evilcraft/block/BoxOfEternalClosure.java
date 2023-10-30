@@ -10,7 +10,6 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.helper.EntityHelpers;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.MinecraftHelpers;
-//import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.core.tileentity.EvilCraftTileEntity;
 import evilcraft.core.world.FakeWorld;
 import evilcraft.entity.monster.VengeanceSpirit;
@@ -20,7 +19,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
-//import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
@@ -39,16 +37,15 @@ import java.util.UUID;
 /**
  * A box that can hold beings from higher dimensions.
  * @author rubensworks
- *
  */
 public class BoxOfEternalClosure extends ConfigurableBlockContainer implements IInformationProvider, IBlockRarityProvider {
 
-	public static final String FORGOTTEN_PLAYER = "Forgotten Player";
+    public static final String FORGOTTEN_PLAYER = "Forgotten Player";
 
-	private static final int LIGHT_LEVEL = 6;
-	
+    private static final int LIGHT_LEVEL = 6;
+
     private static BoxOfEternalClosure _instance = null;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -59,7 +56,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -70,239 +67,230 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 
     private BoxOfEternalClosure(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig, Material.iron, TileBoxOfEternalClosure.class);
-        
+
         this.setHardness(2.5F);
         this.setStepSound(soundTypePiston);
         this.setRotatable(true);
     }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        
     }
-    
+
     @Override
     public IIcon getIcon(int side, int meta) {
         // This is ONLY used for the block breaking/broken particles
         // Since the ender chest looks very similar, we use that icon.
         return Blocks.ender_chest.getIcon(0, 0);
     }
-    
+
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
-    	EvilCraftTileEntity tile = (EvilCraftTileEntity) world.getTileEntity(x, y, z);
+        EvilCraftTileEntity tile = (EvilCraftTileEntity)world.getTileEntity(x, y, z);
         if(tile.getRotation() == ForgeDirection.EAST || tile.getRotation() == ForgeDirection.WEST) {
-        	setBlockBounds(0.2F, 0F, 0.0F, 0.8F, 0.43F, 1.0F);
+            setBlockBounds(0.2F, 0F, 0.0F, 0.8F, 0.43F, 1.0F);
         } else {
-        	setBlockBounds(0.0F, 0F, 0.2F, 1.0F, 0.43F, 0.8F);
+            setBlockBounds(0.0F, 0F, 0.2F, 1.0F, 0.43F, 0.8F);
         }
     }
-    
+
     @Override
     public int getRenderType() {
-    	return -1;
+        return -1;
     }
-    
+
     @Override
     public boolean isOpaqueCube() {
-    	return false;
+        return false;
     }
-    
+
     @Override
     public boolean renderAsNormalBlock() {
-    	return false;
+        return false;
     }
-    
+
     /**
      * Get the ID of an inner spirit, can be -1.
      * @param itemStack The item stack.
      * @return The ID or -1.
      */
     public int getSpiritID(ItemStack itemStack) {
-		if(hasPlayer(itemStack)) {
-			return -1;
-		}
-    	NBTTagCompound tag = itemStack.getTagCompound();
-		if(tag != null) {
-			NBTTagCompound spiritTag = tag.getCompoundTag(TileBoxOfEternalClosure.NBTKEY_SPIRIT);
-			if(spiritTag != null) {
-				String innerEntity = spiritTag.getString(VengeanceSpirit.NBTKEY_INNER_SPIRIT);
-				if(innerEntity != null && !innerEntity.isEmpty()) {
-					try {
-						Class<?> clazz = Class.forName(innerEntity);
+        if(hasPlayer(itemStack)) {
+            return -1;
+        }
+        NBTTagCompound tag = itemStack.getTagCompound();
+        if(tag != null) {
+            NBTTagCompound spiritTag = tag.getCompoundTag(TileBoxOfEternalClosure.NBTKEY_SPIRIT);
+            if(spiritTag != null) {
+                String innerEntity = spiritTag.getString(VengeanceSpirit.NBTKEY_INNER_SPIRIT);
+                if(innerEntity != null && !innerEntity.isEmpty()) {
+                    try {
+                        Class<?> clazz = Class.forName(innerEntity);
                         if(!VengeanceSpirit.canSustainClass(clazz)) return -1;
-						//Integer ret = ObfuscationHelpers.getClassToID().get(clazz);
-                        //Integer ret = EntityList.classToIDMapping.containsKey(clazz) ? ((Integer)EntityList.classToIDMapping.get(clazz)) : null;
                         Integer ret = (Integer)EntityList.classToIDMapping.get(clazz);
-						if(ret == null) {
-							return -1;
-						} else {
-							return ret;
-						}
-					} catch (ClassNotFoundException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-		return -1;
+                        if(ret == null) {
+                            return -1;
+                        } else {
+                            return ret;
+                        }
+                    } catch(ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return -1;
     }
-    
+
     /**
      * Get the name of an inner spirit, can be null.
      * @param itemStack The item stack.
      * @return The name.
      */
     public String getSpiritName(ItemStack itemStack) {
-		if(hasPlayer(itemStack)) {
-			return "Zombie";
-		}
-    	NBTTagCompound tag = itemStack.getTagCompound();
-		if(tag != null) {
-			NBTTagCompound spiritTag = tag.getCompoundTag(TileBoxOfEternalClosure.NBTKEY_SPIRIT);
-			if(spiritTag != null && !spiritTag.hasNoTags()) {
-				String innerEntity = spiritTag.getString(VengeanceSpirit.NBTKEY_INNER_SPIRIT);
-				if(innerEntity != null && !innerEntity.isEmpty()) {
-					try {
-						Class<?> clazz = Class.forName(innerEntity);
+        if(hasPlayer(itemStack)) {
+            return "Zombie";
+        }
+        NBTTagCompound tag = itemStack.getTagCompound();
+        if(tag != null) {
+            NBTTagCompound spiritTag = tag.getCompoundTag(TileBoxOfEternalClosure.NBTKEY_SPIRIT);
+            if(spiritTag != null && !spiritTag.hasNoTags()) {
+                String innerEntity = spiritTag.getString(VengeanceSpirit.NBTKEY_INNER_SPIRIT);
+                if(innerEntity != null && !innerEntity.isEmpty()) {
+                    try {
+                        Class<?> clazz = Class.forName(innerEntity);
                         if(!VengeanceSpirit.canSustainClass(clazz)) return null;
-						return (String) EntityList.classToStringMapping.get(clazz);
-					} catch (ClassNotFoundException e) {
-						e.printStackTrace();
-					}
-				} else {
-					return VengeanceSpirit.DEFAULT_L10N_KEY;
-				}
-			}
-		}
-		return null;
+                        return (String)EntityList.classToStringMapping.get(clazz);
+                    } catch(ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    return VengeanceSpirit.DEFAULT_L10N_KEY;
+                }
+            }
+        }
+        return null;
     }
-    
+
     /**
      * Put a vengeance swarm inside the given box.
      * @param itemStack The box.
      */
     public static void setVengeanceSwarmContent(ItemStack itemStack) {
-    	NBTTagCompound tag = new NBTTagCompound();
-    	NBTTagCompound spiritTag = new NBTTagCompound();
-    	
-    	VengeanceSpirit spirit = new VengeanceSpirit(FakeWorld.getInstance());
-    	spirit.setGlobalVengeance(true);
-    	spirit.setIsSwarm(true);
-    	spirit.writeToNBT(spiritTag);
-    	String entityId = EntityList.getEntityString(spirit);
-    	
-		spiritTag.setString(EntityHelpers.NBTTAG_ID, entityId);
-		tag.setTag(TileBoxOfEternalClosure.NBTKEY_SPIRIT, spiritTag);
-		itemStack.setTagCompound(tag);
+        NBTTagCompound tag = new NBTTagCompound();
+        NBTTagCompound spiritTag = new NBTTagCompound();
+
+        VengeanceSpirit spirit = new VengeanceSpirit(FakeWorld.getInstance());
+        spirit.setGlobalVengeance(true);
+        spirit.setIsSwarm(true);
+        spirit.writeToNBT(spiritTag);
+        String entityId = EntityList.getEntityString(spirit);
+
+        spiritTag.setString(EntityHelpers.NBTTAG_ID, entityId);
+        tag.setTag(TileBoxOfEternalClosure.NBTKEY_SPIRIT, spiritTag);
+        itemStack.setTagCompound(tag);
     }
 
-	/**
-	 * Put a player inside the given box.
-	 * @param itemStack The box.
-	 * @param playerId The player id to set.
-	 */
-	public static void setPlayerContent(ItemStack itemStack, UUID playerId) {
-		NBTTagCompound tag = new NBTTagCompound();
-		NBTTagCompound spiritTag = new NBTTagCompound();
+    /**
+     * Put a player inside the given box.
+     * @param itemStack The box.
+     * @param playerId  The player id to set.
+     */
+    public static void setPlayerContent(ItemStack itemStack, UUID playerId) {
+        NBTTagCompound tag = new NBTTagCompound();
+        NBTTagCompound spiritTag = new NBTTagCompound();
 
-		VengeanceSpirit spirit = new VengeanceSpirit(FakeWorld.getInstance());
-		spirit.setPlayerId(playerId.toString());
-		spirit.setPlayerName(FORGOTTEN_PLAYER);
-		tag.setString(TileBoxOfEternalClosure.NBTKEY_PLAYERID, spirit.getPlayerId());
-		tag.setString(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME, spirit.getPlayerName());
-		spirit.setGlobalVengeance(true);
-		spirit.writeToNBT(spiritTag);
-		String entityId = EntityList.getEntityString(spirit);
+        VengeanceSpirit spirit = new VengeanceSpirit(FakeWorld.getInstance());
+        spirit.setPlayerId(playerId.toString());
+        spirit.setPlayerName(FORGOTTEN_PLAYER);
+        tag.setString(TileBoxOfEternalClosure.NBTKEY_PLAYERID, spirit.getPlayerId());
+        tag.setString(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME, spirit.getPlayerName());
+        spirit.setGlobalVengeance(true);
+        spirit.writeToNBT(spiritTag);
+        String entityId = EntityList.getEntityString(spirit);
 
-		spiritTag.setString(EntityHelpers.NBTTAG_ID, entityId);
-		tag.setTag(TileBoxOfEternalClosure.NBTKEY_SPIRIT, spiritTag);
-		itemStack.setTagCompound(tag);
-	}
+        spiritTag.setString(EntityHelpers.NBTTAG_ID, entityId);
+        tag.setTag(TileBoxOfEternalClosure.NBTKEY_SPIRIT, spiritTag);
+        itemStack.setTagCompound(tag);
+    }
 
-	public String getPlayerName(ItemStack itemStack) {
-		if(itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME, MinecraftHelpers.NBTTag_Types.NBTTagString.ordinal())) {
-			return itemStack.getTagCompound().getString(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME);
-		}
-		return "";
-	}
+    public String getPlayerName(ItemStack itemStack) {
+        if(itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME, MinecraftHelpers.NBTTag_Types.NBTTagString.ordinal())) {
+            return itemStack.getTagCompound().getString(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME);
+        }
+        return "";
+    }
 
-	public String getPlayerId(ItemStack itemStack) {
-		if(itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey(TileBoxOfEternalClosure.NBTKEY_PLAYERID, MinecraftHelpers.NBTTag_Types.NBTTagString.ordinal())) {
-			return itemStack.getTagCompound().getString(TileBoxOfEternalClosure.NBTKEY_PLAYERID);
-		}
-		return "";
-	}
+    public String getPlayerId(ItemStack itemStack) {
+        if(itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey(TileBoxOfEternalClosure.NBTKEY_PLAYERID, MinecraftHelpers.NBTTag_Types.NBTTagString.ordinal())) {
+            return itemStack.getTagCompound().getString(TileBoxOfEternalClosure.NBTKEY_PLAYERID);
+        }
+        return "";
+    }
 
-	public boolean hasPlayer(ItemStack itemStack) {
-		return !getPlayerId(itemStack).isEmpty();
-	}
-
-	@Override
-	public String getInfo(ItemStack itemStack) {
-		String content = EnumChatFormatting.ITALIC + L10NHelpers.localize("general.info.empty");
-		if(hasPlayer(itemStack)) {
-			content = getPlayerName(itemStack);
-		} else {
-			String id = getSpiritName(itemStack);
-			if (id != null) {
-				content = L10NHelpers.getLocalizedEntityName(id);
-			}
-		}
-		return EnumChatFormatting.BOLD + L10NHelpers.localize(getUnlocalizedName() + ".info.content",
-				EnumChatFormatting.RESET + content);
-	}
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	public void provideInformation(ItemStack itemStack,
-			EntityPlayer entityPlayer, List list, boolean par4) {
-		
-	}
+    public boolean hasPlayer(ItemStack itemStack) {
+        return !getPlayerId(itemStack).isEmpty();
+    }
 
     @Override
-	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
-    	return World.doesBlockHaveSolidTopSurface(world, x, y - 1, z);
+    public String getInfo(ItemStack itemStack) {
+        String content = EnumChatFormatting.ITALIC + L10NHelpers.localize("general.info.empty");
+        if(hasPlayer(itemStack)) {
+            content = getPlayerName(itemStack);
+        } else {
+            String id = getSpiritName(itemStack);
+            if(id != null) {
+                content = L10NHelpers.getLocalizedEntityName(id);
+            }
+        }
+        return EnumChatFormatting.BOLD + L10NHelpers.localize(getUnlocalizedName() + ".info.content", EnumChatFormatting.RESET + content);
     }
-    
+
+    @Override @SuppressWarnings("rawtypes")
+    public void provideInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
+
+    }
+
+    @Override
+    public boolean canPlaceBlockAt(World world, int x, int y, int z) {
+        return World.doesBlockHaveSolidTopSurface(world, x, y - 1, z);
+    }
+
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
         if(!canPlaceBlockAt(world, x, y, z)) {
-        	dropBlockAsItem(world, x, y, z, 0, 0);
-        	world.setBlockToAir(x, y, z);
+            dropBlockAsItem(world, x, y, z, 0, 0);
+            world.setBlockToAir(x, y, z);
         }
     }
-    
+
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityplayer, int par6, float par7, float par8, float par9) {
-    	if(world.getTileEntity(x, y, z) != null) {
-	    	TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getTileEntity(x, y, z);
-	    	if(tile.getSpiritInstance() != null) {
-	    		world.playSoundEffect(x + 0.5D, y + 0.5D, z + 0.5D, "random.chestopen",
-	    				0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
-	    		if(!world.isRemote) {
-	    			tile.releaseSpirit();
-	    		}
-	    		return true;
-	    	}
-    	}
-    	return super.onBlockActivated(world, x, y, z, entityplayer, par6, par7, par8, par9);
+        if(world.getTileEntity(x, y, z) != null) {
+            TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure)world.getTileEntity(x, y, z);
+            if(tile.getSpiritInstance() != null) {
+                world.playSoundEffect(x + 0.5D, y + 0.5D, z + 0.5D, "random.chestopen", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+                if(!world.isRemote) {
+                    tile.releaseSpirit();
+                }
+                return true;
+            }
+        }
+        return super.onBlockActivated(world, x, y, z, entityplayer, par6, par7, par8, par9);
     }
-    
+
     @Override
     public int getLightValue(IBlockAccess world, int x, int y, int z) {
-    	if(world.getTileEntity(x, y, z) != null) {
-	    	TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getTileEntity(x, y, z);
-	    	if(tile.getLidAngle() > 0) {
-	    		return LIGHT_LEVEL;
-	    	}
-    	}
+        if(world.getTileEntity(x, y, z) != null) {
+            TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure)world.getTileEntity(x, y, z);
+            if(tile.getLidAngle() > 0) {
+                return LIGHT_LEVEL;
+            }
+        }
         return super.getLightValue(world, x, y, z);
     }
-    
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Override
+
+    @Override @SuppressWarnings({"unchecked", "rawtypes"})
     public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
         list.add(new ItemStack(item));
         ItemStack swarmStack = new ItemStack(item);
@@ -323,12 +311,11 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     @Override
     public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
         if(world.getTileEntity(x, y, z) != null) {
-            TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getTileEntity(x, y, z);
+            TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure)world.getTileEntity(x, y, z);
             if(tile.getSpiritInstance() != null) {
                 return 15;
             }
         }
         return super.getComparatorInputOverride(world, x, y, z, side);
     }
-
 }

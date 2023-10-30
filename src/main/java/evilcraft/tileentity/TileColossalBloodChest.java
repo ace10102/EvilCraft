@@ -56,7 +56,6 @@ import java.util.Map;
 /**
  * A machine that can infuse things with blood.
  * @author rubensworks
- *
  */
 public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, MutableFloat> {
 
@@ -98,9 +97,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     private Size size = Size.NULL_SIZE.copy();
     @NBTPersist
     private ILocation renderOffset = Size.NULL_SIZE.copy();
-    @Getter
-    @Setter
-    @NBTPersist
+    @Getter @Setter @NBTPersist
     private Integer efficiency = 0;
     private int repairTicker;
     /**
@@ -134,39 +131,20 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     /**
      * The multiblock structure detector for this furnace.
      */
-    @SuppressWarnings("unchecked")
-    public static CubeDetector detector = new HollowCubeDetector(
-            new AllowedBlock[]{
-                    new AllowedBlock(ReinforcedUndeadPlank.getInstance()),
-                    new AllowedBlock(ColossalBloodChest.getInstance()).setExactOccurences(1)
-            },
-            Lists.newArrayList(ColossalBloodChest.getInstance(), ReinforcedUndeadPlank.getInstance())
-    ).setExactSize(new Size(2, 2, 2));
+    public static CubeDetector detector = new HollowCubeDetector(new AllowedBlock[] {
+            new AllowedBlock(ReinforcedUndeadPlank.getInstance()),
+            new AllowedBlock(ColossalBloodChest.getInstance()).setExactOccurences(1) },
+            Lists.newArrayList(ColossalBloodChest.getInstance(), ReinforcedUndeadPlank.getInstance())).setExactSize(new Size(2, 2, 2));
 
     /**
      * Make a new instance.
      */
     public TileColossalBloodChest() {
-        super(
-                SLOTS,
-                ColossalBloodChest.getInstance().getLocalizedName(),
-                LIQUID_PER_SLOT,
-                TileColossalBloodChest.TANKNAME,
-                ACCEPTED_FLUID);
+        super(SLOTS, ColossalBloodChest.getInstance().getLocalizedName(), LIQUID_PER_SLOT, TileColossalBloodChest.TANKNAME, ACCEPTED_FLUID);
         for(int i = 0; i < SLOTS_CHEST; i++) {
-            addTicker(
-                    new TickComponent<
-                            TileColossalBloodChest,
-                            ITickAction<TileColossalBloodChest>
-                            >(this, REPAIR_TICK_ACTIONS, i)
-            );
+            addTicker(new TickComponent<TileColossalBloodChest, ITickAction<TileColossalBloodChest>>(this, REPAIR_TICK_ACTIONS, i));
         }
-        addTicker(
-                new TickComponent<
-                        TileColossalBloodChest,
-                        ITickAction<TileColossalBloodChest>
-                        >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false)
-        );
+        addTicker(new TickComponent<TileColossalBloodChest, ITickAction<TileColossalBloodChest>>(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false));
 
         // The slots side mapping
         List<Integer> inSlotsTank = new LinkedList<Integer>();
@@ -184,8 +162,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
         // Upgrade behaviour
         upgradeBehaviour.put(UPGRADE_EFFICIENCY, new UpgradeBehaviour<TileColossalBloodChest, MutableFloat>(2) {
             @Override
-            public void applyUpgrade(TileColossalBloodChest upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
-                                     IUpgradeSensitiveEvent<MutableFloat> event) {
+            public void applyUpgrade(TileColossalBloodChest upgradable, Upgrades.Upgrade upgrade, int upgradeLevel, IUpgradeSensitiveEvent<MutableFloat> event) {
                 if(event.getType() == UPGRADEEVENT_BLOODUSAGE) {
                     float val = event.getObject().getValue();
                     val /= (1 + upgradeLevel / valueFactor);
@@ -195,8 +172,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
         });
         upgradeBehaviour.put(UPGRADE_SPEED, new UpgradeBehaviour<TileColossalBloodChest, MutableFloat>(1) {
             @Override
-            public void applyUpgrade(TileColossalBloodChest upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
-                                     IUpgradeSensitiveEvent<MutableFloat> event) {
+            public void applyUpgrade(TileColossalBloodChest upgradable, Upgrades.Upgrade upgrade, int upgradeLevel, IUpgradeSensitiveEvent<MutableFloat> event) {
                 if(event.getType() == UPGRADEEVENT_SPEED) {
                     float val = event.getObject().getValue();
                     val /= (1 + upgradeLevel / valueFactor);
@@ -214,10 +190,10 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
             slotTickHistory.put(i, false);
         }
     }
-    
+
     @Override
     protected SingleUseTank newTank(String tankName, int tankSize) {
-    	return new ImplicitFluidConversionTank(tankName, tankSize, this, BloodFluidConverter.getInstance());
+        return new ImplicitFluidConversionTank(tankName, tankSize, this, BloodFluidConverter.getInstance());
     }
 
     @Override
@@ -256,7 +232,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     }
 
     /**
-     * Check if the spirit furnace on the given location is valid and can start working.
+     * Check if the colossal blood chest at the given location is valid and can start working.
      * @param world The world.
      * @param location The location.
      * @return If it is valid.
@@ -264,7 +240,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     public static boolean canWork(World world, ILocation location) {
         TileEntity tile = LocationHelpers.getTile(world, location);
         if(tile != null) {
-            return ((TileColossalBloodChest) tile).canWork();
+            return ((TileColossalBloodChest)tile).canWork();
         }
         return false;
     }
@@ -281,7 +257,6 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
 
     @Override
     public void onStateChanged() {
-
     }
 
     @Override
@@ -297,68 +272,48 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
         }
         // Resynchronize clients with the server state, the last condition makes sure
         // not all chests are synced at the same time.
-        if(worldObj != null
-                && !this.worldObj.isRemote
-                && this.playersUsing != 0
-                && WorldHelpers.efficientTick(worldObj, TICK_MODULUS, this.xCoord, this.yCoord, this.zCoord)/*(this.ticksSinceSync + this.xCoord + this.yCoord + this.zCoord) % 200 == 0*/) {
+        /*(this.ticksSinceSync + this.xCoord + this.yCoord + this.zCoord) % 200 == 0*/
+        if(worldObj != null && !this.worldObj.isRemote && this.playersUsing != 0 && WorldHelpers.efficientTick(worldObj, TICK_MODULUS, this.xCoord, this.yCoord, this.zCoord)) {
             this.playersUsing = 0;
             float range = 5.0F;
             @SuppressWarnings("unchecked")
-            List<EntityPlayer> entities = this.worldObj.getEntitiesWithinAABB(
-                    EntityPlayer.class,
+            List<EntityPlayer> entities = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class,
                     AxisAlignedBB.getBoundingBox(
-                            (double) ((float) this.xCoord - range),
-                            (double) ((float) this.yCoord - range),
-                            (double) ((float) this.zCoord - range),
-                            (double) ((float) (this.xCoord + 1) + range),
-                            (double) ((float) (this.yCoord + 1) + range),
-                            (double) ((float) (this.zCoord + 1) + range)
-                    )
-            );
-
+                            (double)((float)this.xCoord - range),
+                            (double)((float)this.yCoord - range),
+                            (double)((float)this.zCoord - range),
+                            (double)((float)(this.xCoord + 1) + range),
+                            (double)((float)(this.yCoord + 1) + range),
+                            (double)((float)(this.zCoord + 1) + range))
+                    );
             for(EntityPlayer player : entities) {
-                if (player.openContainer instanceof ContainerColossalBloodChest) {
+                if(player.openContainer instanceof ContainerColossalBloodChest) {
                     ++this.playersUsing;
                 }
             }
-
             worldObj.addBlockEvent(xCoord, yCoord, zCoord, block, 1, playersUsing);
         }
 
         prevLidAngle = lidAngle;
         float increaseAngle = 0.05F;
-        if (playersUsing > 0 && lidAngle == 0.0F) {
-            worldObj.playSoundEffect(
-                    (double) xCoord + 0.5D,
-                    (double) yCoord + 0.5D,
-                    (double) zCoord + 0.5D,
-                    "random.chestopen",
-                    0.5F,
-                    worldObj.rand.nextFloat() * 0.1F + 0.5F
-            );
+        if(playersUsing > 0 && lidAngle == 0.0F) {
+            worldObj.playSoundEffect((double)xCoord + 0.5D, (double)yCoord + 0.5D, (double)zCoord + 0.5D, "random.chestopen", 0.5F, worldObj.rand.nextFloat() * 0.1F + 0.5F);
         }
-        if (playersUsing == 0 && lidAngle > 0.0F || playersUsing > 0 && lidAngle < 1.0F) {
+        if(playersUsing == 0 && lidAngle > 0.0F || playersUsing > 0 && lidAngle < 1.0F) {
             float preIncreaseAngle = lidAngle;
-            if (playersUsing > 0) {
+            if(playersUsing > 0) {
                 lidAngle += increaseAngle;
             } else {
                 lidAngle -= increaseAngle;
             }
-            if (lidAngle > 1.0F) {
+            if(lidAngle > 1.0F) {
                 lidAngle = 1.0F;
             }
             float closedAngle = 0.5F;
-            if (lidAngle < closedAngle && preIncreaseAngle >= closedAngle) {
-                worldObj.playSoundEffect(
-                        (double) xCoord + 0.5D,
-                        (double) yCoord + 0.5D,
-                        (double) zCoord + 0.5D,
-                        "random.chestclosed",
-                        0.5F,
-                        worldObj.rand.nextFloat() * 0.1F + 0.5F
-                );
+            if(lidAngle < closedAngle && preIncreaseAngle >= closedAngle) {
+                worldObj.playSoundEffect((double)xCoord + 0.5D, (double)yCoord + 0.5D, (double)zCoord + 0.5D, "random.chestclosed", 0.5F, worldObj.rand.nextFloat() * 0.1F + 0.5F);
             }
-            if (lidAngle < 0.0F) {
+            if(lidAngle < 0.0F) {
                 lidAngle = 0.0F;
             }
         }
@@ -366,7 +321,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
 
     @Override
     public boolean receiveClientEvent(int i, int j) {
-        if (i == 1) {
+        if(i == 1) {
             playersUsing = j;
         }
         return true;
@@ -383,7 +338,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     }
 
     private void triggerPlayerUsageChange(int change) {
-        if (worldObj != null) {
+        if(worldObj != null) {
             playersUsing += change;
             worldObj.addBlockEvent(xCoord, yCoord, zCoord, block, 1, playersUsing);
         }
@@ -391,12 +346,10 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer entityPlayer) {
-        return super.isUseableByPlayer(entityPlayer)
-                && (worldObj == null || worldObj.getTileEntity(xCoord, yCoord, zCoord) != this);
+        return super.isUseableByPlayer(entityPlayer) && (worldObj == null || worldObj.getTileEntity(xCoord, yCoord, zCoord) != this);
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public AxisAlignedBB getRenderBoundingBox() {
         return AxisAlignedBB.getBoundingBox(xCoord - 3, yCoord - 3, zCoord - 3, xCoord + 3, yCoord + 6, zCoord + 3);
     }
@@ -429,5 +382,4 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
         boolean change = LocationHelpers.getBlockMeta(world, location) != newMeta;
         LocationHelpers.setBlockMetadata(world, location, newMeta, MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
     }
-
 }

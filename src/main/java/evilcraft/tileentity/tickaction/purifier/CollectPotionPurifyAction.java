@@ -38,20 +38,15 @@ public class CollectPotionPurifyAction implements IPurifierAction {
         return itemStack != null && itemStack.getItem() == ALLOWED_ITEM;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
+    @Override @SuppressWarnings("unchecked")
     public boolean canWork(TilePurifier tile) {
-        if(tile.getPurifyItem() == null && tile.getAdditionalItem() != null &&
-                tile.getAdditionalItem().getItem() == ALLOWED_ITEM && tile.getBucketsFloored() == tile.getMaxBuckets()) {
+        if(tile.getPurifyItem() == null && tile.getAdditionalItem() != null && tile.getAdditionalItem().getItem() == ALLOWED_ITEM && tile.getBucketsFloored() == tile.getMaxBuckets()) {
             int x = tile.xCoord;
             int y = tile.yCoord;
             int z = tile.zCoord;
-            @SuppressWarnings({"rawtypes", "unchecked"})
-            List<EntityLivingBase> entities = tile.getWorldObj().getEntitiesWithinAABB(EntityLivingBase.class,
-                    AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 2, z + 1)
-            );
+            List<EntityLivingBase> entities = tile.getWorldObj().getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 2, z + 1));
             for(EntityLivingBase entity : entities) {
-                for(PotionEffect potionEffect : (Collection<PotionEffect>) entity.getActivePotionEffects()) {
+                for(PotionEffect potionEffect : (Collection<PotionEffect>)entity.getActivePotionEffects()) {
                     if(!potionEffect.getIsAmbient()) {
                         return true;
                     }
@@ -61,27 +56,22 @@ public class CollectPotionPurifyAction implements IPurifierAction {
         return false;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
+    @Override @SuppressWarnings("unchecked")
     public boolean work(TilePurifier tile) {
         World world = tile.getWorldObj();
         int tick = tile.getTick();
 
         // Try removing bad enchants.
-        if(tile.getPurifyItem() == null && tile.getAdditionalItem() != null
-                && tile.getAdditionalItem().getItem() == ALLOWED_ITEM && tile.getBucketsFloored() == tile.getMaxBuckets()) {
+        if(tile.getPurifyItem() == null && tile.getAdditionalItem() != null && tile.getAdditionalItem().getItem() == ALLOWED_ITEM && tile.getBucketsFloored() == tile.getMaxBuckets()) {
             int x = tile.xCoord;
             int y = tile.yCoord;
             int z = tile.zCoord;
-            @SuppressWarnings({"rawtypes", "unchecked"})
-            List<EntityLivingBase> entities = tile.getWorldObj().getEntitiesWithinAABB(EntityLivingBase.class,
-                    AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 2, z + 1)
-            );
+            List<EntityLivingBase> entities = tile.getWorldObj().getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 2, z + 1));
             for(EntityLivingBase entity : entities) {
                 if(!entity.getActivePotionEffects().isEmpty()) {
                     if(tick >= PURIFY_DURATION) {
                         if(!world.isRemote) {
-                            for(PotionEffect potionEffect : (Collection<PotionEffect>) entity.getActivePotionEffects()) {
+                            for(PotionEffect potionEffect : (Collection<PotionEffect>)entity.getActivePotionEffects()) {
                                 if(!potionEffect.getIsAmbient()) {
                                     // Remove effect from entity
                                     entity.removePotionEffect(potionEffect.getPotionID());
@@ -108,7 +98,6 @@ public class CollectPotionPurifyAction implements IPurifierAction {
                                 }
                             }
                         }
-
                     }
                     if(world.isRemote) {
                         tile.showEffect();
@@ -116,8 +105,6 @@ public class CollectPotionPurifyAction implements IPurifierAction {
                 }
             }
         }
-
         return false;
     }
-
 }

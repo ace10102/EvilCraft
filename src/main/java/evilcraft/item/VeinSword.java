@@ -14,21 +14,20 @@ import net.minecraft.item.ItemStack;
 import java.util.List;
 
 /**
- * A strong pickaxe that may call up spirits.
+ * A strong sword that extracts blood.
  * @author rubensworks
- *
  */
 public class VeinSword extends ConfigurableItemSword {
-    
+
     private static VeinSword _instance = null;
-    
+
     /**
-	 * The looting level of this sword.
-	 */
-	public static final int LOOTING_LEVEL = 2;
-    
+     * The looting level of this sword.
+     */
+    public static final int LOOTING_LEVEL = 2;
+
     /**
-     * Initialise the configurable.
+     * Initialize the configurable.
      * @param eConfig The config.
      */
     public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
@@ -37,7 +36,7 @@ public class VeinSword extends ConfigurableItemSword {
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -50,23 +49,19 @@ public class VeinSword extends ConfigurableItemSword {
         super(eConfig, Item.ToolMaterial.GOLD);
         this.setMaxDamage(VeinSwordConfig.durability);
     }
-    
+
     /**
-     * Get the crafting result of this pickaxe.
-     * It has fortune X by default.
-     * @return The pickaxe with enchantment.
+     * Get the crafting result of this sword. It has looting 2 by default.
+     * @return The sword with enchantment.
      */
     public static ItemStack createCraftingResult() {
-    	ItemStack sword = new ItemStack(VeinSword.getInstance());
+        ItemStack sword = new ItemStack(VeinSword.getInstance());
         EnchantmentHelpers.setEnchantmentLevel(sword, Enchantment.looting, LOOTING_LEVEL);
         return sword;
     }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked"})
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tab, List itemList) {
-    	itemList.add(createCraftingResult());
-    }
 
+    @Override @SideOnly(Side.CLIENT) @SuppressWarnings({ "rawtypes", "unchecked" })
+    public void getSubItems(Item item, CreativeTabs tab, List itemList) {
+        itemList.add(createCraftingResult());
+    }
 }

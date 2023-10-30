@@ -48,7 +48,7 @@ public class PurifierActionRegistry implements IPurifierActionRegistry {
 
     @Override
     public int canWork(TilePurifier tile) {
-        for (int i = 0; i < registry.size(); i++) {
+        for(int i = 0; i < registry.size(); i++) {
             IPurifierAction purifyAction = registry.get(i);
             if(purifyAction.canWork(tile)) {
                 return i;
@@ -64,5 +64,4 @@ public class PurifierActionRegistry implements IPurifierActionRegistry {
         }
         return true;
     }
-
 }

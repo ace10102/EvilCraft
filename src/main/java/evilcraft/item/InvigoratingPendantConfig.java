@@ -8,27 +8,26 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 /**
  * Config for the {@link InvigoratingPendant}.
  * @author rubensworks
- *
  */
 public class InvigoratingPendantConfig extends ItemConfig {
-    
+
     /**
      * The unique instance.
      */
     public static InvigoratingPendantConfig _instance;
-    
+
     /**
      * The capacity of the pendant.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The capacity of the pendant.", requiresMcRestart = true)
     public static int capacity = FluidContainerRegistry.BUCKET_VOLUME * 5;
-    
+
     /**
      * The amount of Blood to drain after one reduction/clearing of one bad effect.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The amount of blood to drain after each clearing of one bad effect.", isCommandable = true)
     public static int usage = 100;
-    
+
     /**
      * The amount of seconds that will be reduced from the first found bad effect.
      */
@@ -45,17 +44,11 @@ public class InvigoratingPendantConfig extends ItemConfig {
      * Make a new instance.
      */
     public InvigoratingPendantConfig() {
-        super(
-        	true,
-            "invigoratingPendant",
-            null,
-            InvigoratingPendant.class
-        );
+        super(true, "invigoratingPendant", null, InvigoratingPendant.class);
     }
-    
+
     @Override
-	protected String getConfigPropertyPrefix() {
-		return "invigPendant";
-	}
-    
+    protected String getConfigPropertyPrefix() {
+        return "invigPendant";
+    }
 }

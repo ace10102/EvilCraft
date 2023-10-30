@@ -13,30 +13,26 @@ import org.lwjgl.util.vector.Vector4f;
 import evilcraft.tileentity.EvilCraftBeaconTileEntity;
 
 /**
- * EvilCraft's version of a beacon renderer, this allows us to have custom colors
- * and customize other stuff without being dependend on vanilla code
- * 
+ * EvilCraft's version of a beacon renderer, this allows us to have custom colors and customize other stuff without being dependend on vanilla code
  * @author immortaleeb
- *
  */
 public class RenderTileEntityBeacon extends TileEntitySpecialRenderer {
-	
-	private static final ResourceLocation BEACON_TEXTURE = new ResourceLocation("textures/entity/beacon_beam.png");
-	
-	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float partialTickTime) {
-		renderBeacon((EvilCraftBeaconTileEntity)tileentity, x, y, z, partialTickTime);
-	}
-	
-	protected void renderBeacon(EvilCraftBeaconTileEntity tileentity, double x, double y, double z, float partialTickTime) {
-		float f1 = tileentity.getBeamRenderVariable();
-		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
-		
-        if (tileentity.isBeamActive())
-        {
-        	Vector4f beamInnerColor = tileentity.getBeamInnerColor();
-        	Vector4f beamOuterColor = tileentity.getBeamOuterColor();
-        	
+
+    private static final ResourceLocation BEACON_TEXTURE = new ResourceLocation("textures/entity/beacon_beam.png");
+
+    @Override
+    public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float partialTickTime) {
+        renderBeacon((EvilCraftBeaconTileEntity)tileentity, x, y, z, partialTickTime);
+    }
+
+    protected void renderBeacon(EvilCraftBeaconTileEntity tileentity, double x, double y, double z, float partialTickTime) {
+        float f1 = tileentity.getBeamRenderVariable();
+        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+
+        if(tileentity.isBeamActive()) {
+            Vector4f beamInnerColor = tileentity.getBeamInnerColor();
+            Vector4f beamOuterColor = tileentity.getBeamOuterColor();
+
             Tessellator tessellator = Tessellator.instance;
             this.bindTexture(BEACON_TEXTURE);
             GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, 10497.0F);
@@ -122,8 +118,6 @@ public class RenderTileEntityBeacon extends TileEntitySpecialRenderer {
             GL11.glEnable(GL11.GL_TEXTURE_2D);
             GL11.glDepthMask(true);
         }
-        
         GL11.glAlphaFunc(GL11.GL_GREATER, 0.5F);
-	}
-
+    }
 }

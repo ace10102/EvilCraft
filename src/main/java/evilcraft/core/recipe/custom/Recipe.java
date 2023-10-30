@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * Basic recipe that can be registered with {@link SuperRecipeRegistry}.
- *
  * @param <I> The type of the recipe input.
  * @param <O> The type of the recipe output.
  * @param <P> The type of the additional recipe properties.
@@ -47,15 +46,14 @@ public class Recipe<I extends IRecipeInput, O extends IRecipeOutput, P extends I
      * @return A unique default named id.
      */
     private String generateNamedId() {
-        String namedId = input.getClass().getName() + "_"  + output.getClass().getName() + "_";
+        String namedId = input.getClass().getName() + "_" + output.getClass().getName() + "_";
 
-        if (properties != null)
+        if(properties != null)
             namedId += properties.getClass().getName() + "_";
 
-        namedId += Integer.toString(input.hashCode())
-                +  Integer.toString(output.hashCode());
+        namedId += Integer.toString(input.hashCode()) + Integer.toString(output.hashCode());
 
-        if (properties != null)
+        if(properties != null)
             namedId += Integer.toString(properties.hashCode());
 
         return namedId;

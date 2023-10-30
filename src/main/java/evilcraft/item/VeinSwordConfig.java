@@ -7,15 +7,14 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 /**
  * Config for the {@link VeinSword}.
  * @author rubensworks
- *
  */
 public class VeinSwordConfig extends ItemConfig {
-    
+
     /**
      * The unique instance.
      */
     public static VeinSwordConfig _instance;
-    
+
     /**
      * The multiply boost this sword has on the blood that is obtained.
      */
@@ -32,12 +31,6 @@ public class VeinSwordConfig extends ItemConfig {
      * Make a new instance.
      */
     public VeinSwordConfig() {
-        super(
-        	true,
-            "veinSword",
-            null,
-            VeinSword.class
-        );
+        super(true, "veinSword", null, VeinSword.class);
     }
-    
 }

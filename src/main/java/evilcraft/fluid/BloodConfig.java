@@ -5,10 +5,9 @@ import evilcraft.core.config.extendedconfig.FluidConfig;
 /**
  * Config for {@link Blood}.
  * @author rubensworks
- *
  */
 public class BloodConfig extends FluidConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -18,12 +17,6 @@ public class BloodConfig extends FluidConfig {
      * Make a new instance.
      */
     public BloodConfig() {
-        super(
-            true,
-            "evilcraftblood",
-            null,
-            Blood.class
-        );
+        super(true, "evilcraftblood", null, Blood.class);
     }
-    
 }

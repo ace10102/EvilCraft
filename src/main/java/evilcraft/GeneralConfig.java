@@ -9,17 +9,16 @@ import evilcraft.core.fluid.BloodFluidConverter.BloodConvertersChanged;
 /**
  * A config with general options for this mod.
  * @author rubensworks
- *
  */
 public class GeneralConfig extends DummyConfig {
-    
+
     /**
-     * The current mod version, will be used to check if the player's config isn't out of date and
-     * warn the player accordingly.
+     * The current mod version, will be used to check if the player's config isn't out of date and warn the player
+     * accordingly.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.CORE, comment = "Config version for " + Reference.MOD_NAME +".\nDO NOT EDIT MANUALLY!")
+    @ConfigurableProperty(category = ConfigurableTypeCategory.CORE, comment = "Config version for " + Reference.MOD_NAME + ".\nDO NOT EDIT MANUALLY!")
     public static String version = Reference.MOD_VERSION;
-    
+
     /**
      * If the debug mode should be enabled. @see Debug
      */
@@ -37,25 +36,25 @@ public class GeneralConfig extends DummyConfig {
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.CORE, comment = "If mod compatibility loader should crash hard if errors occur in that process.", requiresMcRestart = true)
     public static boolean crashOnModCompatCrash = false;
-    
+
     /**
      * If players are able to die without any reason.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "Evil stuff...", isCommandable = true)
     public static boolean dieWithoutAnyReason = false;
-    
+
     /**
      * If the version checker should be enabled.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.CORE, comment = "If the version checker should be enabled.")
     public static boolean versionChecker = true;
-    
+
     /**
      * Server-side: If farting is enabled on this server; Client-side: If farting can be seen at your client.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "Server-side: If farting is enabled on this server; Client-side: If farting can be seen at your client.", isCommandable = true)
     public static boolean farting = true;
-    
+
     /**
      * The allowed blood conversions with their ratio.
      */
@@ -66,36 +65,36 @@ public class GeneralConfig extends DummyConfig {
             "lifeessence:1.0", // gtnh bloodmagic name
             "hell_blood:1.0",
     };
-    
+
     /**
      * If retro-generation of ores should be enabled. WARNING: This could cause lag if permanently enabled.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "If retro-generation of ores should be enabled. WARNING: This could cause lag if permanently enabled.", isCommandable = true)
     public static boolean retrogen = false;
-    
+
     /**
      * The type of this config.
      */
     public static ConfigurableType TYPE = ConfigurableType.DUMMY;
-    
+
     /**
      * If silverfish should spawn in all biomes.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Spawn extra netherfish blocks in all biomes.")
     public static boolean extraSilverfish = false;
-    
+
     /**
      * Minimum height at which a dark temple can spawn.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Minimum block height at which a dark temple can spawn.")
     public static int darkTempleMinHeight = 60;
-    
+
     /**
      * Maximum height at which a dark temple can spawn.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Maximum block height at which a dark temple can spawn.")
     public static int darkTempleMaxHeight = 256;
-    
+
     /**
      * Frequency at which dark temples should occur. 1 means every chunk, 100 means every 100th chunk.
      */
@@ -112,7 +111,7 @@ public class GeneralConfig extends DummyConfig {
      * Whitelisted dimensions in which dark temples can generate.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Whitelisted dimensions in which dark temples can generate.")
-    public static int[] darkTempleDimensions = new int[]{
+    public static int[] darkTempleDimensions = new int[] {
             0
     };
 
@@ -150,21 +149,21 @@ public class GeneralConfig extends DummyConfig {
      * The Y end value for generation to end (larget Y value).
      */
     public static int silverfish_EndY = 66;
-    
+
     /**
      * Create a new instance.
      */
     public GeneralConfig() {
         super(true, "general", null, GeneralConfig.class);
     }
-    
+
     @Override
     public void onRegistered() {
         // Check version of config file
         if(!version.equals(Reference.MOD_VERSION))
             System.err.println("The config file of " + Reference.MOD_NAME + " is out of date and might cause problems, please remove it so it can be regenerated.");
     }
-    
+
     @Override
     public boolean isEnabled() {
         return true;

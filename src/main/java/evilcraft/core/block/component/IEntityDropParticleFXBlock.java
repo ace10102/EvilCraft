@@ -7,7 +7,6 @@ import net.minecraft.world.World;
 /**
  * Interface for the {@link EntityDropParticleFXBlockComponent}.
  * @author rubensworks
- *
  */
 public interface IEntityDropParticleFXBlock {
     /**

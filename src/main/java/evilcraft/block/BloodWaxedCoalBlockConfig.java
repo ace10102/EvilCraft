@@ -14,7 +14,6 @@ import net.minecraft.item.ItemStack;
 /**
  * Config for the Undead Plank.
  * @author rubensworks
- *
  */
 public class BloodWaxedCoalBlockConfig extends BlockConfig implements IFuelHandler {
 
@@ -27,20 +26,14 @@ public class BloodWaxedCoalBlockConfig extends BlockConfig implements IFuelHandl
      * Make a new instance.
      */
     public BloodWaxedCoalBlockConfig() {
-        super(
-        	true,
-            "bloodWaxedCoalBlock",
-            null,
-            null
-        );
+        super(true, "bloodWaxedCoalBlock", null, null);
     }
 
     @Override
     protected IConfigurable initSubInstance() {
-        return (ConfigurableBlock) new ConfigurableBlock(this, Material.rock).
-                setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston);
+        return (ConfigurableBlock)new ConfigurableBlock(this, Material.rock).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston);
     }
-    
+
     @Override
     public boolean isMultipartEnabled() {
         return true;
@@ -49,7 +42,7 @@ public class BloodWaxedCoalBlockConfig extends BlockConfig implements IFuelHandl
     @Override
     public void onRegistered() {
         super.onRegistered();
-    	Blocks.fire.setFireInfo(getBlockInstance(), 5, 5);
+        Blocks.fire.setFireInfo(getBlockInstance(), 5, 5);
         GameRegistry.registerFuelHandler(this);
     }
 
@@ -60,5 +53,4 @@ public class BloodWaxedCoalBlockConfig extends BlockConfig implements IFuelHandl
         }
         return 0;
     }
-    
 }

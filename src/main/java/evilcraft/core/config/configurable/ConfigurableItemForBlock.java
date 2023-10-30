@@ -16,19 +16,18 @@ import java.util.List;
 /**
  * Item that can hold ExtendedConfigs which places blocks on use.
  * @author rubensworks
- *
  */
-public abstract class ConfigurableItemForBlock extends ItemReed implements IConfigurable{
-    
+public abstract class ConfigurableItemForBlock extends ItemReed implements IConfigurable {
+
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
-    
+
     /**
      * Make a new item instance.
      * @param eConfig Config for this block.
      * @param block The block to place.
      */
-    @SuppressWarnings({ "rawtypes" })
+    @SuppressWarnings("rawtypes")
     protected ConfigurableItemForBlock(ExtendedConfig eConfig, Block block) {
         super(block);
         this.setConfig(eConfig);
@@ -44,24 +43,20 @@ public abstract class ConfigurableItemForBlock extends ItemReed implements IConf
     public ExtendedConfig<?> getConfig() {
         return eConfig;
     }
-    
+
     @Override
     public String getIconString() {
-        return Reference.MOD_ID+":"+eConfig.getNamedId();
+        return Reference.MOD_ID + ":" + eConfig.getNamedId();
     }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister iconRegister) {
         itemIcon = iconRegister.registerIcon(getIconString());
     }
-    
-    @SuppressWarnings("rawtypes")
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT) @SuppressWarnings("rawtypes")
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         L10NHelpers.addOptionalInfo(list, getUnlocalizedName());
     }
-
 }

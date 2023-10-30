@@ -9,10 +9,9 @@ import evilcraft.fluid.Blood;
 /**
  * Config for the {@link CreativeBloodDrop}.
  * @author rubensworks
- *
  */
 public class CreativeBloodDropConfig extends ItemConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -22,21 +21,12 @@ public class CreativeBloodDropConfig extends ItemConfig {
      * Make a new instance.
      */
     public CreativeBloodDropConfig() {
-        super(
-        	true,
-            "creativeBloodDrop",
-            null,
-            CreativeBloodDrop.class
-        );
+        super(true, "creativeBloodDrop", null, CreativeBloodDrop.class);
     }
-    
+
     @Override
     public void onRegistered() {
         ItemStack itemStack = new ItemStack(CreativeBloodDrop.getInstance(), 1);
-        FluidContainerRegistry.registerFluidContainer(
-                FluidRegistry.getFluidStack(Blood.getInstance().getName(), CreativeBloodDrop.getInstance().getCapacity(itemStack)),
-                itemStack
-        );
+        FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(Blood.getInstance().getName(), CreativeBloodDrop.getInstance().getCapacity(itemStack)), itemStack);
     }
-    
 }

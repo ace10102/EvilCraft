@@ -11,13 +11,12 @@ import net.minecraft.util.ResourceLocation;
  * A renderer for a custom model of an entity.
  * It will automatically take care of the texture.
  * @author rubensworks
- *
  * @param <M> The model that will be rendered.
  */
 public abstract class RenderModelLiving<M extends ModelBase> extends RenderLiving {
 
     private ResourceLocation texture;
-    
+
     /**
      * Make a new instance.
      * @param config The config.
@@ -34,5 +33,4 @@ public abstract class RenderModelLiving<M extends ModelBase> extends RenderLivin
     protected ResourceLocation getEntityTexture(Entity entity) {
         return texture;
     }
-    
 }

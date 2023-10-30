@@ -10,17 +10,16 @@ import evilcraft.tileentity.TileBloodChest;
 /**
  * {@link ITickAction} that can repair items using blood.
  * @author rubensworks
- *
  */
 public class RepairItemTickAction implements ITickAction<TileBloodChest> {
-    
+
     @Override
     public boolean canTick(TileBloodChest tile, ItemStack itemStack, int slot, int tick) {
         return !tile.getTank().isEmpty() && itemStack != null;
     }
-    
+
     private void drainTank(TileBloodChest tile, float usageMultiplier) {
-        tile.getTank().drain((int) Math.ceil((float) BloodChestConfig.mBPerDamage * usageMultiplier), true);
+        tile.getTank().drain((int)Math.ceil((float)BloodChestConfig.mBPerDamage * usageMultiplier), true);
     }
 
     @Override
@@ -28,8 +27,7 @@ public class RepairItemTickAction implements ITickAction<TileBloodChest> {
         if(tick >= getRequiredTicks(tile, slot, tick)) {
             if(!tile.getTank().isEmpty() && itemStack != null) {
                 // Call handlers registered via API.
-            	IBloodChestRepairActionRegistry actions = RegistryManager.
-            			getRegistry(IBloodChestRepairActionRegistry.class);
+                IBloodChestRepairActionRegistry actions = RegistryManager.getRegistry(IBloodChestRepairActionRegistry.class);
                 int actionID = actions.canRepair(itemStack, tick);
                 if(actionID > -1) {
                     float simulateMultiplier = actions.repair(itemStack, tile.getWorldObj().rand, actionID, false, false);
@@ -38,7 +36,6 @@ public class RepairItemTickAction implements ITickAction<TileBloodChest> {
                         drainTank(tile, multiplier);
                     }
                 }
-                
             }
         }
     }
@@ -47,5 +44,4 @@ public class RepairItemTickAction implements ITickAction<TileBloodChest> {
     public float getRequiredTicks(TileBloodChest tile, int slot, int tick) {
         return BloodChestConfig.ticksPerDamage;
     }
-    
 }

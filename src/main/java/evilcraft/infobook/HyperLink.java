@@ -18,5 +18,4 @@ public class HyperLink {
         this.target = target;
         this.unlocalizedName = unlocalizedName;
     }
-
 }

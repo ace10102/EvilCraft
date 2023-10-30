@@ -15,7 +15,6 @@ import java.util.Map;
 /**
  * Config for the {@link PrimedPendant}.
  * @author rubensworks
- *
  */
 public class PrimedPendantConfig extends ItemConfig {
 
@@ -40,10 +39,8 @@ public class PrimedPendantConfig extends ItemConfig {
     /**
      * Usage multipliers. Potion ids are first, followed by floating numbers. A number smaller than one blacklists that potion.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM,
-            comment = "Usage multipliers. Potion ids are first, followed by floating numbers. A number smaller than one blacklists that potion.",
-            changedCallback = PotionMultipliersChanged.class)
-    public static String[] potionMultipliers = new String[]{
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "Usage multipliers. Potion ids are first, followed by floating numbers. A number smaller than one blacklists that potion.", changedCallback = PotionMultipliersChanged.class)
+    public static String[] potionMultipliers = new String[] {
             Potion.heal.getId() + DELIMITER + "-1",
             Potion.regeneration.getId() + DELIMITER + "10",
     };
@@ -54,18 +51,12 @@ public class PrimedPendantConfig extends ItemConfig {
      * Make a new instance.
      */
     public PrimedPendantConfig() {
-        super(
-                true,
-                "primedPendant",
-                null,
-                PrimedPendant.class
-        );
+        super(true, "primedPendant", null, PrimedPendant.class);
     }
 
     /**
      * Callback for when the multipliers property is changed.
      * @author rubensworks
-     *
      */
     public static class PotionMultipliersChanged implements IChangedCallback {
 
@@ -74,7 +65,7 @@ public class PrimedPendantConfig extends ItemConfig {
         @Override
         public void onChanged(Object value) {
             if(calledOnce) {
-                PrimedPendantConfig._instance.registerFromConfig((String[]) value);
+                PrimedPendantConfig._instance.registerFromConfig((String[])value);
             }
             calledOnce = true;
         }
@@ -83,7 +74,6 @@ public class PrimedPendantConfig extends ItemConfig {
         public void onRegisteredPostInit(Object value) {
             onChanged(value);
         }
-
     }
 
     /**
@@ -95,27 +85,23 @@ public class PrimedPendantConfig extends ItemConfig {
         for(String line : config) {
             String[] split = line.split(DELIMITER);
             if(split.length != 2) {
-                throw new IllegalArgumentException("Invalid line '" + line + "' found for "
-                        + "a Primed Pendant potion multiplier config.");
+                throw new IllegalArgumentException("Invalid line '" + line + "' found for " + "a Primed Pendant potion multiplier config.");
             }
             try {
                 int potionId = Integer.parseInt(split[0]);
                 if(potionId >= Potion.potionTypes.length || Potion.potionTypes[potionId] == null) {
-                    EvilCraft.log("Invalid line '" + line + "' found for "
-                            + "a Primed Pendant potion multiplier config: " + split[0] + " does not refer to an existing potion; skipping.");
+                    EvilCraft.log("Invalid line '" + line + "' found for " + "a Primed Pendant potion multiplier config: " + split[0] + " does not refer to an existing potion; skipping.");
                 }
                 Potion potion = Potion.potionTypes[potionId];
                 double multiplier = 1.0D;
                 try {
                     multiplier = Double.parseDouble(split[1]);
-                } catch (NumberFormatException e) {
-                    EvilCraft.log("Invalid ratio '" + split[1] + "' in "
-                            + "a Primed Pendant potion multiplier config, using 1.0.", Level.ERROR);
+                } catch(NumberFormatException e) {
+                    EvilCraft.log("Invalid ratio '" + split[1] + "' in " + "a Primed Pendant potion multiplier config, using 1.0.", Level.ERROR);
                 }
                 multipliers.put(potion.getId(), multiplier);
-            } catch (NumberFormatException e) {
-                EvilCraft.log("Invalid line '" + line + "' found for "
-                        + "a Primed Pendant potion multiplier config: " + split[0] + " is not a number; skipping.");
+            } catch(NumberFormatException e) {
+                EvilCraft.log("Invalid line '" + line + "' found for " + "a Primed Pendant potion multiplier config: " + split[0] + " is not a number; skipping.");
             }
         }
     }
@@ -123,5 +109,4 @@ public class PrimedPendantConfig extends ItemConfig {
     public Double getMultiplier(int potionId) {
         return multipliers.get(potionId);
     }
-    
 }

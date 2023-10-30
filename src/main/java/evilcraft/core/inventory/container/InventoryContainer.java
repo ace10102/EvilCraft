@@ -13,9 +13,9 @@ import net.minecraft.item.ItemStack;
  * @author rubensworks
  */
 public abstract class InventoryContainer extends Container {
-    
+
     protected static final int ITEMBOX = 18;
-    
+
     private IInventory playerIInventory;
     protected int offsetX = 0;
     protected int offsetY = 0;
@@ -27,9 +27,9 @@ public abstract class InventoryContainer extends Container {
     public InventoryContainer(InventoryPlayer inventory) {
         this.playerIInventory = inventory;
     }
-    
+
     protected Slot createNewSlot(IInventory inventory, int index, int x, int y) {
-    	return new Slot(inventory, index, x, y);
+        return new Slot(inventory, index, x, y);
     }
 
     protected Slot addSlotToContainer(Slot slot) {
@@ -37,16 +37,16 @@ public abstract class InventoryContainer extends Container {
         slot.yDisplayPosition += offsetY;
         return super.addSlotToContainer(slot);
     }
-    
+
     protected void addInventory(IInventory inventory, int indexOffset, int offsetX, int offsetY, int rows, int cols) {
-    	for (int y = 0; y < rows; y++) {
-            for (int x = 0; x < cols; x++) {
+        for(int y = 0; y < rows; y++) {
+            for(int x = 0; x < cols; x++) {
                 // Slot params: id, x-coord, y-coord (coords are relative to gui box)
                 addSlotToContainer(createNewSlot(inventory, x + y * cols + indexOffset, offsetX + x * ITEMBOX, offsetY + y * ITEMBOX));
             }
         }
     }
-    
+
     /**
      * Add player inventory and hotbar to the GUI.
      * @param inventory Inventory of the player
@@ -58,7 +58,7 @@ public abstract class InventoryContainer extends Container {
         int rows = 3;
         int cols = 9;
         addInventory(inventory, cols, offsetX, offsetY, rows, cols);
-        
+
         // Player hotbar
         offsetY += 58;
         addInventory(inventory, 0, offsetX, offsetY, 1, cols);
@@ -71,27 +71,27 @@ public abstract class InventoryContainer extends Container {
      * @param offsetY Offset to Y
      */
     protected void addPlayerArmorInventory(InventoryPlayer inventory, int offsetX, int offsetY) {
-        for (int y = 0; y < 4; y++) {
+        for(int y = 0; y < 4; y++) {
             addSlotToContainer(new SlotArmor(inventory, 4 * 9 + (3 - y), offsetX, offsetY + y * ITEMBOX, inventory.player, y));
         }
     }
-    
+
     protected abstract int getSizeInventory();
-    
+
     protected int getSlotStart(int originSlot, int slotStart, boolean reverse) {
-    	return slotStart;
+        return slotStart;
     }
-    
+
     protected int getSlotRange(int originSlot, int slotRange, boolean reverse) {
-    	return slotRange;
+        return slotRange;
     }
-    
+
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
         ItemStack stack = null;
-        Slot slot = (Slot) inventorySlots.get(slotID);
+        Slot slot = (Slot)inventorySlots.get(slotID);
         int slots = getSizeInventory();
-        
+
         if(slot != null && slot.getHasStack()) {
             ItemStack stackInSlot = slot.getStack();
             stack = stackInSlot.copy();
@@ -103,7 +103,7 @@ public abstract class InventoryContainer extends Container {
             } else if(!mergeItemStack(stackInSlot, getSlotStart(slotID, 0, false), getSlotRange(slotID, slots, false), false)) { // Click in player inventory -> tile
                 return null;
             }
-            
+
             if(stackInSlot.stackSize == 0) {
                 slot.putStack(null);
             } else {
@@ -116,10 +116,10 @@ public abstract class InventoryContainer extends Container {
 
             slot.onPickupFromSlot(player, stackInSlot);
         }
-        
+
         return stack;
     }
-    
+
     @Override
     protected boolean mergeItemStack(ItemStack stack, int slotStart, int slotRange, boolean reverse) {
         boolean successful = false;
@@ -147,7 +147,7 @@ public abstract class InventoryContainer extends Container {
                         existingStack.stackSize = existingSize;
                         slot.onSlotChanged();
                         successful = true;
-                    } else if (existingStack.stackSize < maxSlotSize) {
+                    } else if(existingStack.stackSize < maxSlotSize) {
                         stack.stackSize -= maxSlotSize - existingStack.stackSize;
                         existingStack.stackSize = maxSlotSize;
                         slot.onSlotChanged();
@@ -184,7 +184,6 @@ public abstract class InventoryContainer extends Container {
                     successful = true;
                     break;
                 }
-
                 if(reverse) {
                     --slotIndex;
                 } else {
@@ -192,7 +191,6 @@ public abstract class InventoryContainer extends Container {
                 }
             }
         }
-
         return successful;
     }
 
@@ -212,5 +210,4 @@ public abstract class InventoryContainer extends Container {
         }
         return itemStack;
     }
-    
 }

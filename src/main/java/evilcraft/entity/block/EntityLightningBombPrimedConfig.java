@@ -12,37 +12,29 @@ import evilcraft.core.config.extendedconfig.EntityConfig;
 /**
  * Config for {@link EntityLightningBombPrimed}.
  * @author rubensworks
- *
  */
 public class EntityLightningBombPrimedConfig extends EntityConfig {
-    
+
     /**
      * The unique instance.
      */
     public static EntityLightningBombPrimedConfig _instance;
-    
+
     /**
      * The amount of ticks (on average), this bomb should tick before explosion.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.ENTITY, comment = "The amount of ticks (on average), this bomb should tick before explosion.")
-    public static int fuse = 100;    
+    public static int fuse = 100;
 
     /**
      * Make a new instance.
      */
     public EntityLightningBombPrimedConfig() {
-        super(
-        	true,
-            "entityLightningBomb",
-            null,
-            EntityLightningBombPrimed.class
-        );
+        super(true, "entityLightningBomb", null, EntityLightningBombPrimed.class);
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     public Render getRender() {
         return new RenderBombPrimed(LightningBomb.getInstance());
     }
-    
 }

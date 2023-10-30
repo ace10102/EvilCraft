@@ -23,7 +23,7 @@ import java.util.Iterator;
  */
 public class EntangledChaliceItem extends ItemBlockFluidContainer {
 
-	/**
+    /**
      * Make a new instance.
      * @param block The block instance.
      */
@@ -37,13 +37,13 @@ public class EntangledChaliceItem extends ItemBlockFluidContainer {
      * @return The tank id.
      */
     public String getTankID(ItemStack container) {
-    	String key = getBlockTank().getTankNBTName();
-    	if(container.stackTagCompound == null || !container.stackTagCompound.hasKey(key)) {
+        String key = getBlockTank().getTankNBTName();
+        if(container.stackTagCompound == null || !container.stackTagCompound.hasKey(key)) {
             // In this case, the tank is invalid!
-    		container.stackTagCompound = new NBTTagCompound();
+            container.stackTagCompound = new NBTTagCompound();
             container.stackTagCompound.setTag(key, new NBTTagCompound());
-    		container.stackTagCompound.getCompoundTag(key).setString(WorldSharedTank.NBT_TANKID, "invalid");
-    	}
+            container.stackTagCompound.getCompoundTag(key).setString(WorldSharedTank.NBT_TANKID, "invalid");
+        }
         return container.stackTagCompound.getCompoundTag(key).getString(WorldSharedTank.NBT_TANKID);
     }
 
@@ -70,30 +70,29 @@ public class EntangledChaliceItem extends ItemBlockFluidContainer {
     public void setNextTankID(ItemStack container) {
         setTankID(container, Integer.toString(GlobalCounter.getInstance().getNext("EntangledChalice")));
     }
-    
+
     @Override
-	public FluidStack getFluid(ItemStack container) {
-    	return WorldSharedTankCache.getInstance().getTankContent(getTankID(container));
+    public FluidStack getFluid(ItemStack container) {
+        return WorldSharedTankCache.getInstance().getTankContent(getTankID(container));
     }
-    
+
     @Override
     protected void setFluid(ItemStack container, FluidStack fluidStack) {
-    	WorldSharedTankCache.getInstance().setTankContent(getTankID(container), fluidStack);
+        WorldSharedTankCache.getInstance().setTankContent(getTankID(container), fluidStack);
     }
 
     protected void autofill(IFluidContainerItem item, ItemStack itemStack, World world, Entity entity) {
         if(entity instanceof EntityPlayer && !world.isRemote) {
-            EntityPlayer player = (EntityPlayer) entity;
+            EntityPlayer player = (EntityPlayer)entity;
             FluidStack tickFluid;
             Iterator<ItemStack> it = new PlayerExtendedInventoryIterator(player);
             do {
                 tickFluid = item.getFluid(itemStack);
                 ItemStack toFill = it.next();
-                if (tickFluid != null && toFill != null && toFill.stackSize == 1) {
+                if(tickFluid != null && toFill != null && toFill.stackSize == 1) {
                     ItemHelpers.tryFillContainerForPlayer(item, itemStack, toFill, tickFluid, player);
                 }
             } while(tickFluid != null && tickFluid.amount > 0 && it.hasNext());
         }
     }
-	
 }

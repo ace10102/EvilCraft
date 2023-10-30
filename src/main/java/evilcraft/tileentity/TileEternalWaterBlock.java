@@ -8,26 +8,24 @@ import net.minecraftforge.fluids.*;
 /**
  * Tile Entity for the eternal water block.
  * @author rubensworks
- *
  */
 public class TileEternalWaterBlock extends EvilCraftTileEntity implements IFluidHandler {
 
     public static final FluidStack WATER = new FluidStack(FluidRegistry.WATER, FluidContainerRegistry.BUCKET_VOLUME);
 
-	@Override
-	protected void updateTileEntity() {
-		if(!getWorldObj().isRemote) {
+    @Override
+    protected void updateTileEntity() {
+        if(!getWorldObj().isRemote) {
             for(ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
-                TileEntity tile = worldObj.getTileEntity(xCoord + direction.offsetX, yCoord + direction.offsetY,
-                        zCoord + direction.offsetZ);
-                if (tile instanceof IFluidHandler) {
-                    IFluidHandler handler = (IFluidHandler) tile;
+                TileEntity tile = worldObj.getTileEntity(xCoord + direction.offsetX, yCoord + direction.offsetY, zCoord + direction.offsetZ);
+                if(tile instanceof IFluidHandler) {
+                    IFluidHandler handler = (IFluidHandler)tile;
                     FluidStack fluidStack = new FluidStack(FluidRegistry.WATER, FluidContainerRegistry.BUCKET_VOLUME);
                     handler.fill(direction.getOpposite(), fluidStack, true);
                 }
             }
-		}
-	}
+        }
+    }
 
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
@@ -57,8 +55,6 @@ public class TileEternalWaterBlock extends EvilCraftTileEntity implements IFluid
 
     @Override
     public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-        return new FluidTankInfo[] {
-            new FluidTankInfo(WATER.copy(), FluidContainerRegistry.BUCKET_VOLUME)
-        };
+        return new FluidTankInfo[] { new FluidTankInfo(WATER.copy(), FluidContainerRegistry.BUCKET_VOLUME) };
     }
 }

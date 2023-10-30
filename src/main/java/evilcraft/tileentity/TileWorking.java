@@ -27,8 +27,7 @@ public abstract class TileWorking<T extends TankInventoryTileEntity, O> extends 
      * @param tankName Internal name of the tank.
      * @param acceptedFluid Type of Fluid to accept.
      */
-    public TileWorking(int inventorySize, String inventoryName,
-                       int tankSize, String tankName, Fluid acceptedFluid) {
+    public TileWorking(int inventorySize, String inventoryName, int tankSize, String tankName, Fluid acceptedFluid) {
         super(inventorySize, inventoryName, tankSize, tankName, acceptedFluid);
     }
 
@@ -49,7 +48,8 @@ public abstract class TileWorking<T extends TankInventoryTileEntity, O> extends 
     public boolean onUpgradeSlotChanged(int slotId, ItemStack oldItemStack, ItemStack itemStack) {
         if(super.onUpgradeSlotChanged(slotId, oldItemStack, itemStack)) {
             resetTier();
-            if(!worldObj.isRemote) getTank().setCapacity(getTankTierMultiplier(getTier()) * tankSize);
+            if(!worldObj.isRemote)
+                getTank().setCapacity(getTankTierMultiplier(getTier()) * tankSize);
             sendUpdate();
             return true;
         }
@@ -132,8 +132,7 @@ public abstract class TileWorking<T extends TankInventoryTileEntity, O> extends 
             return areUpgradeSlotsValidForTier(0);
         } else if(Promise.getInstance().isTierUpgrade(itemStack)) {
             // Add a tier upgrade
-            return getTier() == 0 &&
-                    getRequiredTierForSlot(slot) <= Promise.getInstance().getUpgrade(itemStack).getTier();
+            return getTier() == 0 && getRequiredTierForSlot(slot) <= Promise.getInstance().getUpgrade(itemStack).getTier();
         } else {
             // Non-tier upgrade
             return isUpgradeSlotEnabled(slot);
@@ -160,5 +159,4 @@ public abstract class TileWorking<T extends TankInventoryTileEntity, O> extends 
         }
         return true;
     }
-
 }

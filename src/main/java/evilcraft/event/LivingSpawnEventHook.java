@@ -10,7 +10,6 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 /**
  * Event hook for {@link net.minecraftforge.event.entity.living.LivingSpawnEvent}.
  * @author rubensworks
- *
  */
 public class LivingSpawnEventHook {
 
@@ -25,10 +24,9 @@ public class LivingSpawnEventHook {
 
     private void checkLibelleSpawn(LivingSpawnEvent.CheckSpawn event) {
         if(event.entityLiving instanceof PoisonousLibelle) {
-            if(((PoisonousLibelle) event.entityLiving).posY < PoisonousLibelleConfig.minY) {
+            if(((PoisonousLibelle)event.entityLiving).posY < PoisonousLibelleConfig.minY) {
                 event.setResult(Event.Result.DENY);
             }
         }
     }
-    
 }

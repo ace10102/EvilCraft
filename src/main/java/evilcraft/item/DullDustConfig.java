@@ -6,7 +6,6 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 /**
  * Config for the Dull Dust.
  * @author rubensworks
- *
  */
 public class DullDustConfig extends ItemConfig {
 
@@ -19,17 +18,11 @@ public class DullDustConfig extends ItemConfig {
      * Make a new instance.
      */
     public DullDustConfig() {
-        super(
-        	true,
-            "dullDust",
-            null,
-            null
-        );
+        super(true, "dullDust", null, null);
     }
-    
+
     @Override
     public String getOreDictionaryId() {
         return Reference.DICT_DUSTDULL;
     }
-    
 }

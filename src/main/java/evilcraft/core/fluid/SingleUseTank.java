@@ -12,15 +12,14 @@ import net.minecraftforge.fluids.FluidStack;
  * Only one fluid can be accepted, which must be specified with {@link SingleUseTank#setAcceptedFluid(Fluid)}.
  * Based on the Buildcraft SingleUseTank.
  * @author rubensworks
- *
  */
 public class SingleUseTank extends Tank {
-    
+
     /**
      * The NBT name for the fluid tank.
      */
     public static final String NBT_ACCEPTED_FLUID = "acceptedFluid";
-    
+
     private Fluid acceptedFluid;
     protected EvilCraftTileEntity tile;
 
@@ -39,39 +38,39 @@ public class SingleUseTank extends Tank {
     public int fill(FluidStack resource, boolean doFill) {
         Fluid acceptedFluid = getAcceptedFluid();
         if(getFluid() == null && acceptedFluid != null) {
-    		acceptedFluid = null;
-    	}    	
-    	int filled = 0;
-        if (resource == null) {
-        	filled = 0;
+            acceptedFluid = null;
+        }
+        int filled = 0;
+        if(resource == null) {
+            filled = 0;
         } else {
-        	if (doFill && acceptedFluid == null) {
-        		acceptedFluid = resource.getFluid();
-        	}
-        	if (acceptedFluid == null || acceptedFluid == resource.getFluid()) {
+            if(doFill && acceptedFluid == null) {
+                acceptedFluid = resource.getFluid();
+            }
+            if(acceptedFluid == null || acceptedFluid == resource.getFluid()) {
                 filled = super.fill(resource, doFill);
             }
         }
         if(filled > 0) {
-        	sendUpdate();
+            sendUpdate();
         }
         return filled;
     }
-    
+
     @Override
     public FluidStack drain(int maxDrain, boolean doDrain) {
         FluidStack drained = super.drain(maxDrain, doDrain);
-    	if(drained != null) {
-    		sendUpdate();
-    	}
-    	return drained;
+        if(drained != null) {
+            sendUpdate();
+        }
+        return drained;
     }
-    
+
     protected void sendUpdate() {
-    	// TODO: generalize this to accept ITankUpdateListeners if this would be necessary later.
-    	if(!(tile instanceof TankInventoryTileEntity) || ((TankInventoryTileEntity) tile).isSendUpdateOnTankChanged()) {
-    		tile.sendUpdate();
-    	}
+        // TODO: generalize this to accept ITankUpdateListeners if this would be necessary later.
+        if(!(tile instanceof TankInventoryTileEntity) || ((TankInventoryTileEntity)tile).isSendUpdateOnTankChanged()) {
+            tile.sendUpdate();
+        }
     }
 
     /**
@@ -100,7 +99,7 @@ public class SingleUseTank extends Tank {
     @Override
     public void writeTankToNBT(NBTTagCompound nbt) {
         super.writeTankToNBT(nbt);
-        if (acceptedFluid != null)
+        if(acceptedFluid != null)
             nbt.setString(NBT_ACCEPTED_FLUID, acceptedFluid.getName());
     }
 
@@ -109,24 +108,23 @@ public class SingleUseTank extends Tank {
         super.readTankFromNBT(nbt);
         acceptedFluid = FluidRegistry.getFluid(nbt.getString(NBT_ACCEPTED_FLUID));
     }
-    
+
     /**
      * If this tank can accept the given fluid.
      * @param fluid The fluid that needs to be checked.
      * @return If this tank can accept it.
      */
     public boolean canTankAccept(Fluid fluid) {
-    	return getAcceptedFluid().equals(fluid);
+        return getAcceptedFluid().equals(fluid);
     }
-    
+
     /**
      * If this tank can completely contain the given fluid.
      * @param fluidStack The fluid to try to fill.
      * @return If this tank can completely contain the given fluid.
      */
     public boolean canCompletelyFill(FluidStack fluidStack) {
-    	int amount = (fluidStack != null) ? fluidStack.amount : 0;
-    	return getFluidAmount() + amount <= getCapacity();
+        int amount = (fluidStack != null) ? fluidStack.amount : 0;
+        return getFluidAmount() + amount <= getCapacity();
     }
-    
 }

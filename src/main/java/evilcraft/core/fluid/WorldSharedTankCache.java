@@ -23,119 +23,118 @@ import java.util.Map;
  * @author rubensworks
  */
 public class WorldSharedTankCache {
-	
-	/**
-	 * The amount of ticks inbetween a packet update.
-	 */
-	public static final int INTERPOLATION_TICK_OFFSET = 10;
 
-	private static WorldSharedTankCache _instance = null;
-	
-	private Map<String, FluidStack> tankCache = Maps.newHashMap();
-	private Map<String, UpdateWorldSharedTankClientCachePacket> packetBuffer = Maps.newHashMap();
-	private int tick = 0;
-	
-	private WorldSharedTankCache() {
-		
-	}
-	
-	/**
-	 * Reset the cache, packet buffer and tick offset.
-	 */
-	public void reset() {
-		tankCache = Maps.newHashMap();
-		packetBuffer = Maps.newHashMap();
-		tick = 0;
-	}
-	
-	/**
-	 * Get the unique instance.
-	 * @return The unique instance.
-	 */
-	public static WorldSharedTankCache getInstance() {
-		if(_instance == null) {
-			_instance = new WorldSharedTankCache();
-		}
-		return _instance;
-	}
-	
-	protected String getMapID(String tankID) {
-		return tankID + (MinecraftHelpers.isClientSide() ? "C" : "S");
-	}
+    /**
+     * The amount of ticks inbetween a packet update.
+     */
+    public static final int INTERPOLATION_TICK_OFFSET = 10;
+
+    private static WorldSharedTankCache _instance = null;
+
+    private Map<String, FluidStack> tankCache = Maps.newHashMap();
+    private Map<String, UpdateWorldSharedTankClientCachePacket> packetBuffer = Maps.newHashMap();
+    private int tick = 0;
+
+    private WorldSharedTankCache() {
+
+    }
+
+    /**
+     * Reset the cache, packet buffer and tick offset.
+     */
+    public void reset() {
+        tankCache = Maps.newHashMap();
+        packetBuffer = Maps.newHashMap();
+        tick = 0;
+    }
+
+    /**
+     * Get the unique instance.
+     * @return The unique instance.
+     */
+    public static WorldSharedTankCache getInstance() {
+        if(_instance == null) {
+            _instance = new WorldSharedTankCache();
+        }
+        return _instance;
+    }
+
+    protected String getMapID(String tankID) {
+        return tankID + (MinecraftHelpers.isClientSide() ? "C" : "S");
+    }
 
     protected String removeMapID(String mapID) {
         return mapID.substring(0, mapID.length() - 1);
     }
-	
-	/**
-	 * Get a tank contents.
-	 * @param tankID The tank.
-	 * @return The contents.
-	 */
-	public FluidStack getTankContent(String tankID) {
-		FluidStack stack = tankCache.get(getMapID(tankID));
+
+    /**
+     * Get a tank contents.
+     * @param tankID The tank.
+     * @return The contents.
+     */
+    public FluidStack getTankContent(String tankID) {
+        FluidStack stack = tankCache.get(getMapID(tankID));
         return (stack == null) ? null : stack.copy();
-	}
-	
-	protected static boolean shouldRefreshFluid(FluidStack old, FluidStack newF) {
-    	return !MinecraftHelpers.isFluidAndAmountEqual(old, newF);
     }
-	
-	/**
-	 * Set the tank contents.
-	 * @param tankID The id of the tank.
-	 * @param fluidStack The tank contents.
-	 */
-	public void setTankContent(String tankID, FluidStack fluidStack) {
+
+    protected static boolean shouldRefreshFluid(FluidStack old, FluidStack newF) {
+        return !MinecraftHelpers.isFluidAndAmountEqual(old, newF);
+    }
+
+    /**
+     * Set the tank contents.
+     * @param tankID The id of the tank.
+     * @param fluidStack The tank contents.
+     */
+    public void setTankContent(String tankID, FluidStack fluidStack) {
         String key = getMapID(tankID);
-		boolean shouldRefresh = shouldRefreshFluid(tankCache.get(key), fluidStack);
-		if(fluidStack == null || fluidStack.amount == 0) {
-			tankCache.remove(key);
-		} else if(shouldRefresh) {
+        boolean shouldRefresh = shouldRefreshFluid(tankCache.get(key), fluidStack);
+        if(fluidStack == null || fluidStack.amount == 0) {
+            tankCache.remove(key);
+        } else if(shouldRefresh) {
             tankCache.put(key, fluidStack.copy());
-		}
-		if(!MinecraftHelpers.isClientSide() && shouldRefresh) {
+        }
+        if(!MinecraftHelpers.isClientSide() && shouldRefresh) {
             bufferPacket(tankID, new UpdateWorldSharedTankClientCachePacket(tankID, fluidStack));
-		}
-	}
-	
-	protected void bufferPacket(String tankID, UpdateWorldSharedTankClientCachePacket packet) {
-		packetBuffer.put(tankID, packet);
-	}
-	
-	/**
-	 * Get the ticks since last packet flush.
-	 * @return The tick offset.
-	 */
-	public int getTickOffset() {
-		return this.tick;
-	}
-	
-	/**
+        }
+    }
+
+    protected void bufferPacket(String tankID, UpdateWorldSharedTankClientCachePacket packet) {
+        packetBuffer.put(tankID, packet);
+    }
+
+    /**
+     * Get the ticks since last packet flush.
+     * @return The tick offset.
+     */
+    public int getTickOffset() {
+        return this.tick;
+    }
+
+    /**
      * When a tick event is received.
      * @param event The received event.
      */
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void onTick(TickEvent event) {
-    	if(event.phase == Phase.START && (event.type == Type.CLIENT || event.type == Type.SERVER)) {
+        if(event.phase == Phase.START && (event.type == Type.CLIENT || event.type == Type.SERVER)) {
             tick++;
-	    	if(event.side == Side.SERVER && getTickOffset() > INTERPOLATION_TICK_OFFSET) {
-		    	Iterator<Map.Entry<String, UpdateWorldSharedTankClientCachePacket>> it = packetBuffer.entrySet().iterator();
-		    	while(it.hasNext()) {
+            if(event.side == Side.SERVER && getTickOffset() > INTERPOLATION_TICK_OFFSET) {
+                Iterator<Map.Entry<String, UpdateWorldSharedTankClientCachePacket>> it = packetBuffer.entrySet().iterator();
+                while(it.hasNext()) {
                     PacketHandler.sendToAll(it.next().getValue());
-		    		it.remove();
-		    	}
+                    it.remove();
+                }
                 tick = 0;
-	    	}
-    	}
+            }
+        }
     }
 
     @SubscribeEvent
     public void onLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         if(!MinecraftHelpers.isClientSide()) {
-            for(Map.Entry<String, FluidStack> entry: tankCache.entrySet()) {
-                PacketHandler.sendToPlayer(
-                        new UpdateWorldSharedTankClientCachePacket(removeMapID(entry.getKey()), entry.getValue()), event.player);
+            for(Map.Entry<String, FluidStack> entry : tankCache.entrySet()) {
+                PacketHandler.sendToPlayer(new UpdateWorldSharedTankClientCachePacket(removeMapID(entry.getKey()), entry.getValue()), event.player);
             }
         }
     }
@@ -147,10 +146,9 @@ public class WorldSharedTankCache {
     public void readFromNBT(NBTTagCompound tag) {
         if(tag != null) {
             NBTTagList list = tag.getTagList("tankCache", 10);
-            for (int i = 0; i < list.tagCount(); i++) {
+            for(int i = 0; i < list.tagCount(); i++) {
                 NBTTagCompound subTag = list.getCompoundTagAt(i);
-                setTankContent(subTag.getString("key"),
-                        FluidStack.loadFluidStackFromNBT(subTag.getCompoundTag("value")));
+                setTankContent(subTag.getString("key"), FluidStack.loadFluidStackFromNBT(subTag.getCompoundTag("value")));
             }
         }
     }
@@ -171,5 +169,4 @@ public class WorldSharedTankCache {
         }
         tag.setTag("tankCache", list);
     }
-	
 }

@@ -6,10 +6,9 @@ import evilcraft.world.biome.BiomeDegraded;
 /**
  * Config for {@link BiomeDegraded}.
  * @author rubensworks
- *
  */
 public class TerraformDegradationConfig extends DegradationEffectConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -19,13 +18,6 @@ public class TerraformDegradationConfig extends DegradationEffectConfig {
      * Make a new instance.
      */
     public TerraformDegradationConfig() {
-        super(
-            false,
-            "terraform",
-            null,
-            TerraformDegradation.class,
-            1
-        );
+        super(false, "terraform", null, TerraformDegradation.class, 1);
     }
-    
 }

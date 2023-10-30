@@ -5,10 +5,9 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 /**
  * Config for the Blood Infusion Core.
  * @author rubensworks
- *
  */
 public class BloodInfusionCoreConfig extends ItemConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -18,12 +17,6 @@ public class BloodInfusionCoreConfig extends ItemConfig {
      * Make a new instance.
      */
     public BloodInfusionCoreConfig() {
-        super(
-        	true,
-            "bloodInfusionCore",
-            null,
-            null
-        );
+        super(true, "bloodInfusionCore", null, null);
     }
-    
 }

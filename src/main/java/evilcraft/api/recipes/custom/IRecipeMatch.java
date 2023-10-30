@@ -8,13 +8,13 @@ package evilcraft.api.recipes.custom;
 @SuppressWarnings("rawtypes")
 public interface IRecipeMatch<M extends IMachine, R extends IRecipe> {
 
-	/**
-	 * @return The machine.
-	 */
-	public M getMachine();
-	/**
-	 * @return The recipe.
-	 */
-	public R getRecipe();
-	
+    /**
+     * @return The machine.
+     */
+    public M getMachine();
+
+    /**
+     * @return The recipe.
+     */
+    public R getRecipe();
 }

@@ -1,4 +1,5 @@
 package evilcraft.block;
+
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -11,12 +12,11 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 /**
  * A test block that is only used for testing stuff in development.
  * @author rubensworks
- *
  */
 public class EvilBlock extends ConfigurableBlockConnectedTexture {
-    
+
     private static EvilBlock _instance = null;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -27,7 +27,7 @@ public class EvilBlock extends ConfigurableBlockConnectedTexture {
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -42,10 +42,9 @@ public class EvilBlock extends ConfigurableBlockConnectedTexture {
         this.setStepSound(Block.soundTypeMetal);
         this.setHarvestLevel("pickaxe", 0);
     }
-    
+
     @Override
     public Item getItemDropped(int meta, Random random, int zero) {
         return Item.getItemFromBlock(this);
     }
-
 }

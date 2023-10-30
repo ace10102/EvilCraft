@@ -13,12 +13,11 @@ import net.minecraft.world.ColorizerGrass;
 /**
  * Enchantment for letting tools break tools faster.
  * @author rubensworks
- *
  */
 public class BiomeDegraded extends ConfigurableBiome {
-    
+
     private static BiomeDegraded _instance = null;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -29,7 +28,7 @@ public class BiomeDegraded extends ConfigurableBiome {
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -46,27 +45,23 @@ public class BiomeDegraded extends ConfigurableBiome {
         this.func_76733_a(RenderHelpers.RGBToInt(20, 50, 30));
         this.waterColorMultiplier = RenderHelpers.RGBToInt(60, 50, 20);
     }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT)
     public int getBiomeGrassColor(int x, int y, int z) {
-        double d0 = (double) MathHelper.clamp_float(this.getFloatTemperature(x, y, z), 0.0F, 1.0F);
-        double d1 = (double) MathHelper.clamp_float(this.getFloatRainfall(), 0.0F, 1.0F);
+        double d0 = (double)MathHelper.clamp_float(this.getFloatTemperature(x, y, z), 0.0F, 1.0F);
+        double d1 = (double)MathHelper.clamp_float(this.getFloatRainfall(), 0.0F, 1.0F);
         return ((ColorizerGrass.getGrassColor(d0, d1) & RenderHelpers.RGBToInt(10, 20, 5)) + 5115470) / 2;
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     public int getBiomeFoliageColor(int x, int y, int z) {
-        double d0 = (double) MathHelper.clamp_float(this.getFloatTemperature(x, y, z), 0.0F, 1.0F);
-        double d1 = (double) MathHelper.clamp_float(this.getFloatRainfall(), 0.0F, 1.0F);
+        double d0 = (double)MathHelper.clamp_float(this.getFloatTemperature(x, y, z), 0.0F, 1.0F);
+        double d1 = (double)MathHelper.clamp_float(this.getFloatRainfall(), 0.0F, 1.0F);
         return ((ColorizerFoliage.getFoliageColor(d0, d1) & RenderHelpers.RGBToInt(10, 20, 50)) + 5115470) / 2;
     }
 
     @Override
-    public float getSpawningChance()
-    {
+    public float getSpawningChance() {
         return 0.5F;
     }
-
 }

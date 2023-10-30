@@ -8,14 +8,13 @@ import net.minecraft.inventory.Slot;
 /**
  * A container for a chest that allows slot ticking.
  * @author rubensworks
- *
  * @param <T> The type of tile.
  */
 public abstract class TickingChestContainer<T extends TickingTankInventoryTileEntity<T>> extends TickingTankInventoryContainer<T> {
-    
+
     private int offsetX;
     private int offsetY;
-    
+
     /**
      * Make a new instance.
      * @param inventory The player inventory.
@@ -31,15 +30,15 @@ public abstract class TickingChestContainer<T extends TickingTankInventoryTileEn
         this.offsetY = offsetY;
         this.addChestSlots(rows, columns);
     }
-    
+
     protected void addChestSlots(int rows, int columns) {
-        for (int row = 0; row < rows; row++) {
-            for (int column = 0; column < columns; column++) {
+        for(int row = 0; row < rows; row++) {
+            for(int column = 0; column < columns; column++) {
                 addSlotToContainer(makeSlot(tile, column + row * columns, offsetX + column * 18, offsetY + row * 18));
             }
         }
     }
-    
+
     /**
      * Add a new slot in the given inventory at the given index and at the given row and column.
      * @param inventory The inventory for the chest.
@@ -49,7 +48,4 @@ public abstract class TickingChestContainer<T extends TickingTankInventoryTileEn
      * @return The new slot instance.
      */
     public abstract Slot makeSlot(IInventory inventory, int index, int row, int column);
-    
-    
-    
 }

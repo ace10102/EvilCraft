@@ -13,12 +13,11 @@ import evilcraft.core.degradation.StochasticDegradationEffect;
 /**
  * Client-side degradation effect that will play creepy sounds.
  * @author rubensworks
- *
  */
 public class SoundDegradation extends StochasticDegradationEffect {
 
     private static SoundDegradation _instance = null;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -29,7 +28,7 @@ public class SoundDegradation extends StochasticDegradationEffect {
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -37,16 +36,15 @@ public class SoundDegradation extends StochasticDegradationEffect {
     public static SoundDegradation getInstance() {
         return _instance;
     }
-    
+
     private static final double CHANCE = 0.1D;
-    
+
     private SoundDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
         super(eConfig, CHANCE);
     }
 
     @Override
     public void runClientSide(IDegradable degradable) {
-        
     }
 
     @Override
@@ -55,10 +53,9 @@ public class SoundDegradation extends StochasticDegradationEffect {
         World world = degradable.getWorld();
         for(Entity entity : degradable.getAreaEntities()) {
             if(entity instanceof EntityPlayer) {
-                world.playSoundAtEntity((EntityPlayer) entity, "mob.blaze.breathe", 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
-                world.playSoundAtEntity((EntityPlayer) entity, "mob.enderdragon.wings", 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+                world.playSoundAtEntity((EntityPlayer)entity, "mob.blaze.breathe", 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+                world.playSoundAtEntity((EntityPlayer)entity, "mob.enderdragon.wings", 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
             }
         }
     }
-    
 }

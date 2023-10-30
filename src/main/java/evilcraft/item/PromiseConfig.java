@@ -5,7 +5,6 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 /**
  * Config for the {@link evilcraft.item.Promise}.
  * @author rubensworks
- *
  */
 public class PromiseConfig extends ItemConfig {
 
@@ -18,12 +17,6 @@ public class PromiseConfig extends ItemConfig {
      * Make a new instance.
      */
     public PromiseConfig() {
-        super(
-        	true,
-            "promise",
-            null,
-            Promise.class
-        );
+        super(true, "promise", null, Promise.class);
     }
-    
 }

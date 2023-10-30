@@ -8,12 +8,11 @@ import net.minecraftforge.fluids.Fluid;
 /**
  * The blood {@link Fluid}.
  * @author rubensworks
- *
  */
-public class Blood extends ConfigurableFluid{
-    
+public class Blood extends ConfigurableFluid {
+
     private static Blood _instance = null;
-    
+
     /**
      * Make the unique instance.
      * @param eConfig config
@@ -24,7 +23,7 @@ public class Blood extends ConfigurableFluid{
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The unique instance.
@@ -35,9 +34,8 @@ public class Blood extends ConfigurableFluid{
 
     private Blood(ExtendedConfig<FluidConfig> eConfig) {
         super(eConfig);
-        setDensity(1500); // How tick the fluid is, affects movement inside the liquid.
+        setDensity(1500); // How thick the fluid is, affects movement inside the liquid.
         setViscosity(3000); // How fast the fluid flows.
         setTemperature(309); // 36 degrees C
     }
-
 }

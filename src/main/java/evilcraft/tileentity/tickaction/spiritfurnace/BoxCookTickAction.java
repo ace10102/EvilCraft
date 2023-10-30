@@ -32,7 +32,6 @@ import java.util.UUID;
 /**
  * {@link ITickAction} that is able to cook boxes with spirits.
  * @author rubensworks
- *
  */
 public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
 
@@ -40,10 +39,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     public static final Map<UUID, List<WeightedItemStack>> PLAYERDROP_OVERRIDES = Maps.newHashMap();
     static {
         if(SpiritFurnaceConfig.villagerDropEmeraldChance > 0) {
-            overrideMobDrop(EntityVillager.class, Sets.newHashSet(
-                    new WeightedItemStack(new ItemStack(Items.emerald), 1),
-                    new WeightedItemStack(null, SpiritFurnaceConfig.villagerDropEmeraldChance - 1)
-            ));
+            overrideMobDrop(EntityVillager.class, Sets.newHashSet(new WeightedItemStack(new ItemStack(Items.emerald), 1), new WeightedItemStack(null, SpiritFurnaceConfig.villagerDropEmeraldChance - 1)));
         }
         overridePlayerDrop("068d4de0-3a75-4c6a-9f01-8c37e16a394c", new ItemStack(Items.emerald)); // kroeserr
         overridePlayerDrop("e1dc75c6-dcf9-4e0c-8fbf-9c6e5e44527c", new ItemStack(Items.wooden_sword)); // _EeB_
@@ -85,8 +81,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     /**
      * Override an entity's drops inside the spirit furnace.
      * @param entity The entity class.
-     * @param drops A map of drops to relative frequency, with the second pair of the map key representing the min-max
-     *              amount of drops (both inclusive)
+     * @param drops A map of drops to relative frequency, with the second pair of the map key representing the min-max amount of drops (both inclusive)
      */
     public static void overrideMobDrop(Class<? extends EntityLivingBase> entity, Set<WeightedItemStack> drops) {
         MOBDROP_OVERRIDES.put(entity, WeightedItemStack.createWeightedList(drops));
@@ -100,27 +95,25 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     public static void overridePlayerDrop(String playerId, ItemStack drop) {
         PLAYERDROP_OVERRIDES.put(UUID.fromString(playerId), WeightedItemStack.createWeightedList(Sets.newHashSet(new WeightedItemStack(drop, 1))));
     }
-    
+
     @Override
     public boolean canTick(TileSpiritFurnace tile, ItemStack itemStack, int slot, int tick) {
         if(tile.isForceHalt()) {
-            for (int i : tile.getProduceSlots()) {
-                if (tile.getStackInSlot(i) == null) tile.resetWork(false);
+            for(int i : tile.getProduceSlots()) {
+                if(tile.getStackInSlot(i) == null) tile.resetWork(false);
             }
         }
-        if(!tile.isForceHalt() && !tile.isCaughtError() && tile.canWork()
-                && tile.getTank().getFluidAmount() >= getRequiredMb(tile, 0)
-        		&& getCookStack(tile) != null && tile.canConsume(getCookStack(tile))) {
-        	for(int slotId : tile.getProduceSlots()) {
-	        	ItemStack production = tile.getInventory().getStackInSlot(slotId);
-	            if(production == null || production.stackSize < production.getMaxStackSize()) {
-	            	return tile.isSizeValidForEntity();
-	            }
+        if(!tile.isForceHalt() && !tile.isCaughtError() && tile.canWork() && tile.getTank().getFluidAmount() >= getRequiredMb(tile, 0) && getCookStack(tile) != null && tile.canConsume(getCookStack(tile))) {
+            for(int slotId : tile.getProduceSlots()) {
+                ItemStack production = tile.getInventory().getStackInSlot(slotId);
+                if(production == null || production.stackSize < production.getMaxStackSize()) {
+                    return tile.isSizeValidForEntity();
+                }
             }
         }
         return false;
     }
-    
+
     protected ItemStack getCookStack(TileSpiritFurnace tile) {
         return tile.getInventory().getStackInSlot(tile.getConsumeSlot());
     }
@@ -135,19 +128,17 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     protected ItemStack getPlayerDeterminedDrop(String playerId) {
         return PLAYERDROP_RANDOM[Math.abs(playerId.hashCode() % PLAYERDROP_RANDOM.length)].copy();
     }
-    
+
     protected void doNextDrop(TileSpiritFurnace tile) {
-    	EntityLiving entity = tile.getEntity();
-    	if(entity != null) {
-    		FakeWorldItemDelegator world = FakeWorldItemDelegator.getInstance();
-			world.setItemDropListener(tile);
-			
-			// Send sound to client
-			//String deathSound = ObfuscationHelpers.getDeathSound(entity);
-			String deathSound = MethodHandlesHelper.getDeathSound(entity);
+        EntityLiving entity = tile.getEntity();
+        if(entity != null) {
+            FakeWorldItemDelegator world = FakeWorldItemDelegator.getInstance();
+            world.setItemDropListener(tile);
+
+            // Send sound to client
+            String deathSound = MethodHandlesHelper.getDeathSound(entity);
             if(SpiritFurnaceConfig.mobDeathSounds) {
-                EvilCraft.proxy.sendSoundMinecraft(tile.xCoord + 0.5D, tile.yCoord + 0.5D,
-                        tile.zCoord + 0.5D, deathSound, 0.5F + world.rand.nextFloat() * 0.2F, 1.0F);
+                EvilCraft.proxy.sendSoundMinecraft(tile.xCoord + 0.5D, tile.yCoord + 0.5D, tile.zCoord + 0.5D, deathSound, 0.5F + world.rand.nextFloat() * 0.2F, 1.0F);
             }
 
             if(tile.isPlayer()) {
@@ -163,30 +154,29 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
                 }
                 WeightedItemStack weightedItemStack = WeightedItemStack.getRandomWeightedItemStack(possibleDrops, world.rand);
                 ItemStack drop = weightedItemStack.getItemStackWithRandomizedSize(world.rand);
-                if (drop != null) {
+                if(drop != null) {
                     tile.onItemDrop(drop);
                 }
             } else {
-                if (MOBDROP_OVERRIDES.containsKey(entity.getClass())) {
+                if(MOBDROP_OVERRIDES.containsKey(entity.getClass())) {
                     List<WeightedItemStack> possibleDrops = MOBDROP_OVERRIDES.get(entity.getClass());
                     WeightedItemStack weightedItemStack = WeightedItemStack.getRandomWeightedItemStack(possibleDrops, world.rand);
                     ItemStack drop = weightedItemStack.getItemStackWithRandomizedSize(world.rand);
-                    if (drop != null) {
+                    if(drop != null) {
                         tile.onItemDrop(drop);
                     }
                 } else {
                     // To make sure the entity actually will drop something.
                     entity.recentlyHit = 100;
-
                     try {
                         // Kill the entity to get the drops
                         entity.onDeath(DamageSource.generic);
-                    } catch (Exception e) { // Gotta catch 'em all
+                    } catch(Exception e) { // Gotta catch 'em all
                         tile.caughtError();
                     }
                 }
             }
-		}
+        }
     }
 
     protected int getRequiredMb(TileSpiritFurnace tile, int tick) {
@@ -195,27 +185,26 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
         return MathHelpers.factorToBursts(drain.getValue(), tick);
     }
 
-	@Override
-	public void onTick(TileSpiritFurnace tile, ItemStack itemStack, int slot, int tick) {
-		// Drain the tank a bit.
-		tile.getTank().drain(getRequiredMb(tile, tick), true);
-		if(tick >= getRequiredTicks(tile, slot, tick)) {
-			doNextDrop(tile);
-		}
-	}
+    @Override
+    public void onTick(TileSpiritFurnace tile, ItemStack itemStack, int slot, int tick) {
+        // Drain the tank a bit.
+        tile.getTank().drain(getRequiredMb(tile, tick), true);
+        if(tick >= getRequiredTicks(tile, slot, tick)) {
+            doNextDrop(tile);
+        }
+    }
 
-	@Override
-	public float getRequiredTicks(TileSpiritFurnace tile, int slot, int tick) {
+    @Override
+    public float getRequiredTicks(TileSpiritFurnace tile, int slot, int tick) {
         int requiredTicksBase;
-		EntityLivingBase entity = tile.getEntity();
-		if(entity == null) {
+        EntityLivingBase entity = tile.getEntity();
+        if(entity == null) {
             requiredTicksBase = SpiritFurnaceConfig.requiredTicksPerHp;
-		} else {
-            requiredTicksBase = (int) ((entity.getHealth() + entity.getTotalArmorValue()) * SpiritFurnaceConfig.requiredTicksPerHp);
+        } else {
+            requiredTicksBase = (int)((entity.getHealth() + entity.getTotalArmorValue()) * SpiritFurnaceConfig.requiredTicksPerHp);
         }
         MutableDouble duration = new MutableDouble(requiredTicksBase);
         Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableDouble>(duration, TileSpiritFurnace.UPGRADEEVENT_SPEED));
-        return (int) (double) duration.getValue();
-	}
-    
+        return (int)(double)duration.getValue();
+    }
 }

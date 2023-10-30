@@ -8,16 +8,15 @@ import net.minecraftforge.oredict.OreDictionary;
 import java.util.List;
 
 /**
- * A {@link evilcraft.api.recipes.custom.IRecipe} component (input, output or properties) that holds an
- * oredictionary key.
- *
+ * A {@link evilcraft.api.recipes.custom.IRecipe} component (input, output or properties) that holds an oredictionary key.
  * @author immortaleeb
  */
 @Data
 public class OreDictItemStackRecipeComponent extends ItemStackRecipeComponent {
 
     private final String key;
-    @Getter(lazy=true) private final List<ItemStack> itemStacks = OreDictionary.getOres(getKey());
+    @Getter(lazy = true)
+    private final List<ItemStack> itemStacks = OreDictionary.getOres(getKey());
 
     public OreDictItemStackRecipeComponent(String key) {
         super(null);
@@ -29,20 +28,17 @@ public class OreDictItemStackRecipeComponent extends ItemStackRecipeComponent {
         if(super.equals(object)) {
             return true;
         }
-
-        if (!(object instanceof ItemStackRecipeComponent)) return false;
+        if(!(object instanceof ItemStackRecipeComponent)) return false;
         ItemStackRecipeComponent that = (ItemStackRecipeComponent)object;
-
         // To increase performance, first check if the comparing stack is not null before
         // potentially matching it with the whole oredict.
         if(that.getItemStack() != null) {
-            for (ItemStack itemStack : getItemStacks()) {
-                if (equals(itemStack, that.getItemStack())) {
+            for(ItemStack itemStack : getItemStacks()) {
+                if(equals(itemStack, that.getItemStack())) {
                     return true;
                 }
             }
         }
-
         return false;
     }
 
@@ -50,5 +46,4 @@ public class OreDictItemStackRecipeComponent extends ItemStackRecipeComponent {
     public int hashCode() {
         return key.hashCode() + 876;
     }
-
 }

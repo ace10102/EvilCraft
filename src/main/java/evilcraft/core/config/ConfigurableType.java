@@ -7,10 +7,9 @@ import evilcraft.core.config.extendedconfig.*;
 /**
  * The different types of {@link IConfigurable}.
  * @author rubensworks
- *
  */
 public class ConfigurableType {
-    
+
     /**
      * Item type.
      */
@@ -56,12 +55,11 @@ public class ConfigurableType {
      */
     public static final ConfigurableType POTION = new ConfigurableType(true, PotionConfig.class, new PotionAction(), ConfigurableTypeCategory.POTION);
 
-
     /**
      * Dummy type, only used for configs that refer to nothing.
      */
     public static final ConfigurableType DUMMY = new ConfigurableType(false, DummyConfig.class, new DummyAction(), ConfigurableTypeCategory.GENERAL);
-    
+
     private boolean uniqueInstance = false;
     @SuppressWarnings("rawtypes")
     private Class<? extends ExtendedConfig> configClass;
@@ -69,7 +67,7 @@ public class ConfigurableType {
     private ConfigurableTypeAction action;
     private ConfigurableTypeCategory category = null;
     private String categoryRaw;
-    
+
     /**
      * Make a new instance.
      * @param uniqueInstance If this type has a unique instance for each config.
@@ -78,14 +76,13 @@ public class ConfigurableType {
      * @param category The category in which the configs should be saved.
      */
     @SuppressWarnings("rawtypes")
-    public ConfigurableType(boolean uniqueInstance, Class<? extends ExtendedConfig> configClass,
-            ConfigurableTypeAction action, ConfigurableTypeCategory category) {
+    public ConfigurableType(boolean uniqueInstance, Class<? extends ExtendedConfig> configClass, ConfigurableTypeAction action, ConfigurableTypeCategory category) {
         this.uniqueInstance = uniqueInstance;
         this.configClass = configClass;
         this.action = action;
         this.category = category;
     }
-    
+
     /**
      * Make a new instance with a raw category.
      * @param uniqueInstance If this type has a unique instance for each config.
@@ -94,25 +91,23 @@ public class ConfigurableType {
      * @param category The category in which the configs should be saved.
      */
     @SuppressWarnings("rawtypes")
-    public ConfigurableType(boolean uniqueInstance, Class<? extends ExtendedConfig> configClass,
-            ConfigurableTypeAction action, String category) {
+    public ConfigurableType(boolean uniqueInstance, Class<? extends ExtendedConfig> configClass, ConfigurableTypeAction action, String category) {
         this.uniqueInstance = uniqueInstance;
         this.configClass = configClass;
         this.action = action;
         this.categoryRaw = category;
     }
-    
+
     /**
      * If this type should refer to a {@link IConfigurable} with a unique instance.
-     * If this is true, the {@link IConfigurable} should have a public static void
-     * initInstance(ExtendedConfig eConfig) method and also a public static
-     * (? extends IConfigurable) getInstance() method.
+     * If this is true, the {@link IConfigurable} should have a public static void initInstance(ExtendedConfig eConfig)
+     * method and also a public static (? extends IConfigurable) getInstance() method.
      * @return If it has a unique instance.
      */
     public boolean hasUniqueInstance() {
         return uniqueInstance;
     }
-    
+
     /**
      * Get the class that extends {@link ExtendedConfig} this type can hold.
      * @return The class that extends {@link ExtendedConfig} this type can hold.
@@ -121,7 +116,7 @@ public class ConfigurableType {
     public Class<? extends ExtendedConfig> getConfigClass() {
         return configClass;
     }
-    
+
     /**
      * The action for this type after the the {@link IConfigurable} has configured so it can be registered.
      * @return The action for this type.
@@ -130,15 +125,15 @@ public class ConfigurableType {
     public ConfigurableTypeAction getElementTypeAction() {
         return action;
     }
-    
+
     /**
      * The category of this type.
      * @return The category.
      */
     public String getCategory() {
-    	if(category == null) {
-    		return categoryRaw;
-    	}
+        if(category == null) {
+            return categoryRaw;
+        }
         return category.toString();
     }
 }

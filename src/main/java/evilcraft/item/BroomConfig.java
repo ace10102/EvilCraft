@@ -12,10 +12,9 @@ import net.minecraftforge.common.ChestGenHooks;
 /**
  * Config for the {@link Broom}.
  * @author rubensworks
- *
  */
 public class BroomConfig extends ItemConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -30,25 +29,19 @@ public class BroomConfig extends ItemConfig {
      * Make a new instance.
      */
     public BroomConfig() {
-        super(
-        	true,
-            "broom",
-            null,
-            Broom.class
-        );
+        super(true, "broom", null, Broom.class);
     }
-    
+
     @Override
     public void onRegistered() {
         super.onRegistered();
         if(BroomConfig.lootChests) {
-            for (String chestCategory : MinecraftHelpers.CHESTGENCATEGORIES) {
+            for(String chestCategory : MinecraftHelpers.CHESTGENCATEGORIES) {
                 ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(Broom.getInstance(), 0, 1, 1, 2));
             }
         }
-        if (MinecraftHelpers.isClientSide()) {
+        if(MinecraftHelpers.isClientSide()) {
             ClientProxy.ITEM_RENDERERS.put(this.getItemInstance(), new RenderItemBroom(this));
         }
     }
-    
 }

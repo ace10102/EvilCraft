@@ -27,15 +27,14 @@ import net.minecraft.world.World;
 import java.util.List;
 
 /**
- * Pedestal that can obtain blood from blood stained blocks and can optionally extract blood from mobs
- * when a blood extractor is inserted.
+ * Pedestal that can obtain blood from blood stained blocks
+ * and can optionally extract blood from mobs when a blood extractor is inserted.
  * @author rubensworks
- *
  */
 public class SanguinaryPedestal extends ConfigurableBlockContainer implements IInformationProvider, IBlockRarityProvider {
-    
+
     private static SanguinaryPedestal _instance = null;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -46,7 +45,7 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -69,25 +68,24 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
         setBlockBoundsForItemRender();
     }
 
-    @Override
+    @Override @SuppressWarnings("rawtypes")
     public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB area, List list, Entity entity) {
         setBlockBounds(0, 0, 0, 1, 1, 1);
         super.addCollisionBoxesToList(world, x, y, z, area, list, entity);
     }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        
+
     }
-    
+
     @Override
     public IIcon getIcon(int side, int meta) {
         // This is ONLY used for the block breaking/broken particles
         // Since the anvil looks very similar, we use that icon.
         return Blocks.anvil.getIcon(0, 0);
     }
-    
+
     @Override
     public boolean isOpaqueCube() {
         return false;
@@ -103,10 +101,9 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
         return false;
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Override
+    @Override @SuppressWarnings({ "unchecked", "rawtypes" })
     public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
-        for (int j = 0; j <= 1; ++j) {
+        for(int j = 0; j <= 1; ++j) {
             list.add(new ItemStack(item, 1, j));
         }
     }
@@ -124,10 +121,8 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
         return null;
     }
 
-    @SuppressWarnings("rawtypes")
-    @Override
-    public void provideInformation(ItemStack itemStack,
-                                   EntityPlayer entityPlayer, List list, boolean par4) {
+    @Override @SuppressWarnings("rawtypes")
+    public void provideInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
 
     }
 

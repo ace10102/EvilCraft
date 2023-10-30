@@ -2,26 +2,20 @@ package evilcraft.modcompat.nei;
 
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
-import com.google.common.collect.Lists;
 import evilcraft.Configs;
 import evilcraft.Reference;
 import evilcraft.block.*;
 import evilcraft.client.gui.container.GuiExaltedCrafter;
-import evilcraft.item.BiomeExtract;
-import evilcraft.item.BiomeExtractConfig;
 import evilcraft.item.ExaltedCrafterConfig;
 import net.minecraft.item.ItemStack;
-
-import java.util.List;
 
 /**
  * Helper for registering NEI manager.
  * @author rubensworks
- *
  */
 public class NEIEvilCraftConfig implements IConfigureNEI {
-	
-	@Override
+
+    @Override
     public String getName() {
         return Reference.MOD_NAME;
     }
@@ -33,14 +27,14 @@ public class NEIEvilCraftConfig implements IConfigureNEI {
 
     @Override
     public void loadConfig() {
-    	if(NEIModCompat.canBeUsed) {
-    		if(Configs.isEnabled(BloodInfuserConfig.class)) {
+        if(NEIModCompat.canBeUsed) {
+            if(Configs.isEnabled(BloodInfuserConfig.class)) {
                 API.registerRecipeHandler(new NEIBloodInfuserManager());
                 API.registerUsageHandler(new NEIBloodInfuserManager());
                 API.registerRecipeHandler(new NEIBloodInfuserFluidsManager());
                 API.registerUsageHandler(new NEIBloodInfuserFluidsManager());
             }
-            
+
             if(Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
                 API.registerRecipeHandler(new NEIEnvironmentalAccumulatorManager());
                 API.registerUsageHandler(new NEIEnvironmentalAccumulatorManager());
@@ -50,9 +44,9 @@ public class NEIEvilCraftConfig implements IConfigureNEI {
                 API.registerRecipeHandler(new NEISanguinaryEnvironmentalAccumulatorManager());
                 API.registerUsageHandler(new NEISanguinaryEnvironmentalAccumulatorManager());
             }
-            
+
             if(Configs.isEnabled(ExaltedCrafterConfig.class)) {
-            	API.registerGuiOverlay(GuiExaltedCrafter.class, "crafting");
+                API.registerGuiOverlay(GuiExaltedCrafter.class, "crafting");
                 API.registerGuiOverlayHandler(GuiExaltedCrafter.class, new ExaltedCrafterOverlayHandler(), "crafting");
             }
 
@@ -63,7 +57,6 @@ public class NEIEvilCraftConfig implements IConfigureNEI {
             if(Configs.isEnabled(InvisibleRedstoneBlockConfig.class)) {
                 API.hideItem(new ItemStack(InvisibleRedstoneBlock.getInstance()));
             }
-    	}
+        }
     }
-	
 }

@@ -32,22 +32,22 @@ public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
     protected IConfigurable initSubInstance() {
         return this.getElement() == null ? new ConfigurableItem(this) : super.initSubInstance();
     }
-    
+
     @Override
-	public String getUnlocalizedName() {
-		return "items." + getNamedId();
-	}
+    public String getUnlocalizedName() {
+        return "items." + getNamedId();
+    }
 
     @Override
     public String getFullUnlocalizedName() {
         return "item." + getUnlocalizedName() + ".name";
     }
-    
+
     @Override
-	public ConfigurableType getHolderType() {
-		return ConfigurableType.ITEM;
-	}
-    
+    public ConfigurableType getHolderType() {
+        return ConfigurableType.ITEM;
+    }
+
     /**
      * If the IConfigurable is registered in the OreDictionary, use this name to identify it.
      * @return the name this IConfigurable is registered with in the OreDictionary.
@@ -55,7 +55,7 @@ public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
     public String getOreDictionaryId() {
         return null;
     }
-    
+
     /**
      * If this item should be rendered with a blended alpha channel, thereby using the AlphaRenderItem.
      * @return If it should be alpha blended.
@@ -63,25 +63,24 @@ public abstract class ItemConfig extends ExtendedConfig<ItemConfig> {
     public boolean blendAlpha() {
         return false;
     }
-    
+
     /**
      * Get the casted instance of the item.
      * @return The item.
      */
     public Item getItemInstance() {
-    	return (Item) super.getSubInstance();
-    }
-    
-    @Override
-    public void onRegistered() {
-    	if(isEnabled()) {
-	        if(blendAlpha() && MinecraftHelpers.isClientSide())
-	            MinecraftForgeClient.registerItemRenderer(this.getItemInstance(), new AlphaRenderItem());
-	        
-	        if(getOreDictionaryId() != null) {
-	            OreDictionary.registerOre(getOreDictionaryId(), new ItemStack(this.getItemInstance(), 1, OreDictionary.WILDCARD_VALUE));
-	        }
-    	}
+        return (Item)super.getSubInstance();
     }
 
+    @Override
+    public void onRegistered() {
+        if(isEnabled()) {
+            if(blendAlpha() && MinecraftHelpers.isClientSide())
+                MinecraftForgeClient.registerItemRenderer(this.getItemInstance(), new AlphaRenderItem());
+
+            if(getOreDictionaryId() != null) {
+                OreDictionary.registerOre(getOreDictionaryId(), new ItemStack(this.getItemInstance(), 1, OreDictionary.WILDCARD_VALUE));
+            }
+        }
+    }
 }

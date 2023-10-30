@@ -29,7 +29,6 @@ import java.util.Set;
 /**
  * The loader for {@link IModCompat} instances.
  * @author rubensworks
- *
  */
 public class ModCompatLoader implements IInitListener {
 
@@ -53,16 +52,15 @@ public class ModCompatLoader implements IInitListener {
     }
 
     protected static Set<String> CRASHED_MODCOMPATS = Sets.newHashSet();
-    
+
     @Override
     public void onInit(IInitListener.Step step) {
         for(IModCompat modCompat : MODCOMPATS) {
             if(shouldLoadModCompat(modCompat)) {
                 try {
                     modCompat.onInit(step);
-                } catch (RuntimeException e) {
-                    EvilCraft.log("The EvilCraft mod compatibility for " + modCompat.getModID() +
-                            " has crashed! Report this crash log to the mod author or try updating the conflicting mods.", Level.ERROR);
+                } catch(RuntimeException e) {
+                    EvilCraft.log("The EvilCraft mod compatibility for " + modCompat.getModID() + " has crashed! Report this crash log to the mod author or try updating the conflicting mods.", Level.ERROR);
                     if(GeneralConfig.crashOnModCompatCrash) throw e;
                     e.printStackTrace();
                     CRASHED_MODCOMPATS.add(modCompat.getModID());
@@ -70,29 +68,28 @@ public class ModCompatLoader implements IInitListener {
             }
         }
     }
-    
+
     /**
      * If the given mod compat should be loaded.
      * @param modCompat The mod compat.
      * @return If it should be loaded.
      */
     public static final boolean shouldLoadModCompat(IModCompat modCompat) {
-    	return isModLoaded(modCompat) && isModEnabled(modCompat) && isModNotCrashed(modCompat);
+        return isModLoaded(modCompat) && isModEnabled(modCompat) && isModNotCrashed(modCompat);
     }
-    
+
     private static boolean isModLoaded(IModCompat modCompat) {
         return Loader.isModLoaded(modCompat.getModID());
     }
-    
+
     private static boolean isModEnabled(IModCompat modCompat) {
-    	Configuration config = ConfigHandler.getInstance().getConfig();
-    	Property property = config.get("mod compat", modCompat.getModID(),
-    			modCompat.isEnabled());
+        Configuration config = ConfigHandler.getInstance().getConfig();
+        Property property = config.get("mod compat", modCompat.getModID(), modCompat.isEnabled());
         property.setRequiresMcRestart(true);
         property.comment = modCompat.getComment();
         boolean enabled = property.getBoolean(true);
         if(config.hasChanged()) {
-        	config.save();
+            config.save();
         }
         return enabled;
     }
@@ -100,5 +97,4 @@ public class ModCompatLoader implements IInitListener {
     private static boolean isModNotCrashed(IModCompat modCompat) {
         return !CRASHED_MODCOMPATS.contains(modCompat.getModID());
     }
-    
 }

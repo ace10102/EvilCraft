@@ -6,7 +6,6 @@ import net.minecraft.world.storage.WorldInfo;
 /**
  * Lightning weather type.
  * @author rubensworks
- *
  */
 public class WeatherTypeLightning extends WeatherType {
 
@@ -33,5 +32,4 @@ public class WeatherTypeLightning extends WeatherType {
         worldInfo.setRaining(true);
         worldInfo.setThundering(true);
     }
-
 }

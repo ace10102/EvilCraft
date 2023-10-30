@@ -14,12 +14,11 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 /**
  * An effect that will knockback the entities within the range of the degradable.
  * @author rubensworks
- *
  */
 public class ParticleDegradation extends ConfigurableDegradationEffect {
 
     private static ParticleDegradation _instance = null;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -30,7 +29,7 @@ public class ParticleDegradation extends ConfigurableDegradationEffect {
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -38,27 +37,26 @@ public class ParticleDegradation extends ConfigurableDegradationEffect {
     public static ParticleDegradation getInstance() {
         return _instance;
     }
-    
+
     private ParticleDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
         super(eConfig);
     }
-    
+
     @Override
     public boolean canRun(IDegradable degradable) {
         return true;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public void runClientSide(IDegradable degradable) {
         ILocation center = degradable.getLocation();
         World world = degradable.getWorld();
         int radius = degradable.getRadius();
-        
+
         double xCoord = center.getCoordinates()[0] - radius + 2 * radius * world.rand.nextFloat();
         double yCoord = center.getCoordinates()[1] - radius + 2 * radius * world.rand.nextFloat();
         double zCoord = center.getCoordinates()[2] - radius + 2 * radius * world.rand.nextFloat();
-        
+
         double particleX = xCoord;
         double particleY = yCoord;
         double particleZ = zCoord;
@@ -66,15 +64,10 @@ public class ParticleDegradation extends ConfigurableDegradationEffect {
         float particleMotionX = world.rand.nextFloat() * 1.4F - 0.7F;
         float particleMotionY = -0.2F;
         float particleMotionZ = world.rand.nextFloat() * 1.4F - 0.7F;
-        FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                new EntityDegradeFX(world, particleX, particleY, particleZ,
-                        particleMotionX, particleMotionY, particleMotionZ)
-                );
+        FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityDegradeFX(world, particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ));
     }
 
     @Override
     public void runServerSide(IDegradable degradable) {
-        
     }
-    
 }

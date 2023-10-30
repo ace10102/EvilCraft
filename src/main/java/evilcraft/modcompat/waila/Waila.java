@@ -12,39 +12,38 @@ import mcp.mobius.waila.api.IWailaRegistrar;
 /**
  * Waila support class.
  * @author rubensworks
- *
  */
 public class Waila {
-    
+
     /**
      * Waila callback.
      * @param registrar The Waila registrar.
      */
-    public static void callbackRegister(IWailaRegistrar registrar){
+    public static void callbackRegister(IWailaRegistrar registrar) {
         registrar.addConfig(Reference.MOD_NAME, getTankConfigID(), L10NHelpers.localize("gui.waila.tankConfig"));
         registrar.addConfig(Reference.MOD_NAME, getInnerBlockConfigID(), L10NHelpers.localize("gui.waila.innerBlocksConfig"));
         registrar.addConfig(Reference.MOD_NAME, getBoxOfEternalClosureConfigID(), L10NHelpers.localize("gui.waila.boxOfEternalClosureConfig"));
         registrar.addConfig(Reference.MOD_NAME, getBlockInfoConfigID(), L10NHelpers.localize("gui.waila.blockInfoConfig"));
-        
+
         // Tanks
         registrar.registerBodyProvider(new TankDataProvider(), TankInventoryTileEntity.class);
-        
+
         // Inner blocks
         if(Configs.isEnabled(BloodStainedBlockConfig.class))
             registrar.registerStackProvider(new InnerBlockDataProvider(), BloodStainedBlock.class);
         if(Configs.isEnabled(NetherfishSpawnConfig.class))
             registrar.registerStackProvider(new InnerBlockDataProvider(), NetherfishSpawn.class);
-        
+
         // Box of Eternal Closure
         if(Configs.isEnabled(BoxOfEternalClosureConfig.class)) {
-        	registrar.registerSyncedNBTKey(TileBoxOfEternalClosure.NBTKEY_SPIRIT, TileBoxOfEternalClosure.class);
+            registrar.registerSyncedNBTKey(TileBoxOfEternalClosure.NBTKEY_SPIRIT, TileBoxOfEternalClosure.class);
             registrar.registerBodyProvider(new BoxOfEternalClosureDataProvider(), TileBoxOfEternalClosure.class);
         }
 
         // Generic block info
         registrar.registerBodyProvider(new GenericBlockInfoDataProvider(), IConfigurable.class);
     }
-    
+
     /**
      * Config ID.
      * @return The config ID.
@@ -52,7 +51,7 @@ public class Waila {
     public static String getTankConfigID() {
         return Reference.MOD_NAME + ".tank";
     }
-    
+
     /**
      * Config ID.
      * @return The config ID.
@@ -60,7 +59,7 @@ public class Waila {
     public static String getInnerBlockConfigID() {
         return Reference.MOD_NAME + ".innerBlock";
     }
-    
+
     /**
      * Config ID.
      * @return The config ID.
@@ -68,7 +67,7 @@ public class Waila {
     public static String getBoxOfEternalClosureConfigID() {
         return Reference.MOD_NAME + ".boxOfEternalClosure";
     }
-    
+
     /**
      * Config ID.
      * @return The config ID.
@@ -76,5 +75,4 @@ public class Waila {
     public static String getBlockInfoConfigID() {
         return Reference.MOD_NAME + ".genericBlockInfo";
     }
-    
 }

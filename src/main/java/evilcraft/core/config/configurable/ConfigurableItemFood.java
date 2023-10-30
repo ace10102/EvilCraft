@@ -15,13 +15,12 @@ import java.util.List;
 /**
  * Item food that can hold ExtendedConfigs
  * @author rubensworks
- *
  */
-public abstract class ConfigurableItemFood extends ItemFood implements IConfigurable{
-    
+public abstract class ConfigurableItemFood extends ItemFood implements IConfigurable {
+
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
-    
+
     /**
      * Make a new block instance.
      * @param eConfig Config for this block.
@@ -29,7 +28,7 @@ public abstract class ConfigurableItemFood extends ItemFood implements IConfigur
      * @param saturationModifier The modifier for the saturation.
      * @param isWolfsFavoriteMeat If this is wolf food.
      */
-    @SuppressWarnings({ "rawtypes" })
+    @SuppressWarnings("rawtypes")
     protected ConfigurableItemFood(ExtendedConfig eConfig, int healAmount, float saturationModifier, boolean isWolfsFavoriteMeat) {
         super(healAmount, saturationModifier, isWolfsFavoriteMeat);
         this.setConfig(eConfig);
@@ -45,24 +44,20 @@ public abstract class ConfigurableItemFood extends ItemFood implements IConfigur
     public ExtendedConfig<?> getConfig() {
         return eConfig;
     }
-    
+
     @Override
     public String getIconString() {
-        return Reference.MOD_ID+":"+eConfig.getNamedId();
+        return Reference.MOD_ID + ":" + eConfig.getNamedId();
     }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister iconRegister) {
         itemIcon = iconRegister.registerIcon(getIconString());
     }
-    
-    @SuppressWarnings("rawtypes")
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT) @SuppressWarnings("rawtypes")
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         L10NHelpers.addOptionalInfo(list, getUnlocalizedName());
     }
-
 }

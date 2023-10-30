@@ -39,8 +39,7 @@ public class DisenchantPurifyAction implements IPurifierAction {
 
     @Override
     public boolean canWork(TilePurifier tile) {
-        if(tile.getBucketsFloored() == tile.getMaxBuckets() && tile.getPurifyItem() != null &&
-                tile.getAdditionalItem() != null && tile.getAdditionalItem().getItem() == ALLOWED_BOOK) {
+        if(tile.getBucketsFloored() == tile.getMaxBuckets() && tile.getPurifyItem() != null && tile.getAdditionalItem() != null && tile.getAdditionalItem().getItem() == ALLOWED_BOOK) {
             NBTTagList enchantmentList = tile.getPurifyItem().getEnchantmentTagList();
             return enchantmentList != null && enchantmentList.tagCount() > 0;
         }
@@ -57,9 +56,9 @@ public class DisenchantPurifyAction implements IPurifierAction {
 
         // Try disenchanting.
         NBTTagList enchantmentList = purifyItem.getEnchantmentTagList();
-        if (enchantmentList != null && enchantmentList.tagCount() > 0) {
-            if (tick >= PURIFY_DURATION) {
-                if (!world.isRemote) {
+        if(enchantmentList != null && enchantmentList.tagCount() > 0) {
+            if(tick >= PURIFY_DURATION) {
+                if(!world.isRemote) {
                     // Init enchantment data.
                     int enchantmentListID = world.rand.nextInt(enchantmentList.tagCount());
                     int level = EnchantmentHelpers.getEnchantmentLevel(purifyItem, enchantmentListID);
@@ -80,13 +79,11 @@ public class DisenchantPurifyAction implements IPurifierAction {
                 tile.setBuckets(0, tile.getBucketsRest());
                 done = true;
             }
-            if (world.isRemote) {
+            if(world.isRemote) {
                 tile.showEffect();
                 tile.showEnchantingEffect();
             }
         }
-
         return done;
     }
-
 }

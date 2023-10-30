@@ -14,12 +14,11 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 /**
  * Degradation effect that will nauseate entities in the degradation area.
  * @author rubensworks
- *
  */
 public class NauseateDegradation extends ConfigurableDegradationEffect {
-    
+
     private static NauseateDegradation _instance = null;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -30,7 +29,7 @@ public class NauseateDegradation extends ConfigurableDegradationEffect {
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -38,10 +37,10 @@ public class NauseateDegradation extends ConfigurableDegradationEffect {
     public static NauseateDegradation getInstance() {
         return _instance;
     }
-    
+
     private static final int MINIMUM_DEGRADATION = 5;
     private static final int NAUSEA_DURATION_MULTIPLIER = 20 * 4;
-    
+
     private NauseateDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
         super(eConfig);
     }
@@ -53,7 +52,6 @@ public class NauseateDegradation extends ConfigurableDegradationEffect {
 
     @Override
     public void runClientSide(IDegradable degradable) {
-        
     }
 
     @Override
@@ -61,13 +59,8 @@ public class NauseateDegradation extends ConfigurableDegradationEffect {
         List<Entity> entities = degradable.getAreaEntities();
         for(Entity entity : entities) {
             if(entity instanceof EntityLivingBase) {
-                ((EntityLivingBase) entity).addPotionEffect(
-                        new PotionEffect(
-                                Potion.confusion.id,
-                                (int) degradable.getDegradation() * NAUSEA_DURATION_MULTIPLIER, 1)
-                        );
+                ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.confusion.id, (int)degradable.getDegradation() * NAUSEA_DURATION_MULTIPLIER, 1));
             }
         }
     }
-
 }

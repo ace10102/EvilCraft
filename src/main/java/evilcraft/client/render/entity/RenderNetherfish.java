@@ -9,14 +9,12 @@ import evilcraft.core.config.extendedconfig.MobConfig;
 
 /**
  * Renderer for a netherfish
- * 
  * @author rubensworks
- *
  */
 public class RenderNetherfish extends RenderSilverfish {
-    
+
     private ResourceLocation texture;
-    
+
     /**
      * Make a new instance.
      * @param config Then config.
@@ -24,10 +22,9 @@ public class RenderNetherfish extends RenderSilverfish {
     public RenderNetherfish(ExtendedConfig<MobConfig> config) {
         texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + config.getNamedId() + ".png");
     }
-    
+
     @Override
     protected ResourceLocation getEntityTexture(EntitySilverfish entity) {
         return texture;
     }
-
 }

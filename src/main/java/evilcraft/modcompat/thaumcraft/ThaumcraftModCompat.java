@@ -8,7 +8,6 @@ import evilcraft.modcompat.IModCompat;
 /**
  * Compatibility plugin for Thaumcraft.
  * @author rubensworks
- *
  */
 public class ThaumcraftModCompat implements IModCompat {
 
@@ -24,17 +23,16 @@ public class ThaumcraftModCompat implements IModCompat {
             Configs.getInstance().configs.add(new BloodWandCapConfig());
         } else if(step == Step.INIT) {
             Thaumcraft.register();
-    	}
+        }
     }
 
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
-	@Override
-	public String getComment() {
-		return "Adds Thaumcraft aspects to EvilCraft items and blocks, a new Blood Wand Cap, Vein Scribing Tools and extra Loot Bag items.";
-	}
-
+    @Override
+    public String getComment() {
+        return "Adds Thaumcraft aspects to EvilCraft items and blocks, a new Blood Wand Cap, Vein Scribing Tools and extra Loot Bag items.";
+    }
 }

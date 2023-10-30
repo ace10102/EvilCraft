@@ -18,9 +18,8 @@ import java.util.List;
 /**
  * Block that extends from a log that can hold ExtendedConfigs
  * @author rubensworks
- *
  */
-public class ConfigurableBlockLog extends BlockLog implements IConfigurable{
+public class ConfigurableBlockLog extends BlockLog implements IConfigurable {
 
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
@@ -32,7 +31,7 @@ public class ConfigurableBlockLog extends BlockLog implements IConfigurable{
      * Make a new block instance.
      * @param eConfig Config for this block.
      */
-    @SuppressWarnings({ "rawtypes" })
+    @SuppressWarnings("rawtypes")
     public ConfigurableBlockLog(ExtendedConfig eConfig) {
         this.setConfig(eConfig);
         this.setBlockName(eConfig.getUnlocalizedName());
@@ -50,24 +49,21 @@ public class ConfigurableBlockLog extends BlockLog implements IConfigurable{
 
     @Override
     public String getTextureName() {
-        return Reference.MOD_ID+":"+eConfig.getNamedId();
+        return Reference.MOD_ID + ":" + eConfig.getNamedId();
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         iconSide = iconRegister.registerIcon(getTextureName());
         iconTop = iconRegister.registerIcon(getTextureName() + "_top");
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     protected IIcon getSideIcon(int par1) {
         return this.iconSide;
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     protected IIcon getTopIcon(int par1) {
         return this.iconTop;
     }
@@ -84,10 +80,8 @@ public class ConfigurableBlockLog extends BlockLog implements IConfigurable{
         return false;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
+    @Override @SuppressWarnings({ "rawtypes", "unchecked" })
     public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
         list.add(new ItemStack(item, 1, 0));
     }
-
 }

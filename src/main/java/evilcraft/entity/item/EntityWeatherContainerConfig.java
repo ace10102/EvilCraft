@@ -10,33 +10,26 @@ import evilcraft.item.WeatherContainer;
 /**
  * Config for the {@link EntityWeatherContainer}.
  * @author rubensworks
- *
  */
 public class EntityWeatherContainerConfig extends EntityConfig {
-    
+
     /**
      * The unique instance.
      */
     public static EntityWeatherContainerConfig _instance;
-    
+
     /**
      * Make a new instance.
      */
     public EntityWeatherContainerConfig() {
-        super(
-        	true,
-            "entityWeatherContainer",
-            null,
-            EntityWeatherContainer.class
-        );
+        super(true, "entityWeatherContainer", null, EntityWeatherContainer.class);
     }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT)
     public Render getRender() {
         return new RenderThrowable(WeatherContainer.getInstance());
     }
-    
+
     @Override
     public boolean sendVelocityUpdates() {
         return true;

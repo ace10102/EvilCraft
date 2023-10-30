@@ -4,7 +4,6 @@ import evilcraft.entity.item.EntityItemDarkStick;
 import evilcraft.entity.item.EntityItemDefinedRotation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -22,7 +21,6 @@ import java.util.Random;
 /**
  * Renderer for a dark stick entity item.
  * @author rubensworks
- *
  */
 public class RenderEntityItemDarkStick implements IItemRenderer {
 
@@ -42,7 +40,7 @@ public class RenderEntityItemDarkStick implements IItemRenderer {
     @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
         if(data[1] instanceof EntityItemDefinedRotation) {
-            EntityItemDarkStick entity = (EntityItemDarkStick) data[1];
+            EntityItemDarkStick entity = (EntityItemDarkStick)data[1];
 
             GL11.glPushMatrix();
 
@@ -69,8 +67,7 @@ public class RenderEntityItemDarkStick implements IItemRenderer {
         RenderManager renderManager = RenderManager.instance;
         Tessellator tessellator = Tessellator.instance;
 
-        if (icon == null)
-        {
+        if(icon == null) {
             TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
             ResourceLocation resourcelocation = texturemanager.getResourceLocation(entity.getEntityItem().getItemSpriteNumber());
             icon = ((TextureMap)texturemanager.getTexture(resourcelocation)).getAtlasSprite("missingno");
@@ -93,20 +90,13 @@ public class RenderEntityItemDarkStick implements IItemRenderer {
         int j = itemstack.stackSize;
         byte b0;
 
-        if (j < 2)
-        {
+        if(j < 2) {
             b0 = 1;
-        }
-        else if (j < 16)
-        {
+        } else if(j < 16) {
             b0 = 2;
-        }
-        else if (j < 32)
-        {
+        } else if(j < 32) {
             b0 = 3;
-        }
-        else
-        {
+        } else {
             b0 = 4;
         }
 
@@ -114,32 +104,24 @@ public class RenderEntityItemDarkStick implements IItemRenderer {
 
         GL11.glTranslatef(-f7, -f8, -((f9 + f10) * (float)b0 / 2.0F));
 
-        for (int k = 0; k < b0; ++k)
-        {
+        for(int k = 0; k < b0; ++k) {
             // Makes items offset when in 3D, like when in 2D, looks much better. Considered a vanilla bug...
-            if (k > 0)
-            {
+            if(k > 0) {
                 GL11.glTranslatef(0, 0, f9 + f10);
-            }
-            else
-            {
+            } else {
                 GL11.glTranslatef(0f, 0f, f9 + f10);
             }
 
-            if (itemstack.getItemSpriteNumber() == 0)
-            {
+            if(itemstack.getItemSpriteNumber() == 0) {
                 Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
-            }
-            else
-            {
+            } else {
                 Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationItemsTexture);
             }
 
             GL11.glColor4f(p_77020_5_, p_77020_6_, p_77020_7_, 1.0F);
-            ItemRenderer.renderItemIn2D(tessellator, f15, f4, f14, f5, ((IIcon) icon).getIconWidth(), ((IIcon) icon).getIconHeight(), f9);
+            ItemRenderer.renderItemIn2D(tessellator, f15, f4, f14, f5, ((IIcon)icon).getIconWidth(), ((IIcon)icon).getIconHeight(), f9);
 
-            if (itemstack.hasEffect(pass))
-            {
+            if(itemstack.hasEffect(pass)) {
                 GL11.glDepthFunc(GL11.GL_EQUAL);
                 GL11.glDisable(GL11.GL_LIGHTING);
                 renderManager.renderEngine.bindTexture(RES_ITEM_GLINT);
@@ -169,8 +151,6 @@ public class RenderEntityItemDarkStick implements IItemRenderer {
                 GL11.glDepthFunc(GL11.GL_LEQUAL);
             }
         }
-
         GL11.glPopMatrix();
-
     }
 }

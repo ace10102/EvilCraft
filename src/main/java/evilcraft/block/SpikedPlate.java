@@ -26,7 +26,6 @@ import java.util.List;
 /**
  * Logs for the Undead Tree.
  * @author rubensworks
- *
  */
 public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
 
@@ -58,15 +57,13 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
         super(eConfig, Material.rock);
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         blockIconSide = iconRegister.registerIcon(getTextureName() + "_side");
-    	super.registerBlockIcons(iconRegister);
+        super.registerBlockIcons(iconRegister);
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
         if(ForgeDirection.getOrientation(side) == ForgeDirection.UP) {
             return super.getIcon(side, meta);
@@ -91,8 +88,8 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
     protected boolean damageEntity(World world, EntityLivingBase entity, int x, int y, int z) {
         if(!(entity instanceof EntityPlayer) && !(entity instanceof EntityNoMob)) {
             float damage = (float)SpikedPlateConfig.damage;
-            
-          //To make sure the entity actually will drop something.
+
+            // To make sure the entity actually will drop something.
             entity.recentlyHit = 100;
 
             if(entity.attackEntityFrom(ExtendedDamageSource.spiked, damage)) {
@@ -107,42 +104,52 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
         return false;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    protected int func_150065_e(World world, int x, int y, int z) { //getPlateState()
-        List<EntityLivingBase> list = world.selectEntitiesWithinAABB(EntityLivingBase.class, this.func_150061_a(x, y, z), null); //getSensitiveAABB()
+    @Override @SuppressWarnings("unchecked")
+    protected int func_150065_e(World world, int x, int y, int z) { // getPlateState()
+        List<EntityLivingBase> list = world.selectEntitiesWithinAABB(EntityLivingBase.class, this.func_150061_a(x, y, z), null); // getSensitiveAABB()
 
         int ret = 0;
 
         if(list != null && !list.isEmpty()) {
-            for (EntityLivingBase entity : list) {
+            for(EntityLivingBase entity : list) {
                 if(!entity.doesEntityNotTriggerPressurePlate() && damageEntity(world, entity, x, y, z)) {
                     ret = 15;
                 }
             }
         }
         return ret;
+    }
 
-	@Override
-	protected int func_150066_d(int meta) {
-		return meta > 0 ? 1 : 0;
-	}
-	
-	@Override
-	protected void setMetaBlockBounds(IBlockAccess world, int x, int y, int z, int meta) {
+    @Override
+    protected int func_150060_c(int meta) { // getPowerFromMeta()
+        return meta == 1 ? 15 : 0;
+    }
+
+    @Override
+    protected int func_150066_d(int meta) { // getMetaFromPower()
+        return meta > 0 ? 1 : 0;
+    }
+
+    @Override
+    protected void setMetaBlockBounds(IBlockAccess world, int x, int y, int z, int meta) {
         boolean flag = this.func_150060_c(meta) > 0;
         float offset = 0F;
         float f = 0.0775F;
-        
+
         TileEntity tile = world.getTileEntity(x, y - 1, z);
+        if(tile != null && tile instanceof TileSanguinaryPedestal) {
+            offset = -0.025F;
         }
 
-        if (flag) {
+        if(flag) {
             this.setBlockBounds(f, offset, f, 1.0F - f, 0.03125F + offset, 1.0F - f);
         } else {
             this.setBlockBounds(f, offset, f, 1.0F - f, 0.0625F + offset, 1.0F - f);
         }
     }
 
-}
+    @Override
+    public boolean canCreatureSpawn(EnumCreatureType type, IBlockAccess world, int x, int y, int z) {
+        return true;
     }
+}

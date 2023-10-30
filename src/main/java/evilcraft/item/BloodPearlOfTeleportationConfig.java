@@ -7,15 +7,14 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 /**
  * Config for the {@link BloodPearlOfTeleportation}.
  * @author rubensworks
- *
  */
 public class BloodPearlOfTeleportationConfig extends ItemConfig {
-    
+
     /**
      * The unique instance.
      */
     public static BloodPearlOfTeleportationConfig _instance;
-    
+
     /**
      * The amount of second slowness should be applied after each teleport.
      */
@@ -26,17 +25,11 @@ public class BloodPearlOfTeleportationConfig extends ItemConfig {
      * Make a new instance.
      */
     public BloodPearlOfTeleportationConfig() {
-        super(
-        	true,
-            "bloodPearlOfTeleportation",
-            null,
-            BloodPearlOfTeleportation.class
-        );
+        super(true, "bloodPearlOfTeleportation", null, BloodPearlOfTeleportation.class);
     }
-    
+
     @Override
-	protected String getConfigPropertyPrefix() {
-		return "bloodPearl";
-	}
-    
+    protected String getConfigPropertyPrefix() {
+        return "bloodPearl";
+    }
 }

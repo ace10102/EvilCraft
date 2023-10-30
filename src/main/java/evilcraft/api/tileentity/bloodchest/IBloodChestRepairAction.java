@@ -7,10 +7,9 @@ import net.minecraft.item.ItemStack;
 /**
  * Actions that can be registered in the {@link IBloodChestRepairActionRegistry}.
  * @author rubensworks
- *
  */
 public interface IBloodChestRepairAction {
-    
+
     /**
      * Check if the given item can be inserted into the Blood Chest.
      * @param itemStack The {@link ItemStack} that could be inserted.
@@ -25,7 +24,7 @@ public interface IBloodChestRepairAction {
      * @return If the given item can be repaired.
      */
     public boolean canRepair(ItemStack itemStack, int tick);
-    
+
     /**
      * The repair logic for a given item for one tick.
      * @param itemStack The item to repair.
@@ -35,5 +34,4 @@ public interface IBloodChestRepairAction {
      * @return Blood usage multiplier
      */
     public float repair(ItemStack itemStack, Random random, boolean doAction, boolean isBulk);
-    
 }

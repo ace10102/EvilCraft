@@ -5,7 +5,6 @@ import net.minecraft.world.World;
 /**
  * Rain weather type.
  * @author rubensworks
- *
  */
 public class WeatherTypeRain extends WeatherType {
 
@@ -23,5 +22,4 @@ public class WeatherTypeRain extends WeatherType {
     public void deactivate(World world) {
         world.getWorldInfo().setRaining(false);
     }
-
 }

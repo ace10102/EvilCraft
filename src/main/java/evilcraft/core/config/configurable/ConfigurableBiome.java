@@ -8,12 +8,11 @@ import net.minecraft.world.biome.BiomeGenBase;
 /**
  * A simple configurable for Biomes, will auto-register itself after construction.
  * @author rubensworks
- *
  */
 public class ConfigurableBiome extends BiomeGenBase implements IConfigurable {
 
     protected BiomeConfig eConfig = null;
-    
+
     /**
      * Make a new Biome instance
      * @param eConfig Config for this enchantment.
@@ -22,14 +21,14 @@ public class ConfigurableBiome extends BiomeGenBase implements IConfigurable {
         super(eConfig.getId());
         this.setConfig(eConfig);
         this.setBiomeName(getLocalizedName());
-        
+
     }
-    
+
     @SuppressWarnings("rawtypes")
     private void setConfig(ExtendedConfig eConfig) {
         this.eConfig = (BiomeConfig)eConfig;
     }
-    
+
     /**
      * Get localized name of this biome.
      * @return Localized name.
@@ -42,5 +41,4 @@ public class ConfigurableBiome extends BiomeGenBase implements IConfigurable {
     public ExtendedConfig<?> getConfig() {
         return eConfig;
     }
-
 }

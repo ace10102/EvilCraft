@@ -35,8 +35,7 @@ public class IMCHandler {
         IIMCAction action = actions.get(message.key);
         if(action != null) {
             if(!action.handle(message)) {
-                EvilCraft.log(String.format("The IMC message for key %s was rejected. " +
-                        "It may have been incorrectly formatted or has resulted in an error.", message.key), Level.ERROR);
+                EvilCraft.log(String.format("The IMC message for key %s was rejected. " + "It may have been incorrectly formatted or has resulted in an error.", message.key), Level.ERROR);
             }
         } else {
             EvilCraft.log(String.format("An IMC message with invalid key %s was received.", message.key), Level.ERROR);
@@ -51,7 +50,5 @@ public class IMCHandler {
          * @return If the handling occured without any problems.
          */
         public boolean handle(FMLInterModComms.IMCMessage message);
-
     }
-
 }

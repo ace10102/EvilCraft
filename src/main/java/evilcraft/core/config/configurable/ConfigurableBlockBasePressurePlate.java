@@ -14,19 +14,18 @@ import net.minecraft.world.World;
 /**
  * {@link BlockBasePressurePlate} that can hold ExtendedConfigs.
  * @author rubensworks
- *
  */
-public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressurePlate implements IConfigurable{
-    
+public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressurePlate implements IConfigurable {
+
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
-    
+
     /**
      * Make a new block instance.
      * @param eConfig Config for this block.
      * @param material Material of this block.
      */
-    @SuppressWarnings({ "rawtypes" })
+    @SuppressWarnings("rawtypes")
     public ConfigurableBlockBasePressurePlate(ExtendedConfig eConfig, Material material) {
         super("", material);
         this.setConfig(eConfig);
@@ -34,16 +33,17 @@ public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressu
         setHardness(2F);
         setStepSound(Block.soundTypeStone);
     }
-    
+
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
         if(!canPlaceBlockAt(world, x, y, z)) {
-        	this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+            this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
             world.setBlockToAir(x, y, z);
         }
     }
-    
-    private void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {
+
+    @SuppressWarnings("rawtypes")
+    private void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
 
@@ -51,18 +51,17 @@ public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressu
     public ExtendedConfig<?> getConfig() {
         return eConfig;
     }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         blockIcon = iconRegister.registerIcon(getTextureName());
     }
-    
+
     @Override
     public String getTextureName() {
-        return Reference.MOD_ID+":"+eConfig.getNamedId();
+        return Reference.MOD_ID + ":" + eConfig.getNamedId();
     }
-    
+
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
         this.setMetaBlockBounds(world, x, y, z, world.getBlockMetadata(x, y, z));
@@ -71,5 +70,4 @@ public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressu
     protected void setMetaBlockBounds(IBlockAccess world, int x, int y, int z, int meta) {
         super.func_150063_b(meta);
     }
-
 }

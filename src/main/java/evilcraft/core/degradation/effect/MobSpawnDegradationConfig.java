@@ -5,10 +5,9 @@ import evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 /**
  * Config for {@link MobSpawnDegradation}.
  * @author rubensworks
- *
  */
 public class MobSpawnDegradationConfig extends DegradationEffectConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -18,13 +17,6 @@ public class MobSpawnDegradationConfig extends DegradationEffectConfig {
      * Make a new instance.
      */
     public MobSpawnDegradationConfig() {
-        super(
-            true,
-            "mobSpawn",
-            null,
-            MobSpawnDegradation.class,
-            2
-        );
+        super(true, "mobSpawn", null, MobSpawnDegradation.class, 2);
     }
-    
 }

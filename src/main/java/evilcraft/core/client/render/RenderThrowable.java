@@ -19,12 +19,11 @@ import evilcraft.core.entity.item.EntityThrowable;
 /**
  * A renderer for a throwable item.
  * @author rubensworks
- *
  */
 @SideOnly(Side.CLIENT)
 public class RenderThrowable extends Render {
     private Item item;
-    
+
     /**
      * Make a new instance.
      * @param item The item that will be rendered.
@@ -37,31 +36,31 @@ public class RenderThrowable extends Render {
     public void doRender(Entity entity, double x, double y, double z, float yaw, float partialTickTime) {
         renderThrowable((EntityThrowable)entity, x, y, z, yaw, partialTickTime);
     }
-    
+
     private void renderThrowable(EntityThrowable entity, double x, double y, double z, float yaw, float partialTickTime) {
         ItemStack stack = entity.getItemStack();
         int damage = (stack != null) ? stack.getItemDamage() : 0;
-        
+
         int renderPass = 0;
         int numberOfPasses = item.getRenderPasses(damage);
         IIcon icon = item.getIconFromDamageForRenderPass(damage, renderPass);
 
-        if (icon != null) {
+        if(icon != null) {
             GL11.glPushMatrix();
             GL11.glTranslatef((float)x, (float)y, (float)z);
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
             GL11.glScalef(0.5F, 0.5F, 0.5F);
             this.bindEntityTexture(entity);
             Tessellator tessellator = Tessellator.instance;
-            
+
             setColor(stack, renderPass);
             GL11.glPushMatrix();
             this.renderIcon(tessellator, icon);
             GL11.glPopMatrix();
-            
+
             renderPass++;
-            
-            while (renderPass < numberOfPasses && (icon = item.getIconFromDamageForRenderPass(damage, renderPass)) != null) {
+
+            while(renderPass < numberOfPasses && (icon = item.getIconFromDamageForRenderPass(damage, renderPass)) != null) {
                 setColor(stack, renderPass);
                 GL11.glPushMatrix();
                 this.renderIcon(tessellator, icon);
@@ -75,20 +74,20 @@ public class RenderThrowable extends Render {
             GL11.glPopMatrix();
         }
     }
-    
+
     private void setColor(ItemStack stack, int renderPass) {
-        if (stack == null)
+        if(stack == null)
             return;
-        
+
         int color = stack.getItem().getColorFromItemStack(stack, renderPass);
-        
+
         float red = (float)(color >> 16) / 255.0F;
         float green = (float)(color >> 8 & 255) / 255.0F;
-        float blue = (float)(color & 255)/ 255.0F;
-        
+        float blue = (float)(color & 255) / 255.0F;
+
         GL11.glColor3f(red, green, blue);
     }
-    
+
     private void renderIcon(Tessellator tessellator, IIcon icon) {
         float f = icon.getMinU();
         float f1 = icon.getMaxU();

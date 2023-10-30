@@ -24,12 +24,11 @@ import java.util.Random;
 /**
  * A machine that can reanimate spirits inside BOEC's.
  * @author rubensworks
- *
  */
 public class SpiritReanimator extends ConfigurableBlockContainerGuiTankInfo {
-    
+
     private static SpiritReanimator _instance = null;
-    
+
     @SideOnly(Side.CLIENT)
     private IIcon sideIcon;
     @SideOnly(Side.CLIENT)
@@ -38,7 +37,7 @@ public class SpiritReanimator extends ConfigurableBlockContainerGuiTankInfo {
     private IIcon frontIconOn;
     @SideOnly(Side.CLIENT)
     private IIcon frontIconOff;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -49,7 +48,7 @@ public class SpiritReanimator extends ConfigurableBlockContainerGuiTankInfo {
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -64,36 +63,33 @@ public class SpiritReanimator extends ConfigurableBlockContainerGuiTankInfo {
         this.setStepSound(soundTypeStone);
         this.setHarvestLevel("pickaxe", 2); // Iron tier
         this.setRotatable(true);
-        
-        if (MinecraftHelpers.isClientSide())
+
+        if(MinecraftHelpers.isClientSide())
             setGUI(GuiSpiritReanimator.class);
         setContainer(ContainerSpiritReanimator.class);
     }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT)
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-    	TileSpiritReanimator tile = (TileSpiritReanimator) world.getTileEntity(x, y, z);
+        TileSpiritReanimator tile = (TileSpiritReanimator)world.getTileEntity(x, y, z);
         ForgeDirection rotatedDirection = DirectionHelpers.TEXTURESIDE_ORIENTATION[tile.getRotation().ordinal()][side];
-        return getIcon(rotatedDirection.ordinal(), tile.isVisuallyWorking()?1:0);
+        return getIcon(rotatedDirection.ordinal(), tile.isVisuallyWorking() ? 1 : 0);
     }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         topIcon = iconRegister.registerIcon(getTextureName() + "_" + ForgeDirection.UP.name());
         sideIcon = iconRegister.registerIcon(getTextureName() + "_" + "side");
         frontIconOn = iconRegister.registerIcon(getTextureName() + "_" + ForgeDirection.NORTH.name() + "_on");
         frontIconOff = iconRegister.registerIcon(getTextureName() + "_" + ForgeDirection.NORTH.name() + "_off");
     }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
         if(side == ForgeDirection.UP.ordinal() || side == ForgeDirection.DOWN.ordinal()) {
             return topIcon;
-        } else if (side == ForgeDirection.SOUTH.ordinal()) {
-        	return meta == 1 ? frontIconOn : frontIconOff;
+        } else if(side == ForgeDirection.SOUTH.ordinal()) {
+            return meta == 1 ? frontIconOn : frontIconOff;
         } else {
             return sideIcon;
         }
@@ -109,11 +105,9 @@ public class SpiritReanimator extends ConfigurableBlockContainerGuiTankInfo {
         return TileSpiritReanimator.LIQUID_PER_SLOT;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT) @SuppressWarnings("rawtypes")
     public void randomDisplayTick(World world, int x, int y, int z, Random random) {
-        EntityBloodBubbleFX.randomDisplayTick((WorkingTileEntity) world.getTileEntity(x, y, z), world, x, y, z, random);
+        EntityBloodBubbleFX.randomDisplayTick((WorkingTileEntity)world.getTileEntity(x, y, z), world, x, y, z, random);
         super.randomDisplayTick(world, x, y, z, random);
     }
-
 }

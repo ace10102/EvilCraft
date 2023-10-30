@@ -15,12 +15,11 @@ import java.util.Random;
 /**
  * WorldGenerator for mineable blocks.
  * @author rubensworks
- *
  */
 public class WorldGenMinableExtended extends WorldGenMinable implements IRetroGen {
-    
-	private static final int NO_META = 0;
-	
+
+    private static final int NO_META = 0;
+
     protected int blocksPerVein;
     protected int veinsPerChunk;
     protected int startY;
@@ -28,7 +27,7 @@ public class WorldGenMinableExtended extends WorldGenMinable implements IRetroGe
     protected Block block;
     protected Block replaceTarget;
     protected int meta = NO_META;
-    
+
     /**
      * Make a new instance.
      * @param block block to spawn.
@@ -47,7 +46,7 @@ public class WorldGenMinableExtended extends WorldGenMinable implements IRetroGe
         this.endY = endY;
         this.replaceTarget = replaceTarget;
     }
-    
+
     /**
      * Make a new instance.
      * @param block block to spawn.
@@ -67,7 +66,7 @@ public class WorldGenMinableExtended extends WorldGenMinable implements IRetroGe
         this.endY = endY;
         this.meta = meta;
     }
-    
+
     /**
      * Generate the ores in a loop for the veins per chunk/
      * @param world The world.
@@ -76,7 +75,7 @@ public class WorldGenMinableExtended extends WorldGenMinable implements IRetroGe
      * @param chunkZ Z chunk coordinate.
      */
     public void loopGenerate(World world, Random rand, int chunkX, int chunkZ) {
-        for(int k = 0; k < veinsPerChunk; k++){
+        for(int k = 0; k < veinsPerChunk; k++) {
             int firstBlockXCoord = chunkX + rand.nextInt(16);
             int firstBlockYCoord = startY + rand.nextInt(endY - startY);
             int firstBlockZCoord = chunkZ + rand.nextInt(16);
@@ -84,14 +83,14 @@ public class WorldGenMinableExtended extends WorldGenMinable implements IRetroGe
             this.generate(world, rand, firstBlockXCoord, firstBlockYCoord, firstBlockZCoord);
         }
     }
-    
+
     protected String getUniqueName() {
-    	return block.getUnlocalizedName();
+        return block.getUnlocalizedName();
     }
-    
+
     /**
-     * Generate for only one chunk (this will NOT cross chunk boundaries!)
-     * Based on the generate method for World instead of Chunk.
+     * Generate for only one chunk (this will NOT cross chunk boundaries!) Based on the generate method for World instead of
+     * Chunk.
      * @param chunk The chunk to generate in.
      * @param rand Random.
      * @param x Chunk X.
@@ -108,7 +107,7 @@ public class WorldGenMinableExtended extends WorldGenMinable implements IRetroGe
         double d4 = (double)(y + rand.nextInt(3) - 2);
         double d5 = (double)(y + rand.nextInt(3) - 2);
 
-        for (int l = 0; l <= this.blocksPerVein; ++l) {
+        for(int l = 0; l <= this.blocksPerVein; ++l) {
             double d6 = d0 + (d1 - d0) * (double)l / (double)this.blocksPerVein;
             double d7 = d4 + (d5 - d4) * (double)l / (double)this.blocksPerVein;
             double d8 = d2 + (d3 - d2) * (double)l / (double)this.blocksPerVein;
@@ -122,31 +121,28 @@ public class WorldGenMinableExtended extends WorldGenMinable implements IRetroGe
             int i2 = MathHelper.floor_double(d7 + d11 / 2.0D);
             int j2 = MathHelper.floor_double(d8 + d10 / 2.0D);
 
-            for (int cx = i1; cx <= l1; ++cx) {
+            for(int cx = i1; cx <= l1; ++cx) {
                 double d12 = ((double)cx + 0.5D - d6) / (d10 / 2.0D);
 
-                if (d12 * d12 < 1.0D) {
-                    for (int cy = j1; cy <= i2; ++cy) {
+                if(d12 * d12 < 1.0D) {
+                    for(int cy = j1; cy <= i2; ++cy) {
                         double d13 = ((double)cy + 0.5D - d7) / (d11 / 2.0D);
-
-                        if (d12 * d12 + d13 * d13 < 1.0D) {
-                            for (int cz = k1; cz <= j2; ++cz) {
-                                if(cx > 0 && cx < WorldHelpers.CHUNK_SIZE
-                                		&& cz > 0 && cz < WorldHelpers.CHUNK_SIZE) {
-	                                ExtendedBlockStorage storage = chunk.getBlockStorageArray()[y >> 4];
-	                                if(storage != null) {
-	                    	            Block oldBlock = chunk.getBlock(x, y, z);
-	                    	            int oldMeta = chunk.getBlockMetadata(x, y, z);
-	                    	            if(oldBlock != null
-	                    	            		&& oldBlock != block
-	                    	            		&& oldBlock.isReplaceableOreGen(chunk.worldObj, cx, cy, cz, replaceTarget)
-	                    	            		&& !oldBlock.hasTileEntity(oldMeta)) { // We do not replace TE's, even if they are replacable.
-	                    	            	storage.func_150818_a(x, y & 15, z, block); // Replace the block.
-	                    	            	if(meta != NO_META) {
-	                    	            		storage.setExtBlockMetadata(x, y & 15, z, meta);
-	                    	            	}
-	                    	            }
-	                                }
+                        if(d12 * d12 + d13 * d13 < 1.0D) {
+                            for(int cz = k1; cz <= j2; ++cz) {
+                                if(cx > 0 && cx < WorldHelpers.CHUNK_SIZE && cz > 0 && cz < WorldHelpers.CHUNK_SIZE) {
+                                    ExtendedBlockStorage storage = chunk.getBlockStorageArray()[y >> 4];
+                                    if(storage != null) {
+                                        Block oldBlock = chunk.getBlock(x, y, z);
+                                        int oldMeta = chunk.getBlockMetadata(x, y, z);
+                                        if(oldBlock != null && oldBlock != block
+                                                && oldBlock.isReplaceableOreGen(chunk.worldObj, cx, cy, cz, replaceTarget)
+                                                && !oldBlock.hasTileEntity(oldMeta)) { // We do not replace TE's, even if they are replacable.
+                                            storage.func_150818_a(x, y & 15, z, block); // Replace the block.
+                                            if(meta != NO_META) {
+                                                storage.setExtBlockMetadata(x, y & 15, z, meta);
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -154,29 +150,27 @@ public class WorldGenMinableExtended extends WorldGenMinable implements IRetroGe
                 }
             }
         }
-
         return true;
     }
 
-	@Override
-	public void retroGenerateChunk(NBTTagCompound tag, Chunk chunk,
-			Random rand) {
-		for(int k = 0; k < veinsPerChunk; k++){
+    @Override
+    public void retroGenerateChunk(NBTTagCompound tag, Chunk chunk, Random rand) {
+        for(int k = 0; k < veinsPerChunk; k++) {
             int x = rand.nextInt(16);
             int y = startY + rand.nextInt(endY - startY);
             int z = rand.nextInt(16);
-            
+
             this.generate(chunk, rand, x, y, z);
         }
-	}
+    }
 
-	@Override
-	public boolean shouldRetroGen(NBTTagCompound tag, int dimensionId) {
-		return !tag.getBoolean(getUniqueName());
-	}
+    @Override
+    public boolean shouldRetroGen(NBTTagCompound tag, int dimensionId) {
+        return !tag.getBoolean(getUniqueName());
+    }
 
-	@Override
-	public void afterRetroGen(NBTTagCompound tag) {
-		tag.setBoolean(getUniqueName(), true);
-	}
+    @Override
+    public void afterRetroGen(NBTTagCompound tag) {
+        tag.setBoolean(getUniqueName(), true);
+    }
 }

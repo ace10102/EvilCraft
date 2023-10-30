@@ -17,7 +17,7 @@ import evilcraft.entity.monster.PoisonousLibelle;
  * @author Davivs69
  */
 public class ModelPoisonousLibelle extends ModelBase {
-    //fields
+    // fields
     ModelRenderer head;
     ModelRenderer body;
     ModelRenderer ass;
@@ -25,7 +25,7 @@ public class ModelPoisonousLibelle extends ModelBase {
     ModelRenderer Left_L_wing;
     ModelRenderer Right_M_wing;
     ModelRenderer Left_M_wing;
-    
+
     private List<ModelRenderer> wings_left = new LinkedList<ModelRenderer>();
     private List<ModelRenderer> wings_right = new LinkedList<ModelRenderer>();
 
@@ -78,7 +78,7 @@ public class ModelPoisonousLibelle extends ModelBase {
         Left_M_wing.setTextureSize(64, 135);
         Left_M_wing.mirror = true;
         setRotation(Left_M_wing, 0F, 0F, -0.2617994F);
-        
+
         wings_left.add(Left_L_wing);
         wings_left.add(Left_M_wing);
         wings_right.add(Right_L_wing);
@@ -87,7 +87,7 @@ public class ModelPoisonousLibelle extends ModelBase {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        setRotationAngles(f, f1, f2, f3, f4, f5, entity);        
+        setRotationAngles(f, f1, f2, f3, f4, f5, entity);
         head.render(f5);
         body.render(f5);
         ass.render(f5);
@@ -106,19 +106,18 @@ public class ModelPoisonousLibelle extends ModelBase {
     @Override
     public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity) {
         super.setRotationAngles(par1, par2, par3, par4, par5, par6, entity);
-        
+
         if(entity instanceof PoisonousLibelle) {
-            PoisonousLibelle libelle = (PoisonousLibelle) entity;
+            PoisonousLibelle libelle = (PoisonousLibelle)entity;
             float wingRotation = libelle.getWingProgressScaled(0.2617994F);
             rotateWings(wings_left, -wingRotation);
             rotateWings(wings_right, wingRotation);
         }
     }
-    
+
     private void rotateWings(List<ModelRenderer> wings, float rotation) {
         for(ModelRenderer wing : wings) {
             setRotation(wing, 0F, 0F, rotation);
         }
     }
-
 }

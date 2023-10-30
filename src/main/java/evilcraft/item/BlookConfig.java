@@ -5,10 +5,9 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 /**
  * Config for the Blook.
  * @author rubensworks
- *
  */
 public class BlookConfig extends ItemConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -18,12 +17,6 @@ public class BlookConfig extends ItemConfig {
      * Make a new instance.
      */
     public BlookConfig() {
-        super(
-            true,
-            "blook",
-            null,
-            null
-        );
+        super(true, "blook", null, null);
     }
-    
 }

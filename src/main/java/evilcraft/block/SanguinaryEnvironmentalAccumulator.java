@@ -22,7 +22,6 @@ import java.util.Random;
 /**
  * A machine that can infuse stuff with blood.
  * @author rubensworks
- *
  */
 public class SanguinaryEnvironmentalAccumulator extends ConfigurableBlockContainerGui {
 
@@ -60,14 +59,13 @@ public class SanguinaryEnvironmentalAccumulator extends ConfigurableBlockContain
         super(eConfig, Material.rock, TileSanguinaryEnvironmentalAccumulator.class);
         this.setStepSound(soundTypeStone);
         this.setRotatable(true);
-        
-        if (MinecraftHelpers.isClientSide())
+
+        if(MinecraftHelpers.isClientSide())
             setGUI(GuiSanguinaryEnvironmentalAccumulator.class);
         setContainer(ContainerSanguinaryEnvironmentalAccumulator.class);
     }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         topIconOn = iconRegister.registerIcon(getTextureName() + "_" + ForgeDirection.UP.name() + "_on");
         topIconOff = iconRegister.registerIcon(getTextureName() + "_" + ForgeDirection.UP.name() + "_off");
@@ -75,20 +73,18 @@ public class SanguinaryEnvironmentalAccumulator extends ConfigurableBlockContain
         downIcon = iconRegister.registerIcon(getTextureName() + "_" + ForgeDirection.DOWN.name());
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-        TileSanguinaryEnvironmentalAccumulator tile = (TileSanguinaryEnvironmentalAccumulator) world.getTileEntity(x, y, z);
+        TileSanguinaryEnvironmentalAccumulator tile = (TileSanguinaryEnvironmentalAccumulator)world.getTileEntity(x, y, z);
         ForgeDirection rotatedDirection = DirectionHelpers.TEXTURESIDE_ORIENTATION[tile.getRotation().ordinal()][side];
-        return getIcon(rotatedDirection.ordinal(), tile.isVisuallyWorking()?1:0);
+        return getIcon(rotatedDirection.ordinal(), tile.isVisuallyWorking() ? 1 : 0);
     }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
         if(side == ForgeDirection.DOWN.ordinal()) {
             return downIcon;
-        } else if (side == ForgeDirection.UP.ordinal()) {
+        } else if(side == ForgeDirection.UP.ordinal()) {
             if(meta == 1) {
                 return topIconOn;
             } else {
@@ -98,7 +94,7 @@ public class SanguinaryEnvironmentalAccumulator extends ConfigurableBlockContain
             return sideIcon;
         }
     }
-    
+
     @Override
     public Item getItemDropped(int par1, Random random, int zero) {
         return Item.getItemFromBlock(this);
@@ -106,7 +102,7 @@ public class SanguinaryEnvironmentalAccumulator extends ConfigurableBlockContain
 
     @Override
     public int getLightValue(IBlockAccess world, int x, int y, int z) {
-        TileSanguinaryEnvironmentalAccumulator tile = (TileSanguinaryEnvironmentalAccumulator) world.getTileEntity(x, y, z);
+        TileSanguinaryEnvironmentalAccumulator tile = (TileSanguinaryEnvironmentalAccumulator)world.getTileEntity(x, y, z);
         return tile.isVisuallyWorking() ? 4 : super.getLightValue(world, x, y, z);
     }
 }

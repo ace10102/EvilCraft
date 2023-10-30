@@ -6,7 +6,6 @@ import net.minecraft.item.ItemStack;
 /**
  * Actions that can be registered in the {@link IPurifierActionRegistry}.
  * @author rubensworks
- *
  */
 public interface IPurifierAction {
 
@@ -37,5 +36,4 @@ public interface IPurifierAction {
      * @return If work is done
      */
     public boolean work(TilePurifier tile);
-    
 }

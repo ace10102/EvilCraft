@@ -36,113 +36,101 @@ import evilcraft.event.TextureStitchEventHook;
 
 /**
  * Proxy for the client side.
- * 
  * @author rubensworks
- * 
  */
 public class ClientProxy extends CommonProxy {
-	
-	private static final String SOUND_NONE = "none";
 
-	/**
-	 * Map for {@link Entity} renderers.
-	 */
-	public static Map<Class<? extends Entity>, Render> ENTITY_RENDERERS = new HashMap<Class<? extends Entity>, Render>();
-	/**
-	 * Map for the {@link TileEntity} renderers.
-	 */
-	public static Map<Class<? extends TileEntity>, TileEntitySpecialRenderer> TILE_ENTITY_RENDERERS = new HashMap<Class<? extends TileEntity>, TileEntitySpecialRenderer>();
-	/**
-	 * List of {@link Block} rendereres.
-	 */
-	public static List<ISimpleBlockRenderingHandler> BLOCK_RENDERERS = new LinkedList<ISimpleBlockRenderingHandler>();
-	/**
+    private static final String SOUND_NONE = "none";
+
+    /**
+     * Map for {@link Entity} renderers.
+     */
+    public static Map<Class<? extends Entity>, Render> ENTITY_RENDERERS = new HashMap<Class<? extends Entity>, Render>();
+    /**
+     * Map for the {@link TileEntity} renderers.
+     */
+    public static Map<Class<? extends TileEntity>, TileEntitySpecialRenderer> TILE_ENTITY_RENDERERS = new HashMap<Class<? extends TileEntity>, TileEntitySpecialRenderer>();
+    /**
+     * List of {@link Block} rendereres.
+     */
+    public static List<ISimpleBlockRenderingHandler> BLOCK_RENDERERS = new LinkedList<ISimpleBlockRenderingHandler>();
+    /**
      * Map for the {@link Item} renderers.
      */
     public static Map<Item, IItemRenderer> ITEM_RENDERERS = new HashMap<Item, IItemRenderer>();
-	
-	// Renderers required for the API
-	static {
-		BLOCK_RENDERERS.add(new MultiPassBlockRenderer());
-	}
 
-	@Override
-	public void registerRenderers() {
-		// Entity renderers
-		for (Entry<Class<? extends Entity>, Render> entry : ENTITY_RENDERERS
-				.entrySet()) {
-			RenderingRegistry.registerEntityRenderingHandler(entry.getKey(),
-					entry.getValue());
-			EvilCraft.log("Registered " + entry.getKey() + " renderer");
-		}
+    // Renderers required for the API
+    static {
+        BLOCK_RENDERERS.add(new MultiPassBlockRenderer());
+    }
 
-		// Special TileEntity renderers
-		for (Entry<Class<? extends TileEntity>, TileEntitySpecialRenderer> entry : TILE_ENTITY_RENDERERS
-				.entrySet()) {
-			ClientRegistry.bindTileEntitySpecialRenderer(entry.getKey(),
-					entry.getValue());
-			EvilCraft.log("Registered " + entry.getKey() + " special renderer");
-		}
+    @Override
+    public void registerRenderers() {
+        // Entity renderers
+        for(Entry<Class<? extends Entity>, Render> entry : ENTITY_RENDERERS.entrySet()) {
+            RenderingRegistry.registerEntityRenderingHandler(entry.getKey(), entry.getValue());
+            EvilCraft.log("Registered " + entry.getKey() + " renderer");
+        }
 
-		// Block renderers
-		for (ISimpleBlockRenderingHandler renderer : BLOCK_RENDERERS)
-			RenderingRegistry.registerBlockHandler(renderer);
+        // Special TileEntity renderers
+        for(Entry<Class<? extends TileEntity>, TileEntitySpecialRenderer> entry : TILE_ENTITY_RENDERERS.entrySet()) {
+            ClientRegistry.bindTileEntitySpecialRenderer(entry.getKey(), entry.getValue());
+            EvilCraft.log("Registered " + entry.getKey() + " special renderer");
+        }
 
-		// Item renderers
+        // Block renderers
+        for(ISimpleBlockRenderingHandler renderer : BLOCK_RENDERERS)
+            RenderingRegistry.registerBlockHandler(renderer);
+
+        // Item renderers
         for(Entry<Item, IItemRenderer> entry : ITEM_RENDERERS.entrySet())
             MinecraftForgeClient.registerItemRenderer(entry.getKey(), entry.getValue());
-	}
-
-	@Override
-	public void registerKeyBindings() {
-		GameSettings settings = Minecraft.getMinecraft().gameSettings;
-
-		for (Keys key : Keys.values())
-			ClientRegistry.registerKeyBinding(key.keyBinding);
-
-		// Fart key
-		KeyHandler fartKeyHandler = new FartKeyHandler();
-
-		Keys.FART.addKeyHandler(fartKeyHandler);
-		Keys.EXALTEDCRAFTING.addKeyHandler(new ExaltedCrafterKeyHandler());
-		KeyInputEventHook.getInstance().addKeyHandler(settings.keyBindSneak,
-				fartKeyHandler);
-
-		EvilCraft.log("Registered key bindings");
-	}
-
-	@Override
-	public void registerTickHandlers() {
-		EvilCraft.log("Registered tick handlers");
-	}
-
-	@Override
-	public void registerEventHooks() {
-		super.registerEventHooks();
-
-		MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
-
-		FMLCommonHandler.instance().bus().register(KeyInputEventHook.getInstance());
-		FMLCommonHandler.instance().bus().register(new PlayerTickEventHook());
-	}
-    
-    @Override
-    public void playSound(double x, double y, double z, String sound, float volume, float frequency,
-    		String mod) {
-    	if(!SOUND_NONE.equals(sound)) {
-	    	ResourceLocation soundLocation = new ResourceLocation(mod, sound);
-	    	PositionedSoundRecord record = new PositionedSoundRecord(soundLocation,
-					volume, frequency, (float) x, (float) y, (float) z);
-	    	
-	    	// If we notice this sound is no mod sound, relay it to the default MC sound system.
-	    	if(!mod.equals(DEFAULT_RESOURCELOCATION_MOD) && FMLClientHandler.instance().getClient()
-	    			.getSoundHandler().getSound(record.getPositionedSoundLocation()) == null) {
-	    		playSoundMinecraft(x, y, z, sound, volume, frequency);
-	    	} else {
-		    	FMLClientHandler.instance().getClient().getSoundHandler()
-		    		.playSound(record);
-	    	}
-    	}
     }
-    
+
+    @Override
+    public void registerKeyBindings() {
+        GameSettings settings = Minecraft.getMinecraft().gameSettings;
+
+        for(Keys key : Keys.values())
+            ClientRegistry.registerKeyBinding(key.keyBinding);
+
+        // Fart key
+        KeyHandler fartKeyHandler = new FartKeyHandler();
+
+        Keys.FART.addKeyHandler(fartKeyHandler);
+        Keys.EXALTEDCRAFTING.addKeyHandler(new ExaltedCrafterKeyHandler());
+        KeyInputEventHook.getInstance().addKeyHandler(settings.keyBindSneak, fartKeyHandler);
+
+        EvilCraft.log("Registered key bindings");
+    }
+
+    @Override
+    public void registerTickHandlers() {
+        EvilCraft.log("Registered tick handlers");
+    }
+
+    @Override
+    public void registerEventHooks() {
+        super.registerEventHooks();
+
+        MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
+
+        FMLCommonHandler.instance().bus().register(KeyInputEventHook.getInstance());
+        FMLCommonHandler.instance().bus().register(new PlayerTickEventHook());
+    }
+
+    @Override
+    public void playSound(double x, double y, double z, String sound, float volume, float frequency, String mod) {
+        if(!SOUND_NONE.equals(sound)) {
+            ResourceLocation soundLocation = new ResourceLocation(mod, sound);
+            PositionedSoundRecord record = new PositionedSoundRecord(soundLocation, volume, frequency, (float)x, (float)y, (float)z);
+
+            // If we notice this sound is no mod sound, relay it to the default MC sound system.
+            if(!mod.equals(DEFAULT_RESOURCELOCATION_MOD) && FMLClientHandler.instance().getClient().getSoundHandler().getSound(record.getPositionedSoundLocation()) == null) {
+                playSoundMinecraft(x, y, z, sound, volume, frequency);
+            } else {
+                FMLClientHandler.instance().getClient().getSoundHandler().playSound(record);
+            }
+        }
+    }
 }

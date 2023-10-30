@@ -17,9 +17,7 @@ import java.util.Map;
 
 /**
  * Blood reactant.
- * 
  * @author rubensworks
- *
  */
 public class PromiseAcceptor extends ConfigurableItem {
 
@@ -58,21 +56,17 @@ public class PromiseAcceptor extends ConfigurableItem {
         this.setMaxDamage(0);
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public boolean hasEffect(ItemStack itemStack, int pass) {
         return true;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(ItemStack itemStack, int renderPass) {
         return COLORS.get(itemStack.getItemDamage());
     }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    @SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT) @SuppressWarnings({ "rawtypes", "unchecked" })
     public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
         for(int i = 0; i < COLORS.size(); i++) {
             list.add(new ItemStack(item, 1, i));
@@ -83,5 +77,4 @@ public class PromiseAcceptor extends ConfigurableItem {
     public String getUnlocalizedName(ItemStack itemStack) {
         return super.getUnlocalizedName(itemStack) + "." + itemStack.getItemDamage();
     }
-
 }

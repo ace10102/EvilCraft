@@ -16,55 +16,51 @@ import net.minecraft.world.World;
 
 /**
  * Packet for sending and showing the ring of fire.
- * 
  * @author rubensworks
- *
  */
 public class RingOfFirePacket extends PacketCodec {
-	
-	private static final int RANGE = 3000;
+
+    private static final int RANGE = 3000;
 
     private static double RING_AREA = 0.9F;
-	
-    @CodecField
-	private String displayName;
-    @CodecField
-	private double x = 0;
-    @CodecField
-	private double y = 0;
-    @CodecField
-	private double z = 0;
 
-	/**
-	 * Creates a packet with no content
-	 */
-	public RingOfFirePacket() {
-		
-	}
-	
-	/**
-	 * Creates a FartPacket which contains the player data.
-	 * @param player The player data.
-	 */
-	public RingOfFirePacket(EntityPlayer player) {
-		this.displayName = player.getDisplayName();
-		this.x = player.posX;
-		this.y = player.posY;
-		this.z = player.posZ;
-	}
+    @CodecField
+    private String displayName;
+    @CodecField
+    private double x = 0;
+    @CodecField
+    private double y = 0;
+    @CodecField
+    private double z = 0;
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void actionClient(World world, EntityPlayer player) {
-		if(!player.getDisplayName().equals(displayName)) {
-			player = world.getPlayerEntityByName(displayName);
-		}
-		if(player != null) {
-			showFireRing(player);
-		}
-	}
-    
-	@SideOnly(Side.CLIENT)
+    /**
+     * Creates a packet with no content
+     */
+    public RingOfFirePacket() {
+    }
+
+    /**
+     * Creates a FartPacket which contains the player data.
+     * @param player The player data.
+     */
+    public RingOfFirePacket(EntityPlayer player) {
+        this.displayName = player.getDisplayName();
+        this.x = player.posX;
+        this.y = player.posY;
+        this.z = player.posZ;
+    }
+
+    @Override @SideOnly(Side.CLIENT)
+    public void actionClient(World world, EntityPlayer player) {
+        if(!player.getDisplayName().equals(displayName)) {
+            player = world.getPlayerEntityByName(displayName);
+        }
+        if(player != null) {
+            showFireRing(player);
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
     private static void showFireRing(Entity entity) {
         double area = RING_AREA;
         World world = entity.worldObj;
@@ -89,21 +85,15 @@ public class RingOfFirePacket extends PacketCodec {
             float particleMotionZ = (float)zOffset / 5;
 
             if(world.rand.nextInt(20) == 0) {
-                FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                        new EntityFireShootFX(world, particleX, particleY, particleZ,
-                                particleMotionX, particleMotionY, particleMotionZ, 0.1F)
-                        );
+                FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityFireShootFX(world, particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ, 0.1F));
             } else {
-                FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                        new EntityFlameFX(world, particleX, particleY, particleZ, 0, 0, 0)
-                        );
+                FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityFlameFX(world, particleX, particleY, particleZ, 0, 0, 0));
             }
         }
     }
 
-	@Override
-	public void actionServer(World world, EntityPlayerMP player) {
-		PacketHandler.sendToAllAround(new RingOfFirePacket(player),
-				LocationHelpers.createTargetPointFromEntityPosition(player, RANGE));
-	}
+    @Override
+    public void actionServer(World world, EntityPlayerMP player) {
+        PacketHandler.sendToAllAround(new RingOfFirePacket(player), LocationHelpers.createTargetPointFromEntityPosition(player, RANGE));
+    }
 }

@@ -6,7 +6,6 @@ import net.minecraft.world.World;
 /**
  * An effect for shooting flames in the sky.
  * @author rubensworks
- *
  */
 public class EntityFireShootFX extends EntityLavaFX {
 
@@ -23,14 +22,13 @@ public class EntityFireShootFX extends EntityLavaFX {
      */
     public EntityFireShootFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float scale) {
         super(world, x, y, z);
-        
+
         this.motionX = motionX;
         this.motionY = motionY;
         this.motionZ = motionZ;
-        
+
         particleAlpha = 0.9F;
-        
+
         this.noClip = false;
     }
-
 }

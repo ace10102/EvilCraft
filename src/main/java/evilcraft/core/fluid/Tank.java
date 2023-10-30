@@ -9,7 +9,6 @@ import net.minecraftforge.fluids.FluidTank;
  * A simple fluid tank.
  * Based on the Buildcraft Tank
  * @author rubensworks
- *
  */
 public class Tank extends FluidTank {
 
@@ -26,7 +25,7 @@ public class Tank extends FluidTank {
         this.name = name;
         this.tile = tile;
     }
-    
+
     /**
      * Check if this tank is empty.
      * @return If the tank is empty; no fluid is inside of it.
@@ -68,10 +67,10 @@ public class Tank extends FluidTank {
 
     @Override
     public FluidTank readFromNBT(NBTTagCompound nbt) {
-        if (nbt.hasKey(name)) {
+        if(nbt.hasKey(name)) {
             NBTTagCompound tankData = nbt.getCompoundTag(name);
             if(replaceInnerFluid()) {
-                if (tankData.hasKey("Empty")) {
+                if(tankData.hasKey("Empty")) {
                     setFluid(null);
                 }
                 super.readFromNBT(tankData);
@@ -86,7 +85,7 @@ public class Tank extends FluidTank {
      * @param nbt The NBT tag to write to.
      */
     public void writeTankToNBT(NBTTagCompound nbt) {
-    	nbt.setInteger("capacity", getCapacity());
+        nbt.setInteger("capacity", getCapacity());
     }
 
     /**
@@ -94,16 +93,15 @@ public class Tank extends FluidTank {
      * @param nbt The NBT tag to write from.
      */
     public void readTankFromNBT(NBTTagCompound nbt) {
-    	if(nbt.hasKey("capacity")) { // Backwards compatibility.
-    		setCapacity(nbt.getInteger("capacity"));
-    	}
+        if(nbt.hasKey("capacity")) { // Backwards compatibility.
+            setCapacity(nbt.getInteger("capacity"));
+        }
     }
-    
+
     /**
      * @return The tank name.
      */
     public String getName() {
-    	return this.name;
+        return this.name;
     }
-
 }

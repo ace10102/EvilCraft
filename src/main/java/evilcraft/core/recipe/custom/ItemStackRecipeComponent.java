@@ -11,9 +11,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import java.util.List;
 
 /**
- * A {@link evilcraft.api.recipes.custom.IRecipe} component (input, output or properties) that holds an
- * {@link net.minecraft.item.ItemStack}.
- *
+ * A {@link evilcraft.api.recipes.custom.IRecipe} component (input, output or properties) that holds an {@link net.minecraft.item.ItemStack}.
  * @author immortaleeb
  */
 @Data
@@ -25,14 +23,14 @@ public class ItemStackRecipeComponent implements IRecipeInput, IRecipeOutput, IR
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof ItemStackRecipeComponent)) return false;
+        if(!(object instanceof ItemStackRecipeComponent)) return false;
         ItemStackRecipeComponent that = (ItemStackRecipeComponent)object;
         return equals(this.itemStack, that.itemStack);
     }
 
     protected boolean equals(ItemStack a, ItemStack b) {
-        return a != null && b != null && a.getItem().equals(b.getItem()) && (a.getItemDamage() == b.getItemDamage() ||
-                a.getItemDamage() == META_WILDCARD || b.getItemDamage() == META_WILDCARD);
+        return a != null && b != null && a.getItem().equals(b.getItem())
+                && (a.getItemDamage() == b.getItemDamage() || a.getItemDamage() == META_WILDCARD || b.getItemDamage() == META_WILDCARD);
     }
 
     @Override

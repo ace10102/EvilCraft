@@ -16,30 +16,30 @@ import net.minecraft.world.IBlockAccess;
 /**
  * Block that can hold ExtendedConfigs
  * @author rubensworks
- *
  */
-public class ConfigurableBlock extends Block implements IConfigurable, IMultiRenderPassBlock{
-    
+public class ConfigurableBlock extends Block implements IConfigurable, IMultiRenderPassBlock {
+
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
-    
+
     protected int pass = 0;
     protected CustomRenderBlocks renderer;
     protected boolean isInventoryBlock = false;
-    
+
     /**
      * Make a new block instance.
      * @param eConfig Config for this block.
      * @param material Material of this block.
      */
-    @SuppressWarnings({ "rawtypes" })
+    @SuppressWarnings("rawtypes")
     public ConfigurableBlock(ExtendedConfig eConfig, Material material) {
         super(material);
         this.setConfig(eConfig);
         this.setBlockName(eConfig.getUnlocalizedName());
     }
 
-    private void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {
+    @SuppressWarnings("rawtypes")
+    private void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
 
@@ -47,42 +47,39 @@ public class ConfigurableBlock extends Block implements IConfigurable, IMultiRen
     public ExtendedConfig<?> getConfig() {
         return eConfig;
     }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         blockIcon = iconRegister.registerIcon(getTextureName());
     }
-    
+
     @Override
     public String getTextureName() {
-        return Reference.MOD_ID+":"+eConfig.getNamedId();
+        return Reference.MOD_ID + ":" + eConfig.getNamedId();
     }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
         return getIcon(side, meta, pass);
     }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta, int renderPass) {
-        if(renderPass < 0) return null;
+        if(renderPass < 0)
+            return null;
         return super.getIcon(side, meta);
     }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT)
     public int getRenderType() {
-        return getRenderPasses() == 1? super.getRenderType() : MultiPassBlockRenderer.ID;
+        return getRenderPasses() == 1 ? super.getRenderType() : MultiPassBlockRenderer.ID;
     }
-    
+
     @Override
     public int getRenderPasses() {
         return 1;
     }
-    
+
     @Override
     public void setRenderPass(int pass) {
         if(pass < getRenderPasses())
@@ -90,27 +87,27 @@ public class ConfigurableBlock extends Block implements IConfigurable, IMultiRen
         else
             this.pass = getRenderPasses() - 1;
     }
-    
+
     @Override
     public boolean shouldRender(int pass) {
-    	return true;
+        return true;
     }
-    
+
     @Override
     public void setRenderBlocks(CustomRenderBlocks renderer) {
         this.renderer = renderer;
     }
-    
+
     @Override
     public CustomRenderBlocks getRenderBlocks() {
         return this.renderer;
     }
-    
+
     @Override
     public void updateTileEntity(IBlockAccess world, int x, int y, int z) {
         // There was absolutely nothing here...
     }
-    
+
     @Override
     public void setInventoryBlock(boolean isInventoryBlock) {
         this.isInventoryBlock = isInventoryBlock;
@@ -120,5 +117,4 @@ public class ConfigurableBlock extends Block implements IConfigurable, IMultiRen
         super.setHarvestLevel(toolClass, level);
         return this;
     }
-
 }

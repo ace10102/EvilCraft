@@ -8,10 +8,8 @@ import java.lang.annotation.Target;
 /**
  * Give this annotation to fields in {@link PacketCodec} to auto encode/decode them.
  * @author rubensworks
- *
  */
-@Retention(RetentionPolicy.RUNTIME)  
+@Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface CodecField {
-
 }

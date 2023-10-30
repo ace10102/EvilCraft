@@ -15,10 +15,9 @@ import java.util.Set;
 /**
  * Config for the {@link BloodInfuser}.
  * @author rubensworks
- *
  */
 public class BloodInfuserConfig extends BlockContainerConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -27,10 +26,8 @@ public class BloodInfuserConfig extends BlockContainerConfig {
     /**
      * The blacklisted items, by item name.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE,
-            comment = "The blacklisted Blood Chest items, by item name.",
-            changedCallback = BloodChestRepairActionRegistry.ItemBlacklistChanged.class)
-    public static String[] itemBlacklist = new String[]{
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "The blacklisted Blood Chest items, by item name.", changedCallback = BloodChestRepairActionRegistry.ItemBlacklistChanged.class)
+    public static String[] itemBlacklist = new String[] { 
             "minecraft:stick"
     };
 
@@ -38,14 +35,9 @@ public class BloodInfuserConfig extends BlockContainerConfig {
      * Make a new instance.
      */
     public BloodInfuserConfig() {
-        super(
-        	true,
-            "bloodInfuser",
-            null,
-            BloodInfuser.class
-        );
+        super(true, "bloodInfuser", null, BloodInfuser.class);
     }
-    
+
     @Override
     public Class<? extends ItemBlock> getItemBlockClass() {
         return ItemBlockNBT.class;
@@ -60,5 +52,4 @@ public class BloodInfuserConfig extends BlockContainerConfig {
                 TileWorking.UPGRADE_TIER2,
                 TileWorking.UPGRADE_TIER3);
     }
-    
 }

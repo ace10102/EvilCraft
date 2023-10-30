@@ -10,14 +10,13 @@ import net.minecraft.entity.EntityLivingBase;
 /**
  * Potion effect for letting entities fade away and leaving a portal behind in their place.
  * @author rubensworks
- *
  */
 public class PotionPaling extends ConfigurablePotion {
 
     private static PotionPaling _instance = null;
 
     /**
-     * Initialise the configurable.
+     * Initialize the configurable.
      * @param eConfig The config.
      */
     public static void initInstance(ExtendedConfig<PotionConfig> eConfig) {
@@ -41,6 +40,6 @@ public class PotionPaling extends ConfigurablePotion {
 
     @Override
     protected void onUpdate(EntityLivingBase entity) {
-        entity.attackEntityFrom(ExtendedDamageSource.paling, ((float) getAmplifier(entity)) / 4);
+        entity.attackEntityFrom(ExtendedDamageSource.paling, ((float)getAmplifier(entity)) / 4);
     }
 }

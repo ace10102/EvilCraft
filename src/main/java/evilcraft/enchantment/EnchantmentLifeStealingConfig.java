@@ -8,15 +8,14 @@ import evilcraft.core.config.extendedconfig.EnchantmentConfig;
 /**
  * Config for {@link EnchantmentLifeStealing}.
  * @author rubensworks
- *
  */
 public class EnchantmentLifeStealingConfig extends EnchantmentConfig {
-    
+
     /**
      * The unique instance.
      */
     public static EnchantmentLifeStealingConfig _instance;
-    
+
     /**
      * The final modifier that should be applied to the healing amount.
      */
@@ -27,12 +26,6 @@ public class EnchantmentLifeStealingConfig extends EnchantmentConfig {
      * Make a new instance.
      */
     public EnchantmentLifeStealingConfig() {
-        super(
-            Reference.ENCHANTMENT_LIFESTEALING,
-            "lifeStealing",
-            null,
-            EnchantmentLifeStealing.class
-        );
+        super(Reference.ENCHANTMENT_LIFESTEALING, "lifeStealing", null, EnchantmentLifeStealing.class);
     }
-    
 }

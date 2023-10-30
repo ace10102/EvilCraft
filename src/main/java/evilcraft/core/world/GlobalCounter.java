@@ -38,7 +38,7 @@ public class GlobalCounter {
     public void readFromNBT(NBTTagCompound tag) {
         if(tag != null) {
             NBTTagList list = tag.getTagList("counters", 10);
-            for (int i = 0; i < list.tagCount(); i++) {
+            for(int i = 0; i < list.tagCount(); i++) {
                 NBTTagCompound subTag = list.getCompoundTagAt(i);
                 counters.put(subTag.getString("key"), subTag.getInteger("value"));
             }
@@ -108,7 +108,5 @@ public class GlobalCounter {
         public void writeToNBT(NBTTagCompound tag) {
             tag.setTag(KEY, this.tag);
         }
-
     }
-
 }

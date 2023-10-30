@@ -7,9 +7,7 @@ import lombok.Data;
 import net.minecraftforge.fluids.FluidStack;
 
 /**
- * A {@link evilcraft.api.recipes.custom.IRecipe} component (input, output or properties) that holds an
- * {@link net.minecraftforge.fluids.FluidStack}.
- *
+ * A {@link evilcraft.api.recipes.custom.IRecipe} component (input, output or properties) that holds an {@link net.minecraftforge.fluids.FluidStack}.
  * @author immortaleeb
  */
 @Data
@@ -18,13 +16,12 @@ public class FluidStackRecipeComponent implements IRecipeInput, IRecipeOutput, I
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof FluidStackRecipeComponent)) return false;
+        if(!(object instanceof FluidStackRecipeComponent)) return false;
         FluidStackRecipeComponent that = (FluidStackRecipeComponent)object;
 
-        if (this.fluidStack != null) {
+        if(this.fluidStack != null) {
             return this.fluidStack.getFluid() != null && that.fluidStack != null && this.fluidStack.getFluid().equals(that.fluidStack.getFluid());
         }
-
         return that.fluidStack == null;
     }
 

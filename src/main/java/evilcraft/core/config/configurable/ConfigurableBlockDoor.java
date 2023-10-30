@@ -8,19 +8,18 @@ import net.minecraft.block.material.Material;
 /**
  * Door block that can hold ExtendedConfigs
  * @author rubensworks
- *
  */
-public abstract class ConfigurableBlockDoor extends BlockDoor implements IConfigurable{
-    
+public abstract class ConfigurableBlockDoor extends BlockDoor implements IConfigurable {
+
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
-    
+
     /**
      * Make a new block instance.
      * @param eConfig Config for this block.
      * @param material Material of this block.
      */
-    @SuppressWarnings({ "rawtypes" })
+    @SuppressWarnings("rawtypes")
     public ConfigurableBlockDoor(ExtendedConfig eConfig, Material material) {
         super(material);
         this.setConfig(eConfig);
@@ -31,15 +30,14 @@ public abstract class ConfigurableBlockDoor extends BlockDoor implements IConfig
     private void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
-    
+
     @Override
     public String getTextureName() {
-        return Reference.MOD_ID+":"+eConfig.getNamedId();
+        return Reference.MOD_ID + ":" + eConfig.getNamedId();
     }
 
     @Override
     public ExtendedConfig<?> getConfig() {
         return eConfig;
     }
-
 }

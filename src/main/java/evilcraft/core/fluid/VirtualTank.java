@@ -43,10 +43,10 @@ public class VirtualTank implements IFluidTank {
         if(isSpreadEvenly()) {
             FluidStack minFluid = null;
             int min = Integer.MAX_VALUE;
-            for (IFluidHandler tank : getTanks()) {
-                for (FluidTankInfo info : tank.getTankInfo(TARGETSIDE)) {
+            for(IFluidHandler tank : getTanks()) {
+                for(FluidTankInfo info : tank.getTankInfo(TARGETSIDE)) {
                     FluidStack tankFluid = info.fluid;
-                    if (tankFluid != null) {
+                    if(tankFluid != null) {
                         if(tankFluid.amount < min) {
                             min = tankFluid.amount;
                             minFluid = tankFluid;
@@ -57,13 +57,13 @@ public class VirtualTank implements IFluidTank {
             return minFluid == null ? null : new FluidStack(minFluid.getFluid(), min * getTanks().length);
         } else {
             FluidStack total = null;
-            for (IFluidHandler tank : getTanks()) {
-                for (FluidTankInfo info : tank.getTankInfo(TARGETSIDE)) {
+            for(IFluidHandler tank : getTanks()) {
+                for(FluidTankInfo info : tank.getTankInfo(TARGETSIDE)) {
                     FluidStack tankFluid = info.fluid;
-                    if (tankFluid != null) {
-                        if (total == null) {
+                    if(tankFluid != null) {
+                        if(total == null) {
                             total = tankFluid.copy();
-                        } else if (total.getFluid() == tankFluid.getFluid()) {
+                        } else if(total.getFluid() == tankFluid.getFluid()) {
                             total = new FluidStack(total.getFluid(), total.amount + tankFluid.amount);
                         }
                     }
@@ -82,8 +82,8 @@ public class VirtualTank implements IFluidTank {
     @Override
     public int getCapacity() {
         int total = 0;
-        for (IFluidHandler tank : getTanks()) {
-            for (FluidTankInfo info : tank.getTankInfo(TARGETSIDE)) {
+        for(IFluidHandler tank : getTanks()) {
+            for(FluidTankInfo info : tank.getTankInfo(TARGETSIDE)) {
                 total = Helpers.addSafe(total, info.capacity);
             }
         }
@@ -101,9 +101,9 @@ public class VirtualTank implements IFluidTank {
         int totalFilled = 0;
         int tanks = getTanks().length;
         IFluidHandler[] tanksArray = getTanks();
-        for (int i = 0; i < tanks; i++) {
+        for(int i = 0; i < tanks; i++) {
             IFluidHandler tank = tanksArray[i];
-            if (isSpreadEvenly()) {
+            if(isSpreadEvenly()) {
                 toFill = resource.copy();
                 resource.amount = resource.amount / tanks + ((i <= resource.amount % tanks) ? 1 : 0);
             }
@@ -111,7 +111,7 @@ public class VirtualTank implements IFluidTank {
             toFill = toFill.copy();
             toFill.amount -= filled;
             totalFilled += filled;
-            if (totalFilled == resource.amount) {
+            if(totalFilled == resource.amount) {
                 return totalFilled;
             }
         }
@@ -128,20 +128,20 @@ public class VirtualTank implements IFluidTank {
         FluidStack totalDrained = null;
         int tanks = getTanks().length;
         IFluidHandler[] tanksArray = getTanks();
-        for (int i = 0; i < tanks; i++) {
-            if (isSpreadEvenly()) {
+        for(int i = 0; i < tanks; i++) {
+            if(isSpreadEvenly()) {
                 toDrain = maxDrain / tanks + ((i <= maxDrain % tanks) ? 1 : 0);
             }
             IFluidHandler tank = tanksArray[i];
             FluidStack drained = tank.drain(TARGETSIDE, toDrain, doDrain);
-            if (drained != null) {
+            if(drained != null) {
                 toDrain -= drained.amount;
-                if (totalDrained == null) {
+                if(totalDrained == null) {
                     totalDrained = drained;
                 } else {
                     totalDrained.amount += drained.amount;
                 }
-                if (totalDrained.amount == maxDrain) {
+                if(totalDrained.amount == maxDrain) {
                     return totalDrained;
                 }
             }
@@ -154,5 +154,4 @@ public class VirtualTank implements IFluidTank {
         public @Nullable IFluidHandler[] getVirtualTankChildren();
 
     }
-
 }

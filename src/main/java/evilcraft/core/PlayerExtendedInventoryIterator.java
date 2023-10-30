@@ -86,5 +86,4 @@ public class PlayerExtendedInventoryIterator implements Iterator<ItemStack> {
             innerIt.replace(itemStack);
         }
     }
-
 }

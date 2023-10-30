@@ -11,7 +11,6 @@ import net.minecraft.world.World;
 /**
  * Double coal efficiency.
  * @author rubensworks
- *
  */
 public class BloodPotash extends ConfigurableItem {
 
@@ -44,18 +43,17 @@ public class BloodPotash extends ConfigurableItem {
     public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float coordX, float coordY, float coordZ) {
         boolean done = false;
         int attempts = 0;
-        while (attempts < 2) {
+        while(attempts < 2) {
             done = ItemDye.applyBonemeal(itemStack.copy(), world, x, y, z, player) | done;
             attempts++;
         }
-        if (done) {
+        if(done) {
             itemStack.stackSize--;
-            if (!world.isRemote) {
+            if(!world.isRemote) {
                 world.playAuxSFX(2005, x, y, z, 0);
             }
             return true;
         }
         return super.onItemUse(itemStack, player, world, x, y, z, side, coordX, coordY, coordZ);
     }
-
 }

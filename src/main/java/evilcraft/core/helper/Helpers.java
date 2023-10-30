@@ -8,12 +8,11 @@ import java.util.Map;
 /**
  * A collection of helper methods and fields.
  * @author rubensworks
- *
  */
 public class Helpers {
-    
+
     private static Map<IDType, Integer> ID_COUNTER = new HashMap<IDType, Integer>();
-    
+
     /**
      * Safe parsing of a string to it's real object type.
      * The real object type is determined by checking the class of the oldValue.
@@ -33,20 +32,21 @@ public class Helpers {
             } else if(oldValue instanceof String) {
                 newValueParsed = newValue;
             }
-        } catch (Exception e) {}
+        } catch(Exception e) {
+        }
         return newValueParsed;
     }
-    
+
     /**
      * Get a new ID for the given type.
      * @param type Type for a {@link IConfigurable}.
      * @return The incremented ID.
      */
     public static int getNewId(IDType type) {
-    	Integer ID = ID_COUNTER.get(type);
-    	if(ID == null) ID = 0;
-    	ID_COUNTER.put(type, ID + 1);
-    	return ID;
+        Integer ID = ID_COUNTER.get(type);
+        if(ID == null) ID = 0;
+        ID_COUNTER.put(type, ID + 1);
+        return ID;
     }
 
     /**
@@ -60,24 +60,23 @@ public class Helpers {
         if(sum < a || sum < b) return Integer.MAX_VALUE;
         return sum;
     }
-    
+
     /**
      * Type of ID's to use in {@link Helpers#getNewId(IDType)}
      * @author rubensworks
-     *
      */
     public enum IDType {
-    	/**
-    	 * Entity ID.
-    	 */
-    	ENTITY,
-    	/**
-    	 * GUI ID.
-    	 */
-    	GUI,
-    	/**
-    	 * Packet ID.
-    	 */
-    	PACKET;
+        /**
+         * Entity ID.
+         */
+        ENTITY,
+        /**
+         * GUI ID.
+         */
+        GUI,
+        /**
+         * Packet ID.
+         */
+        PACKET;
     }
 }

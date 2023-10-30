@@ -13,7 +13,6 @@ import thaumcraft.api.IScribeTools;
  * Scribing tools that run on Blood.
  * Texture is based on the one from Thaumcraft.
  * @author rubensworks
- *
  */
 public class VeinedScribingTools extends ConfigurableDamageIndicatedItemFluidContainer implements IScribeTools {
 
@@ -23,7 +22,7 @@ public class VeinedScribingTools extends ConfigurableDamageIndicatedItemFluidCon
     private static VeinedScribingTools _instance = null;
 
     /**
-     * Initialise the configurable.
+     * Initialize the configurable.
      * @param eConfig The config.
      */
     public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
@@ -61,5 +60,4 @@ public class VeinedScribingTools extends ConfigurableDamageIndicatedItemFluidCon
             drain(itemStack, (damage - getDamage(itemStack)) * USAGE, true);
         }
     }
-
 }

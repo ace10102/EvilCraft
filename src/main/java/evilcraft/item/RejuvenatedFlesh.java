@@ -14,14 +14,13 @@ import net.minecraftforge.fluids.FluidStack;
 /**
  * Flesh which can be infinitely eaten, consuming Blood per bite.
  * @author rubensworks
- *
  */
 public class RejuvenatedFlesh extends ConfigurableDamageIndicatedItemFluidContainer {
 
     private static RejuvenatedFlesh _instance = null;
 
     /**
-     * Initialise the configurable.
+     * Initialize the configurable.
      * @param eConfig The config.
      */
     public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
@@ -79,5 +78,4 @@ public class RejuvenatedFlesh extends ConfigurableDamageIndicatedItemFluidContai
         world.playSoundAtEntity(player, "random.burp", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
         return itemStack;
     }
-
 }

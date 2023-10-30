@@ -5,13 +5,12 @@ import net.minecraft.block.Block;
 /**
  * A holder class for a {@link Block} and a metadata.
  * @author rubensworks
- *
  */
 public class BlockTypeHolder {
 
     private Block block;
     private int meta;
-    
+
     /**
      * Make a new instance.
      * @param block The block.
@@ -21,7 +20,7 @@ public class BlockTypeHolder {
         this.block = block;
         this.meta = meta;
     }
-    
+
     /**
      * Make a new instance.
      * @param block The block.
@@ -57,7 +56,4 @@ public class BlockTypeHolder {
     public void setMeta(int meta) {
         this.meta = meta;
     }
-    
-    
-    
 }

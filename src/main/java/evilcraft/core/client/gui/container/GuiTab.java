@@ -38,5 +38,4 @@ public abstract class GuiTab {
         RenderHelpers.bindTexture(getResourceLocation());
         gui.drawTexturedModalRect(x + posX, y + posY, u, v, width, height);
     }
-
 }

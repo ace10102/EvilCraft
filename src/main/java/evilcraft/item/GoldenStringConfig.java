@@ -5,7 +5,6 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 /**
  * Config for the Golden String.
  * @author rubensworks
- *
  */
 public class GoldenStringConfig extends ItemConfig {
 
@@ -18,12 +17,6 @@ public class GoldenStringConfig extends ItemConfig {
      * Make a new instance.
      */
     public GoldenStringConfig() {
-        super(
-            true,
-            "goldenString",
-            null,
-            null
-        );
+        super(true, "goldenString", null, null);
     }
-    
 }

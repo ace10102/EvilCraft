@@ -15,39 +15,36 @@ import org.lwjgl.opengl.GL12;
 import java.util.Random;
 
 /**
- * EvilCraft's version of a beacon renderer, this allows us to have custom colors
- * and customize other stuff without being dependend on vanilla code
- * 
+ * EvilCraft's version of a beacon renderer, this allows us to have custom colors and customize other stuff without being dependend on vanilla code
  * @author immortaleeb
- *
  */
 public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
 
     private static final ResourceLocation PORTALBASE = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "portalBases.png");
 
-	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float partialTickTime) {
-        renderTileEntityAt((TileSpiritPortal) tileentity, x, y, z, partialTickTime);
-	}
-	
-	protected void renderTileEntityAt(TileSpiritPortal tileentity, double x, double y, double z, float partialTickTime) {
+    @Override
+    public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float partialTickTime) {
+        renderTileEntityAt((TileSpiritPortal)tileentity, x, y, z, partialTickTime);
+    }
+
+    protected void renderTileEntityAt(TileSpiritPortal tileentity, double x, double y, double z, float partialTickTime) {
         float progress = tileentity.getProgress();
         GL11.glPushMatrix();
         GL11.glTranslatef(0.5F, 0.5f, 0.5F);
-        renderPortalBase((float) x, (float) y, (float) z, progress);
+        renderPortalBase((float)x, (float)y, (float)z, progress);
         GL11.glTranslatef((float)x, (float)y, (float)z);
         Random random = new Random();
         int seed = tileentity.xCoord + tileentity.yCoord + tileentity.zCoord;
-        random.setSeed((long) seed);
+        random.setSeed((long)seed);
         renderStar(seed, progress, Tessellator.instance, partialTickTime, random);
         GL11.glPopMatrix();
-	}
+    }
 
     private void renderStar(float rotation, float progress, Tessellator tessellator, float partialTicks, Random random) {
-		/* Rotate opposite direction at 20% speed */
+        // Rotate opposite direction at 20% speed
         GL11.glRotatef(rotation * -0.2f % 360, 0.5f, 1, 0.5f);
 
-		/* Configuration tweaks */
+        // Configuration tweaks
         float BEAM_START_DISTANCE = 2F;
         float BEAM_END_DISTANCE = 7f;
         float MAX_OPACITY = 40f;
@@ -55,7 +52,7 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
         RenderHelper.disableStandardItemLighting();
         float f2 = 0.0F;
 
-        if (progress > 0.8F) {
+        if(progress > 0.8F) {
             f2 = (progress - 0.8F) / 0.2F;
         }
 
@@ -69,7 +66,7 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
         int color1 = RenderHelpers.RGBToInt(171, 97, 210);
         int color2 = RenderHelpers.RGBToInt(175, 100, 215);
 
-        for (int i = 0; i < (progress + progress * progress) / 2.0F * 60.0F; ++i) {
+        for(int i = 0; i < (progress + progress * progress) / 2.0F * 60.0F; ++i) {
             GL11.glRotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
             GL11.glRotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
             GL11.glRotatef(random.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
@@ -116,7 +113,7 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
         float r = 180.0F - renderManager.playerViewY;
         GL11.glRotatef(r, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(-renderManager.playerViewX, 1F, 0F, 0F);
-        renderIconForProgress(tessellator, ((int) (progress * 100)) % 4, progress);
+        renderIconForProgress(tessellator, ((int)(progress * 100)) % 4, progress);
 
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glDepthMask(true);
@@ -146,5 +143,4 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
         tessellator.addVertexWithUV(1, 1, 0.0D, u2, v2);
         tessellator.draw();
     }
-
 }

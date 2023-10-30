@@ -19,30 +19,23 @@ import java.util.List;
 /**
  * Waila data provider for tanks.
  * @author rubensworks
- *
  */
 public class TankDataProvider implements IWailaDataProvider {
 
     @Override
-    public ItemStack getWailaStack(IWailaDataAccessor accessor,
-            IWailaConfigHandler config) {
-        // TODO Auto-generated method stub
+    public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
         return null;
     }
 
     @Override
-    public List<String> getWailaHead(ItemStack itemStack,
-            List<String> currenttip, IWailaDataAccessor accessor,
-            IWailaConfigHandler config) {
+    public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         return currenttip;
     }
 
     @Override
-    public List<String> getWailaBody(ItemStack itemStack,
-            List<String> currenttip, IWailaDataAccessor accessor,
-            IWailaConfigHandler config) {
+    public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         if(accessor.getTileEntity() instanceof TankInventoryTileEntity && config.getConfig(Waila.getTankConfigID(), true)) {
-            TankInventoryTileEntity tile = (TankInventoryTileEntity) accessor.getTileEntity();
+            TankInventoryTileEntity tile = (TankInventoryTileEntity)accessor.getTileEntity();
             if(tile.getTank().isEmpty()) {
                 currenttip.add(EnumChatFormatting.ITALIC + L10NHelpers.localize("general.info.empty"));
             } else {
@@ -54,9 +47,7 @@ public class TankDataProvider implements IWailaDataProvider {
     }
 
     @Override
-    public List<String> getWailaTail(ItemStack itemStack,
-            List<String> currenttip, IWailaDataAccessor accessor,
-            IWailaConfigHandler config) {
+    public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         return currenttip;
     }
 
@@ -64,5 +55,4 @@ public class TankDataProvider implements IWailaDataProvider {
     public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
         return tag;
     }
-    
 }

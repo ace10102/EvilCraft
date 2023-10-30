@@ -13,14 +13,13 @@ import org.apache.commons.lang3.mutable.MutableInt;
 /**
  * {@link ITickAction} that can fill fluid containers with blood.
  * @author rubensworks
- *
  */
-public class FluidContainerItemTickAction extends BloodInfuserTickAction{
+public class FluidContainerItemTickAction extends BloodInfuserTickAction {
 
     @Override
     public void onTick(TileBloodInfuser tile, ItemStack itemStack, int slot, int tick) {
         ItemStack infuseStack = getInfuseStack(tile);
-        IFluidContainerItem container = (IFluidContainerItem) infuseStack.getItem();
+        IFluidContainerItem container = (IFluidContainerItem)infuseStack.getItem();
         FluidStack fluidStack = tile.getTank().getFluid().copy();
 
         MutableInt duration = new MutableInt(MB_PER_TICK);
@@ -46,5 +45,4 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
     public ItemStack willProduceItem(TileBloodInfuser tile) {
         return tile.getInventory().getStackInSlot(tile.getConsumeSlot());
     }
-    
 }

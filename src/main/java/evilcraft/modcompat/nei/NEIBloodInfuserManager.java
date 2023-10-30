@@ -1,12 +1,21 @@
 package evilcraft.modcompat.nei;
 
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.lwjgl.opengl.GL11;
+
+import com.google.common.collect.Lists;
+
 import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.ItemList;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.GuiRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import com.google.common.collect.Lists;
 import evilcraft.Reference;
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.BloodInfuser;
@@ -31,12 +40,6 @@ import net.minecraft.util.IIcon;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
-import org.lwjgl.opengl.GL11;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 import static codechicken.lib.gui.GuiDraw.changeTexture;
 import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
@@ -44,13 +47,12 @@ import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
 /**
  * Manager for the recipes in the {@link BloodInfuser}.
  * @author rubensworks
- *
  */
 public class NEIBloodInfuserManager extends TemplateRecipeHandler {
-    
+
     protected static int xOffset = -5;
     protected static int yOffset = -16;
-    
+
     private final int width = GuiBloodInfuser.TEXTUREWIDTH;
     private final int height = GuiBloodInfuser.TEXTUREHEIGHT;
     private final int tankWidth = GuiBloodInfuser.TANKWIDTH;
@@ -59,7 +61,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     private final int tankTargetY = GuiBloodInfuser.TANKTARGETY + yOffset;
     private final int tankX = GuiBloodInfuser.TANKX;
     private final int tankY = GuiBloodInfuser.TANKY;
-    
+
     private final int progressTargetX = GuiBloodInfuser.PROGRESSTARGETX + xOffset;
     private final int progressTargetY = GuiBloodInfuser.PROGRESSTARGETY + yOffset;
     private final int progressX = GuiBloodInfuser.PROGRESSX;
@@ -69,13 +71,13 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
 
     private static final int FLUID_CONTAINER_X = ContainerBloodInfuser.SLOT_CONTAINER_X;
     private static final int FLUID_CONTAINER_Y = ContainerBloodInfuser.SLOT_CONTAINER_Y;
-    
+
     private float zLevel = 200.0F;
 
     public static ArrayList<FluidPair> afluids;
-    
+
     protected class CachedBloodInfuserRecipe extends CachedRecipe {
-        
+
         private int hashcode;
         private List<PositionedStack> input;
         private PositionedStack output;
@@ -86,25 +88,15 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
         private int tier;
 
         public CachedBloodInfuserRecipe(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe) {
-            this(recipe.getInput().getItemStacks(), recipe.getOutput().getItemStack(),
-                    recipe.getInput().getFluidStack(), recipe.getProperties().getDuration(), recipe.getInput().getTier());
+            this(recipe.getInput().getItemStacks(), recipe.getOutput().getItemStack(), recipe.getInput().getFluidStack(), recipe.getProperties().getDuration(), recipe.getInput().getTier());
         }
-        
+
         public CachedBloodInfuserRecipe(List<ItemStack> inputStacks, ItemStack outputStack, FluidStack fluidStack, int duration, int tier) {
             this.input = Lists.newArrayListWithCapacity(inputStacks.size());
             for(ItemStack itemStack : inputStacks) {
-                input.add(new PositionedStack(
-                        inputStacks,
-                        ContainerBloodInfuser.SLOT_INFUSE_X + xOffset,
-                        ContainerBloodInfuser.SLOT_INFUSE_Y + yOffset
-                ));
+                input.add(new PositionedStack(inputStacks, ContainerBloodInfuser.SLOT_INFUSE_X + xOffset, ContainerBloodInfuser.SLOT_INFUSE_Y + yOffset));
             }
-            this.output =
-                    new PositionedStack(
-                            outputStack,
-                            ContainerBloodInfuser.SLOT_INFUSE_RESULT_X + xOffset,
-                            ContainerBloodInfuser.SLOT_INFUSE_RESULT_Y + yOffset
-                            );
+            this.output = new PositionedStack(outputStack, ContainerBloodInfuser.SLOT_INFUSE_RESULT_X + xOffset, ContainerBloodInfuser.SLOT_INFUSE_RESULT_Y + yOffset);
             this.tier = tier;
             if(tier > 0) {
                 this.upgrade = new PositionedStack(new ItemStack(Promise.getInstance(), 1, tier - 1), 3, 0);
@@ -116,16 +108,15 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
             this.duration = duration;
             calculateHashcode();
         }
-        
+
         private void calculateHashcode() {
             hashcode = input.hashCode() << 16 + output.item.getItemDamage();
             hashcode = 31 * hashcode + (input.hashCode() << 16 + output.item.hashCode());
         }
-        
+
         @Override
-        public boolean equals(Object obj)  {
-            if(!(obj instanceof CachedBloodInfuserRecipe))
-                return false;
+        public boolean equals(Object obj) {
+            if(!(obj instanceof CachedBloodInfuserRecipe)) return false;
             CachedBloodInfuserRecipe recipe2 = (CachedBloodInfuserRecipe)obj;
             if(input.size() != recipe2.input.size()) return false;
             for(int i = 0; i < input.size(); i++) {
@@ -133,7 +124,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
             }
             return output.item.getItemDamage() == recipe2.output.item.getItemDamage();
         }
-        
+
         @Override
         public int hashCode() {
             return hashcode;
@@ -143,7 +134,7 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
         public PositionedStack getResult() {
             return output;
         }
-        
+
         @Override
         public PositionedStack getIngredient() {
             return input.get(0);
@@ -157,10 +148,10 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
         @Override
         public List<PositionedStack> getIngredients() {
             List<PositionedStack> ingredients = getCycledIngredients(cycleticks / 32, input);
-            if(upgrade != null) ingredients.add(upgrade);
+            if(upgrade != null)
+                ingredients.add(upgrade);
             return ingredients;
         }
-        
     }
 
     public static class FluidPair {
@@ -168,23 +159,13 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
             this.stack = new PositionedStack(itemStack, FLUID_CONTAINER_X + xOffset, FLUID_CONTAINER_Y + yOffset, false);
             this.fluidStack = fluidStack;
         }
-
         public PositionedStack stack;
         public FluidStack fluidStack;
     }
 
     public NEIBloodInfuserManager() {
         LinkedList<RecipeTransferRect> guiTransferRects = new LinkedList<RecipeTransferRect>();
-        guiTransferRects.add(
-                new RecipeTransferRect(
-                        new Rectangle(
-                                GuiBloodInfuser.PROGRESSTARGETX + GuiWorking.UPGRADES_OFFSET_X - 6,
-                                GuiBloodInfuser.PROGRESSTARGETY - 10,
-                                progressWidth, progressHeight
-                        ),
-                        getBIOverlayIdentifier()
-                )
-        );
+        guiTransferRects.add(new RecipeTransferRect(new Rectangle(GuiBloodInfuser.PROGRESSTARGETX + GuiWorking.UPGRADES_OFFSET_X - 6, GuiBloodInfuser.PROGRESSTARGETY - 10, progressWidth, progressHeight), getBIOverlayIdentifier()));
 
         LinkedList<Class<? extends GuiContainer>> list = new LinkedList<Class<? extends GuiContainer>>();
         list.add(getGuiClass());
@@ -201,52 +182,32 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     private static void findFluids() {
         afluids = new ArrayList<FluidPair>();
 
-        for (FluidContainerRegistry.FluidContainerData fluidContainerData :
-                FluidContainerRegistry.getRegisteredFluidContainerData()) {
+        for(FluidContainerRegistry.FluidContainerData fluidContainerData : FluidContainerRegistry.getRegisteredFluidContainerData()) {
             if(BloodFluidConverter.getInstance().canConvert(fluidContainerData.fluid.getFluid())) {
                 afluids.add(new FluidPair(fluidContainerData.filledContainer.copy(), fluidContainerData.fluid));
             }
         }
 
-        for (ItemStack item : ItemList.items) {
+        for(ItemStack item : ItemList.items) {
             if(item.getItem() instanceof IFluidContainerItem) {
-                IFluidContainerItem containerItem = (IFluidContainerItem) item.getItem();
+                IFluidContainerItem containerItem = (IFluidContainerItem)item.getItem();
                 try {
                     FluidStack fluidStack = containerItem.getFluid(item);
-                    if (fluidStack != null && BloodFluidConverter.getInstance().canConvert(fluidStack.getFluid())) {
+                    if(fluidStack != null && BloodFluidConverter.getInstance().canConvert(fluidStack.getFluid())) {
                         afluids.add(new FluidPair(item.copy(), fluidStack));
                     }
-                } catch (Exception e) {
+                } catch(Exception e) {
                     // Just ignore that fluid
                 }
             }
         }
     }
-    
+
     @Override
     public void loadTransferRects() {
         transferRects.clear();
-        transferRects.add(
-                new RecipeTransferRect(
-                    new Rectangle(
-                            GuiBloodInfuser.PROGRESSTARGETX - 5,
-                            GuiBloodInfuser.PROGRESSTARGETY - 15,
-                            progressWidth, progressHeight
-                            ),
-                    getBIOverlayIdentifier()
-                )
-        );
-        transferRects.add(
-                new RecipeTransferRect(
-                        new Rectangle(
-                                GuiBloodInfuser.TANKTARGETX - 5,
-                                GuiBloodInfuser.TANKTARGETY - tankHeight - 15,
-                                tankWidth, tankHeight
-                        ),
-                    getFluidOverlayIdentifier(),
-                    new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME)
-                )
-        );
+        transferRects.add(new RecipeTransferRect(new Rectangle(GuiBloodInfuser.PROGRESSTARGETX - 5, GuiBloodInfuser.PROGRESSTARGETY - 15, progressWidth, progressHeight), getBIOverlayIdentifier()));
+        transferRects.add(new RecipeTransferRect(new Rectangle(GuiBloodInfuser.TANKTARGETX - 5, GuiBloodInfuser.TANKTARGETY - tankHeight - 15, tankWidth, tankHeight), getFluidOverlayIdentifier(), new FluidStack(Blood.getInstance(), FluidContainerRegistry.BUCKET_VOLUME)));
     }
 
     @Override
@@ -261,12 +222,12 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     protected String getFluidOverlayIdentifier() {
         return "liquid";
     }
-    
+
     @Override
     public String getOverlayIdentifier() {
         return getBIOverlayIdentifier();
     }
-    
+
     @Override
     public Class<? extends GuiContainer> getGuiClass() {
         return GuiBloodInfuser.class;
@@ -276,22 +237,21 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     public String getRecipeName() {
         return BloodInfuser.getInstance().getLocalizedName();
     }
-    
+
     private List<CachedBloodInfuserRecipe> getRecipes() {
         List<CachedBloodInfuserRecipe> recipes = new LinkedList<CachedBloodInfuserRecipe>();
 
-        for (IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe :
-        	BloodInfuser.getInstance().getRecipeRegistry().allRecipes())
+        for(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe : BloodInfuser.getInstance().getRecipeRegistry().allRecipes())
             recipes.add(new CachedBloodInfuserRecipe(recipe));
 
         return recipes;
     }
-    
+
     @Override
     public int recipiesPerPage() {
         return 2;
     }
-    
+
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
         if(outputId.equals(getBIOverlayIdentifier())) {
@@ -302,64 +262,51 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
             super.loadCraftingRecipes(outputId, results);
         }
     }
-    
+
     @Override
     public void loadCraftingRecipes(ItemStack result) {
-        List<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>> recipes =
-                BloodInfuser.getInstance().getRecipeRegistry().findRecipesByOutput(new ItemStackRecipeComponent(result));
+        List<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>> recipes = BloodInfuser.getInstance().getRecipeRegistry().findRecipesByOutput(new ItemStackRecipeComponent(result));
 
         for(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe : recipes) {
             arecipes.add(new CachedBloodInfuserRecipe(recipe));
         }
     }
-    
+
     @Override
     public void loadUsageRecipes(ItemStack ingredient) {
-    	if(TileBloodInfuser.ACCEPTED_FLUID != null) {
-    		try {
-		        IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe = BloodInfuser
-		        		.getInstance().getRecipeRegistry().findRecipeByInput(
-		                new ItemFluidStackAndTierRecipeComponent(
-		                        ingredient,
-		                        new FluidStack(TileBloodInfuser.ACCEPTED_FLUID, TileBloodInfuser.LIQUID_PER_SLOT), -1)
-		        );
-		
-		        if(recipe != null) {
-		            arecipes.add(new CachedBloodInfuserRecipe(recipe));
-		        }
-    		} catch (NullPointerException e) {
-    			// In this case, the fluid was somehow incorrectly registered.
-    		}
-    	}
+        if(TileBloodInfuser.ACCEPTED_FLUID != null) {
+            try {
+                IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe =
+                        BloodInfuser.getInstance().getRecipeRegistry().findRecipeByInput(new ItemFluidStackAndTierRecipeComponent(ingredient, new FluidStack(TileBloodInfuser.ACCEPTED_FLUID, TileBloodInfuser.LIQUID_PER_SLOT), -1));
+
+                if(recipe != null) {
+                    arecipes.add(new CachedBloodInfuserRecipe(recipe));
+                }
+            } catch(NullPointerException e) {
+                // In this case, the fluid was somehow incorrectly registered.
+            }
+        }
     }
 
     @Override
     public String getGuiTexture() {
         return Reference.MOD_ID + ":" + BloodInfuser.getInstance().getGuiTexture("_nei");
     }
-    
+
     protected CachedBloodInfuserRecipe getRecipe(int recipe) {
-        return (CachedBloodInfuserRecipe) arecipes.get(recipe);
+        return (CachedBloodInfuserRecipe)arecipes.get(recipe);
     }
-    
+
     @Override
     public void drawExtras(int recipe) {
         CachedBloodInfuserRecipe bloodInfuserRecipe = getRecipe(recipe);
-        drawProgressBar(
-                progressTargetX,
-                progressTargetY,
-                progressX,
-                progressY,
-                progressWidth,
-                progressHeight,
-                Math.max(2, bloodInfuserRecipe.duration / 10),
-                0);
+        drawProgressBar(progressTargetX, progressTargetY, progressX, progressY, progressWidth, progressHeight, Math.max(2, bloodInfuserRecipe.duration / 10), 0);
     }
 
     protected boolean isFirstOnPage(int recipe) {
         return recipe % recipiesPerPage() == 0;
     }
-    
+
     @Override
     public void drawBackground(int recipe) {
         GL11.glColor4f(1, 1, 1, 1);
@@ -370,14 +317,14 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
             drawTexturedModalRect(0, -3, -xOffset, -yOffset - 3, 160, 60);
         }
     }
-    
+
     @Override
     public void drawForeground(int recipe) {
         GL11.glColor4f(1, 1, 1, 1);
         GL11.glDisable(GL11.GL_LIGHTING);
         changeTexture(getGuiTexture());
         drawExtras(recipe);
-        
+
         CachedBloodInfuserRecipe bloodInfuserRecipe = getRecipe(recipe);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -390,19 +337,20 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
     protected int getMaxTankSize(CachedBloodInfuserRecipe bloodInfuserRecipe) {
         return TileBloodInfuser.LIQUID_PER_SLOT * TileWorking.getTankTierMultiplier(bloodInfuserRecipe.tier);
     }
-    
+
     protected void drawTank(int xOffset, int yOffset, int fluidID, int level) {
         Minecraft mc = Minecraft.getMinecraft();
         FluidStack stack = new FluidStack(fluidID, 1);
         if(fluidID > 0) {
             IIcon icon = stack.getFluid().getIcon();
-            if (icon == null) icon = Blocks.water.getIcon(0, 0);
-            
+            if(icon == null)
+                icon = Blocks.water.getIcon(0, 0);
+
             int verticalOffset = 0;
-            
+
             while(level > 0) {
                 int textureHeight;
-                
+
                 if(level > 16) {
                     textureHeight = 16;
                     level -= 16;
@@ -410,12 +358,10 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
                     textureHeight = level;
                     level = 0;
                 }
-                
                 mc.renderEngine.bindTexture(mc.renderEngine.getResourceLocation(0));
                 drawTexturedModelRectFromIcon(xOffset, yOffset - textureHeight - verticalOffset, icon, tankWidth, textureHeight);
                 verticalOffset = verticalOffset + 16;
             }
-            
             changeTexture(getGuiTexture());
             drawTexturedModalRect(xOffset, yOffset - tankHeight, tankX, tankY, tankWidth, tankHeight);
         }
@@ -439,14 +385,12 @@ public class NEIBloodInfuserManager extends TemplateRecipeHandler {
         if(fluid != null) {
             Point mouse = GuiDraw.getMousePosition();
             Point offset = guiRecipe.getRecipePosition(recipe);
-            Point mouseRelative = new Point(mouse.x - ((guiRecipe.width - width) / 2) - offset.x,
-                    mouse.y - ((guiRecipe.height - height) / 2) - offset.y);
-            if (bloodInfuserRecipe.tank.contains(mouseRelative)) {
+            Point mouseRelative = new Point(mouse.x - ((guiRecipe.width - width) / 2) - offset.x, mouse.y - ((guiRecipe.height - height) / 2) - offset.y);
+            if(bloodInfuserRecipe.tank.contains(mouseRelative)) {
                 currenttip.add(fluid.getLocalizedName());
                 currenttip.add(fluid.amount + " / " + getMaxTankSize(bloodInfuserRecipe) + " mB");
             }
         }
         return currenttip;
     }
-
 }

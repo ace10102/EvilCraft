@@ -7,10 +7,9 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 /**
  * Config for the {@link BloodExtractor}.
  * @author rubensworks
- *
  */
 public class BloodExtractorConfig extends ItemConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -35,12 +34,6 @@ public class BloodExtractorConfig extends ItemConfig {
      * Make a new instance.
      */
     public BloodExtractorConfig() {
-        super(
-                true,
-                "bloodExtractor",
-                null,
-                BloodExtractor.class
-        );
+        super(true, "bloodExtractor", null, BloodExtractor.class);
     }
-    
 }

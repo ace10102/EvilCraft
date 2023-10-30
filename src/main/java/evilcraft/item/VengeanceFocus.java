@@ -13,7 +13,6 @@ import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.WorldHelpers;
-//import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.entity.effect.EntityAntiVengeanceBeam;
 
 /**
@@ -30,7 +29,7 @@ public class VengeanceFocus extends ConfigurableItem {
     private IIcon[] iconArray;
 
     /**
-     * Initialise the configurable.
+     * Initialize the configurable.
      * @param eConfig The config.
      */
     public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
@@ -52,8 +51,7 @@ public class VengeanceFocus extends ConfigurableItem {
         super(eConfig);
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister par1IconRegister) {
         this.itemIcon = par1IconRegister.registerIcon(this.getIconString());
         this.iconArray = new IIcon[4];
@@ -63,8 +61,7 @@ public class VengeanceFocus extends ConfigurableItem {
         }
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public IIcon getIcon(ItemStack stack, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining) {
         if(getItemInUseDuration(player) == getMaxItemUseDuration(usingItem)) {
             return getIcon(stack, renderPass);

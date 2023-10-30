@@ -23,7 +23,6 @@ import net.minecraftforge.event.entity.living.LivingFallEvent;
 /**
  * A ring that allows the player to walk faster with a double step height.
  * @author rubensworks
- *
  */
 @Optional.Interface(iface = "baubles.api.IBauble", modid = Reference.MOD_BAUBLES, striprefs = true)
 public class EffortlessRing extends ConfigurableItem implements IBauble {
@@ -79,13 +78,11 @@ public class EffortlessRing extends ConfigurableItem implements IBauble {
         if(player.moveForward > 0 && player.onGround) {
             player.moveFlying(0, 1, player.isInWater() ? SPEED_BONUS / 3 : SPEED_BONUS);
         }
-
         // Step height
         if(!player.getEntityData().hasKey(PLAYER_NBT_KEY)) {
             player.getEntityData().setFloat(PLAYER_NBT_KEY, player.stepHeight);
         }
         player.stepHeight = player.isSneaking() ? 0.5F : STEP_SIZE;
-
         // Jump distance
         if(!player.onGround) {
             player.jumpMovementFactor = JUMP_DISTANCE_FACTOR;
@@ -95,7 +92,7 @@ public class EffortlessRing extends ConfigurableItem implements IBauble {
     @SubscribeEvent
     public void onPlayerJump(LivingEvent.LivingJumpEvent event) {
         if(event.entityLiving instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) event.entityLiving;
+            EntityPlayer player = (EntityPlayer)event.entityLiving;
             if(ItemHelpers.hasPlayerItem(player, this)) {
                 player.motionY += JUMP_HEIGHT_FACTOR;
             }
@@ -106,9 +103,9 @@ public class EffortlessRing extends ConfigurableItem implements IBauble {
     public void onPlayerUpdate(LivingEvent.LivingUpdateEvent event) {
         // Reset the step height.
         if(event.entityLiving instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) event.entityLiving;
+            EntityPlayer player = (EntityPlayer)event.entityLiving;
             if(player.getEntityData().hasKey(PLAYER_NBT_KEY)) {
-                if (!ItemHelpers.hasPlayerItem(player, this)) {
+                if(!ItemHelpers.hasPlayerItem(player, this)) {
                     player.stepHeight = player.getEntityData().getFloat(PLAYER_NBT_KEY);
                     player.getEntityData().removeTag(PLAYER_NBT_KEY);
                 }
@@ -119,7 +116,7 @@ public class EffortlessRing extends ConfigurableItem implements IBauble {
     @SubscribeEvent
     public void onPlayerFall(LivingFallEvent event) {
         if(event.entityLiving instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) event.entityLiving;
+            EntityPlayer player = (EntityPlayer)event.entityLiving;
             if(ItemHelpers.hasPlayerItem(player, this)) {
                 event.distance -= FALLDISTANCE_REDUCTION;
             }
@@ -129,7 +126,7 @@ public class EffortlessRing extends ConfigurableItem implements IBauble {
     @Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
         if(entity instanceof EntityPlayer) {
-            adjustParameters(itemStack, (EntityPlayer) entity);
+            adjustParameters(itemStack, (EntityPlayer)entity);
         }
         super.onUpdate(itemStack, world, entity, par4, par5);
     }
@@ -171,5 +168,4 @@ public class EffortlessRing extends ConfigurableItem implements IBauble {
             this.onUpdate(itemStack, entity.worldObj, entity, 0, false);
         }
     }
-
 }

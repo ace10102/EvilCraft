@@ -15,15 +15,14 @@ import java.util.Map;
 /**
  * A TileEntity with an internal inventory.
  * @author rubensworks
- *
  */
 public abstract class InventoryTileEntity extends EvilCraftTileEntity implements ISidedInventory {
-    
+
     protected SimpleInventory inventory;
     protected Map<ForgeDirection, int[]> slotSides;
     protected Map<ForgeDirection, Integer> slotSidesSize;
     protected boolean sendUpdateOnInventoryChanged = false;
-    
+
     /**
      * Make new tile with an inventory.
      * @param inventorySize Amount of slots in the inventory.
@@ -31,7 +30,7 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
      * @param stackSize The maximum stacksize each slot can have
      */
     public InventoryTileEntity(int inventorySize, String inventoryName, int stackSize) {
-        inventory = new SimpleInventory(inventorySize , inventoryName, stackSize);
+        inventory = new SimpleInventory(inventorySize, inventoryName, stackSize);
         slotSides = new HashMap<ForgeDirection, int[]>();
         slotSidesSize = new HashMap<ForgeDirection, Integer>();
         for(ForgeDirection side : DirectionHelpers.DIRECTIONS) {
@@ -39,21 +38,22 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
             // Integer lists are not option because Java allows to autoboxing
             // and that would be required in the getter methods below.
             int array[] = new int[inventorySize];
-            for(int i = 0; i < inventorySize; i++) array[i] = -1;
+            for(int i = 0; i < inventorySize; i++)
+                array[i] = -1;
             slotSides.put(side, array);
-            slotSidesSize.put(side, 0); 
+            slotSidesSize.put(side, 0);
         }
     }
-    
+
     /**
      * Make new tile with an inventory.
      * @param inventorySize Amount of slots in the inventory.
      * @param inventoryName Internal name of the inventory.
      */
     public InventoryTileEntity(int inventorySize, String inventoryName) {
-        this(inventorySize , inventoryName, 64);
+        this(inventorySize, inventoryName, 64);
     }
-    
+
     /**
      * Add mappings to slots to a certain (normalized) side of this TileEntity.
      * @param side The side to map this slots to.
@@ -69,7 +69,7 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
         }
         slotSidesSize.put(side, offset + i);
     }
-    
+
     /**
      * Get the internal inventory.
      * @return The SimpleInventory.
@@ -77,22 +77,21 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
     public SimpleInventory getInventory() {
         return inventory;
     }
-    
+
     @Override
     public int getSizeInventory() {
         return inventory.getSizeInventory();
     }
-    
+
     @Override
     public ItemStack getStackInSlot(int slotId) {
-        if(slotId >= getSizeInventory() || slotId < 0)
-            return null;
+        if(slotId >= getSizeInventory() || slotId < 0) return null;
         return inventory.getStackInSlot(slotId);
     }
 
     @Override
     public ItemStack decrStackSize(int slotId, int count) {
-        ItemStack itemStack  = inventory.decrStackSize(slotId, count);
+        ItemStack itemStack = inventory.decrStackSize(slotId, count);
         onInventoryChanged();
         return itemStack;
     }
@@ -109,8 +108,7 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
     }
 
     protected void onInventoryChanged() {
-        if(isSendUpdateOnInventoryChanged())
-            sendUpdate();
+        if(isSendUpdateOnInventoryChanged()) sendUpdate();
     }
 
     @Override
@@ -132,17 +130,15 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
     public boolean isUseableByPlayer(EntityPlayer entityPlayer) {
         return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && entityPlayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
     }
-    
+
     @Override
     public void openInventory() {
-        
     }
 
     @Override
     public void closeInventory() {
-        
     }
-    
+
     @Override
     public void readFromNBT(NBTTagCompound data) {
         super.readFromNBT(data);
@@ -159,7 +155,7 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
     public int[] getAccessibleSlotsFromSide(int side) {
         return slotSides.get(ForgeDirection.getOrientation(side));
     }
-    
+
     private boolean canAccess(int slot, int side) {
         boolean canAccess = false;
         for(int slotAccess : getAccessibleSlotsFromSide(side)) {
@@ -191,9 +187,7 @@ public abstract class InventoryTileEntity extends EvilCraftTileEntity implements
      * If this tile should send block updates when the inventory has changed.
      * @param sendUpdateOnInventoryChanged If it should send block updates.
      */
-    public void setSendUpdateOnInventoryChanged(
-            boolean sendUpdateOnInventoryChanged) {
+    public void setSendUpdateOnInventoryChanged(boolean sendUpdateOnInventoryChanged) {
         this.sendUpdateOnInventoryChanged = sendUpdateOnInventoryChanged;
     }
-    
 }

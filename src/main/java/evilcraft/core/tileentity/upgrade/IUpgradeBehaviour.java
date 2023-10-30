@@ -21,5 +21,4 @@ public interface IUpgradeBehaviour<T, O> {
      * @param event The event.
      */
     public void applyUpgrade(T upgradable, Upgrades.Upgrade upgrade, int upgradeLevel, IUpgradeSensitiveEvent<O> event);
-
 }

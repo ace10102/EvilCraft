@@ -6,10 +6,9 @@ import evilcraft.core.config.extendedconfig.BlockConfig;
 /**
  * Config for the {@link UndeadLeaves}.
  * @author rubensworks
- *
  */
 public class UndeadLeavesConfig extends BlockConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -19,22 +18,16 @@ public class UndeadLeavesConfig extends BlockConfig {
      * Make a new instance.
      */
     public UndeadLeavesConfig() {
-        super(
-        	true,
-            "undeadLeaves",
-            null,
-            UndeadLeaves.class
-        );
+        super(true, "undeadLeaves", null, UndeadLeaves.class);
     }
-    
+
     @Override
     public void onRegistered() {
-    	Blocks.fire.setFireInfo(UndeadLeaves.getInstance(), 30, 60);
+        Blocks.fire.setFireInfo(UndeadLeaves.getInstance(), 30, 60);
     }
-    
+
     @Override
     public boolean isDisableable() {
         return false;
     }
-    
 }

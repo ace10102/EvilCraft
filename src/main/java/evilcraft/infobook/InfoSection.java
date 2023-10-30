@@ -37,8 +37,7 @@ public class InfoSection {
     private List<String> localizedPages;
     private Map<Integer, List<AdvancedButton>> advancedButtons = Maps.newHashMap();
 
-    public InfoSection(InfoSection parent, int childIndex, String unlocalizedName, List<String> paragraphs,
-                       List<SectionAppendix> appendixes, ArrayList<String> tagList) {
+    public InfoSection(InfoSection parent, int childIndex, String unlocalizedName, List<String> paragraphs, List<SectionAppendix> appendixes, ArrayList<String> tagList) {
         this.parent = parent;
         this.childIndex = childIndex;
         this.unlocalizedName = unlocalizedName;
@@ -95,6 +94,7 @@ public class InfoSection {
      * @param maxLines The maximum amount of lines per page.
      * @param lineHeight The line height.
      */
+    @SuppressWarnings("unchecked")
     public void bakeSection(FontRenderer fontRenderer, int width, int maxLines, int lineHeight) {
         if(paragraphs.size() == 0 && shouldAddIndex()) {
             // linkedmap to make sure the contents are sorted by insertion order.
@@ -116,7 +116,8 @@ public class InfoSection {
         int linesOnPage = 0;
         StringBuilder currentPage = new StringBuilder();
         if(isTitlePage(0)) {
-            for(int i = 1; i < TITLE_LINES; i++) currentPage.append("\n"); // Make a blank space for the section title.
+            for(int i = 1; i < TITLE_LINES; i++)
+                currentPage.append("\n"); // Make a blank space for the section title.
             linesOnPage += TITLE_LINES;
         }
         pages = 1;
@@ -149,7 +150,7 @@ public class InfoSection {
                 appendixCurrentPage = Lists.newLinkedList();
             }
             // Start line will be set in a later iteration.
-            //appendix.setLineStart(linesOnPage);
+            // appendix.setLineStart(linesOnPage);
             appendixCurrentPage.add(appendix);
             appendix.setPage(pages - 1);
             linesOnPage += lines + APPENDIX_OFFSET_LINE;
@@ -160,18 +161,15 @@ public class InfoSection {
         for(Map.Entry<Integer, List<SectionAppendix>> entry : appendixesPerPage.entrySet()) {
             int freeLines = maxLines;
             int lineStart = 0;
-
             // Special case if appendixes occurs on a page that still has text content, so this needs an offset.
             if(entry.getKey() == appendixPageStart) {
                 lineStart = appendixLineStart;
                 freeLines -= appendixLineStart;
             }
-
             // Count total lines that are free.
             for(SectionAppendix appendix : entry.getValue()) {
                 freeLines -= getAppendixLineHeight(appendix, fontRenderer);
             }
-
             // Distribute the free lines among all appendixes on this page.
             int linesOffset = freeLines / (entry.getValue().size() + 1);
             int linesOffsetMod = freeLines % (entry.getValue().size() + 1);
@@ -181,7 +179,6 @@ public class InfoSection {
                 lineStart += linesOffset + getAppendixLineHeight(appendix, fontRenderer) + (linesOffsetMod > 0 ? linesOffsetMod-- : 0);
             }
         }
-
         // Bake appendix contents
         advancedButtons.clear();
         for(SectionAppendix appendix : appendixes) {
@@ -191,7 +188,7 @@ public class InfoSection {
     }
 
     protected static final int getAppendixLineHeight(SectionAppendix appendix, FontRenderer fontRenderer) {
-        return (int) Math.ceil((double) appendix.getFullHeight() / (double) getFontHeight(fontRenderer));
+        return (int)Math.ceil((double)appendix.getFullHeight() / (double)getFontHeight(fontRenderer));
     }
 
     public static int getFontHeight(FontRenderer fontRenderer) {
@@ -213,7 +210,7 @@ public class InfoSection {
 
     /**
      * Give the correct format to a string.
-     * Will allow the convenient "&amp;" format codes to be used instead of "§": http://minecraft.gamepedia.com/Formatting_codes
+     * Will allow the convenient "&amp;" format codes to be used instead of "§":http://minecraft.gamepedia.com/Formatting_codes
      * Will also refresh all formats at the end of the string.
      * This will replace "&amp;N"'s with a newlines.
      * @param string The string to format.
@@ -252,6 +249,7 @@ public class InfoSection {
         return this.childIndex;
     }
 
+    @SuppressWarnings("unchecked")
     public List<HyperLink> getLinks(int page) {
         if(links.size() <= page || page < 0) return Collections.EMPTY_LIST;
         return links.get(page);
@@ -274,27 +272,23 @@ public class InfoSection {
             boolean oldUnicode = fontRenderer.getUnicodeFlag();
             fontRenderer.setUnicodeFlag(true);
             fontRenderer.setBidiFlag(false);
-
             // Draw text content
             String content = getLocalizedPageString(page);
-            if (content != null) fontRenderer.drawSplitString(content, x, y + Y_OFFSET, width, 0);
-
+            if(content != null) fontRenderer.drawSplitString(content, x, y + Y_OFFSET, width, 0);
             // Draw title if on first page
-            if (isTitlePage(page)) {
+            if(isTitlePage(page)) {
                 gui.drawScaledCenteredString(getLocalizedTitle(), x, y + Y_OFFSET + 10, width, 1.5f, width, RenderHelpers.RGBToInt(120, 20, 30));
                 gui.drawHorizontalRule(x + width / 2, y + Y_OFFSET);
                 gui.drawHorizontalRule(x + width / 2, y + Y_OFFSET + 21);
             }
             fontRenderer.setUnicodeFlag(oldUnicode);
-
             // Draw current page/section indication
-            gui.drawScaledCenteredString(getLocalizedTitle() + " - " + (page + 1) +  "/" + getPages(), x + ((page % 2 == 0) ? 10 : -10), y + height - Y_OFFSET, width, 0.6f, (int) (width * 0.75f), RenderHelpers.RGBToInt(190, 190, 190));
-
+            gui.drawScaledCenteredString(getLocalizedTitle() + " - " + (page + 1) + "/" + getPages(),
+                    x + ((page % 2 == 0) ? 10 : -10), y + height - Y_OFFSET, width, 0.6f, (int)(width * 0.75f), RenderHelpers.RGBToInt(190, 190, 190));
             // Draw appendixes
-            for (SectionAppendix appendix : appendixes) {
-                if (appendix.getPage() == page) {
-                    appendix.drawScreen(gui, x, y + Y_OFFSET + getAppendixOffsetLine(fontRenderer, appendix), width,
-                            height, page, mx, my, true);
+            for(SectionAppendix appendix : appendixes) {
+                if(appendix.getPage() == page) {
+                    appendix.drawScreen(gui, x, y + Y_OFFSET + getAppendixOffsetLine(fontRenderer, appendix), width, height, page, mx, my, true);
                 }
             }
         }
@@ -315,10 +309,9 @@ public class InfoSection {
         if(page < getPages()) {
             FontRenderer fontRenderer = gui.getFontRenderer();
             // Post draw appendixes
-            for (SectionAppendix appendix : appendixes) {
-                if (appendix.getPage() == page) {
-                    appendix.drawScreen(gui, x, y + Y_OFFSET + getAppendixOffsetLine(fontRenderer, appendix), width,
-                            height, page, mx, my, false);
+            for(SectionAppendix appendix : appendixes) {
+                if(appendix.getPage() == page) {
+                    appendix.drawScreen(gui, x, y + Y_OFFSET + getAppendixOffsetLine(fontRenderer, appendix), width, height, page, mx, my, false);
                 }
             }
         }
@@ -338,7 +331,7 @@ public class InfoSection {
         } else {
             InfoSection current = this;
             while(!current.isRoot()) {
-                if (current.getChildIndex() < current.getParent().getSubSections() - 1) {
+                if(current.getChildIndex() < current.getParent().getSubSections() - 1) {
                     return new Location(0, current.getParent().getSubSection(current.getChildIndex() + 1));
                 }
                 current = current.getParent();
@@ -376,6 +369,7 @@ public class InfoSection {
         return tagList;
     }
 
+    @SuppressWarnings("unchecked")
     public List<AdvancedButton> getAdvancedButtons(int page) {
         if(!advancedButtons.containsKey(page)) {
             return Collections.EMPTY_LIST;
@@ -391,14 +385,14 @@ public class InfoSection {
     }
 
     public <T extends AdvancedButton> void addAdvancedButtons(int page, Collection<T> advancedButtons) {
-        for(AdvancedButton advancedButton : advancedButtons) addAdvancedButton(page, advancedButton);
+        for(AdvancedButton advancedButton : advancedButtons)
+            addAdvancedButton(page, advancedButton);
     }
 
-    @Data @AllArgsConstructor public static class Location {
+    @Data @AllArgsConstructor
+    public static class Location {
 
         private int page;
         private InfoSection infoSection;
-
     }
-
 }

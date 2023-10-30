@@ -23,28 +23,27 @@ import evilcraft.api.recipes.custom.ISuperRecipeRegistry;
  * @see evilcraft.api.recipes.custom.IMachine
  * @author immortaleeb
  */
+@SuppressWarnings("rawtypes")
 public class SuperRecipeRegistry implements ISuperRecipeRegistry {
     private static final Map<IMachine, List<IRecipe>> recipes = new HashMap<IMachine, List<IRecipe>>();
     private static final Map<IMachine, RecipeRegistry> registries = new HashMap<IMachine, RecipeRegistry>();
 
-    @Override
-    public <M extends IMachine<M, I, O, P>, I extends IRecipeInput, O extends IRecipeOutput, P extends IRecipeProperties>
-        RecipeRegistry<M, I, O, P> getRecipeRegistry(M machine) {
+    @Override @SuppressWarnings("unchecked")
+    public <M extends IMachine<M, I, O, P>, I extends IRecipeInput, O extends IRecipeOutput, P extends IRecipeProperties> RecipeRegistry<M, I, O, P> getRecipeRegistry(M machine) {
 
         RecipeRegistry<M, I, O, P> registry = registries.get(machine);
 
-        if (registry == null) {
+        if(registry == null) {
             registry = new RecipeRegistry<M, I, O, P>(machine);
             registries.put(machine, registry);
         }
-
         return registry;
     }
 
     @Override
     public List<IRecipe> getRecipes(IMachine machine) {
         List<IRecipe> list = recipes.get(machine);
-        if (list == null) {
+        if(list == null) {
             list = new ArrayList<IRecipe>();
             recipes.put(machine, list);
         }
@@ -75,43 +74,39 @@ public class SuperRecipeRegistry implements ISuperRecipeRegistry {
     public List<IRecipeMatch<IMachine, IRecipe>> findRecipesByMachine(IMachine machine) {
         List<IRecipeMatch<IMachine, IRecipe>> list = new ArrayList<IRecipeMatch<IMachine, IRecipe>>();
 
-        for (IRecipe recipe : getRecipes(machine)) {
+        for(IRecipe recipe : getRecipes(machine)) {
             list.add(new RecipeMatch<IMachine, IRecipe>(machine, recipe));
         }
-
         return list;
     }
 
-    @Override
+    @Override @SuppressWarnings("unchecked")
     public <M extends IMachine, R extends IRecipe> RecipeMatch<M, R> findRecipe(IRecipeMatcher<M, R> recipeMatcher) {
-        for (Map.Entry<IMachine, List<IRecipe>> entry : recipes.entrySet()) {
+        for(Map.Entry<IMachine, List<IRecipe>> entry : recipes.entrySet()) {
             IMachine machine = entry.getKey();
             List<IRecipe> recipes = entry.getValue();
 
-            for (IRecipe recipe : recipes) {
-                if (recipeMatcher.matches((M)machine, (R)recipe))
+            for(IRecipe recipe : recipes) {
+                if(recipeMatcher.matches((M)machine, (R)recipe))
                     return new RecipeMatch<M, R>((M)machine, (R)recipe);
             }
         }
-
         return null;
     }
 
-    @Override
+    @Override @SuppressWarnings("unchecked")
     public <M extends IMachine, R extends IRecipe> List<IRecipeMatch<M, R>> findRecipes(IRecipeMatcher<M, R> recipeMatcher) {
         List<IRecipeMatch<M, R>> results = new ArrayList<IRecipeMatch<M, R>>();
 
-        for (Map.Entry<IMachine, List<IRecipe>> entry : recipes.entrySet()) {
+        for(Map.Entry<IMachine, List<IRecipe>> entry : recipes.entrySet()) {
             IMachine machine = entry.getKey();
             List<IRecipe> recipes = entry.getValue();
 
-            for (IRecipe recipe : recipes) {
-                if (recipeMatcher.matches((M)machine, (R)recipe))
+            for(IRecipe recipe : recipes) {
+                if(recipeMatcher.matches((M)machine, (R)recipe))
                     results.add(new RecipeMatch<M, R>((M)machine, (R)recipe));
             }
         }
-
         return results;
     }
-    
 }

@@ -12,13 +12,11 @@ import java.lang.reflect.Field;
 /**
  * A holder class for properties that go inside the config file.
  * Used inside the {@link ConfigHandler} for configuring the settings of the {@link IConfigurable}.
- * Do no confuse with {@link ConfigurableProperty} which is an annotation an is internally used to
- * make new instances of {@link ConfigProperty}.
+ * Do no confuse with {@link ConfigurableProperty} which is an annotation an is internally used to make new instances of {@link ConfigProperty}.
  * @author rubensworks
- *
  */
 public final class ConfigProperty {
-    
+
     private String category;
     private String name;
     private Object value;
@@ -28,7 +26,7 @@ public final class ConfigProperty {
     private Field field;
     private boolean requiresWorldRestart;
     private boolean requiresMcRestart;
-    
+
     /**
      * Define a new configurable property.
      * @param category Category.
@@ -49,7 +47,7 @@ public final class ConfigProperty {
         this.field = field;
         callback.setConfigProperty(this);
     }
-    
+
     /**
      * Define a new configurable property without a comment.
      * @param category Category.
@@ -111,10 +109,10 @@ public final class ConfigProperty {
         this.value = value;
         try {
             field.set(null, this.value);
-        } catch (IllegalArgumentException e1) {
+        } catch(IllegalArgumentException e1) {
             // Won't happen, trust me.
             e1.printStackTrace();
-        } catch (IllegalAccessException e2) {
+        } catch(IllegalAccessException e2) {
             e2.printStackTrace();
         }
     }
@@ -150,7 +148,7 @@ public final class ConfigProperty {
     public void setCallback(ConfigPropertyCallback callback) {
         this.callback = callback;
     }
-    
+
     /**
      * If this property can be configured with commands.
      * @return Is this commandable.
@@ -166,7 +164,7 @@ public final class ConfigProperty {
     public void setCommandable(boolean isCommandable) {
         this.isCommandable = isCommandable;
     }
-    
+
     /**
      * Save this property in the given config file.
      * @param config The config file to save to.
@@ -174,7 +172,7 @@ public final class ConfigProperty {
     public void save(Configuration config) {
         save(config, false);
     }
-    
+
     /**
      * Save this property in the given config file.
      * @param config The config file to save to.
@@ -187,17 +185,12 @@ public final class ConfigProperty {
         String name = getName();
         Object value = getValue();
         String comment = getComment();
-        
+
         Property additionalProperty = null;
         if(value instanceof Integer) {
-            additionalProperty = config.get(
-                    category,
-                    name,
-                    (Integer)value,
-                    comment
-                    );
+            additionalProperty = config.get(category, name, (Integer)value, comment);
             if(forceUpdate) {
-            	additionalProperty.setValue((Integer)value);
+                additionalProperty.setValue((Integer)value);
             }
             additionalProperty.comment = getComment();
             if(forceUpdate) {
@@ -206,14 +199,9 @@ public final class ConfigProperty {
                 getCallback().run(additionalProperty.getInt());
             }
         } else if(value instanceof Boolean) {
-            additionalProperty = config.get(
-                    category,
-                    name,
-                    (Boolean)value,
-                    comment
-                    );
+            additionalProperty = config.get(category, name, (Boolean)value, comment);
             if(forceUpdate) {
-            	additionalProperty.setValue((Boolean)value);
+                additionalProperty.setValue((Boolean)value);
             }
             additionalProperty.comment = getComment();
             if(forceUpdate) {
@@ -221,32 +209,22 @@ public final class ConfigProperty {
             } else {
                 getCallback().run(additionalProperty.getBoolean((Boolean)value));
             }
-            
+
         } else if(value instanceof Double) {
-            additionalProperty = config.get(
-                    category,
-                    name,
-                    (Double)value,
-                    comment
-                    );
+            additionalProperty = config.get(category, name, (Double)value, comment);
             if(forceUpdate) {
-            	additionalProperty.setValue((Double)value);
+                additionalProperty.setValue((Double)value);
             }
             additionalProperty.comment = getComment();
             if(forceUpdate) {
                 getCallback().run((Double)value);
             } else {
                 getCallback().run(additionalProperty.getDouble((Double)value));
-            } 
+            }
         } else if(value instanceof String) {
-            additionalProperty = config.get(
-                    category,
-                    name,
-                    (String)value,
-                    comment
-                    );
+            additionalProperty = config.get(category, name, (String)value, comment);
             if(forceUpdate) {
-            	additionalProperty.setValue((String)value);
+                additionalProperty.setValue((String)value);
             }
             additionalProperty.comment = getComment();
             if(forceUpdate) {
@@ -255,28 +233,18 @@ public final class ConfigProperty {
                 getCallback().run(additionalProperty.getString());
             }
         } else if(value instanceof String[]) {
-            additionalProperty = config.get(
-                    category,
-                    name,
-                    (String[])value,
-                    comment
-                    );
-                if(forceUpdate) {
-                	additionalProperty.setValues((String[])value);
-                }
-                additionalProperty.comment = getComment();
-                if(forceUpdate) {
-                    getCallback().run((String[])value);
-                } else {
-                    getCallback().run(additionalProperty.getStringList());
-                }
+            additionalProperty = config.get(category, name, (String[])value, comment);
+            if(forceUpdate) {
+                additionalProperty.setValues((String[])value);
+            }
+            additionalProperty.comment = getComment();
+            if(forceUpdate) {
+                getCallback().run((String[])value);
+            } else {
+                getCallback().run(additionalProperty.getStringList());
+            }
         } else if(value instanceof int[]) {
-            additionalProperty = config.get(
-                    category,
-                    name,
-                    (int[])value,
-                    comment
-            );
+            additionalProperty = config.get(category, name, (int[])value, comment);
             if(forceUpdate) {
                 additionalProperty.setValues((int[])value);
             }
@@ -287,38 +255,37 @@ public final class ConfigProperty {
                 getCallback().run(additionalProperty.getIntList());
             }
         } else {
-            EvilCraft.log("Invalid config property class. No match found for '"
-            		+ name + "': '" + value + "'", Level.ERROR);
+            EvilCraft.log("Invalid config property class. No match found for '" + name + "': '" + value + "'", Level.ERROR);
         }
         additionalProperty.setRequiresWorldRestart(isRequiresWorldRestart());
         additionalProperty.setRequiresMcRestart(isRequiresMcRestart());
     }
 
-	/**
-	 * @return the requiresWorldRestart
-	 */
-	public boolean isRequiresWorldRestart() {
-		return requiresWorldRestart;
-	}
+    /**
+     * @return the requiresWorldRestart
+     */
+    public boolean isRequiresWorldRestart() {
+        return requiresWorldRestart;
+    }
 
-	/**
-	 * @param requiresWorldRestart the requiresWorldRestart to set
-	 */
-	public void setRequiresWorldRestart(boolean requiresWorldRestart) {
-		this.requiresWorldRestart = requiresWorldRestart;
-	}
+    /**
+     * @param requiresWorldRestart the requiresWorldRestart to set
+     */
+    public void setRequiresWorldRestart(boolean requiresWorldRestart) {
+        this.requiresWorldRestart = requiresWorldRestart;
+    }
 
-	/**
-	 * @return the requiresMcRestart
-	 */
-	public boolean isRequiresMcRestart() {
-		return requiresMcRestart;
-	}
+    /**
+     * @return the requiresMcRestart
+     */
+    public boolean isRequiresMcRestart() {
+        return requiresMcRestart;
+    }
 
-	/**
-	 * @param requiresMcRestart the requiresMcRestart to set
-	 */
-	public void setRequiresMcRestart(boolean requiresMcRestart) {
-		this.requiresMcRestart = requiresMcRestart;
-	}
+    /**
+     * @param requiresMcRestart the requiresMcRestart to set
+     */
+    public void setRequiresMcRestart(boolean requiresMcRestart) {
+        this.requiresMcRestart = requiresMcRestart;
+    }
 }

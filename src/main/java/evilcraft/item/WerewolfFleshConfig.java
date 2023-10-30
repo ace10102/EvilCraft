@@ -8,7 +8,6 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 /**
  * Config for the {@link WerewolfFlesh}
  * @author rubensworks
- *
  */
 public class WerewolfFleshConfig extends ItemConfig {
 
@@ -27,17 +26,11 @@ public class WerewolfFleshConfig extends ItemConfig {
      * Make a new instance.
      */
     public WerewolfFleshConfig() {
-        super(
-        	true,
-            "werewolfFlesh",
-            null,
-            WerewolfFlesh.class
-        );
+        super(true, "werewolfFlesh", null, WerewolfFlesh.class);
     }
 
     @Override
     public String getOreDictionaryId() {
         return Reference.DICT_FLESH;
     }
-    
 }

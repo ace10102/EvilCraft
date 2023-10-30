@@ -27,7 +27,6 @@ import java.util.List;
 /**
  * An abstract powerable mace.
  * @author rubensworks
- *
  */
 public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer {
 
@@ -36,48 +35,46 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
     private final int powerLevels;
     private final float meleeDamage;
 
-    public Mace(ExtendedConfig<ItemConfig> eConfig, int containerSize, int hitUsage, int maximumCharge,
-                 int powerLevels, float meleeDamage) {
+    public Mace(ExtendedConfig<ItemConfig> eConfig, int containerSize, int hitUsage, int maximumCharge, int powerLevels, float meleeDamage) {
         super(eConfig, containerSize, Blood.getInstance());
         this.hitUsage = hitUsage;
         this.maximumCharge = maximumCharge;
         this.powerLevels = powerLevels;
         this.meleeDamage = meleeDamage;
     }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT)
     public boolean isFull3D() {
         return true;
     }
-    
+
     protected boolean isUsable(ItemStack itemStack, EntityPlayer player) {
         return canConsume(1, itemStack, player);
     }
-    
+
     @Override
     public boolean hitEntity(ItemStack itemStack, EntityLivingBase attacked, EntityLivingBase attacker) {
-        if(attacker instanceof EntityPlayer && isUsable(itemStack, (EntityPlayer) attacker)) {
+        if(attacker instanceof EntityPlayer && isUsable(itemStack, (EntityPlayer)attacker)) {
             this.drain(itemStack, hitUsage, true);
         }
         return true;
     }
-    
+
     @Override
     public boolean onLeftClickEntity(ItemStack itemStack, EntityPlayer player, Entity entity) {
         return !isUsable(itemStack, player);
     }
-    
+
     @Override
     public EnumAction getItemUseAction(ItemStack itemStack) {
         return EnumAction.bow;
     }
-    
+
     @Override
     public int getMaxItemUseDuration(ItemStack itemStack) {
         return this.maximumCharge * (this.powerLevels - getPower(itemStack));
     }
-    
+
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
         if(ItemPowerableHelpers.onPowerableItemItemRightClick(itemStack, world, player, this.powerLevels, true)) {
@@ -93,7 +90,7 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
         }
         return itemStack;
     }
-    
+
     @Override
     public void onUsingTick(ItemStack itemStack, EntityPlayer player, int duration) {
         World world = player.worldObj;
@@ -102,15 +99,15 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
         }
         super.onUsingTick(itemStack, player, duration);
     }
-    
+
     @SideOnly(Side.CLIENT)
     protected void showUsingItemTick(World world, ItemStack itemStack, EntityPlayer player, int duration) {
         int itemUsedCount = getMaxItemUseDuration(itemStack) - duration;
         double area = getArea(itemUsedCount);
-        int points = (int) (Math.pow(area, 0.55)) * 2 + 1;
+        int points = (int)(Math.pow(area, 0.55)) * 2 + 1;
         int particleChance = 5 * (this.powerLevels - getPower(itemStack));
         for(double point = -points; point <= points; point++) {
-            for(double pointHeight = -points; pointHeight <= points; pointHeight+=0.5F) {
+            for(double pointHeight = -points; pointHeight <= points; pointHeight += 0.5F) {
                 if(itemRand.nextInt(particleChance) == 0) {
                     double u = Math.PI * (point / points);
                     double v = -2 * Math.PI * (pointHeight / points);
@@ -127,14 +124,11 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
                     double particleY = yCoord + yOffset - world.rand.nextFloat() * area / 4 - 0.5F;
                     double particleZ = zCoord + zOffset - world.rand.nextFloat() * area / 4 - 0.5F;
 
-                    float particleMotionX = (float) (xOffset * 10);
-                    float particleMotionY = (float) (yOffset * 10);
-                    float particleMotionZ = (float) (zOffset * 10);
-        
-                    FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                            new EntityDistortFX(world, particleX, particleY, particleZ,
-                                    particleMotionX, particleMotionY, particleMotionZ, (float) area * 3)
-                            );
+                    float particleMotionX = (float)(xOffset * 10);
+                    float particleMotionY = (float)(yOffset * 10);
+                    float particleMotionZ = (float)(zOffset * 10);
+
+                    FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityDistortFX(world, particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ, (float)area * 3));
 
                     if(world.rand.nextInt(10) == 0) {
                         int spread = 10;
@@ -148,10 +142,7 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
                         double motionY = spread - world.rand.nextDouble() * 2 * spread;
                         double motionZ = spread - world.rand.nextDouble() * 2 * spread;
 
-                        FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                                new EntityPlayerTargettedBlurFX(world, scale2, motionX, motionY, motionZ, r, g, b,
-                                        ageMultiplier2, player)
-                        );
+                        FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityPlayerTargettedBlurFX(world, scale2, motionX, motionY, motionZ, r, g, b, ageMultiplier2, player));
                     }
                 }
             }
@@ -174,13 +165,10 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
             float g = 0.2F + 0.01F * world.rand.nextFloat();
             float b = 0.1F + 0.5F * world.rand.nextFloat();
 
-            FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                    new ExtendedEntityExplodeFX(world, x, y, z,
-                            particleMotionX, particleMotionY, particleMotionZ, r, g, b, 0.3F)
-            );
+            FMLClientHandler.instance().getClient().effectRenderer.addEffect(new ExtendedEntityExplodeFX(world, x, y, z, particleMotionX, particleMotionY, particleMotionZ, r, g, b, 0.3F));
         }
     }
-    
+
     /**
      * The area of effect for the given in use count (counting up per tick).
      * @param itemUsedCount The amount of ticks the item was active.
@@ -194,16 +182,15 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
     public void onPlayerStoppedUsing(ItemStack itemStack, World world, EntityPlayer player, int itemInUseCount) {
         // Actual usage length
         int itemUsedCount = getMaxItemUseDuration(itemStack) - itemInUseCount;
-        
+
         // Calculate how much blood to drain
-        int toDrain = itemUsedCount * getCapacity(itemStack) * (getPower(itemStack) + 1)
-                / (getMaxItemUseDuration(itemStack) * this.powerLevels);
+        int toDrain = itemUsedCount * getCapacity(itemStack) * (getPower(itemStack) + 1) / (getMaxItemUseDuration(itemStack) * this.powerLevels);
         FluidStack consumed = consume(toDrain, itemStack, player);
         int consumedAmount = consumed == null ? 0 : consumed.amount;
-        
+
         // Recalculate the itemUsedCount depending on how much blood is available
         itemUsedCount = consumedAmount * getMaxItemUseDuration(itemStack) / getCapacity(itemStack);
-        
+
         // Only do something if there is some blood left
         if(consumedAmount > 0) {
             // This will perform an effect to entities in a certain area,
@@ -225,13 +212,13 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
      * @param power The configured power level
      */
     protected abstract void use(World world, EntityPlayer player, int itemUsedCount, int power);
-    
+
     @SideOnly(Side.CLIENT)
     protected void animateOutOfEnergy(World world, EntityPlayer player) {
         double xCoord = player.posX;
         double yCoord = player.posY;
         double zCoord = player.posZ;
-        
+
         double particleX = xCoord;
         double particleY = yCoord;
         double particleZ = zCoord;
@@ -239,30 +226,24 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
         float particleMotionX = world.rand.nextFloat() * 0.2F - 0.1F;
         float particleMotionY = 0.2F;
         float particleMotionZ = world.rand.nextFloat() * 0.2F - 0.1F;
-        FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                new EntitySmokeFX(world, particleX, particleY, particleZ,
-                        particleMotionX, particleMotionY, particleMotionZ)
-                );
-        
+        FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntitySmokeFX(world, particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ));
+
         world.playSoundAtEntity(player, "note.bd", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
     }
-    
+
     @Override
     public int getItemEnchantability() {
         return 15;
     }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
+
+    @Override @SuppressWarnings({ "rawtypes", "unchecked" })
     public Multimap getAttributeModifiers(ItemStack itemStack) {
         Multimap multimap = super.getAttributeModifiers(itemStack);
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double) this.meleeDamage, 0));
+        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)this.meleeDamage, 0));
         return multimap;
     }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT) @SuppressWarnings({ "rawtypes", "unchecked" })
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         ItemPowerableHelpers.addPreInformation(itemStack, list);
         super.addInformation(itemStack, entityPlayer, list, par4);
@@ -277,5 +258,4 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
     public int getPower(ItemStack itemStack) {
         return ItemPowerableHelpers.getPower(itemStack);
     }
-
 }

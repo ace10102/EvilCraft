@@ -9,11 +9,9 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-
 /**
  * A blood splashing FX.
  * @author rubensworks
- *
  */
 @SideOnly(Side.CLIENT)
 public class EntityBloodSplashFX extends EntitySplashFX {
@@ -34,7 +32,7 @@ public class EntityBloodSplashFX extends EntitySplashFX {
         this.particleGreen = 0.0F;
         this.particleBlue = 0.0F;
     }
-    
+
     /**
      * Spawn particles.
      * @param world The world.

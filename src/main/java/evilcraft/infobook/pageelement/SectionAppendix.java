@@ -9,7 +9,8 @@ import org.lwjgl.opengl.GL11;
  * Separate elements that can be appended to sections.
  * @author rubensworks
  */
-@Data public abstract class SectionAppendix {
+@Data
+public abstract class SectionAppendix {
 
     private int page;
     private int lineStart;
@@ -26,7 +27,9 @@ import org.lwjgl.opengl.GL11;
     }
 
     protected abstract int getOffsetY();
+
     protected abstract int getWidth();
+
     protected abstract int getHeight();
 
     /**
@@ -56,13 +59,14 @@ import org.lwjgl.opengl.GL11;
     }
 
     protected abstract void drawElement(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my);
+
     protected abstract void postDrawElement(GuiOriginsOfDarkness gui, int x, int y, int width, int height, int page, int mx, int my);
 
     public abstract void preBakeElement(InfoSection infoSection);
+
     /**
      * Bake this appendix, only called once before changing pages.
      * @param infoSection The section this appendix is part of.
      */
     public abstract void bakeElement(InfoSection infoSection);
-
 }

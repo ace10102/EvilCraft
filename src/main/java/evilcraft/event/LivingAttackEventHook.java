@@ -15,7 +15,6 @@ import java.util.Random;
 /**
  * Event hook for {@link LivingAttackEvent}.
  * @author rubensworks
- *
  */
 public class LivingAttackEventHook {
 
@@ -51,7 +50,7 @@ public class LivingAttackEventHook {
             if(EnchantmentHelpers.doesEnchantApply(itemStack, EnchantmentUnusingConfig._instance.ID) > -1) {
                 if(EnchantmentUnusing.unuseTool(itemStack)) {
                     event.setCanceled(true);
-                    //player.stopUsingItem();
+                    // player.stopUsingItem();
                 }
             }
         }
@@ -78,5 +77,5 @@ public class LivingAttackEventHook {
                 EnchantmentPoisonTip.poison((EntityLivingBase)event.entity, level);
             }
         }
-    }   
+    }
 }

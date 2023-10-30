@@ -16,21 +16,20 @@ import net.minecraft.world.biome.BiomeGenBase;
 /**
  * Config for the {@link PoisonousLibelle}.
  * @author rubensworks
- *
  */
 public class PoisonousLibelleConfig extends MobConfig {
-    
+
     /**
      * The unique instance.
      */
     public static PoisonousLibelleConfig _instance;
-    
+
     /**
      * Should the PoisonousLibelle be enabled?
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.MOB, comment = "Should the Poisonous Libelle be enabled?", requiresMcRestart = true)
     public static boolean isEnabled = true;
-    
+
     /**
      * Should the Poisonous Libelle do damage, next to poisoning?
      */
@@ -53,19 +52,14 @@ public class PoisonousLibelleConfig extends MobConfig {
      * Make a new instance.
      */
     public PoisonousLibelleConfig() {
-        super(
-        	true,
-            "poisonousLibelle",
-            null,
-            PoisonousLibelle.class
-        );
+        super(true, "poisonousLibelle", null, PoisonousLibelle.class);
     }
-    
+
     @Override
     public boolean isEnabled() {
         return isEnabled;
     }
-    
+
     @Override
     public int getBackgroundEggColor() {
         return RenderHelpers.RGBToInt(57, 125, 27);
@@ -76,15 +70,13 @@ public class PoisonousLibelleConfig extends MobConfig {
         return RenderHelpers.RGBToInt(196, 213, 57);
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     public Render getRender() {
         return new RenderPoisonousLibelle(this, new ModelPoisonousLibelle(), 0.5F);
     }
-    
+
     @Override
     public void onRegistered() {
         EntityRegistry.addSpawn(PoisonousLibelle.class, 1, 1, 2, EnumCreatureType.monster, BiomeGenBase.river);
     }
-    
 }

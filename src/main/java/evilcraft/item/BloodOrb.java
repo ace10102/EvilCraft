@@ -16,7 +16,6 @@ import java.util.List;
 /**
  * A simple orb that can be filled with blood.
  * @author rubensworks
- *
  */
 public class BloodOrb extends ConfigurableItem {
 
@@ -49,8 +48,7 @@ public class BloodOrb extends ConfigurableItem {
         this.setMaxDamage(0);
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister iconRegister) {
         super.registerIcons(iconRegister);
         filled = iconRegister.registerIcon(getIconString() + "_filled");
@@ -62,9 +60,7 @@ public class BloodOrb extends ConfigurableItem {
         return super.getIconFromDamage(meta);
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT) @SuppressWarnings({ "rawtypes", "unchecked" })
     public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
         for(int i = 0; i < 2; i++) {
             list.add(new ItemStack(item, 1, i));
@@ -77,5 +73,4 @@ public class BloodOrb extends ConfigurableItem {
         if(itemStack.getItemDamage() == 1) suffix = "filled";
         return super.getUnlocalizedName(itemStack) + "." + suffix;
     }
-
 }

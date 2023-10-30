@@ -6,10 +6,9 @@ import net.minecraft.client.renderer.entity.Render;
 /**
  * Config for the {@link EntityItemDarkStick}.
  * @author rubensworks
- *
  */
 public class EntityItemDarkStickConfig extends EntityConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -19,12 +18,7 @@ public class EntityItemDarkStickConfig extends EntityConfig {
      * Make a new instance.
      */
     public EntityItemDarkStickConfig() {
-        super(
-        	true,
-            "entityItemDarkStick",
-            null,
-            EntityItemDarkStick.class
-        );
+        super(true, "entityItemDarkStick", null, EntityItemDarkStick.class);
     }
 
     @Override

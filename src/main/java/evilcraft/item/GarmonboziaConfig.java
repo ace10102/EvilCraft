@@ -12,7 +12,6 @@ import net.minecraftforge.common.ChestGenHooks;
 /**
  * Config for the Garmonbozia.
  * @author rubensworks
- *
  */
 public class GarmonboziaConfig extends ItemConfig {
 
@@ -25,12 +24,7 @@ public class GarmonboziaConfig extends ItemConfig {
      * Make a new instance.
      */
     public GarmonboziaConfig() {
-        super(
-            true,
-            "garmonbozia",
-            null,
-            null
-        );
+        super(true, "garmonbozia", null, null);
     }
 
     @Override
@@ -52,9 +46,7 @@ public class GarmonboziaConfig extends ItemConfig {
     public void onRegistered() {
         super.onRegistered();
         for(String chestCategory : MinecraftHelpers.CHESTGENCATEGORIES) {
-            ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(
-                    getItemInstance(), 0, 1, 3, 2));
+            ChestGenHooks.getInfo(chestCategory).addItem(new WeightedRandomChestContent(getItemInstance(), 0, 1, 3, 2));
         }
     }
-    
 }

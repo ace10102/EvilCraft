@@ -31,43 +31,39 @@ public abstract class ItemBucketConfig extends ItemConfig {
     public ItemBucketConfig(boolean enabled, String namedId, String comment, Class<? extends Item> element) {
         super(enabled, namedId, comment, element);
     }
-    
+
     @Override
-	public String getUnlocalizedName() {
-		return "items." + getNamedId();
-	}
-    
+    public String getUnlocalizedName() {
+        return "items." + getNamedId();
+    }
+
     /**
      * Get the {@link ConfigurableFluid} this bucket can contain.
      * @return the fluid.
      */
     public abstract Fluid getFluidInstance();
+
     /**
      * Get the {@link ConfigurableBlockFluidClassic} this bucket can place / pick up.
      * @return the fluid block.
      */
     public abstract Block getFluidBlockInstance();
-    
+
     @Override
     public void onRegistered() {
-        Item item = (Item) this.getSubInstance();
+        Item item = (Item)this.getSubInstance();
         if(getFluidInstance() != null) {
             FluidStack fluidStack = FluidRegistry.getFluidStack(getFluidInstance().getName(), FluidContainerRegistry.BUCKET_VOLUME);
-            FluidContainerRegistry.registerFluidContainer(
-                    fluidStack,
-                    new ItemStack(item),
-                    new ItemStack(item.getContainerItem())
-            );
+            FluidContainerRegistry.registerFluidContainer(fluidStack, new ItemStack(item), new ItemStack(item.getContainerItem()));
             Recipes.BUCKETS.put(item, fluidStack);
         }
         if(getFluidBlockInstance() != Blocks.air) {
             BucketHandler.getInstance().buckets.put(getFluidBlockInstance(), item);
         }
     }
-    
+
     @Override
     public boolean isDisableable() {
         return false;
     }
-
 }

@@ -5,10 +5,8 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 
 /**
- * An extended {@link ItemBlock} that will automatically add information to the block
- * item if that block implements {@link IInformationProvider}.
+ * An extended {@link ItemBlock} that will automatically add information to the block item if that block implements {@link IInformationProvider}.
  * @author rubensworks
- *
  */
 public class ItemBlockExtended extends ItemBlockMetadata {
 
@@ -17,8 +15,6 @@ public class ItemBlockExtended extends ItemBlockMetadata {
      * @param block The block instance.
      */
     public ItemBlockExtended(Block block) {
-    	super(block);
-
+        super(block);
     }
-    
 }

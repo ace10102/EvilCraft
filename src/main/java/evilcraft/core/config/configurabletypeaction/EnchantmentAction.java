@@ -9,7 +9,7 @@ import evilcraft.core.config.extendedconfig.EnchantmentConfig;
  * @author rubensworks
  * @see ConfigurableTypeAction
  */
-public class EnchantmentAction extends ConfigurableTypeAction<EnchantmentConfig>{
+public class EnchantmentAction extends ConfigurableTypeAction<EnchantmentConfig> {
 
     @Override
     public void preRun(EnchantmentConfig eConfig, Configuration config, boolean startup) {
@@ -17,10 +17,10 @@ public class EnchantmentAction extends ConfigurableTypeAction<EnchantmentConfig>
         Property property = config.get(eConfig.getHolderType().getCategory(), eConfig.getNamedId(), eConfig.ID);
         property.setRequiresMcRestart(true);
         property.comment = eConfig.getComment();
-        
+
         if(startup) {
-	        // Update the ID, it could've changed
-	        eConfig.ID = property.getInt();
+            // Update the ID, it could've changed
+            eConfig.ID = property.getInt();
         }
     }
 
@@ -29,5 +29,4 @@ public class EnchantmentAction extends ConfigurableTypeAction<EnchantmentConfig>
         // Save the config inside the correct element
         eConfig.save();
     }
-
 }

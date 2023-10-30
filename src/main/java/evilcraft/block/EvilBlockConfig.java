@@ -5,10 +5,9 @@ import evilcraft.core.config.extendedconfig.BlockConfig;
 /**
  * Config for the {@link EvilBlock}.
  * @author rubensworks
- *
  */
 public class EvilBlockConfig extends BlockConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -18,17 +17,11 @@ public class EvilBlockConfig extends BlockConfig {
      * Make a new instance.
      */
     public EvilBlockConfig() {
-        super(
-        	true,
-            "evilBlock",
-            null,
-            EvilBlock.class
-        );
+        super(true, "evilBlock", null, EvilBlock.class);
     }
-    
+
     @Override
     public boolean isHardDisabled() {
-    	return true;
+        return true;
     }
-    
 }

@@ -22,24 +22,22 @@ import java.util.Random;
 
 /**
  * Structure which generates Dark Temples.
- *
  * @author immortaleeb
  * @author rubensworks
  */
 public class DarkTempleStructure extends QuarterSymmetricalStructure {
     private static final int STRUCTURE_HEIGHT = 9;
 
-    private static final int[] CORNER_INC = {-1, 1};
+    private static final int[] CORNER_INC = { -1, 1 };
 
     private static DarkTempleStructure _instance = null;
 
     /**
      * Get the unique instance.
-     *
      * @return Unique instance.
      */
     public static DarkTempleStructure getInstance() {
-        if (_instance == null)
+        if(_instance == null)
             _instance = new DarkTempleStructure();
 
         return _instance;
@@ -50,50 +48,41 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
     }
 
     /**
-     * Finds the y coordinate of a block that is at ground-level
-     * given its x and z coordinates, between yMin and yMax
-     * (borders included) and that is a valid block to place a
-     * dark temple on.
-     *
+     * Finds the y coordinate of a block that is at ground-level given its x and z coordinates,
+     * between yMin and yMax (borders included) and that is a valid block to place a dark temple on.
      * @param world The world.
-     * @param x     x-coordinate.
-     * @param z     y-coordinate.
-     * @return The y-coordinate of a block on the ground, or -1 if no y was found
-     * in the range yMin to yMax (borders included).
+     * @param x x-coordinate.
+     * @param z y-coordinate.
+     * @return The y-coordinate of a block on the ground, or -1 if no y was found in the range yMin to yMax (borders included).
      */
     private int findGround(World world, int x, int z, int yMin, int yMax) {
-        if (yMin <= yMax) {
+        if(yMin <= yMax) {
             int height = yMax;
-
             // Try all possible y-coordinates from yMax to yMin
-            while (height >= yMin) {
+            while(height >= yMin) {
                 // Look for the first block that is not an air block and has an air block above it
-                while (height >= yMin && (world.isAirBlock(x, height, z) || !world.isAirBlock(x, height + 1, z))) {
+                while(height >= yMin && (world.isAirBlock(x, height, z) || !world.isAirBlock(x, height + 1, z))) {
                     height--;
                 }
-
                 // Is it a valid spot to place the center of a dark temple on?
-                if (height >= yMin && isValidSpot(world, x, height, z))
+                if(height >= yMin && isValidSpot(world, x, height, z))
                     return height;
-
                 height--;
             }
         }
-
         return -1;
     }
 
     private boolean canPlaceStructure(World world, int x, int y, int z) {
-        for (int xr = x - 3; xr <= x + 3; xr++) {
-            for (int yr = y; yr <= y + 9; yr++) {
-                for (int zr = z - 3; zr <= z + 3; zr++) {
-                    if (isSolidBlock(world, xr, yr, zr)) {
+        for(int xr = x - 3; xr <= x + 3; xr++) {
+            for(int yr = y; yr <= y + 9; yr++) {
+                for(int zr = z - 3; zr <= z + 3; zr++) {
+                    if(isSolidBlock(world, xr, yr, zr)) {
                         return false;
                     }
                 }
             }
         }
-
         return true;
     }
 
@@ -113,32 +102,29 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 
     private int getMaxPillarHeightAt(World world, int x, int y, int z) {
         int max = 0;
-
-        for (Integer incX : CORNER_INC) {
-            for (Integer incZ : CORNER_INC) {
+        for(Integer incX : CORNER_INC) {
+            for(Integer incZ : CORNER_INC) {
                 max = Math.max(max, getPillarHeightForCornerAt(world, x, y, z, incX, incZ));
             }
         }
-
         return max;
     }
 
     /**
      * @param world The world.
-     * @param x     Center x coordinate of the structure.
-     * @param y     Height coordinate of the structure.
-     * @param z     Center z coordinate of the structure.
-     * @param incX  Indicates the corner X-direction.
-     * @param incZ  Indicates the cordern Z-direction.
-     * @return Returns the height of a pillar in one of the corners, specified by (incX, incZ),
-     * of the temple if it were centered at the given (x,y,z) location.
+     * @param x Center x coordinate of the structure.
+     * @param y Height coordinate of the structure.
+     * @param z Center z coordinate of the structure.
+     * @param incX Indicates the corner X-direction.
+     * @param incZ Indicates the cordern Z-direction.
+     * @return Returns the height of a pillar in one of the corners,
+     * specified by (incX, incZ), of the temple if it were centered at the given (x,y,z) location.
      */
     private int getPillarHeightForCornerAt(World world, int x, int y, int z, int incX, int incZ) {
         int xx = x + 4 * incX;
         int zz = z + 4 * incZ;
         int res = 0;
-
-        while (!isSolidBlock(world, xx, y, zz)) {
+        while(!isSolidBlock(world, xx, y, zz)) {
             y--;
             res++;
         }
@@ -147,12 +133,12 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
 
     @Override
     protected void generateLayers() {
-        BlockWrapper us = new BlockWrapper(Blocks.stone_slab, StairSlabMetadataHelper.getSlabMetadata(SlabType.STONE, true));    // upside down stone slab
+        BlockWrapper us = new BlockWrapper(Blocks.stone_slab, StairSlabMetadataHelper.getSlabMetadata(SlabType.STONE, true)); // upside down stone slab
         BlockWrapper rs = new BlockWrapper(Blocks.stone_slab);
         BlockWrapper ds = new BlockWrapper(Blocks.double_stone_slab);
-        BlockWrapper cb = new BlockWrapper(Blocks.stonebrick, StairSlabMetadataHelper.getStoneBrickMetadata(StoneBrickType.CHISELED));    // chiseled brick
+        BlockWrapper cb = new BlockWrapper(Blocks.stonebrick, StairSlabMetadataHelper.getStoneBrickMetadata(StoneBrickType.CHISELED)); // chiseled brick
         BlockWrapper sb = new BlockWrapper(Blocks.stonebrick);
-        BlockWrapper cs = new BlockWrapper(Blocks.stone_slab, StairSlabMetadataHelper.getSlabMetadata(SlabType.COBBLESTONE, false));    // cobblestone slab
+        BlockWrapper cs = new BlockWrapper(Blocks.stone_slab, StairSlabMetadataHelper.getSlabMetadata(SlabType.COBBLESTONE, false)); // cobblestone slab
         BlockWrapper co = new BlockWrapper(Blocks.cobblestone);
         BlockWrapper wa = new BlockWrapper(Blocks.water);
         BlockWrapper fe = new BlockWrapper(Blocks.fence);
@@ -165,8 +151,8 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
                 Random rand = new Random();
                 int[] c = location.getCoordinates();
                 world.setBlockMetadataWithNotify(c[0], c[1], c[2], 1 + rand.nextInt(4), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
-                TileEntityChest tile = (TileEntityChest) world.getTileEntity(c[0], c[1], c[2]);
-                if (tile != null) {
+                TileEntityChest tile = (TileEntityChest)world.getTileEntity(c[0], c[1], c[2]);
+                if(tile != null) {
                     ChestGenHooks info = ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST);
                     WeightedRandomChestContent.generateChestContents(rand, info.getItems(rand), tile, info.getCount(rand));
                 }
@@ -177,8 +163,8 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
             @Override
             public void run(World world, ILocation location) {
                 int[] c = location.getCoordinates();
-                for (int side = 2; side < 6; ++side) {
-                    if (Blocks.vine.canPlaceBlockOnSide(world, c[0], c[1], c[2], side)) {
+                for(int side = 2; side < 6; ++side) {
+                    if(Blocks.vine.canPlaceBlockOnSide(world, c[0], c[1], c[2], side)) {
                         world.setBlock(c[0], c[1], c[2], Blocks.vine, 1 << Direction.facingToDirection[Facing.oppositeSide[side]], 2);
                     }
                 }
@@ -186,87 +172,87 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
         };
 
         BlockWrapper ea = new BlockWrapper(EnvironmentalAccumulator.getInstance());
-        BlockWrapper o = null;    // Just to keep things compact...
+        BlockWrapper o = null; // Just to keep things compact...
 
-        addLayer(1, new BlockWrapper[]{
-                o, o, o, o, vi, o,
-                o, o, o, us, ds, vi,
-                us, us, us, us, us, o,
-                us, us, us, us, o, o,
-                us, us, us, us, o, o,
-                us, us, us, us, o, o
+        addLayer(1, new BlockWrapper[] {
+                 o,  o,  o,  o, vi,  o,
+                 o,  o,  o, us, ds, vi,
+                us, us, us, us, us,  o,
+                us, us, us, us,  o,  o,
+                us, us, us, us,  o,  o,
+                us, us, us, us,  o,  o
         });
 
-        addLayer(2, new BlockWrapper[]{
-                o, o, o, vi, vi, o,
-                o, o, o, cb, cb, vi,
+        addLayer(2, new BlockWrapper[] {
+                 o,  o,  o, vi, vi,  o,
+                 o,  o,  o, cb, cb, vi,
                 sb, sb, sb, sb, cb, vi,
-                ds, co, wa, sb, o, o,
-                co, co, co, sb, o, o,
-                co, co, ds, sb, o, o
+                ds, co, wa, sb,  o,  o,
+                co, co, co, sb,  o,  o,
+                co, co, ds, sb,  o,  o
         });
 
-        addLayer(3, new BlockWrapper[]{
-                o, o, o, o, vi, o,
-                o, o, o, lc, sb, vi,
-                o, o, o, fe, lc, o,
-                rs, o, o, o, o, o,
-                cs, rs, o, o, o, o,
-                ea, cs, rs, o, o, o
+        addLayer(3, new BlockWrapper[] {
+                 o,  o,  o,  o, vi,  o,
+                 o,  o,  o, lc, sb, vi,
+                 o,  o,  o, fe, lc,  o,
+                rs,  o,  o,  o,  o,  o,
+                cs, rs,  o,  o,  o,  o,
+                ea, cs, rs,  o,  o,  o
         });
 
-        addLayer(4, new BlockWrapper[]{
-                o, o, o, o, vi, o,
+        addLayer(4, new BlockWrapper[] {
+                o, o, o,  o, vi,  o,
                 o, o, o, vi, cb, vi,
-                o, o, o, to, vi, o,
-                o, o, o, o, o, o,
-                o, o, o, o, o, o,
-                o, o, o, o, o, o
+                o, o, o, to, vi,  o,
+                o, o, o,  o,  o,  o,
+                o, o, o,  o,  o,  o,
+                o, o, o,  o,  o,  o
         });
 
-        addLayer(5, new BlockWrapper[]{
-                us, o, o, o, cw, o,
-                o, o, o, o, sb, cw,
-                o, o, o, o, o, o,
-                o, o, o, o, o, o,
-                o, o, o, o, o, o,
-                o, o, o, o, o, us
+        addLayer(5, new BlockWrapper[] {
+                us, o, o, o, cw,  o,
+                 o, o, o, o, sb, cw,
+                 o, o, o, o,  o,  o,
+                 o, o, o, o,  o,  o,
+                 o, o, o, o,  o,  o,
+                 o, o, o, o,  o, us
         });
 
-        addLayer(6, new BlockWrapper[]{
-                cb, ds, rs, rs, rs, o,
+        addLayer(6, new BlockWrapper[] {
+                cb, ds, rs, rs, rs,  o,
                 co, co, co, co, co, rs,
                 co, co, co, co, co, rs,
                 co, co, co, co, co, rs,
                 co, co, co, co, co, ds,
-                o, co, co, co, co, cb
+                 o, co, co, co, co, cb
         });
 
-        addLayer(7, new BlockWrapper[]{
-                rs, o, o, o, o, o,
-                cw, o, o, o, o, o,
-                cs, cs, cs, o, o, o,
-                co, co, cs, cs, o, o,
-                co, co, co, cs, o, o,
-                o, co, co, cs, cw, rs
+        addLayer(7, new BlockWrapper[] {
+                rs,  o,  o,  o,  o,  o,
+                cw,  o,  o,  o,  o,  o,
+                cs, cs, cs,  o,  o,  o,
+                co, co, cs, cs,  o,  o,
+                co, co, co, cs,  o,  o,
+                 o, co, co, cs, cw, rs
         });
 
-        addLayer(8, new BlockWrapper[]{
-                o, o, o, o, o, o,
-                o, o, o, o, o, o,
-                o, o, o, o, o, o,
-                o, o, o, o, o, o,
+        addLayer(8, new BlockWrapper[] {
+                 o,  o, o, o, o, o,
+                 o,  o, o, o, o, o,
+                 o,  o, o, o, o, o,
+                 o,  o, o, o, o, o,
                 cs, cw, o, o, o, o,
-                o, cs, o, o, o, o
+                 o, cs, o, o, o, o
         });
 
-        addLayer(9, new BlockWrapper[]{
-                o, o, o, o, o, o,
-                o, o, o, o, o, o,
-                o, o, o, o, o, o,
-                o, o, o, o, o, o,
+        addLayer(9, new BlockWrapper[] {
+                o,  o, o, o, o, o,
+                o,  o, o, o, o, o,
+                o,  o, o, o, o, o,
+                o,  o, o, o, o, o,
                 o, to, o, o, o, o,
-                o, o, o, o, o, o
+                o,  o, o, o, o, o
         });
     }
 
@@ -279,8 +265,8 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
         // z+ south
         // x- west
         // z- west
-        int metadata1 = StairSlabMetadataHelper.getStairMetadata(DirectionHelpers.getForgeDirectionFromXSign(incX), true);    // metadata for stair 1
-        int metadata2 = StairSlabMetadataHelper.getStairMetadata(DirectionHelpers.getForgeDirectionFromZSing(incZ), true);    // metadata for stair 2
+        int metadata1 = StairSlabMetadataHelper.getStairMetadata(DirectionHelpers.getForgeDirectionFromXSign(incX), true); // metadata for stair 1
+        int metadata2 = StairSlabMetadataHelper.getStairMetadata(DirectionHelpers.getForgeDirectionFromZSing(incZ), true); // metadata for stair 2
 
         world.setBlock(x + 3 * incX, y + 5, z + 4 * incZ, Blocks.stone_stairs, metadata1, 2);
         world.setBlock(x + 4 * incX, y + 5, z + 3 * incZ, Blocks.stone_stairs, metadata2, 2);
@@ -290,7 +276,7 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
         int zz = z + 4 * incZ;
         int pillarHeight = getPillarHeightForCornerAt(world, x, y, z, incX, incZ);
 
-        for (int yOffset = 0; yOffset < pillarHeight; yOffset++) {
+        for(int yOffset = 0; yOffset < pillarHeight; yOffset++) {
             world.setBlock(xx, y - yOffset, zz, Blocks.cobblestone, 0, 2);
         }
     }
@@ -299,21 +285,18 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
     public boolean generate(World world, Random random, int x, int y, int z) {
         int groundHeight = findGround(world, x, z, getMinBuildHeight(), getMaxBuildHeight());
 
-        while (groundHeight != -1) {
+        while(groundHeight != -1) {
             // Check if we have room to place the structure here
-            if (canPlaceStructure(world, x, groundHeight + 1, z)) {
+            if(canPlaceStructure(world, x, groundHeight + 1, z)) {
                 // Only place the structure if the pillars are not too long
-                if (getMaxPillarHeightAt(world, x, y, z) > GeneralConfig.darkTempleMaxPillarLength) return false;
+                if(getMaxPillarHeightAt(world, x, y, z) > GeneralConfig.darkTempleMaxPillarLength) return false;
 
                 // If all is ok, generate the structure
                 super.generate(world, random, x, groundHeight, z);
-
                 return true;
             }
-
             groundHeight = findGround(world, x, z, getMinBuildHeight(), groundHeight - 1);
         }
-
         return false;
     }
 
@@ -324,6 +307,5 @@ public class DarkTempleStructure extends QuarterSymmetricalStructure {
     private static int getMaxBuildHeight() {
         return GeneralConfig.darkTempleMaxHeight - STRUCTURE_HEIGHT;
     }
-
     // Good seed for testing: -8353386167196066531
 }

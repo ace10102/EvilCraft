@@ -85,8 +85,8 @@ public class CraftingRecipeAppendix extends RecipeAppendix<IRecipe> {
     }
 
     /**
-     * This method makes sure that recipes which do not take up a full 3x3 crafting grid are still returned inside a
-     * 3x3 object array formatted like if they were in a full grid.
+     * This method makes sure that recipes which do not take up a full 3x3 crafting grid,
+     * are still returned inside a 3x3 object array formatted like if they were in a full grid.
      * @param itemStacksRaw An array of items with length width * height
      * @param width The original recipe width.
      * @param height The original recipe height.
@@ -105,7 +105,7 @@ public class CraftingRecipeAppendix extends RecipeAppendix<IRecipe> {
         return itemStacks;
     }
 
-    @SuppressWarnings("unchecked") 
+    @SuppressWarnings("unchecked")
     protected List<ItemStack> getItemStacks(int index) {
         Object[] itemStacks;
         if(recipe instanceof ShapedRecipes) {

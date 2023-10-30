@@ -17,81 +17,76 @@ import java.util.Random;
 /**
  * Model for the Box of Eternal Closure
  * @author rubensworks
- *
  */
 public class ModelBoxOfEternalClosure extends ModelBase {
-	
-	private static WavefrontObject mainModel = new WavefrontObject(
-			new ResourceLocation(Reference.MOD_ID, Reference.MODEL_PATH + "box.obj"));
-	private static WavefrontObject coverModel = new WavefrontObject(
-			new ResourceLocation(Reference.MOD_ID, Reference.MODEL_PATH + "boxCover.obj"));
-	
-	private static ResourceLocation mainModelTexture = new ResourceLocation(Reference.MOD_ID,
-			Reference.TEXTURE_PATH_MODELS + "box.png");
-	private static ResourceLocation coverModelTexture = new ResourceLocation(Reference.MOD_ID,
-			Reference.TEXTURE_PATH_MODELS + "boxCover.png");
-	
-	private static final ResourceLocation TEXTURE_NOISE = new ResourceLocation("textures/environment/end_sky.png");
+
+    private static WavefrontObject mainModel = new WavefrontObject(new ResourceLocation(Reference.MOD_ID, Reference.MODEL_PATH + "box.obj"));
+    private static WavefrontObject coverModel = new WavefrontObject(new ResourceLocation(Reference.MOD_ID, Reference.MODEL_PATH + "boxCover.obj"));
+
+    private static ResourceLocation mainModelTexture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "box.png");
+    private static ResourceLocation coverModelTexture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "boxCover.png");
+
+    private static final ResourceLocation TEXTURE_NOISE = new ResourceLocation("textures/environment/end_sky.png");
     private static final ResourceLocation TEXTURE_DOTS = new ResourceLocation("textures/entity/end_portal.png");
-	
-	private float rotationX = -0.28F;
-	private float rotationY = 0.19F;
-	private float rotationZ = 0F;
-	
-	private float coverAngle = 0F;
-	
-	private static final Random rand = new Random(31100L);
+
+    private float rotationX = -0.28F;
+    private float rotationY = 0.19F;
+    private float rotationZ = 0F;
+
+    private float coverAngle = 0F;
+
+    private static final Random rand = new Random(31100L);
     private FloatBuffer buffer = GLAllocation.createDirectFloatBuffer(16);
 
-	/**
-	 * Make a new instance.
-	 */
-	public ModelBoxOfEternalClosure() {
-		
-	}
-	
-	/**
-	 * Set the angle of the lid.
-	 * @param coverAngle The lid angle.
-	 */
-	public void setCoverAngle(float coverAngle) {
-		this.coverAngle = coverAngle;
-	}
-	
-	private FloatBuffer appendToBuffer(float a, float b, float c, float d) {
+    /**
+     * Make a new instance.
+     */
+    public ModelBoxOfEternalClosure() {
+
+    }
+
+    /**
+     * Set the angle of the lid.
+     * @param coverAngle The lid angle.
+     */
+    public void setCoverAngle(float coverAngle) {
+        this.coverAngle = coverAngle;
+    }
+
+    private FloatBuffer appendToBuffer(float a, float b, float c, float d) {
         this.buffer.clear();
         this.buffer.put(a).put(b).put(c).put(d);
         this.buffer.flip();
         return this.buffer;
     }
-	
-	private void renderContent() {
-		float f1 = 0;
-		float f2 = 0;
-		float f3 = 0;
-		double x = 0;
-		double y = 0;
-		double z = 0;
-		
+
+    private void renderContent() {
+        float f1 = 0;
+        float f2 = 0;
+        float f3 = 0;
+        double x = 0;
+        double y = 0;
+        double z = 0;
+
         GL11.glDisable(GL11.GL_LIGHTING);
         rand.setSeed(31100L);
         float depth = 0.75F;
 
-        for (int i = 0; i < 16; ++i) {
+        for(int i = 0; i < 16; ++i) {
             GL11.glPushMatrix();
             float iInverse = (float)(16 - i);
             float scale = 0.0625F;
             float brightness = 1.0F / (iInverse + 1.0F);
 
             if(i == 0) {
-            	RenderHelpers.bindTexture(TEXTURE_NOISE);
+                RenderHelpers.bindTexture(TEXTURE_NOISE);
                 brightness = 0.1F;
                 iInverse = 65.0F;
                 scale = 0.125F;
                 GL11.glEnable(GL11.GL_BLEND);
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             } else if(i == 1) {
-            	RenderHelpers.bindTexture(TEXTURE_DOTS);
+                RenderHelpers.bindTexture(TEXTURE_DOTS);
                 GL11.glEnable(GL11.GL_BLEND);
                 GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
                 scale = 0.5F;
@@ -153,32 +148,31 @@ public class ModelBoxOfEternalClosure extends ModelBase {
         GL11.glDisable(GL11.GL_TEXTURE_GEN_R);
         GL11.glDisable(GL11.GL_TEXTURE_GEN_Q);
         GL11.glEnable(GL11.GL_LIGHTING);
-	}
-	
-	/**
+    }
+
+    /**
      * This method renders out all parts of the box model.
      */
     public void renderAll() {
-    	GL11.glRotatef(90F, 0F, 1F, 0F);
-    	GL11.glRotatef(180F, 1F, 0F, 0F);
-    	GL11.glTranslatef(-0.5F, -0.76F, -0.5F);
-    	GL11.glScalef(1F, 1F, 0.95F);
-    	RenderHelpers.bindTexture(mainModelTexture);
-    	mainModel.renderAll();
-    	
-    	GL11.glPushMatrix();
-    	GL11.glTranslatef(rotationX, rotationY, rotationZ);
-    	GL11.glRotatef(coverAngle, 0F, 0F, 1F);
-    	GL11.glTranslatef(-rotationX, -rotationY, -rotationZ);
-    	RenderHelpers.bindTexture(coverModelTexture);
-    	coverModel.renderAll();
-    	GL11.glPopMatrix();
-    	
-    	GL11.glPushMatrix();
-    	GL11.glScalef(0.5F, 1.0F, 1.0F);
-    	GL11.glTranslatef(-0.5F, -0.6F, -0.5F);
-    	renderContent();
-    	GL11.glPopMatrix();
-    }
+        GL11.glRotatef(90F, 0F, 1F, 0F);
+        GL11.glRotatef(180F, 1F, 0F, 0F);
+        GL11.glTranslatef(-0.5F, -0.76F, -0.5F);
+        GL11.glScalef(1F, 1F, 0.95F);
+        RenderHelpers.bindTexture(mainModelTexture);
+        mainModel.renderAll();
 
+        GL11.glPushMatrix();
+        GL11.glTranslatef(rotationX, rotationY, rotationZ);
+        GL11.glRotatef(coverAngle, 0F, 0F, 1F);
+        GL11.glTranslatef(-rotationX, -rotationY, -rotationZ);
+        RenderHelpers.bindTexture(coverModelTexture);
+        coverModel.renderAll();
+        GL11.glPopMatrix();
+
+        GL11.glPushMatrix();
+        GL11.glScalef(0.5F, 1.0F, 1.0F);
+        GL11.glTranslatef(-0.5F, -0.6F, -0.5F);
+        renderContent();
+        GL11.glPopMatrix();
+    }
 }

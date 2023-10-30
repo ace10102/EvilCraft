@@ -9,7 +9,6 @@ import net.minecraft.item.ItemStack;
 /**
  * Config for the Environmental Accumulation Core.
  * @author rubensworks
- *
  */
 public class EnvironmentalAccumulationCoreConfig extends ItemConfig {
 
@@ -22,12 +21,7 @@ public class EnvironmentalAccumulationCoreConfig extends ItemConfig {
      * Make a new instance.
      */
     public EnvironmentalAccumulationCoreConfig() {
-        super(
-            true,
-            "environmentalAccumulationCore",
-            null,
-            null
-        );
+        super(true, "environmentalAccumulationCore", null, null);
     }
 
     @Override
@@ -44,5 +38,4 @@ public class EnvironmentalAccumulationCoreConfig extends ItemConfig {
             }
         };
     }
-    
 }

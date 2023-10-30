@@ -12,7 +12,7 @@ import evilcraft.core.client.render.model.RenderModel;
  * @author rubensworks
  * @see ExtendedConfig
  */
-public abstract class ModelEntityConfig extends EntityConfig{
+public abstract class ModelEntityConfig extends EntityConfig {
 
     /**
      * Make a new instance.
@@ -24,7 +24,7 @@ public abstract class ModelEntityConfig extends EntityConfig{
     public ModelEntityConfig(boolean enabled, String namedId, String comment, Class<? extends Entity> element) {
         super(enabled, namedId, comment, element);
     }
-    
+
     @Override
     protected Render getRender() {
         Constructor<? extends Render> constructor;
@@ -32,22 +32,22 @@ public abstract class ModelEntityConfig extends EntityConfig{
         try {
             constructor = getRenderClass().getConstructor(ExtendedConfig.class);
             render = constructor.newInstance(this);
-        } catch (NoSuchMethodException e) {
+        } catch(NoSuchMethodException e) {
             e.printStackTrace();
-        } catch (SecurityException e) {
+        } catch(SecurityException e) {
             e.printStackTrace();
-        } catch (InstantiationException e) {
+        } catch(InstantiationException e) {
             e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch(IllegalAccessException e) {
             e.printStackTrace();
-        } catch (IllegalArgumentException e) {
+        } catch(IllegalArgumentException e) {
             e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch(InvocationTargetException e) {
             e.printStackTrace();
         }
         return render;
     }
-    
+
     /**
      * Get the {@link RenderModel} class for the configurable.
      * @return The class for the model of the configurable.

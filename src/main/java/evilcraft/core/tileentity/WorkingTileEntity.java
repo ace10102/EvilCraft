@@ -15,13 +15,11 @@ import java.util.Set;
 /**
  * A TileEntity with that processes items with inventory and tank.
  * @author rubensworks
- * @param <T> The subclass of {@link TankInventoryTileEntity}, will be in
- * most cases just the extension class.
- * @param <O> The type of upgrade behaviour object.
+ * @param <T> The subclass of {@link TankInventoryTileEntity}, will be in most cases just the extension class.
+ * @param <O> The type of upgrade behavior object.
  * @see TickingTankInventoryTileEntity
  */
-public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> extends TickingTankInventoryTileEntity<T>
-        implements IUpgradable<T, O> {
+public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> extends TickingTankInventoryTileEntity<T> implements IUpgradable<T, O> {
 
     /**
      * Size of the upgrades inventory.
@@ -38,7 +36,7 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
     private Map<Upgrades.Upgrade, Integer> levels = null;
     protected Map<Upgrades.Upgrade, IUpgradeBehaviour<T, O>> upgradeBehaviour = Maps.newHashMap();
 
-	/**
+    /**
      * Make a new instance.
      * @param inventorySize Amount of slots in the inventory.
      * @param inventoryName Internal name of the inventory.
@@ -46,69 +44,66 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
      * @param tankName Internal name of the tank.
      * @param acceptedFluid Type of Fluid to accept.
      */
-	public WorkingTileEntity(int inventorySize, String inventoryName,
-			int tankSize, String tankName, Fluid acceptedFluid) {
-		super(inventorySize + INVENTORY_SIZE_UPGRADES, inventoryName, tankSize, tankName, acceptedFluid);
+    public WorkingTileEntity(int inventorySize, String inventoryName, int tankSize, String tankName, Fluid acceptedFluid) {
+        super(inventorySize + INVENTORY_SIZE_UPGRADES, inventoryName, tankSize, tankName, acceptedFluid);
         this.basicInventorySize = inventorySize;
-	}
-	
-	 /**
+    }
+
+    /**
      * Check if the given item can be infused.
      * @param itemStack The item to check.
      * @return If it can be infused.
      */
     public abstract boolean canConsume(ItemStack itemStack);
-    
+
     /**
-     * Check if this tile is valid and can start working.
-     * Mostly defined by environmental parameters.
+     * Check if this tile is valid and can start working. Mostly defined by environmental parameters.
      * @return If it is valid and can work.
      */
     public abstract boolean canWork();
-    
+
     /**
      * If this tile is working.
      * @return If it is abstract.
      */
     public boolean isWorking() {
-    	return getWorkTick() > 0;
+        return getWorkTick() > 0;
     }
-    
+
     /**
-     * If the furnace should visually (block icon) show it is working, should only be
-     * called client-side.
+     * If the furnace should visually (block icon) show it is working, should only be called client-side.
      * @return If the state is working.
      */
     public boolean isVisuallyWorking() {
         return getCurrentState() == 1 && canWork();
     }
-    
+
     /**
      * Get the work progress scaled, to be used in GUI's.
      * @param scale The scale this progress should be applied to.
      * @return The scaled working progress.
      */
     public int getWorkTickScaled(int scale) {
-        return (int) Math.ceil((float)(getWorkTick() + 1) / (float)getRequiredWorkTicks() * (float)scale);
+        return (int)Math.ceil((float)(getWorkTick() + 1) / (float)getRequiredWorkTicks() * (float)scale);
     }
-    
+
     protected abstract int getWorkTicker();
-    
+
     protected int getWorkTick() {
         return getTickers().get(getWorkTicker()).getTick();
     }
-    
+
     protected float getRequiredWorkTicks() {
         return getTickers().get(getWorkTicker()).getRequiredTicks();
     }
-    
+
     /**
      * Resets the ticks of the work.
      */
     public void resetWork() {
         resetWork(true);
     }
-    
+
     /**
      * Resets the ticks of the work.
      * @param hardReset If the tick and required tick should also be set to zero.
@@ -116,13 +111,13 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
     public void resetWork(boolean hardReset) {
         if(hardReset) {
             getTickers().get(getWorkTicker()).setTick(0);
-	        getTickers().get(getWorkTicker()).setRequiredTicks(0);
-    	}
+            getTickers().get(getWorkTicker()).setRequiredTicks(0);
+        }
     }
 
     @Override
     public int getNewState() {
-        return this.isWorking()?1:0;
+        return this.isWorking() ? 1 : 0;
     }
 
     @Override
@@ -196,10 +191,10 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
     public Map<Upgrades.Upgrade, Integer> getUpgradeLevels() {
         if(levels == null) {
             levels = Maps.newHashMap();
-            for (ItemStack itemStack : getUpgradeItems()) {
+            for(ItemStack itemStack : getUpgradeItems()) {
                 Upgrades.Upgrade upgrade = getUpgradeType(itemStack);
                 int level = getUpgradeLevel(itemStack);
-                if (levels.containsKey(upgrade)) {
+                if(levels.containsKey(upgrade)) {
                     level += levels.get(upgrade);
                 }
                 levels.put(upgrade, level);
@@ -223,5 +218,4 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
     public int getBasicInventorySize() {
         return this.basicInventorySize;
     }
-
 }

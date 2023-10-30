@@ -14,15 +14,14 @@ import net.minecraft.item.ItemStack;
 /**
  * Villager with specific evil trades.
  * @author rubensworks
- *
  */
-public class WerewolfVillager extends ConfigurableVillager{
-    
+public class WerewolfVillager extends ConfigurableVillager {
+
     /**
      * The unique instance.
      */
     private static WerewolfVillager _instance = null;
-    
+
     /**
      * Initialize the unique instance.
      * @param eConfig The config.
@@ -33,7 +32,7 @@ public class WerewolfVillager extends ConfigurableVillager{
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return Unique instance.
@@ -48,7 +47,7 @@ public class WerewolfVillager extends ConfigurableVillager{
      */
     public WerewolfVillager(ExtendedConfig<VillagerConfig> eConfig) {
         super(eConfig);
-        
+
         // Input
         if(Configs.isEnabled(DarkGemConfig.class)) {
             allowedTradeInputs.add(new WeightedItemStack(new ItemStack(DarkGem.getInstance(), 1), 1));
@@ -57,8 +56,7 @@ public class WerewolfVillager extends ConfigurableVillager{
             allowedTradeInputs.add(new WeightedItemStack(new ItemStack(HardenedBloodShardConfig._instance.getItemInstance(), 1), 2));
         }
         if(Configs.isEnabled(BlookConfig.class)) {
-            allowedTradeInputs.add(new WeightedItemStack(new ItemStack(
-                    BlookConfig._instance.downCast().getItemInstance(), 1), 5));
+            allowedTradeInputs.add(new WeightedItemStack(new ItemStack(BlookConfig._instance.downCast().getItemInstance(), 1), 5));
         }
         if(Configs.isEnabled(InvertedPotentiaConfig.class)) {
             allowedTradeInputs.add(new WeightedItemStack(new ItemStack(InvertedPotentia.getInstance(), 1, 1), 10));
@@ -66,7 +64,7 @@ public class WerewolfVillager extends ConfigurableVillager{
         if(Configs.isEnabled(PoisonSacConfig.class)) {
             allowedTradeInputs.add(new WeightedItemStack(new ItemStack(PoisonSacConfig._instance.getItemInstance(), 1, 1), 3));
         }
-        
+
         // Output
         if(Configs.isEnabled(WerewolfBoneConfig.class)) {
             allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(WerewolfBoneConfig._instance.getItemInstance(), 1), 10));
@@ -75,8 +73,7 @@ public class WerewolfVillager extends ConfigurableVillager{
             allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(WerewolfFurConfig._instance.getItemInstance(), 1), 10));
         }
         if(Configs.isEnabled(BloodInfusionCoreConfig.class)) {
-            allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(
-                    BloodInfusionCoreConfig._instance.downCast().getItemInstance(), 1), 15));
+            allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(BloodInfusionCoreConfig._instance.downCast().getItemInstance(), 1), 15));
         }
         if(Configs.isEnabled(BoxOfEternalClosureConfig.class)) {
             allowedTradeOutputs.add(new WeightedItemStack(new ItemStack(BoxOfEternalClosure.getInstance(), 1), 75));

@@ -24,20 +24,20 @@ public abstract class BlockConfig extends ExtendedConfig<BlockConfig> {
     }
 
     @Override
-	public String getUnlocalizedName() {
-		return "blocks." + getNamedId();
-	}
+    public String getUnlocalizedName() {
+        return "blocks." + getNamedId();
+    }
 
     @Override
     public String getFullUnlocalizedName() {
         return "tile." + getUnlocalizedName() + ".name";
     }
-    
+
     @Override
-	public ConfigurableType getHolderType() {
-		return ConfigurableType.BLOCK;
-	}
-    
+    public ConfigurableType getHolderType() {
+        return ConfigurableType.BLOCK;
+    }
+
     /**
      * If hasSubTypes() returns true this method can be overwritten to define another ItemBlock class
      * @return the ItemBlock class to use for the target block.
@@ -45,7 +45,7 @@ public abstract class BlockConfig extends ExtendedConfig<BlockConfig> {
     public Class<? extends ItemBlock> getItemBlockClass() {
         return ItemBlockExtended.class;
     }
-    
+
     /**
      * If the IConfigurable is registered in the OreDictionary, use this name to identify it.
      * @return the name this IConfigurable is registered with in the OreDictionary.
@@ -53,7 +53,7 @@ public abstract class BlockConfig extends ExtendedConfig<BlockConfig> {
     public String getOreDictionaryId() {
         return null;
     }
-    
+
     /**
      * If this block should enable Forge Multiparts and BC facades.
      * @return If that should be enabled for this block.
@@ -67,7 +67,6 @@ public abstract class BlockConfig extends ExtendedConfig<BlockConfig> {
      * @return The block.
      */
     public Block getBlockInstance() {
-        return (Block) super.getSubInstance();
+        return (Block)super.getSubInstance();
     }
-
 }

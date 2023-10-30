@@ -5,10 +5,9 @@ import net.minecraft.util.DamageSource;
 /**
  * An extension of the Minecraft {@code DamageSource}.
  * @author rubensworks
- *
  */
-public class ExtendedDamageSource extends DamageSource{
-    
+public class ExtendedDamageSource extends DamageSource {
+
     /**
      * DamageSource for when entities die without any apparent reason.
      */
@@ -33,7 +32,7 @@ public class ExtendedDamageSource extends DamageSource{
     protected ExtendedDamageSource(String unlocalizedName) {
         super(unlocalizedName);
     }
-    
+
     /**
      * Get the string identifier of this damage source.
      * @return The unique ID.
@@ -41,5 +40,4 @@ public class ExtendedDamageSource extends DamageSource{
     public String getID() {
         return "death.attack." + this.damageType;
     }
-
 }

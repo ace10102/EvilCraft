@@ -12,7 +12,6 @@ import evilcraft.block.BloodChestConfig;
 /**
  * A Blood Chest repair action for Tinkers' Construct tools.
  * @author rubensworks
- *
  */
 public class TConstructToolRepairTickAction implements IBloodChestRepairAction {
 
@@ -28,7 +27,7 @@ public class TConstructToolRepairTickAction implements IBloodChestRepairAction {
     @Override
     public boolean canRepair(ItemStack itemStack, int tick) {
         if(isItemValidForSlot(itemStack)) {
-            ToolCore tool = (ToolCore) itemStack.getItem();
+            ToolCore tool = (ToolCore)itemStack.getItem();
             return tool.getDamage(itemStack) > 0;
         }
         return false;
@@ -41,5 +40,4 @@ public class TConstructToolRepairTickAction implements IBloodChestRepairAction {
         }
         return 1;
     }
-
 }

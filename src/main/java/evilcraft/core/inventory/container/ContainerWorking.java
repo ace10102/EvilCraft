@@ -6,11 +6,9 @@ import evilcraft.core.tileentity.WorkingTileEntity;
 /**
  * A container for a working tile entity.
  * @author rubensworks
- *
  * @param <T> The {@link WorkingTileEntity} class.
  */
-public abstract class ContainerWorking<T extends WorkingTileEntity<T, ?>>
-	extends TickingTankInventoryContainer<T>{
+public abstract class ContainerWorking<T extends WorkingTileEntity<T, ?>> extends TickingTankInventoryContainer<T> {
 
     /**
      * Make a new instance.
@@ -20,5 +18,4 @@ public abstract class ContainerWorking<T extends WorkingTileEntity<T, ?>>
     public ContainerWorking(InventoryPlayer inventory, T tile) {
         super(inventory, tile);
     }
-	
 }

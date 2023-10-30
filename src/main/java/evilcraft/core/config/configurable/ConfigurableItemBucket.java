@@ -17,21 +17,20 @@ import java.util.List;
 /**
  * Item food that can hold ExtendedConfigs
  * @author rubensworks
- *
  */
-public class ConfigurableItemBucket extends ItemBucket implements IConfigurable{
-    
+public class ConfigurableItemBucket extends ItemBucket implements IConfigurable {
+
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
-    
+
     protected boolean canPickUp = true;
-    
+
     /**
      * Make a new bucket instance.
      * @param eConfig Config for this block.
      * @param block The fluid block it can pick up.
      */
-    @SuppressWarnings({ "rawtypes" })
+    @SuppressWarnings("rawtypes")
     public ConfigurableItemBucket(ExtendedConfig eConfig, Block block) {
         super(block);
         this.setConfig(eConfig);
@@ -48,24 +47,20 @@ public class ConfigurableItemBucket extends ItemBucket implements IConfigurable{
     public ExtendedConfig<?> getConfig() {
         return eConfig;
     }
-    
+
     @Override
     public String getIconString() {
-        return Reference.MOD_ID+":"+eConfig.getNamedId();
+        return Reference.MOD_ID + ":" + eConfig.getNamedId();
     }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister iconRegister) {
         itemIcon = iconRegister.registerIcon(getIconString());
     }
-    
-    @SuppressWarnings("rawtypes")
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT) @SuppressWarnings("rawtypes")
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         L10NHelpers.addOptionalInfo(list, getUnlocalizedName());
     }
-    
 }

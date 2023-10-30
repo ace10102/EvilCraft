@@ -20,19 +20,15 @@ public class IC2 {
         // Macerator dark ore
         if(Configs.isEnabled(DarkOreConfig.class) && Configs.isEnabled(DarkGemConfig.class)) {
             if(Configs.isEnabled(DarkGemCrushedConfig.class)) {
-                Recipes.macerator.addRecipe(new RecipeInputItemStack(new ItemStack(DarkOre.getInstance())), null,
-                        new ItemStack(DarkGem.getInstance(), 2), new ItemStack(DarkGemCrushedConfig._instance.getItemInstance(), 1));
+                Recipes.macerator.addRecipe(new RecipeInputItemStack(new ItemStack(DarkOre.getInstance())), null, new ItemStack(DarkGem.getInstance(), 2), new ItemStack(DarkGemCrushedConfig._instance.getItemInstance(), 1));
             } else {
-                Recipes.macerator.addRecipe(new RecipeInputItemStack(new ItemStack(DarkOre.getInstance())), null,
-                        new ItemStack(DarkGem.getInstance(), 2));
+                Recipes.macerator.addRecipe(new RecipeInputItemStack(new ItemStack(DarkOre.getInstance())), null, new ItemStack(DarkGem.getInstance(), 2));
             }
         }
 
         // Macerator dark ore -> crushed
         if(Configs.isEnabled(DarkGemConfig.class) && Configs.isEnabled(DarkGemCrushedConfig.class)) {
-            Recipes.macerator.addRecipe(new RecipeInputItemStack(new ItemStack(DarkGem.getInstance())), null,
-                    new ItemStack(DarkGemCrushedConfig._instance.getItemInstance(), 1));
+            Recipes.macerator.addRecipe(new RecipeInputItemStack(new ItemStack(DarkGem.getInstance())), null, new ItemStack(DarkGemCrushedConfig._instance.getItemInstance(), 1));
         }
     }
-
 }

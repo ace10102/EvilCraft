@@ -13,7 +13,6 @@ import java.util.Set;
 /**
  * Config for the {@link SanguinaryEnvironmentalAccumulator}.
  * @author rubensworks
- *
  */
 public class SanguinaryEnvironmentalAccumulatorConfig extends BlockContainerConfig {
 
@@ -32,12 +31,7 @@ public class SanguinaryEnvironmentalAccumulatorConfig extends BlockContainerConf
      * Make a new instance.
      */
     public SanguinaryEnvironmentalAccumulatorConfig() {
-        super(
-        	true,
-            "sanguinaryEnvironmentalAccumulator",
-            null,
-            SanguinaryEnvironmentalAccumulator.class
-        );
+        super(true, "sanguinaryEnvironmentalAccumulator", null, SanguinaryEnvironmentalAccumulator.class);
     }
 
     @Override
@@ -59,8 +53,7 @@ public class SanguinaryEnvironmentalAccumulatorConfig extends BlockContainerConf
     public void onRegistered() {
         super.onRegistered();
         if(!Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
-            throw new RuntimeException("Enabling the Sanguinary Environmental Accumulator requires the regular " +
-                    "Environmental Accumulator to be enabled!");
+            throw new RuntimeException("Enabling the Sanguinary Environmental Accumulator requires the regular " + "Environmental Accumulator to be enabled!");
         }
     }
 }

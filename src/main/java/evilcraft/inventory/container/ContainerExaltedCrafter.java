@@ -30,24 +30,23 @@ import java.util.Map;
 /**
  * Container for the {@link ExaltedCrafter}.
  * @author rubensworks
- *
  */
 @ChestContainer
 public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCrafter> {
-    
-	private static final int GRID_OFFSET_X = 30;
+
+    private static final int GRID_OFFSET_X = 30;
     private static final int GRID_OFFSET_Y = 17;
     private static final int GRID_ROWS = 3;
     private static final int GRID_COLUMNS = 3;
-    
+
     private static final int CHEST_INVENTORY_OFFSET_X = 8;
     private static final int CHEST_INVENTORY_OFFSET_Y = 84;
     private static final int CHEST_INVENTORY_ROWS = 3;
     private static final int CHEST_INVENTORY_COLUMNS = 9;
-	
+
     private static final int INVENTORY_OFFSET_X = 8;
     private static final int INVENTORY_OFFSET_Y = 143;
-    
+
     private World world;
     private EntityPlayer player;
     private NBTCraftingGrid craftingGrid;
@@ -88,13 +87,12 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
         this.player = player;
         this.result = new InventoryCraftResult();
         this.craftingGrid = new NBTCraftingGrid(player, itemIndex, this);
-        
+
         this.addCraftingGrid(player, craftingGrid);
         this.addInventory(getItem().getSupplementaryInventory(player, InventoryHelpers.getItemFromIndex(player, itemIndex), itemIndex),
-        		0, CHEST_INVENTORY_OFFSET_X, CHEST_INVENTORY_OFFSET_Y,
-        		CHEST_INVENTORY_ROWS, CHEST_INVENTORY_COLUMNS);
+                0, CHEST_INVENTORY_OFFSET_X, CHEST_INVENTORY_OFFSET_Y, CHEST_INVENTORY_ROWS, CHEST_INVENTORY_COLUMNS);
         this.addPlayerInventory(player.inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
-        
+
         initialized = true;
         this.onCraftMatrixChanged(craftingGrid);
     }
@@ -119,19 +117,20 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
             ACTIONS.get(buttonId).execute(this);
         }
     }
-    
+
     /**
      * Clear the crafting grid.
      */
     public void clearGrid() {
-    	for(int i = 0; i < craftingGrid.getSizeInventory(); i++) {
-    		transferStackInSlot(player, i);
-    	}
+        for(int i = 0; i < craftingGrid.getSizeInventory(); i++) {
+            transferStackInSlot(player, i);
+        }
     }
 
     /**
      * Balance the crafting grid.
      */
+    @SuppressWarnings("unchecked")
     public void balanceGrid() {
         // Init bins
         List<Pair<ItemStack, List<Pair<Integer, Integer>>>> bins = Lists.newArrayListWithExpectedSize(craftingGrid.getSizeInventory());
@@ -154,11 +153,9 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
                     }
                     bin++;
                 }
-
                 if(!addedToBin) {
                     itemStack.stackSize = amount;
-                    bins.add(new MutablePair<ItemStack, List<Pair<Integer, Integer>>>(itemStack,
-                            Lists.newArrayList((Pair<Integer, Integer>) new MutablePair<Integer, Integer>(slot, 0))));
+                    bins.add(new MutablePair<ItemStack, List<Pair<Integer, Integer>>>(itemStack, Lists.newArrayList((Pair<Integer, Integer>)new MutablePair<Integer, Integer>(slot, 0))));
                 }
             }
         }
@@ -193,49 +190,49 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
             ExaltedCrafter.getInstance().setReturnToInner(itemStack, returnToInner);
         }
     }
-    
+
     @Override
     protected int getSlotStart(int originSlot, int slotStart, boolean reverse) {
-    	if(!reverse && !ExaltedCrafterConfig.shiftCraftingGrid) {
-    		// Avoid shift clicking with as target the crafting grid (+ result).
-    		return 10;
-    	} else if(reverse && originSlot < 10) {
+        if(!reverse && !ExaltedCrafterConfig.shiftCraftingGrid) {
+            // Avoid shift clicking with as target the crafting grid (+ result).
+            return 10;
+        } else if(reverse && originSlot < 10) {
             if(isReturnToInnerInventory()) {
                 // Shift clicking from the crafting grid (+ result) should first go to the inner inventory.
                 return 1 + GRID_ROWS * GRID_COLUMNS;
             } else {
                 return slotStart;
             }
-    	}
-    	return super.getSlotStart(originSlot, slotStart, reverse);
+        }
+        return super.getSlotStart(originSlot, slotStart, reverse);
     }
-    
+
     @Override
     protected int getSlotRange(int originSlot, int slotRange, boolean reverse) {
-    	if(isReturnToInnerInventory() && reverse && originSlot < 10) {
-    		// Shift clicking from the crafting grid (+ result) should first go to the inner inventory.
-    		return getSizeInventory();
-    	} else {
+        if(isReturnToInnerInventory() && reverse && originSlot < 10) {
+            // Shift clicking from the crafting grid (+ result) should first go to the inner inventory.
+            return getSizeInventory();
+        } else {
             return slotRange;
         }
     }
-    
+
     protected void addCraftingGrid(EntityPlayer player, NBTCraftingGrid grid) {
-    	this.addInventory(grid, 0, GRID_OFFSET_X, GRID_OFFSET_Y, GRID_ROWS, GRID_COLUMNS);
-    	this.addSlotToContainer(new SlotCrafting(player, grid, result, 0, 124, 35));
+        this.addInventory(grid, 0, GRID_OFFSET_X, GRID_OFFSET_Y, GRID_ROWS, GRID_COLUMNS);
+        this.addSlotToContainer(new SlotCrafting(player, grid, result, 0, 124, 35));
     }
 
-	@Override
-	protected int getSizeInventory() {
-		return 1 + (GRID_ROWS * GRID_COLUMNS) + (CHEST_INVENTORY_ROWS * CHEST_INVENTORY_COLUMNS);
-	}
-	
-	@Override
-	public void onCraftMatrixChanged(IInventory inventory) {
-		if(initialized) {
-			result.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(craftingGrid, world));
-			craftingGrid.save();
-		}
+    @Override
+    protected int getSizeInventory() {
+        return 1 + (GRID_ROWS * GRID_COLUMNS) + (CHEST_INVENTORY_ROWS * CHEST_INVENTORY_COLUMNS);
+    }
+
+    @Override
+    public void onCraftMatrixChanged(IInventory inventory) {
+        if(initialized) {
+            result.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(craftingGrid, world));
+            craftingGrid.save();
+        }
     }
 
     /**
@@ -257,18 +254,14 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
         selection.put(ContainerSection.CRAFTING_OUT, craftingOutSlots);
         selection.put(ContainerSection.CHEST, craftingChest);
         return selection;
-
     }
 
     /**
-     * Action for pressing buttons.
-     * Easily expandable for more containers.
+     * Action for pressing buttons. Easily expandable for more containers.
      * Might want to further abstract Gui logic related to buttons in that case as well.
      */
     private static interface IButtonAction {
 
         public void execute(ContainerExaltedCrafter container);
-
     }
-    
 }

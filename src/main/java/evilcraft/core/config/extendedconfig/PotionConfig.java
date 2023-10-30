@@ -22,8 +22,7 @@ public abstract class PotionConfig extends ExtendedConfig<PotionConfig> {
      * @param comment The comment to add in the config file for this configurable.
      * @param element The class of this configurable.
      */
-    public PotionConfig(int defaultId, String namedId,
-                             String comment, Class<? extends Potion> element) {
+    public PotionConfig(int defaultId, String namedId, String comment, Class<? extends Potion> element) {
         super(defaultId != 0, namedId, comment, element);
         this.ID = defaultId;
     }
@@ -42,5 +41,4 @@ public abstract class PotionConfig extends ExtendedConfig<PotionConfig> {
     public ConfigurableType getHolderType() {
         return ConfigurableType.POTION;
     }
-
 }

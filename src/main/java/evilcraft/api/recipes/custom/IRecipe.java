@@ -1,9 +1,7 @@
 package evilcraft.api.recipes.custom;
 
-
 /**
  * Interface for recipes that can be registered with {@link ISuperRecipeRegistry}.
- *
  * @author immortaleeb
  * @param <I> The type of the recipe input of all recipes associated with the machine.
  * @param <O> The type of the recipe output of all recipes associated with the machine.

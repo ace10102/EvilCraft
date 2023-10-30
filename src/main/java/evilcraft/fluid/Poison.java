@@ -8,12 +8,11 @@ import net.minecraftforge.fluids.Fluid;
 /**
  * The poisonous {@link Fluid}.
  * @author rubensworks
- *
  */
-public class Poison extends ConfigurableFluid{
-    
+public class Poison extends ConfigurableFluid {
+
     private static Poison _instance = null;
-    
+
     /**
      * Make the unique instance.
      * @param eConfig config
@@ -24,7 +23,7 @@ public class Poison extends ConfigurableFluid{
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The unique instance.
@@ -35,9 +34,8 @@ public class Poison extends ConfigurableFluid{
 
     private Poison(ExtendedConfig<FluidConfig> eConfig) {
         super(eConfig);
-        setDensity(1000); // How tick the fluid is, affects movement inside the liquid.
+        setDensity(1000); // How thick the fluid is, affects movement inside the liquid.
         setViscosity(1000); // How fast the fluid flows.
         setTemperature(290); // 36 degrees C
     }
-
 }

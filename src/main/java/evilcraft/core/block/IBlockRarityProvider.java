@@ -14,5 +14,4 @@ public interface IBlockRarityProvider {
      * @return The rarity for this block.
      */
     public EnumRarity getRarity(ItemStack itemStack);
-
 }

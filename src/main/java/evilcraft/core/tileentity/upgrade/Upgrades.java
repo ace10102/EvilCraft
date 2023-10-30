@@ -10,8 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Factory class for creating new upgrade types.
- * These instances act as enums.
+ * Factory class for creating new upgrade types. These instances act as enums.
  * @author rubensworks
  */
 public class Upgrades {
@@ -129,7 +128,6 @@ public class Upgrades {
         public Set<BlockConfig> getUpgradables() {
             return this.upgradableInfo;
         }
-
     }
 
     public static class UpgradeEventType {
@@ -137,7 +135,5 @@ public class Upgrades {
         private UpgradeEventType() {
 
         }
-
     }
-
 }

@@ -11,11 +11,10 @@ import org.lwjgl.opengl.GL11;
 /**
  * Renderer for the {@link evilcraft.block.ColossalBloodChest}.
  * @author rubensworks
- *
  */
 public class RenderTileEntityColossalBloodChest extends RenderTileEntityModel {
 
-	/**
+    /**
      * Make a new instance.
      * @param model The model to render.
      * @param texture The texture to render the model with.
@@ -26,7 +25,7 @@ public class RenderTileEntityColossalBloodChest extends RenderTileEntityModel {
 
     @Override
     protected void preRotate(EvilCraftTileEntity tile) {
-        TileColossalBloodChest chestTile = (TileColossalBloodChest) tile;
+        TileColossalBloodChest chestTile = (TileColossalBloodChest)tile;
         if(chestTile.canWork()) {
             int[] renderOffset = chestTile.getRenderOffset().getCoordinates();
             GL11.glTranslatef(-renderOffset[0], renderOffset[1], renderOffset[2]);
@@ -42,13 +41,13 @@ public class RenderTileEntityColossalBloodChest extends RenderTileEntityModel {
 
     @Override
     protected void renderModel(EvilCraftTileEntity tile, ModelBase model, float partialTick) {
-        TileColossalBloodChest chestTile = (TileColossalBloodChest) tile;
+        TileColossalBloodChest chestTile = (TileColossalBloodChest)tile;
         if(chestTile.canWork()) {
-            ModelChest modelchest = (ModelChest) model;
+            ModelChest modelchest = (ModelChest)model;
             float lidangle = chestTile.prevLidAngle + (chestTile.lidAngle - chestTile.prevLidAngle) * partialTick;
             lidangle = 1.0F - lidangle;
             lidangle = 1.0F - lidangle * lidangle * lidangle;
-            modelchest.chestLid.rotateAngleX = -(lidangle * (float) Math.PI / 2.0F);
+            modelchest.chestLid.rotateAngleX = -(lidangle * (float)Math.PI / 2.0F);
             GL11.glTranslatef(0, -0.3333F, 0);
             modelchest.renderAll();
             GL11.glScalef(1 / 3, 1 / 3, 1 / 3);

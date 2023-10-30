@@ -1,4 +1,5 @@
 package evilcraft.item;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.ItemStack;
@@ -10,12 +11,11 @@ import evilcraft.entity.item.EntityLightningGrenade;
 /**
  * Pearl that spawns lightning on collision.
  * @author rubensworks
- *
  */
 public class LightningGrenade extends AbstractGrenade {
-    
+
     private static LightningGrenade _instance = null;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -26,7 +26,7 @@ public class LightningGrenade extends AbstractGrenade {
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.

@@ -5,7 +5,6 @@ import evilcraft.api.tileentity.INBTSerializable;
 /**
  * Location interface.
  * @author rubensworks
- *
  */
 public interface ILocation extends Comparable<ILocation>, INBTSerializable {
 
@@ -14,33 +13,33 @@ public interface ILocation extends Comparable<ILocation>, INBTSerializable {
      * @return The amount of dimensions.
      */
     public int getDimensions();
-    
+
     /**
      * Get the coordinates for this location.
      * @return An array of coordinates of the dimension for this location.
      */
     public int[] getCoordinates();
-    
+
     /**
      * Set the coordinates for this location.
      * @param coordinates The coordinates.
      */
     public void setCoordinates(int[] coordinates);
-    
+
     /**
      * Get the difference between this and the given location.
      * @param location The location to calculate the difference with.
      * @return The difference.
      */
     public ISize getDifference(ILocation location);
-    
+
     /**
      * Get the distance between this and the given location.
      * @param location The location to calculate the distance with.
      * @return The distance.
      */
     public int getDistance(ILocation location);
-    
+
     /**
      * Subtract this location with a given location.
      * This will not change this location, it will create a new location object.
@@ -58,11 +57,10 @@ public interface ILocation extends Comparable<ILocation>, INBTSerializable {
      * @throws IllegalArgumentException If the dimensions differ.
      */
     public ILocation add(ILocation location);
-    
+
     /**
      * Copy this location.
      * @return A deep copy.
      */
     public ILocation copy();
-    
 }

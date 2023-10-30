@@ -2,9 +2,7 @@ package evilcraft.client.particle;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EntityBubbleFX;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 /**
@@ -33,7 +31,7 @@ public class ExtendedEntityBubbleFX extends EntityBubbleFX {
         this.motionY *= 0.85D;
         this.motionZ *= 0.85D;
 
-        if (this.particleMaxAge-- <= 0) {
+        if(this.particleMaxAge-- <= 0) {
             this.setDead();
         }
     }

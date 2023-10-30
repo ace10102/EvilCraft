@@ -13,12 +13,11 @@ import java.util.List;
 /**
  * An effect that will knockback the entities within the range of the degradable.
  * @author rubensworks
- *
  */
 public class KnockbackDistortDegradation extends ConfigurableDegradationEffect {
 
     private static KnockbackDistortDegradation _instance = null;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -29,7 +28,7 @@ public class KnockbackDistortDegradation extends ConfigurableDegradationEffect {
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -37,10 +36,10 @@ public class KnockbackDistortDegradation extends ConfigurableDegradationEffect {
     public static KnockbackDistortDegradation getInstance() {
         return _instance;
     }
-    
+
     private static final int MINIMUM_DEGRADATION = 3;
     private static final int POWER_LEVEL = 1;
-    
+
     private KnockbackDistortDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
         super(eConfig);
     }
@@ -52,7 +51,6 @@ public class KnockbackDistortDegradation extends ConfigurableDegradationEffect {
 
     @Override
     public void runClientSide(IDegradable degradable) {
-        
     }
 
     @Override
@@ -63,15 +61,7 @@ public class KnockbackDistortDegradation extends ConfigurableDegradationEffect {
         double y = center.getCoordinates()[1];
         double z = center.getCoordinates()[2];
         for(Entity entity : entities) {
-            MaceOfDistortion.getInstance().distortEntity(
-                    degradable.getWorld(),
-                    null,
-                    entity,
-                    x, y, z,
-                    (int) degradable.getDegradation() * 10,
-                    POWER_LEVEL
-            );
+            MaceOfDistortion.getInstance().distortEntity(degradable.getWorld(), null, entity, x, y, z, (int)degradable.getDegradation() * 10, POWER_LEVEL);
         }
     }
-    
 }

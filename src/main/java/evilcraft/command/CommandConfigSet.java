@@ -17,10 +17,9 @@ import java.util.Map;
 /**
  * Command that can define {@link ConfigProperty}.
  * @author rubensworks
- *
  */
 public class CommandConfigSet extends CommandEvilCraft {
-    
+
     private ConfigProperty config;
     private String name;
 
@@ -33,20 +32,20 @@ public class CommandConfigSet extends CommandEvilCraft {
         this.name = name;
         this.config = config;
     }
-    
+
     @Override
     protected List<String> getAliases() {
         List<String> list = new LinkedList<String>();
         list.add(name);
         return list;
     }
-    
+
     @Override
     protected Map<String, ICommand> getSubcommands() {
         Map<String, ICommand> map = new HashMap<String, ICommand>();
         return map;
     }
-    
+
     @Override
     public void processCommand(ICommandSender icommandsender, String[] astring) {
         if(astring.length == 0 || astring.length > 1) {
@@ -54,17 +53,15 @@ public class CommandConfigSet extends CommandEvilCraft {
         } else {
             Object newValue = Helpers.tryParse(astring[0], config.getValue());
             if(newValue != null) {
-            	Configuration configuration = ConfigHandler.getInstance().getConfig();
-            	configuration.load();
+                Configuration configuration = ConfigHandler.getInstance().getConfig();
+                configuration.load();
                 config.getCallback().run(newValue);
                 config.save(configuration, true);
                 configuration.save();
-                icommandsender.addChatMessage(new ChatComponentText(L10NHelpers.localize("chat.command.updatedValue",
-                        name, newValue.toString())));
+                icommandsender.addChatMessage(new ChatComponentText(L10NHelpers.localize("chat.command.updatedValue", name, newValue.toString())));
             } else {
                 icommandsender.addChatMessage(new ChatComponentText(L10NHelpers.localize("chat.command.invalidNewValue")));
             }
         }
     }
-
 }

@@ -13,14 +13,12 @@ import evilcraft.core.client.render.model.ModelWavefront;
 import evilcraft.core.helper.RenderHelpers;
 import evilcraft.core.helper.RenderHelpers.IFluidContextRender;
 
-
 /**
  * Render the dark tank as item.
  * @author rubensworks
- *
  */
 public class RenderItemEntangledChalice extends RenderModelWavefrontItem {
-	
+
     /**
      * Make a new instance.
      * @param model The model to render.
@@ -29,23 +27,22 @@ public class RenderItemEntangledChalice extends RenderModelWavefrontItem {
     public RenderItemEntangledChalice(ModelWavefront model, ResourceLocation texture) {
         super(model, texture);
     }
-    
+
     @Override
     protected void preRenderModel(final ItemRenderType type, float x, float y, float z) {
-    	final EntangledChaliceItem chalice = (EntangledChaliceItem) currentItemStack.getItem();
-    	FluidStack fluidStack = chalice.getFluid(currentItemStack);
-    	ModelChalice.setColorSeed(chalice.getTankID(currentItemStack));
-    	RenderHelpers.renderFluidContext(fluidStack, 0, 0, 0, false, new IFluidContextRender() {
-			
-			@Override
-			public void renderFluid(FluidStack fluid) {
-				if(type == ItemRenderType.ENTITY) {
-		    		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-		    	}
-				double capacity = chalice.getCapacity(currentItemStack);
-            	RenderTileEntityEntangledChalice.renderFluidSide(fluid, (double) fluid.amount / capacity);
-			}
-		});
-    }
+        final EntangledChaliceItem chalice = (EntangledChaliceItem)currentItemStack.getItem();
+        FluidStack fluidStack = chalice.getFluid(currentItemStack);
+        ModelChalice.setColorSeed(chalice.getTankID(currentItemStack));
+        RenderHelpers.renderFluidContext(fluidStack, 0, 0, 0, false, new IFluidContextRender() {
 
+            @Override
+            public void renderFluid(FluidStack fluid) {
+                if(type == ItemRenderType.ENTITY) {
+                    GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+                }
+                double capacity = chalice.getCapacity(currentItemStack);
+                RenderTileEntityEntangledChalice.renderFluidSide(fluid, (double)fluid.amount / capacity);
+            }
+        });
+    }
 }

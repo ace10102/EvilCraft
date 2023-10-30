@@ -9,7 +9,6 @@ import evilcraft.core.client.render.item.RenderModelItem;
 /**
  * Item renderer for the {@link BloodChest}.
  * @author rubensworks
- *
  */
 public class RenderItemBloodChest extends RenderModelItem {
 
@@ -21,12 +20,11 @@ public class RenderItemBloodChest extends RenderModelItem {
     public RenderItemBloodChest(ModelBase model, ResourceLocation texture) {
         super(model, texture);
     }
-    
+
     @Override
     protected void renderModel(ModelBase model) {
-    	ModelChest chest = (ModelChest)model;
-    	chest.chestLid.rotateAngleX = 0F;
-    	chest.renderAll();
+        ModelChest chest = (ModelChest)model;
+        chest.chestLid.rotateAngleX = 0F;
+        chest.renderAll();
     }
-
 }

@@ -1,4 +1,5 @@
 package evilcraft.item;
+
 import evilcraft.core.config.configurable.ConfigurableItem;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
@@ -6,14 +7,13 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 /**
  * Contained flux.
  * @author rubensworks
- *
  */
 public class ContainedFlux extends ConfigurableItem {
-    
+
     private static ContainedFlux _instance = null;
-    
+
     /**
-     * Initialise the configurable.
+     * Initialize the configurable.
      * @param eConfig The config.
      */
     public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
@@ -22,7 +22,7 @@ public class ContainedFlux extends ConfigurableItem {
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -35,5 +35,4 @@ public class ContainedFlux extends ConfigurableItem {
         super(eConfig);
         this.maxStackSize = 1;
     }
-
 }

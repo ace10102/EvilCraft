@@ -7,10 +7,9 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 /**
  * Config for the Dark Power Gem.
  * @author rubensworks
- *
  */
 public class DarkPowerGemConfig extends ItemConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -20,17 +19,11 @@ public class DarkPowerGemConfig extends ItemConfig {
      * Make a new instance.
      */
     public DarkPowerGemConfig() {
-        super(
-        	true,
-            "darkPowerGem",
-            null,
-            null
-        );
+        super(true, "darkPowerGem", null, null);
     }
 
     @Override
     protected IConfigurable initSubInstance() {
-        return(ConfigurableItem) new ConfigurableItem(this).setMaxStackSize(16);
+        return (ConfigurableItem)new ConfigurableItem(this).setMaxStackSize(16);
     }
-    
 }

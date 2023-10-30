@@ -19,13 +19,12 @@ import java.util.List;
 /**
  * Helpers for items.
  * @author rubensworks
- *
  */
 public class ItemHelpers {
 
-	private static final int MB_FILL_PERTICK = GeneralConfig.mbFlowRate;
-	
-	/**
+    private static final int MB_FILL_PERTICK = GeneralConfig.mbFlowRate;
+
+    /**
      * Check if the given item is activated.
      * @param itemStack The item to check
      * @return If it is an active container.
@@ -33,7 +32,7 @@ public class ItemHelpers {
     public static boolean isActivated(ItemStack itemStack) {
         return itemStack != null && itemStack.getTagCompound() != null && itemStack.getTagCompound().getBoolean("enabled");
     }
-    
+
     /**
      * Toggle activation for the given item.
      * @param itemStack The item to toggle.
@@ -46,7 +45,7 @@ public class ItemHelpers {
         }
         tag.setBoolean("enabled", !isActivated(itemStack));
     }
-    
+
     /**
      * Get the integer value of the given ItemStack.
      * @param itemStack The item to check.
@@ -59,7 +58,7 @@ public class ItemHelpers {
         }
         return itemStack.getTagCompound().getInteger(tag);
     }
-    
+
     /**
      * Set the integer value of the given ItemStack for the given tag.
      * @param itemStack The item to change.
@@ -74,7 +73,7 @@ public class ItemHelpers {
         }
         tagCompound.setInteger(tag, integer);
     }
-    
+
     /**
      * Run an auto-fill tick for filling currently held container items from this item.
      * @param item The item type to fill from.
@@ -83,10 +82,10 @@ public class ItemHelpers {
      * @param entity The entity that holds this item.
      */
     public static void updateAutoFill(IFluidContainerItem item, ItemStack itemStack, World world, Entity entity) {
-    	if(entity instanceof EntityPlayer && !world.isRemote) {
+        if(entity instanceof EntityPlayer && !world.isRemote) {
             FluidStack tickFluid = item.getFluid(itemStack);
             if(tickFluid != null && tickFluid.amount > 0) {
-                EntityPlayer player = (EntityPlayer) entity;
+                EntityPlayer player = (EntityPlayer)entity;
                 ItemStack held = player.getCurrentEquippedItem();
                 tryFillContainerForPlayer(item, itemStack, held, tickFluid, player);
             }
@@ -103,14 +102,10 @@ public class ItemHelpers {
      */
     public static void tryFillContainerForPlayer(IFluidContainerItem item, ItemStack itemStack, ItemStack toFill, FluidStack tickFluid, EntityPlayer player) {
         if(toFill != null && toFill != itemStack && toFill.getItem() instanceof IFluidContainerItem && !player.isUsingItem()) {
-            IFluidContainerItem fluidContainer = (IFluidContainerItem) toFill.getItem();
+            IFluidContainerItem fluidContainer = (IFluidContainerItem)toFill.getItem();
             FluidStack heldFluid = fluidContainer.getFluid(toFill);
-            if(heldFluid == null ||
-                    (heldFluid.isFluidEqual(tickFluid)
-                    && heldFluid.amount < fluidContainer.getCapacity(toFill))
-                    ) {
-                int filled = fluidContainer.fill(toFill, new FluidStack(tickFluid.getFluid(),
-                        Math.min(tickFluid.amount, MB_FILL_PERTICK)), true);
+            if(heldFluid == null || (heldFluid.isFluidEqual(tickFluid) && heldFluid.amount < fluidContainer.getCapacity(toFill))) {
+                int filled = fluidContainer.fill(toFill, new FluidStack(tickFluid.getFluid(), Math.min(tickFluid.amount, MB_FILL_PERTICK)), true);
                 item.drain(itemStack, filled, true);
             }
         }
@@ -125,7 +120,7 @@ public class ItemHelpers {
     public static boolean hasPlayerItem(EntityPlayer player, Item item) {
         for(PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player); it.hasNext();) {
             ItemStack itemStack = it.next();
-            if (itemStack != null && itemStack.getItem() == item) {
+            if(itemStack != null && itemStack.getItem() == item) {
                 return true;
             }
         }
@@ -133,8 +128,7 @@ public class ItemHelpers {
     }
 
     /**
-     * Get a list of variants from the given stack if its damage value is the wildcard value,
-     * otherwise the list will only contain the given itemstack.
+     * Get a list of variants from the given stack if its damage value is the wildcard value, otherwise the list will only contain the given itemstack.
      * @param itemStack The itemstack
      * @return The list of variants.
      */
@@ -149,8 +143,7 @@ public class ItemHelpers {
     }
 
     /**
-     * Parse a string to an itemstack.
-     * Expects the format "domain:itemname:amount:meta"
+     * Parse a string to an itemstack. Expects the format "domain:itemname:amount:meta"
      * The domain and itemname are mandatory, the rest is optional.
      * @param itemStackString The string to parse.
      * @return The itemstack.
@@ -159,7 +152,7 @@ public class ItemHelpers {
     public static ItemStack parseItemStack(String itemStackString) {
         String[] split = itemStackString.split(":");
         String itemName = split[0] + ":" + split[1];
-        Item item =  GameData.getItemRegistry().getObject(itemName);
+        Item item = GameData.getItemRegistry().getObject(itemName);
         if(item == null) {
             throw new IllegalArgumentException("Invalid ItemStack item: " + itemName);
         }
@@ -168,18 +161,17 @@ public class ItemHelpers {
         if(split.length > 2) {
             try {
                 amount = Integer.parseInt(split[2]);
-            } catch (NumberFormatException e) {
+            } catch(NumberFormatException e) {
                 throw new IllegalArgumentException("Invalid ItemStack amount: " + split[2]);
             }
             if(split.length > 3) {
                 try {
                     meta = Integer.parseInt(split[3]);
-                } catch (NumberFormatException e) {
+                } catch(NumberFormatException e) {
                     throw new IllegalArgumentException("Invalid ItemStack meta: " + split[3]);
                 }
             }
         }
         return new ItemStack(item, amount, meta);
     }
-	
 }

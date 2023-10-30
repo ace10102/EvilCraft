@@ -5,7 +5,6 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 /**
  * Config for the {@link evilcraft.modcompat.thaumcraft.VeinedScribingTools}.
  * @author rubensworks
- *
  */
 public class VeinedScribingToolsConfig extends ItemConfig {
 
@@ -18,12 +17,6 @@ public class VeinedScribingToolsConfig extends ItemConfig {
      * Make a new instance.
      */
     public VeinedScribingToolsConfig() {
-        super(
-        	true,
-            "veinedScribingTools",
-            null,
-            VeinedScribingTools.class
-        );
+        super(true, "veinedScribingTools", null, VeinedScribingTools.class);
     }
-    
 }

@@ -20,17 +20,16 @@ import java.util.List;
 /**
  * An inverted Potentia Sphere.
  * @author rubensworks
- *
  */
 public class InvertedPotentia extends ConfigurableItem implements IItemEmpowerable {
-    
+
     private static InvertedPotentia _instance = null;
-    
+
     /**
      * Meta data for the empowered state.
      */
     public static final int EMPOWERED_META = 1;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -41,7 +40,7 @@ public class InvertedPotentia extends ConfigurableItem implements IItemEmpowerab
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -54,51 +53,46 @@ public class InvertedPotentia extends ConfigurableItem implements IItemEmpowerab
         super(eConfig);
         this.setMaxStackSize(1);
     }
-    
+
     @Override
-    public boolean hasEffect(ItemStack itemStack, int pass){
+    public boolean hasEffect(ItemStack itemStack, int pass) {
         return isEmpowered(itemStack);
     }
-    
+
     @Override
-	public ItemStack empower(ItemStack itemStack) {
+    public ItemStack empower(ItemStack itemStack) {
         if(itemStack.getItem() == InvertedPotentia.getInstance()) {
             itemStack.setItemDamage(EMPOWERED_META);
         }
         return itemStack;
     }
-    
+
     @Override
-	public boolean isEmpowered(ItemStack itemStack) {
+    public boolean isEmpowered(ItemStack itemStack) {
         return itemStack.getItem() == this && itemStack.getItemDamage() == EMPOWERED_META;
     }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT) @SuppressWarnings({ "rawtypes", "unchecked" })
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         if(isEmpowered(itemStack))
             list.add(EnumChatFormatting.RED + "Empowered");
     }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    @SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT) @SuppressWarnings({ "rawtypes", "unchecked" })
     public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
         for(int i = 0; i < 2; i++) {
             list.add(new ItemStack(item, 1, i));
         }
     }
-    
+
     @Override
     public boolean hasCustomEntity(ItemStack itemStack) {
-    	return true;
-    }
-    
-    @Override
-    public Entity createEntity(World world, Entity location, ItemStack itemStack) {
-    	return new EntityItemEmpowerable(world, (EntityItem) location);
+        return true;
     }
 
+    @Override
+    public Entity createEntity(World world, Entity location, ItemStack itemStack) {
+        return new EntityItemEmpowerable(world, (EntityItem)location);
+    }
 }

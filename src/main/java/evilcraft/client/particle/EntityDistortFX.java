@@ -7,7 +7,6 @@ import evilcraft.item.MaceOfDistortion;
 /**
  * An effect for the distortion radial effect.
  * @author rubensworks
- *
  */
 public class EntityDistortFX extends EntityFX {
 
@@ -24,23 +23,22 @@ public class EntityDistortFX extends EntityFX {
      */
     public EntityDistortFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float scale) {
         super(world, x, y, z, motionX, motionY, motionZ);
-        
+
         particleScale = scale;
         particleAlpha = 0.3F;
         particleMaxAge = MaceOfDistortion.AOE_TICK_UPDATE;
-        
+
         particleRed = 1.0F * rand.nextFloat();
         particleGreen = 0.01F * rand.nextFloat();
         particleBlue = 0.5F * rand.nextFloat();
-        
+
         this.noClip = false;
     }
-    
+
     @Override
     public void onUpdate() {
         particleScale = (1 - (float)particleAge / particleMaxAge) * 3;
         this.setParticleTextureIndex(7 - this.particleAge * 8 / this.particleMaxAge);
         super.onUpdate();
     }
-
 }

@@ -1,4 +1,5 @@
 package evilcraft.block;
+
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -18,12 +19,11 @@ import evilcraft.entity.monster.NetherfishConfig;
 /**
  * A block that spawns a {@link Netherfish} when the block breaks.
  * @author rubensworks
- *
  */
 public class NetherfishSpawn extends ConfigurableBlockWithInnerBlocks {
-    
+
     private static NetherfishSpawn _instance = null;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -34,7 +34,7 @@ public class NetherfishSpawn extends ConfigurableBlockWithInnerBlocks {
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -47,23 +47,19 @@ public class NetherfishSpawn extends ConfigurableBlockWithInnerBlocks {
         super(eConfig, Material.clay);
         this.setHardness(0.0F);
     }
-    
+
     @Override
     protected Block[] makeInnerBlockList() {
-        return new Block[]{
-                Blocks.netherrack,
-                Blocks.nether_brick, 
-                Blocks.soul_sand
-                };
+        return new Block[] { Blocks.netherrack, Blocks.nether_brick, Blocks.soul_sand };
     }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {}
-    
+
+    @Override @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister iconRegister) {
+    }
+
     @Override
     public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int meta) {
-        if (!world.isRemote && Configs.isEnabled(NetherfishConfig.class)) {
+        if(!world.isRemote && Configs.isEnabled(NetherfishConfig.class)) {
             Netherfish netherfish = new Netherfish(world);
             netherfish.setLocationAndAngles((double)x + 0.5D, (double)y, (double)z + 0.5D, 0.0F, 0.0F);
             world.spawnEntityInWorld(netherfish);
@@ -72,12 +68,12 @@ public class NetherfishSpawn extends ConfigurableBlockWithInnerBlocks {
 
         super.onBlockDestroyedByPlayer(world, x, y, z, meta);
     }
-    
+
     @Override
     public int quantityDropped(Random random) {
         return 0;
     }
-    
+
     /**
      * Does the given metadata correspond to an inner block?
      * @param meta Metadata for the (inner) block
@@ -86,5 +82,4 @@ public class NetherfishSpawn extends ConfigurableBlockWithInnerBlocks {
     public boolean getPosingIdByMetadata(int meta) {
         return getBlockFromMetadata(meta) != null;
     }
-
 }

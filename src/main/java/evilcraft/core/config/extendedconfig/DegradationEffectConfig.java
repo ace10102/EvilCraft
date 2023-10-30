@@ -8,10 +8,10 @@ import evilcraft.core.config.configurable.ConfigurableDegradationEffect;
  * @author rubensworks
  * @see ExtendedConfig
  */
-public abstract class DegradationEffectConfig extends ExtendedConfig<DegradationEffectConfig>{
+public abstract class DegradationEffectConfig extends ExtendedConfig<DegradationEffectConfig> {
 
     private int weight;
-    
+
     /**
      * Make a new instance.
      * @param enabled If this should is enabled.
@@ -20,28 +20,27 @@ public abstract class DegradationEffectConfig extends ExtendedConfig<Degradation
      * @param element The class of this configurable.
      * @param weight The weight of the degradation effect.
      */
-    public DegradationEffectConfig(boolean enabled, String namedId, String comment,
-            Class<? extends ConfigurableDegradationEffect> element, int weight) {
+    public DegradationEffectConfig(boolean enabled, String namedId, String comment, Class<? extends ConfigurableDegradationEffect> element, int weight) {
         super(enabled, namedId, comment, element);
         this.weight = weight;
     }
-    
+
     @Override
-	public String getUnlocalizedName() {
-		return "degradationeffect." + getNamedId();
-	}
-    
+    public String getUnlocalizedName() {
+        return "degradationeffect." + getNamedId();
+    }
+
     @Override
-	public ConfigurableType getHolderType() {
-		return ConfigurableType.DEGRADATIONEFFECT;
-	}
-    
+    public ConfigurableType getHolderType() {
+        return ConfigurableType.DEGRADATIONEFFECT;
+    }
+
     /**
      * Get the biome configurable
      * @return The biome.
      */
     public ConfigurableDegradationEffect getDegradationEffect() {
-        return (ConfigurableDegradationEffect) this.getSubInstance();
+        return (ConfigurableDegradationEffect)this.getSubInstance();
     }
 
     /**
@@ -51,5 +50,4 @@ public abstract class DegradationEffectConfig extends ExtendedConfig<Degradation
     public int getWeight() {
         return weight;
     }
-
 }

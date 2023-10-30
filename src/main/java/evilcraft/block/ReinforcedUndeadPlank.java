@@ -25,7 +25,6 @@ import net.minecraft.world.World;
 /**
  * Part of the Colossal Blood Chest multiblock structure.
  * @author rubensworks
- *
  */
 public class ReinforcedUndeadPlank extends ConfigurableBlock implements IDetectionListener {
 
@@ -57,8 +56,7 @@ public class ReinforcedUndeadPlank extends ConfigurableBlock implements IDetecti
         this.setHarvestLevel("axe", 2); // Iron tier
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
         return meta == 1 ? RenderHelpers.EMPTYICON : super.getIcon(side, meta);
     }
@@ -72,39 +70,39 @@ public class ReinforcedUndeadPlank extends ConfigurableBlock implements IDetecti
     public boolean renderAsNormalBlock() {
         return false;
     }
-    
-    @Override
-    public boolean canCreatureSpawn(EnumCreatureType creatureType, IBlockAccess world, int x, int y, int z) {
-    	return false;
-    }
-    
-    private void triggerDetector(World world, int x, int y, int z, boolean valid) {
-    	TileColossalBloodChest.detector.detect(world, new Location(x, y, z), valid, true);
-    }
-    
-    @Override
-    public void onBlockAdded(World world, int x, int y, int z) {
-    	triggerDetector(world, x, y, z, true);
-        world.func_147453_f(x, y, z, this);
-    }
-    
-    @Override
-    public void onBlockPreDestroy(World world, int x, int y, int z, int meta) {
-    	if(meta == 1) triggerDetector(world, x, y, z, false);
-    	super.onBlockPreDestroy(world, x, y, z, meta);
-    }
-    
-    @Override
-	public void onDetect(World world, ILocation location, Size size, boolean valid, ILocation originCorner) {
-		Block block = LocationHelpers.getBlock(world, location);
-		if(block == this) {
-            TileColossalBloodChest.detectStructure(world, location, size, valid);
-		}
-	}
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side,
-                                    float posX, float posY, float posZ) {
+    public boolean canCreatureSpawn(EnumCreatureType creatureType, IBlockAccess world, int x, int y, int z) {
+        return false;
+    }
+
+    private void triggerDetector(World world, int x, int y, int z, boolean valid) {
+        TileColossalBloodChest.detector.detect(world, new Location(x, y, z), valid, true);
+    }
+
+    @Override
+    public void onBlockAdded(World world, int x, int y, int z) {
+        triggerDetector(world, x, y, z, true);
+        world.func_147453_f(x, y, z, this);
+    }
+
+    @Override
+    public void onBlockPreDestroy(World world, int x, int y, int z, int meta) {
+        if(meta == 1)
+            triggerDetector(world, x, y, z, false);
+        super.onBlockPreDestroy(world, x, y, z, meta);
+    }
+
+    @Override
+    public void onDetect(World world, ILocation location, Size size, boolean valid, ILocation originCorner) {
+        Block block = LocationHelpers.getBlock(world, location);
+        if(block == this) {
+            TileColossalBloodChest.detectStructure(world, location, size, valid);
+        }
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float posX, float posY, float posZ) {
         int meta = world.getBlockMetadata(x, y, z);
         if(meta == 1) {
             final Wrapper<ILocation> tileLocationWrapper = new Wrapper<ILocation>();
@@ -121,12 +119,10 @@ public class ReinforcedUndeadPlank extends ConfigurableBlock implements IDetecti
             ILocation tileLocation = tileLocationWrapper.get();
             if(tileLocation != null) {
                 int[] c = tileLocation.getCoordinates();
-                LocationHelpers.getBlock(world,
-                        tileLocation).onBlockActivated(world, c[0], c[1], c[2], player, side, posX, posY, posZ);
+                LocationHelpers.getBlock(world, tileLocation).onBlockActivated(world, c[0], c[1], c[2], player, side, posX, posY, posZ);
                 return true;
             }
         }
         return super.onBlockActivated(world, x, y, z, player, side, posX, posY, posZ);
     }
-
 }

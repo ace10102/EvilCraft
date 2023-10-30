@@ -36,10 +36,9 @@ import java.util.Map;
 /**
  * A furnace that is able to cook spirits for their inner entity drops.
  * @author rubensworks
- *
  */
 public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, MutableDouble> {
-    
+
     /**
      * The id of the fluid container drainer slot.
      */
@@ -56,12 +55,12 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
      * The id of the output slot.
      */
     public static final int SLOTS_OUTPUT = 3;
-    
+
     /**
      * The total amount of slots in this machine.
      */
     public static final int SLOTS = 4;
-    
+
     /**
      * The name of the tank, used for NBT storage.
      */
@@ -78,12 +77,12 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
      * The fluid that is accepted in the tank.
      */
     public static final Fluid ACCEPTED_FLUID = Blood.getInstance();
-    
+
     private static final Map<Class<?>, ITickAction<TileSpiritReanimator>> REANIMATE_COOK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileSpiritReanimator>>();
     static {
-    	REANIMATE_COOK_TICK_ACTIONS.put(BoxOfEternalClosure.class, new ReanimateTickAction());
+        REANIMATE_COOK_TICK_ACTIONS.put(BoxOfEternalClosure.class, new ReanimateTickAction());
     }
-    
+
     private static final Map<Class<?>, ITickAction<TileSpiritReanimator>> EMPTY_IN_TANK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileSpiritReanimator>>();
     static {
         EMPTY_IN_TANK_TICK_ACTIONS.put(IFluidContainerItem.class, new EmptyFluidContainerInTankTickAction<TileSpiritReanimator>());
@@ -96,30 +95,15 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
     private int reanimateTicker;
     @NBTPersist
     private Boolean caughtError = false;
-    
+
     /**
      * Make a new instance.
      */
     public TileSpiritReanimator() {
-        super(
-                SLOTS,
-                SpiritReanimator.getInstance().getLocalizedName(),
-                LIQUID_PER_SLOT,
-                TANKNAME,
-                ACCEPTED_FLUID);
-        reanimateTicker = addTicker(
-                new TickComponent<
-                    TileSpiritReanimator,
-                    ITickAction<TileSpiritReanimator>
-                >(this, REANIMATE_COOK_TICK_ACTIONS, SLOT_BOX)
-                );
-        addTicker(
-                new TickComponent<
-                    TileSpiritReanimator,
-                    ITickAction<TileSpiritReanimator>
-                >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false)
-                );
-        
+        super(SLOTS, SpiritReanimator.getInstance().getLocalizedName(), LIQUID_PER_SLOT, TANKNAME, ACCEPTED_FLUID);
+        reanimateTicker = addTicker(new TickComponent<TileSpiritReanimator, ITickAction<TileSpiritReanimator>>(this, REANIMATE_COOK_TICK_ACTIONS, SLOT_BOX));
+        addTicker(new TickComponent<TileSpiritReanimator, ITickAction<TileSpiritReanimator>>(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false));
+
         // The slots side mapping
         List<Integer> inSlots = new LinkedList<Integer>();
         inSlots.add(SLOT_BOX);
@@ -137,8 +121,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
         // Upgrade behaviour
         upgradeBehaviour.put(UPGRADE_SPEED, new UpgradeBehaviour<TileSpiritReanimator, MutableDouble>(1) {
             @Override
-            public void applyUpgrade(TileSpiritReanimator upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
-                                     IUpgradeSensitiveEvent<MutableDouble> event) {
+            public void applyUpgrade(TileSpiritReanimator upgradable, Upgrades.Upgrade upgrade, int upgradeLevel, IUpgradeSensitiveEvent<MutableDouble> event) {
                 if(event.getType() == UPGRADEEVENT_SPEED) {
                     double val = event.getObject().getValue();
                     val /= (1 + upgradeLevel / valueFactor);
@@ -153,8 +136,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
         });
         upgradeBehaviour.put(UPGRADE_EFFICIENCY, new UpgradeBehaviour<TileSpiritReanimator, MutableDouble>(2) {
             @Override
-            public void applyUpgrade(TileSpiritReanimator upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
-                                     IUpgradeSensitiveEvent<MutableDouble> event) {
+            public void applyUpgrade(TileSpiritReanimator upgradable, Upgrades.Upgrade upgrade, int upgradeLevel, IUpgradeSensitiveEvent<MutableDouble> event) {
                 if(event.getType() == UPGRADEEVENT_BLOODUSAGE) {
                     double val = event.getObject().getValue();
                     val /= (1 + upgradeLevel / valueFactor);
@@ -163,46 +145,46 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
             }
         });
     }
-    
+
     @Override
     protected SingleUseTank newTank(String tankName, int tankSize) {
-    	return new ImplicitFluidConversionTank(tankName, tankSize, this, BloodFluidConverter.getInstance());
+        return new ImplicitFluidConversionTank(tankName, tankSize, this, BloodFluidConverter.getInstance());
     }
-    
+
     @Override
-	protected int getWorkTicker() {
-		return reanimateTicker;
-	}
-    
+    protected int getWorkTicker() {
+        return reanimateTicker;
+    }
+
     /**
      * Get the entity id that is contained in a box.
      * @return The entity or null if no box or invalid box.
      */
     public int getEntityID() {
-    	ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
-    	if(boxStack != null && boxStack.getItem() == getAllowedCookItem()) {
-    		return BoxOfEternalClosure.getInstance().getSpiritID(boxStack);
-    	}
-    	return -1;
+        ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
+        if(boxStack != null && boxStack.getItem() == getAllowedCookItem()) {
+            return BoxOfEternalClosure.getInstance().getSpiritID(boxStack);
+        }
+        return -1;
     }
-    
+
     /**
      * Get the allowed cooking item for this furnace.
      * @return The allowed item.
      */
     public static Item getAllowedCookItem() {
-    	Item allowedItem = Items.apple;
+        Item allowedItem = Items.apple;
         if(Configs.isEnabled(BoxOfEternalClosureConfig.class)) {
-        	allowedItem = Item.getItemFromBlock(BoxOfEternalClosure.getInstance());
+            allowedItem = Item.getItemFromBlock(BoxOfEternalClosure.getInstance());
         }
         return allowedItem;
     }
-    
+
     @Override
     public boolean canConsume(ItemStack itemStack) {
         return itemStack != null && getAllowedCookItem() == itemStack.getItem();
     }
-    
+
     /**
      * Get the id of the box slot.
      * @return id of the box slot.
@@ -210,32 +192,30 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
     public int getConsumeSlot() {
         return SLOT_BOX;
     }
-    
+
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
         if(slot == SLOT_BOX)
             return canConsume(itemStack);
         if(slot == SLOT_EGG)
             return itemStack.getItem() == Items.egg
-            	/*&& ResurgenceEgg.getInstance().isEmpty(itemStack) also enable in acceptance slot in container*/;
+            /* && ResurgenceEgg.getInstance().isEmpty(itemStack) also enable in acceptance slot in container */;
         if(slot == SLOT_CONTAINER)
             return SlotFluidContainer.checkIsItemValid(itemStack, getTank());
         return false;
     }
 
-	@Override
-	public boolean canWork() {
-		ItemStack eggStack = getStackInSlot(SLOT_EGG);
-		ItemStack outputStack = getStackInSlot(TileSpiritReanimator.SLOTS_OUTPUT);
-        return eggStack != null /*&& ResurgenceEgg.getInstance().isEmpty(eggStack)*/
-				&& getEntityID() != -1 && EntityList.entityEggs.get(getEntityID()) != null
-				&& (outputStack == null || (outputStack.getMaxStackSize() > outputStack.stackSize)
-					&& outputStack.getItemDamage() == getEntityID());
-	}
-	
-	@Override
+    @Override
+    public boolean canWork() {
+        ItemStack eggStack = getStackInSlot(SLOT_EGG);
+        ItemStack outputStack = getStackInSlot(TileSpiritReanimator.SLOTS_OUTPUT);
+        return eggStack != null /* && ResurgenceEgg.getInstance().isEmpty(eggStack) */
+                && getEntityID() != -1 && EntityList.entityEggs.get(getEntityID()) != null &&
+                (outputStack == null || (outputStack.getMaxStackSize() > outputStack.stackSize) && outputStack.getItemDamage() == getEntityID());
+    }
+
+    @Override
     public void onStateChanged() {
         sendUpdate();
     }
-
 }

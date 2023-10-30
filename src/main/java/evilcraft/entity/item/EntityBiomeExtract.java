@@ -30,7 +30,6 @@ import java.util.Random;
 /**
  * Entity for the {@link WeatherContainer}.
  * @author rubensworks
- *
  */
 public class EntityBiomeExtract extends EntityThrowable implements IConfigurable {
 
@@ -80,8 +79,7 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
                 @Override
                 public void spreadTo(World world, ILocation location) {
                     if(worldObj.isRemote) {
-                        showChangedBiome(worldObj, location.getCoordinates()[0], movingobjectposition.blockY,
-                                location.getCoordinates()[1], biome.color);
+                        showChangedBiome(worldObj, location.getCoordinates()[0], movingobjectposition.blockY, location.getCoordinates()[1], biome.color);
                     } else {
                         WorldHelpers.setBiome(worldObj, location.getCoordinates()[0], location.getCoordinates()[1], biome);
                     }
@@ -91,10 +89,9 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
                 spread.spreadTick(new Location(movingobjectposition.blockX, movingobjectposition.blockZ));
             }
         }
-        
+
         // Play sound and show particles of splash potion of harming
-        this.worldObj.playAuxSFX(2002, (int) Math.round(this.posX), (int) Math.round(this.posY), (int) Math.round(this.posZ), 16428);
-        
+        this.worldObj.playAuxSFX(2002, (int)Math.round(this.posX), (int)Math.round(this.posY), (int)Math.round(this.posZ), 16428);
         setDead();
     }
 
@@ -102,7 +99,7 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
     private void showChangedBiome(World world, int xStart, int yStart, int zStart, int color) {
         Triple<Float, Float, Float> c = RenderHelpers.intToRGB(color);
         Random rand = world.rand;
-        for (int j = 0; j < 2 + rand.nextInt(5); j++) {
+        for(int j = 0; j < 2 + rand.nextInt(5); j++) {
             float x = xStart + -0.5F + rand.nextFloat();
             float y = yStart + -0.5F + rand.nextFloat();
             float z = zStart + -0.5F + rand.nextFloat();
@@ -117,9 +114,7 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
             double motionY = 0.1F + rand.nextFloat() * 0.2F;
             double motionZ = -0.1F + rand.nextFloat() * 0.2F;
 
-            FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                    new EntityBlurFX(world, x, y, z, scale, motionX, motionY, motionZ, red, green, blue, ageMultiplier)
-            );
+            FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityBlurFX(world, x, y, z, scale, motionX, motionY, motionZ, red, green, blue, ageMultiplier));
         }
     }
 
@@ -145,15 +140,14 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
     public ItemStack getItemStack() {
         return dataWatcher.getWatchableObjectItemStack(ITEMSTACK_INDEX);
     }
-    
+
     private void setItemStack(ItemStack stack) {
         dataWatcher.updateObject(ITEMSTACK_INDEX, stack);
     }
-    
+
     @Override
     protected void entityInit() {
         super.entityInit();
-        
         dataWatcher.addObject(ITEMSTACK_INDEX, BiomeExtract.getInstance().createItemStack(null, 1));
     }
 

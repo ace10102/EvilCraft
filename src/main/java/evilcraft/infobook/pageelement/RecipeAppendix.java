@@ -105,7 +105,7 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
 
     protected void renderItemTooltip(GuiOriginsOfDarkness gui, int x, int y, ItemStack itemStack, int mx, int my) {
         GL11.glPushMatrix();
-        if(mx >= x && my >= y && mx <= x + SLOT_SIZE && my <= y + SLOT_SIZE && itemStack != null ) {
+        if(mx >= x && my >= y && mx <= x + SLOT_SIZE && my <= y + SLOT_SIZE && itemStack != null) {
             gui.renderToolTip(itemStack, mx, my);
         }
         GL11.glPopMatrix();
@@ -168,10 +168,10 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
 
     protected static class ItemButton extends AdvancedButton {
 
-        @Getter private ItemStack itemStack;
+        @Getter
+        private ItemStack itemStack;
 
         public ItemButton() {
-
         }
 
         /**
@@ -186,7 +186,7 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
             InfoSection target = null;
             if(this.itemStack != null) {
                 ExtendedConfig<?> config = Configs.getConfigFromItem(itemStack.getItem());
-                if (config != null) {
+                if(config != null) {
                     Pair<InfoSection, Integer> pair = InfoBookParser.configLinks.get(config.getFullUnlocalizedName());
                     if(pair != null) {
                         target = pair.getLeft();
@@ -207,7 +207,5 @@ public abstract class RecipeAppendix<T> extends SectionAppendix {
         public boolean isVisible() {
             return super.isVisible() && itemStack != null;
         }
-
     }
-
 }

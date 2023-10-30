@@ -9,15 +9,14 @@ import evilcraft.core.item.ItemBlockMetadata;
 /**
  * Config for the {@link NetherfishSpawn}.
  * @author rubensworks
- *
  */
 public class NetherfishSpawnConfig extends BlockConfig {
-    
+
     /**
      * The unique instance.
      */
     public static NetherfishSpawnConfig _instance;
-    
+
     /**
      * The amount of veins per chunk.
      */
@@ -28,17 +27,11 @@ public class NetherfishSpawnConfig extends BlockConfig {
      * Make a new instance.
      */
     public NetherfishSpawnConfig() {
-        super(
-        	true,
-            "netherMonsterBlock",
-            null,
-            NetherfishSpawn.class
-        );
+        super(true, "netherMonsterBlock", null, NetherfishSpawn.class);
     }
-    
+
     @Override
     public Class<? extends ItemBlock> getItemBlockClass() {
         return ItemBlockMetadata.class;
     }
-    
 }

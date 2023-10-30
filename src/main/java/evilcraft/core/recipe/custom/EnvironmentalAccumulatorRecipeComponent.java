@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * A recipe component that can be used in {@link evilcraft.api.recipes.custom.IRecipe}S for the
- * {@link evilcraft.block.EnvironmentalAccumulator}.
+ * A recipe component that can be used in {@link evilcraft.api.recipes.custom.IRecipe}
+ * for the {@link evilcraft.block.EnvironmentalAccumulator}.
  * @author immortaleeb
  */
 public class EnvironmentalAccumulatorRecipeComponent implements IRecipeInput, IRecipeOutput, IItemStackRecipeComponent, IWeatherTypeRecipeComponent {
@@ -33,13 +33,14 @@ public class EnvironmentalAccumulatorRecipeComponent implements IRecipeInput, IR
      * @param inputStack The stack to copy nbt data from.
      * @return The new itemstack.
      */
+    @SuppressWarnings("unchecked")
     public ItemStack getConditionalItemStack(ItemStack inputStack) {
         ItemStack itemStack = getItemStack().copy();
         if(inputStack != null && inputStack.hasTagCompound()) {
             if(!itemStack.hasTagCompound()) {
                 itemStack.setTagCompound(new NBTTagCompound());
             }
-            for (String key : (Set<String>) inputStack.getTagCompound().func_150296_c()) {
+            for(String key : (Set<String>)inputStack.getTagCompound().func_150296_c()) {
                 if(!itemStack.getTagCompound().hasKey(key)) {
                     itemStack.getTagCompound().setTag(key, inputStack.getTagCompound().getTag(key));
                 }
@@ -59,13 +60,13 @@ public class EnvironmentalAccumulatorRecipeComponent implements IRecipeInput, IR
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof EnvironmentalAccumulatorRecipeComponent)) return false;
+        if(this == o) return true;
+        if(!(o instanceof EnvironmentalAccumulatorRecipeComponent)) return false;
 
-        EnvironmentalAccumulatorRecipeComponent that = (EnvironmentalAccumulatorRecipeComponent) o;
+        EnvironmentalAccumulatorRecipeComponent that = (EnvironmentalAccumulatorRecipeComponent)o;
 
-        if (!itemStack.equals(that.itemStack)) return false;
-        if (!weatherType.equals(that.weatherType)) return false;
+        if(!itemStack.equals(that.itemStack)) return false;
+        if(!weatherType.equals(that.weatherType)) return false;
 
         return true;
     }

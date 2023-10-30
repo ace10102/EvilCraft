@@ -1,4 +1,5 @@
 package evilcraft.item;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -15,9 +16,9 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
  *
  */
 public class LargeDoorItem extends ConfigurableItem {
-    
+
     private static LargeDoorItem _instance = null;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -28,7 +29,7 @@ public class LargeDoorItem extends ConfigurableItem {
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -41,20 +42,18 @@ public class LargeDoorItem extends ConfigurableItem {
         super(eConfig);
         this.maxStackSize = 1;
     }
-    
+
     @Override
     public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float coordX, float coordY, float coordZ) {
-        if (side != 1) {
+        if(side != 1) {
             return false;
         } else {
             ++y;
             Block block = LargeDoor.getInstance();
 
-            if (player.canPlayerEdit(x, y, z, side, itemStack)
-                    && player.canPlayerEdit(x, y + 1, z, side, itemStack)
-                    && player.canPlayerEdit(x, y + 2, z, side, itemStack)) {
-                
-                if (!block.canPlaceBlockAt(world, x, y, z)) {
+            if(player.canPlayerEdit(x, y, z, side, itemStack) && player.canPlayerEdit(x, y + 1, z, side, itemStack) && player.canPlayerEdit(x, y + 2, z, side, itemStack)) {
+
+                if(!block.canPlaceBlockAt(world, x, y, z)) {
                     return false;
                 } else {
                     int i1 = MathHelper.floor_double((double)((player.rotationYaw + 180.0F) * 4.0F / 360.0F) - 0.5D) & 3;
@@ -81,19 +80,16 @@ public class LargeDoorItem extends ConfigurableItem {
         byte b0 = 0;
         byte b1 = 0;
 
-        if (side == 0) {
+        if(side == 0) {
             b1 = 1;
         }
-
-        if (side == 1) {
+        if(side == 1) {
             b0 = -1;
         }
-
-        if (side == 2) {
+        if(side == 2) {
             b1 = -1;
         }
-
-        if (side == 3) {
+        if(side == 3) {
             b0 = 1;
         }
 
@@ -118,5 +114,4 @@ public class LargeDoorItem extends ConfigurableItem {
         world.notifyBlocksOfNeighborChange(x, y + 1, z, block.blockID);
         world.notifyBlocksOfNeighborChange(x, y + 2, z, block.blockID);*/
     }
-
 }

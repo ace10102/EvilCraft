@@ -40,7 +40,6 @@ import java.util.List;
 /**
  * One potion can be inserted to continuously apply it to the player.
  * @author rubensworks
- *
  */
 @Optional.Interface(iface = "baubles.api.IBauble", modid = Reference.MOD_BAUBLES, striprefs = true)
 public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer implements IBauble, IGuiContainerProvider {
@@ -79,34 +78,29 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
         this.setMaxStackSize(1);
         this.guiID = Helpers.getNewId(Helpers.IDType.GUI);
 
-        if (MinecraftHelpers.isClientSide())
+        if(MinecraftHelpers.isClientSide())
             setGUI(GuiPrimedPendant.class);
         setContainer(ContainerPrimedPendant.class);
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
-        super.addInformation(itemStack, entityPlayer, list, par4);
+    @Override @SideOnly(Side.CLIENT) @SuppressWarnings({ "rawtypes", "unchecked" })
+    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean extendedInfo) {
+        super.addInformation(itemStack, entityPlayer, list, extendedInfo);
         ItemStack potionStack = getPotionStack(itemStack);
         if(potionStack != null) {
             List<PotionEffect> potionEffects = Items.potionitem.getEffects(potionStack);
             for(PotionEffect potionEffect : potionEffects) {
-                Double multiplier =  PrimedPendantConfig._instance.getMultiplier(potionEffect.getPotionID());
+                Double multiplier = PrimedPendantConfig._instance.getMultiplier(potionEffect.getPotionID());
                 String striked = multiplier != null && multiplier < 0 ? "§m" : "";
-                list.add(L10NHelpers.localize(super.getUnlocalizedName(itemStack) +".potion",
-                            striked + L10NHelpers.localize(potionEffect.getEffectName()),
-                            StatCollector.translateToLocal("enchantment.level." + (potionEffect.getAmplifier() + 1))));
+                list.add(L10NHelpers.localize(super.getUnlocalizedName(itemStack) + ".potion", striked + L10NHelpers.localize(potionEffect.getEffectName()), StatCollector.translateToLocal("enchantment.level." + (potionEffect.getAmplifier() + 1))));
             }
         }
     }
 
     @Override
-    public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
-        if(entity instanceof EntityPlayer
-                && world.getWorldTime() % TICK_MODULUS == 0) {
-            EntityPlayer player = (EntityPlayer) entity;
+    public void onUpdate(ItemStack itemStack, World world, Entity entity, int slotIndex, boolean isHeldItem) {
+        if(entity instanceof EntityPlayer && world.getWorldTime() % TICK_MODULUS == 0) {
+            EntityPlayer player = (EntityPlayer)entity;
             List<PotionEffect> potionEffects = getPotionEffects(itemStack);
             for(PotionEffect potionEffect : potionEffects) {
                 int toDrain = PrimedPendantConfig.usage * (potionEffect.getAmplifier() + 1);
@@ -115,21 +109,19 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
                     toDrain *= multiplier;
                 }
                 if((multiplier == null || multiplier >= 0) && canConsume(toDrain, itemStack, player)) {
-                    player.addPotionEffect(
-                            new PotionEffect(potionEffect.getPotionID(), TICK_MODULUS * 27, potionEffect.getAmplifier(),
-                                    !potionEffect.getCurativeItems().isEmpty()));
+                    player.addPotionEffect(new PotionEffect(potionEffect.getPotionID(), TICK_MODULUS * 27, potionEffect.getAmplifier(), !potionEffect.getCurativeItems().isEmpty()));
                     consume(toDrain, itemStack, player);
                 }
             }
         }
-        super.onUpdate(itemStack, world, entity, par4, par5);
+        super.onUpdate(itemStack, world, entity, slotIndex, isHeldItem);
     }
 
     @SuppressWarnings("unchecked")
     private List<PotionEffect> getPotionEffects(ItemStack itemStack) {
-        List potionEffects = null;
+        List<PotionEffect> potionEffects = null;
         ItemStack potionStack = getPotionStack(itemStack);
-        if (potionStack != null) {
+        if(potionStack != null) {
             potionEffects = Items.potionitem.getEffects(potionStack);
         }
         return potionEffects == null ? Collections.emptyList() : potionEffects;
@@ -170,13 +162,11 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
     @Optional.Method(modid = Reference.MOD_BAUBLES)
     @Override
     public void onEquipped(ItemStack itemStack, EntityLivingBase entity) {
-
     }
 
     @Optional.Method(modid = Reference.MOD_BAUBLES)
     @Override
     public void onUnequipped(ItemStack itemStack, EntityLivingBase entity) {
-
     }
 
     @Optional.Method(modid = Reference.MOD_BAUBLES)
@@ -214,8 +204,7 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
         return this.guiID;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public void setGUI(Class<? extends GuiScreen> gui) {
         this.gui = gui;
     }
@@ -230,19 +219,15 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
         return container;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public Class<? extends GuiScreen> getGUI() {
         return gui;
     }
 
     @Override
     public boolean onDroppedByPlayer(ItemStack itemstack, EntityPlayer player) {
-        if(itemstack != null
-                && player instanceof EntityPlayerMP
-                && player.openContainer != null
-                && player.openContainer.getClass() == getContainer()) {
-            ((EntityPlayerMP) player).closeScreen();
+        if(itemstack != null && player instanceof EntityPlayerMP && player.openContainer != null && player.openContainer.getClass() == getContainer()) {
+            ((EntityPlayerMP)player).closeScreen();
         }
         return super.onDroppedByPlayer(itemstack, player);
     }
@@ -266,7 +251,7 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
     public void openGuiForItemIndex(World world, EntityPlayer player, int itemIndex) {
         GuiHandler.setTemporaryItemIndex(itemIndex);
         if(!world.isRemote || isClientSideOnlyGui()) {
-            player.openGui(EvilCraft._instance, getGuiID(), world, (int) player.posX, (int) player.posY, (int) player.posZ);
+            player.openGui(EvilCraft._instance, getGuiID(), world, (int)player.posX, (int)player.posY, (int)player.posZ);
         }
     }
 
@@ -279,5 +264,4 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
         openGuiForItemIndex(world, player, player.inventory.currentItem);
         return itemStack;
     }
-
 }

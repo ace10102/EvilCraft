@@ -70,8 +70,7 @@ public class FluidBlockBlood extends ConfigurableBlockFluidClassic {
     protected boolean isWaterInArea(World world, int x, int y, int z) {
         return WorldHelpers.foldArea(world, 4, x, y, z, new WorldHelpers.WorldFoldingFunction<Boolean, Boolean>() {
 
-            @Nullable
-            @Override
+            @Override @Nullable
             public Boolean apply(@Nullable Boolean input, World world, int x, int y, int z) {
                 return (input == null || input) || world.getBlock(x, y, z) == Blocks.water;
             }

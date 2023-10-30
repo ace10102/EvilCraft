@@ -9,12 +9,11 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 /**
  * Enchantment that steals the HP when hit another Entity.
  * @author rubensworks
- *
  */
 public class EnchantmentLifeStealing extends ConfigurableEnchantment {
-    
+
     private static EnchantmentLifeStealing _instance = null;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -25,7 +24,7 @@ public class EnchantmentLifeStealing extends ConfigurableEnchantment {
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -37,22 +36,22 @@ public class EnchantmentLifeStealing extends ConfigurableEnchantment {
     private EnchantmentLifeStealing(ExtendedConfig<EnchantmentConfig> eConfig) {
         super(eConfig, 3, EnumEnchantmentType.weapon);
     }
-    
+
     @Override
     public int getMinEnchantability(int level) {
         return 15 + (level - 1) * 15;
     }
-    
+
     @Override
     public int getMaxEnchantability(int level) {
         return super.getMinEnchantability(level) + 50;
     }
-    
+
     @Override
     public int getMaxLevel() {
         return 3;
     }
-    
+
     /**
      * Transfer the damage dealt as HP to the attacking entity.
      * @param entity The entity that attacked.
@@ -60,8 +59,6 @@ public class EnchantmentLifeStealing extends ConfigurableEnchantment {
      * @param level The level of the enchant.
      */
     public static void stealLife(EntityLivingBase entity, float damage, int level) {
-        entity.heal(damage / EnchantmentLifeStealing._instance.getMaxLevel()
-        		* (level + 1) * (float) EnchantmentLifeStealingConfig.healModifier);
+        entity.heal(damage / EnchantmentLifeStealing._instance.getMaxLevel() * (level + 1) * (float)EnchantmentLifeStealingConfig.healModifier);
     }
-
 }

@@ -13,12 +13,11 @@ import java.util.Random;
 /**
  * Enchantment for letting tools break tools faster.
  * @author rubensworks
- *
  */
 public class EnchantmentBreaking extends ConfigurableEnchantment {
-    
+
     private static EnchantmentBreaking _instance = null;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -29,7 +28,7 @@ public class EnchantmentBreaking extends ConfigurableEnchantment {
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -41,17 +40,17 @@ public class EnchantmentBreaking extends ConfigurableEnchantment {
     private EnchantmentBreaking(ExtendedConfig<EnchantmentConfig> eConfig) {
         super(eConfig, 10, EnumEnchantmentType.weapon);
     }
-    
+
     @Override
     public int getMinEnchantability(int level) {
         return 1 + (level - 1) * 8;
     }
-    
+
     @Override
     public int getMaxEnchantability(int level) {
         return super.getMinEnchantability(level) + 50;
     }
-    
+
     @Override
     public int getMaxLevel() {
         return 3;
@@ -63,15 +62,15 @@ public class EnchantmentBreaking extends ConfigurableEnchantment {
     }
 
     @Override
-    public boolean isAllowedOnBooks()
-    {
+    public boolean isAllowedOnBooks() {
         return true;
     }
-    
+
     /**
-     * Used by ItemStack.attemptDamageItem. Randomly determines if a point of damage should be amplified using the
-     * enchantment level. If the ItemStack is Armor then there is a flat 60% chance for damage to be amplified no
-     * matter the enchantment level, otherwise there is a 1-(level/1) chance for damage to be amplified.
+     * Used by ItemStack.attemptDamageItem.
+     * Randomly determines if a point of damage should be amplified using the enchantment level.
+     * If the ItemStack is Armor then there is a flat 60% chance for damage to be amplified no matter the enchantment level,
+     * otherwise there is a 1-(level/1) chance for damage to be amplified.
      * @param itemStack The ItemStack.
      * @param enchantmentListID Enchantments.
      * @param random A random object.
@@ -80,12 +79,9 @@ public class EnchantmentBreaking extends ConfigurableEnchantment {
         if(enchantmentListID > -1) {
             int level = EnchantmentHelpers.getEnchantmentLevel(itemStack, enchantmentListID);
             int newDamage = itemStack.getItemDamage() + 2;
-            if(itemStack.getItem() instanceof ItemArmor
-                    && random.nextFloat() < 0.6F ? false : random.nextInt(level + 1) > 0
-                    && newDamage <= itemStack.getMaxDamage()) {
+            if(itemStack.getItem() instanceof ItemArmor && random.nextFloat() < 0.6F ? false : random.nextInt(level + 1) > 0 && newDamage <= itemStack.getMaxDamage()) {
                 itemStack.setItemDamage(newDamage);
             }
         }
     }
-
 }

@@ -7,7 +7,6 @@ import net.minecraftforge.oredict.OreDictionary;
 /**
  * Config for the {@link PromiseAcceptor}.
  * @author rubensworks
- *
  */
 public class PromiseAcceptorConfig extends ItemConfig {
 
@@ -20,12 +19,7 @@ public class PromiseAcceptorConfig extends ItemConfig {
      * Make a new instance.
      */
     public PromiseAcceptorConfig() {
-        super(
-        	true,
-            "promiseAcceptor",
-            null,
-            PromiseAcceptor.class
-        );
+        super(true, "promiseAcceptor", null, PromiseAcceptor.class);
     }
 
     @Override
@@ -35,5 +29,4 @@ public class PromiseAcceptorConfig extends ItemConfig {
             OreDictionary.registerOre("materialPromiseAcceptor", new ItemStack(PromiseAcceptor.getInstance(), 1, tier));
         }
     }
-    
 }

@@ -11,7 +11,6 @@ import net.minecraft.item.ItemStack;
 /**
  * A simple orb that can be filled with blood.
  * @author rubensworks
- *
  */
 public class OriginsOfDarkness extends ItemGui {
 
@@ -40,7 +39,7 @@ public class OriginsOfDarkness extends ItemGui {
         super(eConfig);
         this.setMaxStackSize(1);
 
-        if (MinecraftHelpers.isClientSide())
+        if(MinecraftHelpers.isClientSide())
             setGUI(GuiOriginsOfDarkness.class);
 
         // We don't set a container, since this book does not require any server component.
@@ -55,5 +54,4 @@ public class OriginsOfDarkness extends ItemGui {
     protected boolean isClientSideOnlyGui() {
         return true;
     }
-
 }

@@ -8,7 +8,6 @@ import evilcraft.modcompat.IModCompat;
 /**
  * Compatibility plugin for Waila.
  * @author rubensworks
- *
  */
 public class WailaModCompat implements IModCompat {
 
@@ -19,19 +18,18 @@ public class WailaModCompat implements IModCompat {
 
     @Override
     public void onInit(IInitListener.Step step) {
-    	if(step == IInitListener.Step.INIT) {
-    		FMLInterModComms.sendMessage(getModID(), "register", Waila.class.getName() + ".callbackRegister");
-    	}
+        if(step == IInitListener.Step.INIT) {
+            FMLInterModComms.sendMessage(getModID(), "register", Waila.class.getName() + ".callbackRegister");
+        }
     }
 
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
-	@Override
-	public String getComment() {
-		return "WAILA tooltips on machines.";
-	}
-
+    @Override
+    public String getComment() {
+        return "WAILA tooltips on machines.";
+    }
 }

@@ -8,11 +8,10 @@ import net.minecraft.entity.player.InventoryPlayer;
 /**
  * A container for a tile entity with inventory.
  * @author rubensworks
- *
  * @param <T> The type of tile.
  */
 public class TileInventoryContainer<T extends InventoryTileEntity> extends ExtendedInventoryContainer {
-    
+
     protected T tile;
 
     /**
@@ -21,7 +20,7 @@ public class TileInventoryContainer<T extends InventoryTileEntity> extends Exten
      * @param tile The TileEntity for this container.
      */
     public TileInventoryContainer(InventoryPlayer inventory, T tile) {
-        super(inventory, (IGuiContainerProvider) tile.getBlock());
+        super(inventory, (IGuiContainerProvider)tile.getBlock());
         this.tile = tile;
     }
 
@@ -29,17 +28,16 @@ public class TileInventoryContainer<T extends InventoryTileEntity> extends Exten
     public boolean canInteractWith(EntityPlayer entityPlayer) {
         return tile.canInteractWith(entityPlayer);
     }
-    
+
     /**
      * @return The tile entity.
      */
     public T getTile() {
-    	return tile;
+        return tile;
     }
 
-	@Override
-	protected int getSizeInventory() {
-		return getTile().getSizeInventory();
-	}
-    
+    @Override
+    protected int getSizeInventory() {
+        return getTile().getSizeInventory();
+    }
 }

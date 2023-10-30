@@ -25,13 +25,12 @@ import net.minecraftforge.common.util.ForgeDirection;
 /**
  * Multiple block types (defined by metadata) that have blood stains.
  * @author rubensworks
- *
  */
 public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended {
-    
+
     private static BloodStainedBlock _instance = null;
     private AlternatingBlockIconComponent alternatingBlockIconComponent = new AlternatingBlockIconComponent(getAlternateIconsAmount());
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -42,7 +41,7 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -56,7 +55,7 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
         this.setHardness(0.5F);
         this.setStepSound(soundTypeGravel);
     }
-    
+
     /**
      * Get the amount of alternative icons for the blood stains.
      * @return The amount of icons.
@@ -64,29 +63,26 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
     public int getAlternateIconsAmount() {
         return 3;
     }
-    
+
     @Override
     public int getRenderPasses() {
         return 2;
     }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         alternatingBlockIconComponent.registerIcons(getTextureName(), iconRegister);
     }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT)
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
         try {
-			return this.getIcon(side, world.getBlockMetadata(x, y, z), pass,
-					alternatingBlockIconComponent.getAlternateIcon(world, x, y, z, side), getTile(world, x, y, z).getInnerBlock());
-		} catch (InvalidInnerBlocksTileException e) {
-			return super.getIcon(world, x, y, z, side);
-		}
+            return this.getIcon(side, world.getBlockMetadata(x, y, z), pass, alternatingBlockIconComponent.getAlternateIcon(world, x, y, z, side), getTile(world, x, y, z).getInnerBlock());
+        } catch(InvalidInnerBlocksTileException e) {
+            return super.getIcon(world, x, y, z, side);
+        }
     }
-    
+
     /**
      * Get the icon.
      * @param side The side to render.
@@ -98,8 +94,7 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
      * @throws InvalidInnerBlocksTileException If an error occurred while getting the icon.
      */
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int meta, int renderPass, IIcon defaultIcon, Block baseBlock)
-            throws InvalidInnerBlocksTileException {
+    public IIcon getIcon(int side, int meta, int renderPass, IIcon defaultIcon, Block baseBlock) throws InvalidInnerBlocksTileException {
         if(baseBlock == null) {
             throw new InvalidInnerBlocksTileException();
         }
@@ -113,21 +108,19 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
             return baseBlock.getIcon(side, meta);
         }
     }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT)
     public void onBlockClicked(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer) {
         splash(par1World, par2, par3, par4);
         super.onBlockClicked(par1World, par2, par3, par4, par5EntityPlayer);
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     public void onEntityWalking(World par1World, int par2, int par3, int par4, Entity par5Entity) {
         splash(par1World, par2, par3, par4);
         super.onEntityWalking(par1World, par2, par3, par4, par5Entity);
     }
-    
+
     /**
      * Spawn particles.
      * @param world The world.
@@ -137,17 +130,17 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
      */
     @SideOnly(Side.CLIENT)
     public static void splash(World world, int x, int y, int z) {
-    	if(MinecraftHelpers.isClientSide()) {
-    		EntityBloodSplashFX.spawnParticles(world, x, y + 1, z, 1, 1 + world.rand.nextInt(3));
-    	}
+        if(MinecraftHelpers.isClientSide()) {
+            EntityBloodSplashFX.spawnParticles(world, x, y + 1, z, 1, 1 + world.rand.nextInt(3));
+        }
     }
-    
+
     @Override
     public void fillWithRain(World world, int x, int y, int z) {
         // Transform to regular block when it rains
         unwrapInnerBlock(world, x, y, z);
     }
-    
+
     /**
      * Stain a block, or add blood to the already stained block.
      * @param world The world.
@@ -155,13 +148,13 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
      * @param amount The amount of blood to add.
      */
     public void stainBlock(World world, ILocation location, int amount) {
-    	if(LocationHelpers.getBlock(world, location) != this) {
-    		setInnerBlock(world, location);
-    	}
-    	TileBloodStainedBlock tile = (TileBloodStainedBlock) LocationHelpers.getTile(world, location);
-		tile.addAmount(amount);
+        if(LocationHelpers.getBlock(world, location) != this) {
+            setInnerBlock(world, location);
+        }
+        TileBloodStainedBlock tile = (TileBloodStainedBlock)LocationHelpers.getTile(world, location);
+        tile.addAmount(amount);
     }
-    
+
     /**
      * Drain a given amount of blood from a stained block.
      * @param world The world.
@@ -170,47 +163,46 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
      * @return The unstain result with a block and amount.
      */
     public UnstainResult unstainBlock(World world, ILocation location, int amount) {
-    	UnstainResult result = new UnstainResult();
-    	if(LocationHelpers.getBlock(world, location) == this) {
-    		TileBloodStainedBlock tile = (TileBloodStainedBlock) LocationHelpers.getTile(world, location);
-    		int foundAmount = tile.getAmount();
-    		result.amount = Math.min(amount, foundAmount);
-    		tile.addAmount(-result.amount);
-    		if(amount >= foundAmount) {
-    			result.block = unwrapInnerBlock(world, location);
-    		}
-    	}
-    	return result;
+        UnstainResult result = new UnstainResult();
+        if(LocationHelpers.getBlock(world, location) == this) {
+            TileBloodStainedBlock tile = (TileBloodStainedBlock)LocationHelpers.getTile(world, location);
+            int foundAmount = tile.getAmount();
+            result.amount = Math.min(amount, foundAmount);
+            tile.addAmount(-result.amount);
+            if(amount >= foundAmount) {
+                result.block = unwrapInnerBlock(world, location);
+            }
+        }
+        return result;
     }
-    
+
     protected boolean isBlacklisted(Block block) {
-    	String name = Block.blockRegistry.getNameForObject(block);
-    	for(String blacklisted : BloodStainedBlockConfig.blockBlacklist) {
-    		if(blacklisted.equals(name)) return true;
-    	}
-    	return false;
+        String name = Block.blockRegistry.getNameForObject(block);
+        for(String blacklisted : BloodStainedBlockConfig.blockBlacklist) {
+            if(blacklisted.equals(name))
+                return true;
+        }
+        return false;
     }
-    
+
     @Override
     public boolean canSetInnerBlock(Block block, IBlockAccess world, int x, int y, int z) {
-    	return super.canSetInnerBlock(block, world, x, y, z) && !isBlacklisted(block);
+        return super.canSetInnerBlock(block, world, x, y, z) && !isBlacklisted(block);
     }
-    
+
     /**
      * A result from unstaining a block.
      * @author rubensworks
      */
     public static class UnstainResult {
-    	
-    	/**
-    	 * The amount that was drained.
-    	 */
-    	public int amount = 0;
-    	/**
-    	 * The unwrapped inner block.
-    	 */
-    	public Block block = null;
-    	
-    }
 
+        /**
+         * The amount that was drained.
+         */
+        public int amount = 0;
+        /**
+         * The unwrapped inner block.
+         */
+        public Block block = null;
+    }
 }

@@ -11,11 +11,10 @@ import evilcraft.tileentity.TileBloodChest;
 /**
  * Renderer for the {@link BloodChest}.
  * @author rubensworks
- *
  */
 public class RenderTileEntityBloodChest extends RenderTileEntityModel {
-	
-	/**
+
+    /**
      * Make a new instance.
      * @param model The model to render.
      * @param texture The texture to render the model with.
@@ -23,12 +22,12 @@ public class RenderTileEntityBloodChest extends RenderTileEntityModel {
     public RenderTileEntityBloodChest(ModelBase model, ResourceLocation texture) {
         super(model, texture);
     }
-    
+
     @Override
     protected void renderModel(EvilCraftTileEntity tile, ModelBase model, float partialTick) {
-    	TileBloodChest chestTile = (TileBloodChest) tile;
-    	ModelChest modelchest = (ModelChest) model;
-    	float lidangle = chestTile.prevLidAngle + (chestTile.lidAngle - chestTile.prevLidAngle) * partialTick;
+        TileBloodChest chestTile = (TileBloodChest)tile;
+        ModelChest modelchest = (ModelChest)model;
+        float lidangle = chestTile.prevLidAngle + (chestTile.lidAngle - chestTile.prevLidAngle) * partialTick;
 
         lidangle = 1.0F - lidangle;
         lidangle = 1.0F - lidangle * lidangle * lidangle;

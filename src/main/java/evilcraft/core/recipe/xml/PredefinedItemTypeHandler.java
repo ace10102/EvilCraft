@@ -9,14 +9,12 @@ import evilcraft.core.recipe.xml.XmlRecipeLoader.XmlRecipeException;
  */
 public class PredefinedItemTypeHandler extends DefaultItemTypeHandler {
 
-	@Override
-	protected Object makeItemStack(String key, int amount, int meta) throws XmlRecipeException {        
+    @Override
+    protected Object makeItemStack(String key, int amount, int meta) throws XmlRecipeException {
         ItemStack item = XmlRecipeLoader.getPredefinedItem(key);
         if(item == null) {
-        	throw new XmlRecipeException(String.format(
-        			"Could not find the predefined item for key '%s'.", key));
+            throw new XmlRecipeException(String.format("Could not find the predefined item for key '%s'.", key));
         }
         return item;
     }
-	
 }

@@ -34,8 +34,7 @@ public class SingleCache<K, V> {
     public static interface ICacheUpdater<K, V> {
 
         public V getNewValue(K key);
+
         public boolean isKeyEqual(K cacheKey, K newKey);
-
     }
-
 }

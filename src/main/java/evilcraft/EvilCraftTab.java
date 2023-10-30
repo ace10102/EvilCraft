@@ -1,4 +1,5 @@
 package evilcraft;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import evilcraft.item.DarkGem;
@@ -6,12 +7,11 @@ import evilcraft.item.DarkGem;
 /**
  * Creative tab for EvilCraft.
  * @author rubensworks
- *
  */
-public class EvilCraftTab extends CreativeTabs{
-    
+public class EvilCraftTab extends CreativeTabs {
+
     private static EvilCraftTab _instance = null;
-    
+
     /**
      * Get the unique instance.
      * @return The unique instance.
@@ -25,7 +25,7 @@ public class EvilCraftTab extends CreativeTabs{
     private EvilCraftTab() {
         super(Reference.MOD_NAME);
     }
-    
+
     @Override
     public Item getTabIconItem() {
         return DarkGem.getInstance();

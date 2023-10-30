@@ -4,7 +4,6 @@ import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.GuiRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import com.google.common.collect.Lists;
 import evilcraft.Reference;
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.EnvironmentalAccumulator;
@@ -27,7 +26,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.oredict.OreDictionary;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -43,7 +41,6 @@ import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
  * Manager for the recipes in {@link SanguinaryEnvironmentalAccumulator}.
  * TODO: this could be abstracted when compared to {@link NEIBloodInfuserManager}.
  * @author rubensworks
- *
  */
 public class NEISanguinaryEnvironmentalAccumulatorManager extends TemplateRecipeHandler {
 
@@ -66,7 +63,7 @@ public class NEISanguinaryEnvironmentalAccumulatorManager extends TemplateRecipe
     private final int tankTargetY = 72 + yOffset;
     private final int tankX = GuiBloodInfuser.TANKX;
     private final int tankY = GuiBloodInfuser.TANKY;
-    
+
     private final int progressTargetX = GuiSanguinaryEnvironmentalAccumulator.PROGRESSTARGETX + xOffset;
     private final int progressTargetY = GuiSanguinaryEnvironmentalAccumulator.PROGRESSTARGETY + yOffset;
     private final int progressX = GuiSanguinaryEnvironmentalAccumulator.PROGRESSX;
@@ -75,9 +72,9 @@ public class NEISanguinaryEnvironmentalAccumulatorManager extends TemplateRecipe
     private final int progressHeight = GuiSanguinaryEnvironmentalAccumulator.PROGRESSHEIGHT;
 
     private float zLevel = 200.0F;
-    
+
     private class CachedEnvironmentalAccumulatorRecipe extends CachedRecipe {
-        
+
         private PositionedStack inputStack;
         private WeatherType inputWeather;
         private PositionedStack outputStack;
@@ -85,33 +82,14 @@ public class NEISanguinaryEnvironmentalAccumulatorManager extends TemplateRecipe
         private FluidStack fluidStack;
         private Rectangle tank;
 
-        public CachedEnvironmentalAccumulatorRecipe(
-                EnvironmentalAccumulatorRecipeComponent input,
-                EnvironmentalAccumulatorRecipeComponent output,
-                EnvironmentalAccumulatorRecipeProperties properties) {
-            this(input.getItemStack(), input.getWeatherType(),
-                    output.getItemStack(),
-                    properties.getDuration(), new FluidStack(TileSanguinaryEnvironmentalAccumulator.ACCEPTED_FLUID,
-                            AccumulateItemTickAction.getUsage(properties)));
+        public CachedEnvironmentalAccumulatorRecipe(EnvironmentalAccumulatorRecipeComponent input, EnvironmentalAccumulatorRecipeComponent output, EnvironmentalAccumulatorRecipeProperties properties) {
+            this(input.getItemStack(), input.getWeatherType(), output.getItemStack(), properties.getDuration(), new FluidStack(TileSanguinaryEnvironmentalAccumulator.ACCEPTED_FLUID, AccumulateItemTickAction.getUsage(properties)));
         }
-        
-        public CachedEnvironmentalAccumulatorRecipe(
-                ItemStack inputStack, WeatherType inputWeather,
-                ItemStack outputStack,
-                int duration, FluidStack fluidStack) {
-            this.inputStack = 
-                    new PositionedStack(
-                        inputStack,
-                            ContainerSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE_X + xOffset,
-                            ContainerSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE_Y + yOffset
-                    );
-            this.outputStack =
-                    new PositionedStack(
-                            ItemHelpers.getVariants(outputStack),
-                            ContainerSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE_RESULT_X + xOffset,
-                            ContainerSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE_RESULT_Y + yOffset
-                    );
-            //this.outputStack.setPermutationToRender(1);
+
+        public CachedEnvironmentalAccumulatorRecipe(ItemStack inputStack, WeatherType inputWeather, ItemStack outputStack, int duration, FluidStack fluidStack) {
+            this.inputStack = new PositionedStack(inputStack, ContainerSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE_X + xOffset, ContainerSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE_Y + yOffset);
+            this.outputStack = new PositionedStack(ItemHelpers.getVariants(outputStack), ContainerSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE_RESULT_X + xOffset, ContainerSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE_RESULT_Y + yOffset);
+            // this.outputStack.setPermutationToRender(1);
             this.inputWeather = inputWeather;
             this.duration = duration;
             this.fluidStack = fluidStack;
@@ -119,7 +97,7 @@ public class NEISanguinaryEnvironmentalAccumulatorManager extends TemplateRecipe
                 tank = new Rectangle(tankTargetX, -1, tankWidth, tankHeight);
             }
         }
-        
+
         @Override
         public PositionedStack getIngredient() {
             return inputStack;
@@ -137,53 +115,48 @@ public class NEISanguinaryEnvironmentalAccumulatorManager extends TemplateRecipe
             int result = 1;
             result = prime * result + getOuterType().hashCode();
             result = prime * result + duration;
-            result = prime * result
-                    + ((inputStack == null) ? 0 : inputStack.hashCode());
-            result = prime * result
-                    + ((inputWeather == null) ? 0 : inputWeather.hashCode());
-            result = prime * result
-                    + ((outputStack == null) ? 0 : outputStack.hashCode());
-            result = prime * result
-                    + ((fluidStack == null) ? 0 : fluidStack.hashCode());
+            result = prime * result + ((inputStack == null) ? 0 : inputStack.hashCode());
+            result = prime * result + ((inputWeather == null) ? 0 : inputWeather.hashCode());
+            result = prime * result + ((outputStack == null) ? 0 : outputStack.hashCode());
+            result = prime * result + ((fluidStack == null) ? 0 : fluidStack.hashCode());
             return result;
         }
 
         @Override
         public boolean equals(Object obj) {
-            if (this == obj)
+            if(this == obj)
                 return true;
-            if (obj == null)
+            if(obj == null)
                 return false;
-            if (getClass() != obj.getClass())
+            if(getClass() != obj.getClass())
                 return false;
-            CachedEnvironmentalAccumulatorRecipe other = (CachedEnvironmentalAccumulatorRecipe) obj;
-            if (!getOuterType().equals(other.getOuterType()))
+            CachedEnvironmentalAccumulatorRecipe other = (CachedEnvironmentalAccumulatorRecipe)obj;
+            if(!getOuterType().equals(other.getOuterType()))
                 return false;
-            if (duration != other.duration)
+            if(duration != other.duration)
                 return false;
-            if (inputStack == null) {
-                if (other.inputStack != null)
+            if(inputStack == null) {
+                if(other.inputStack != null)
                     return false;
-            } else if (!inputStack.equals(other.inputStack))
+            } else if(!inputStack.equals(other.inputStack))
                 return false;
-            if (inputWeather == null) {
-                if (other.inputWeather != null)
+            if(inputWeather == null) {
+                if(other.inputWeather != null)
                     return false;
-            } else if (!inputWeather.equals(other.inputWeather))
+            } else if(!inputWeather.equals(other.inputWeather))
                 return false;
-            if (outputStack == null) {
-                if (other.outputStack != null)
+            if(outputStack == null) {
+                if(other.outputStack != null)
                     return false;
-            } else if (!outputStack.equals(other.outputStack))
+            } else if(!outputStack.equals(other.outputStack))
                 return false;
-            if (fluidStack == null) {
-                if (other.fluidStack != null)
+            if(fluidStack == null) {
+                if(other.fluidStack != null)
                     return false;
-            } else if (!fluidStack.equals(other.fluidStack))
+            } else if(!fluidStack.equals(other.fluidStack))
                 return false;
             return true;
         }
-
         private NEISanguinaryEnvironmentalAccumulatorManager getOuterType() {
             return NEISanguinaryEnvironmentalAccumulatorManager.this;
         }
@@ -191,16 +164,7 @@ public class NEISanguinaryEnvironmentalAccumulatorManager extends TemplateRecipe
 
     public NEISanguinaryEnvironmentalAccumulatorManager() {
         LinkedList<RecipeTransferRect> guiTransferRects = new LinkedList<RecipeTransferRect>();
-        guiTransferRects.add(
-                new RecipeTransferRect(
-                        new Rectangle(
-                                GuiSanguinaryEnvironmentalAccumulator.PROGRESSTARGETX + GuiSanguinaryEnvironmentalAccumulator.UPGRADES_OFFSET_X - 6,
-                                GuiSanguinaryEnvironmentalAccumulator.PROGRESSTARGETY - 10,
-                                progressWidth, progressHeight
-                        ),
-                        getSEAOverlayIdentifier()
-                )
-        );
+        guiTransferRects.add(new RecipeTransferRect(new Rectangle(GuiSanguinaryEnvironmentalAccumulator.PROGRESSTARGETX + GuiSanguinaryEnvironmentalAccumulator.UPGRADES_OFFSET_X - 6, GuiSanguinaryEnvironmentalAccumulator.PROGRESSTARGETY - 10, progressWidth, progressHeight), getSEAOverlayIdentifier()));
 
         LinkedList<Class<? extends GuiContainer>> list = new LinkedList<Class<? extends GuiContainer>>();
         list.add(getGuiClass());
@@ -215,26 +179,8 @@ public class NEISanguinaryEnvironmentalAccumulatorManager extends TemplateRecipe
     @Override
     public void loadTransferRects() {
         transferRects.clear();
-        transferRects.add(
-                new RecipeTransferRect(
-                        new Rectangle(
-                                GuiSanguinaryEnvironmentalAccumulator.PROGRESSTARGETX - 5,
-                                GuiSanguinaryEnvironmentalAccumulator.PROGRESSTARGETY - 15,
-                                progressWidth, progressHeight
-                        ),
-                        getSEAOverlayIdentifier()
-                )
-        );
-        transferRects.add(
-                new RecipeTransferRect(
-                        new Rectangle(
-                                tankTargetX - 5,
-                                tankY - tankHeight - 15,
-                                tankWidth, tankHeight
-                        ),
-                        getFluidOverlayIdentifier()
-                )
-        );
+        transferRects.add(new RecipeTransferRect(new Rectangle(GuiSanguinaryEnvironmentalAccumulator.PROGRESSTARGETX - 5, GuiSanguinaryEnvironmentalAccumulator.PROGRESSTARGETY - 15, progressWidth, progressHeight), getSEAOverlayIdentifier()));
+        transferRects.add(new RecipeTransferRect(new Rectangle(tankTargetX - 5, tankY - tankHeight - 15, tankWidth, tankHeight), getFluidOverlayIdentifier()));
     }
 
     private String getSEAOverlayIdentifier() {
@@ -249,7 +195,7 @@ public class NEISanguinaryEnvironmentalAccumulatorManager extends TemplateRecipe
     public List<Class<? extends GuiContainer>> getRecipeTransferRectGuis() {
         return null; // We will do transfer rect registering ourselves.
     }
-    
+
     @Override
     public String getOverlayIdentifier() {
         return getSEAOverlayIdentifier();
@@ -264,12 +210,10 @@ public class NEISanguinaryEnvironmentalAccumulatorManager extends TemplateRecipe
     public String getGuiTexture() {
         return Reference.MOD_ID + ":" + SanguinaryEnvironmentalAccumulator.getInstance().getGuiTexture("_nei");
     }
-    
+
     private List<CachedEnvironmentalAccumulatorRecipe> getRecipes() {
         List<CachedEnvironmentalAccumulatorRecipe> recipes = new LinkedList<CachedEnvironmentalAccumulatorRecipe>();
-        for (IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent,
-        		EnvironmentalAccumulatorRecipeProperties> recipe : EnvironmentalAccumulator.getInstance().getRecipeRegistry()
-        		.allRecipes()) {
+        for(IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe : EnvironmentalAccumulator.getInstance().getRecipeRegistry().allRecipes()) {
             EnvironmentalAccumulatorRecipeComponent input = (EnvironmentalAccumulatorRecipeComponent)recipe.getInput();
             EnvironmentalAccumulatorRecipeComponent output = (EnvironmentalAccumulatorRecipeComponent)recipe.getOutput();
             EnvironmentalAccumulatorRecipeProperties props = (EnvironmentalAccumulatorRecipeProperties)recipe.getProperties();
@@ -278,12 +222,12 @@ public class NEISanguinaryEnvironmentalAccumulatorManager extends TemplateRecipe
         }
         return recipes;
     }
-    
+
     @Override
     public int recipiesPerPage() {
         return 2;
     }
-    
+
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
         if(outputId.equals(getOverlayIdentifier())) {
@@ -294,52 +238,31 @@ public class NEISanguinaryEnvironmentalAccumulatorManager extends TemplateRecipe
             super.loadCraftingRecipes(outputId, results);
         }
     }
-    
+
     @Override
     public void loadCraftingRecipes(final ItemStack result) {
-        IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent,
-        	EnvironmentalAccumulatorRecipeProperties> recipe = EnvironmentalAccumulator.getInstance().getRecipeRegistry()
-        	.findRecipeByOutput(
-                new EnvironmentalAccumulatorRecipeComponent(result, WeatherType.ANY)
-        );
+        IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe = EnvironmentalAccumulator.getInstance().getRecipeRegistry().findRecipeByOutput(new EnvironmentalAccumulatorRecipeComponent(result, WeatherType.ANY));
 
-        if (recipe != null) {
-            arecipes.add(new CachedEnvironmentalAccumulatorRecipe(
-                    (EnvironmentalAccumulatorRecipeComponent) recipe.getInput(),
-                    (EnvironmentalAccumulatorRecipeComponent) recipe.getOutput(),
-                    (EnvironmentalAccumulatorRecipeProperties) recipe.getProperties()
-            ));
+        if(recipe != null) {
+            arecipes.add(new CachedEnvironmentalAccumulatorRecipe((EnvironmentalAccumulatorRecipeComponent)recipe.getInput(), (EnvironmentalAccumulatorRecipeComponent)recipe.getOutput(), (EnvironmentalAccumulatorRecipeProperties)recipe.getProperties()));
         }
     }
-    
+
     @Override
     public void loadUsageRecipes(final ItemStack ingredient) {
-        for (IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe :
-                EnvironmentalAccumulator.getInstance().getRecipeRegistry().findRecipesByInput(new EnvironmentalAccumulatorRecipeComponent(ingredient, WeatherType.ANY))) {
-            arecipes.add(new CachedEnvironmentalAccumulatorRecipe(
-                    recipe.getInput(),
-                    recipe.getOutput(),
-                    recipe.getProperties()
-            ));
+        for(IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe : EnvironmentalAccumulator.getInstance().getRecipeRegistry().findRecipesByInput(new EnvironmentalAccumulatorRecipeComponent(ingredient, WeatherType.ANY))) {
+            arecipes.add(new CachedEnvironmentalAccumulatorRecipe(recipe.getInput(), recipe.getOutput(), recipe.getProperties()));
         }
     }
-    
+
     private CachedEnvironmentalAccumulatorRecipe getRecipe(int recipe) {
-        return (CachedEnvironmentalAccumulatorRecipe) arecipes.get(recipe);
+        return (CachedEnvironmentalAccumulatorRecipe)arecipes.get(recipe);
     }
 
     @Override
     public void drawExtras(int recipe) {
         CachedEnvironmentalAccumulatorRecipe eaRecipe = getRecipe(recipe);
-        drawProgressBar(
-                progressTargetX,
-                progressTargetY,
-                progressX,
-                progressY,
-                progressWidth,
-                progressHeight,
-                Math.max(2, eaRecipe.duration / 10),
-                0);
+        drawProgressBar(progressTargetX, progressTargetY, progressX, progressY, progressWidth, progressHeight, Math.max(2, eaRecipe.duration / 10), 0);
 
         Integer inputX = X_ICON_OFFSETS.get(eaRecipe.inputWeather);
         if(inputX != null) {
@@ -383,7 +306,8 @@ public class NEISanguinaryEnvironmentalAccumulatorManager extends TemplateRecipe
         FluidStack stack = new FluidStack(fluidID, 1);
         if(fluidID > 0) {
             IIcon icon = stack.getFluid().getIcon();
-            if (icon == null) icon = Blocks.water.getIcon(0, 0);
+            if(icon == null)
+                icon = Blocks.water.getIcon(0, 0);
 
             int verticalOffset = 0;
 
@@ -402,7 +326,6 @@ public class NEISanguinaryEnvironmentalAccumulatorManager extends TemplateRecipe
                 drawTexturedModelRectFromIcon(xOffset, yOffset - textureHeight - verticalOffset, icon, tankWidth, textureHeight);
                 verticalOffset = verticalOffset + 16;
             }
-
             changeTexture(getGuiTexture());
             drawTexturedModalRect(xOffset, yOffset - tankHeight, tankX, tankY, tankWidth, tankHeight);
         }
@@ -426,9 +349,8 @@ public class NEISanguinaryEnvironmentalAccumulatorManager extends TemplateRecipe
         if(fluid != null) {
             Point mouse = GuiDraw.getMousePosition();
             Point offset = guiRecipe.getRecipePosition(recipe);
-            Point mouseRelative = new Point(mouse.x - ((guiRecipe.width - width) / 2) - offset.x,
-                    mouse.y - ((guiRecipe.height - height) / 2) - offset.y);
-            if (bloodInfuserRecipe.tank.contains(mouseRelative)) {
+            Point mouseRelative = new Point(mouse.x - ((guiRecipe.width - width) / 2) - offset.x, mouse.y - ((guiRecipe.height - height) / 2) - offset.y);
+            if(bloodInfuserRecipe.tank.contains(mouseRelative)) {
                 currenttip.add(fluid.getLocalizedName());
                 currenttip.add(fluid.amount + " mB");
             }

@@ -8,18 +8,16 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
 /**
- * A renderer for a custom model.
- * It will automatically take care of the texture.
+ * A renderer for a custom model. It will automatically take care of the texture.
  * @author rubensworks
- *
  * @param <M> The model that will be rendered.
  */
 public abstract class RenderModel<M extends ModelBase> extends Render {
-    
+
     private ResourceLocation texture;
 
     protected M model;
-    
+
     /**
      * Make a new instance.
      * @param config The config.
@@ -30,15 +28,15 @@ public abstract class RenderModel<M extends ModelBase> extends Render {
         model = constructModel();
     }
 
+    @SuppressWarnings("rawtypes")
     protected ResourceLocation createResourceLocation(ExtendedConfig config) {
         return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + config.getNamedId() + ".png");
     }
-    
+
     protected abstract M constructModel();
 
     @Override
     protected ResourceLocation getEntityTexture(Entity entity) {
         return texture;
     }
-    
 }

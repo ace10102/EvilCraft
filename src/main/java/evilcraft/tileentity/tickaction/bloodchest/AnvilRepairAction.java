@@ -9,10 +9,9 @@ import java.util.Random;
 /**
  * Repair action for anvils.
  * @author rubensworks
- *
  */
 public class AnvilRepairAction implements IBloodChestRepairAction {
-    
+
     @Override
     public boolean isItemValidForSlot(ItemStack itemStack) {
         return itemStack.getItem() instanceof ItemAnvilBlock;
@@ -32,5 +31,4 @@ public class AnvilRepairAction implements IBloodChestRepairAction {
         }
         return 25;
     }
-
 }

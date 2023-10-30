@@ -10,9 +10,9 @@ import evilcraft.core.config.configurable.ConfigurableBiome;
  * @author rubensworks
  * @see ExtendedConfig
  */
-public abstract class BiomeConfig extends ExtendedConfig<BiomeConfig>{
-	
-	private int id;
+public abstract class BiomeConfig extends ExtendedConfig<BiomeConfig> {
+
+    private int id;
 
     /**
      * Make a new instance.
@@ -21,45 +21,44 @@ public abstract class BiomeConfig extends ExtendedConfig<BiomeConfig>{
      * @param comment The comment to add in the config file for this configurable.
      * @param element The class of this configurable.
      */
-    public BiomeConfig(int defaultId, String namedId,
-            String comment, Class<? extends BiomeGenBase> element) {
+    public BiomeConfig(int defaultId, String namedId, String comment, Class<? extends BiomeGenBase> element) {
         super(defaultId > 0, namedId, comment, element);
         this.id = defaultId;
     }
-    
+
     /**
      * @return The ID.
      */
     public int getId() {
-		return id;
-	}
-    
+        return id;
+    }
+
     /**
      * Set the ID.
      * @param id The new ID.
      */
     public void setId(int id) {
-    	this.id = id;
+        this.id = id;
     }
-    
-    @Override
-	public String getUnlocalizedName() {
-		return "biomes." + getNamedId();
-	}
-    
-    @Override
-	public ConfigurableType getHolderType() {
-		return ConfigurableType.BIOME;
-	}
 
-	/**
+    @Override
+    public String getUnlocalizedName() {
+        return "biomes." + getNamedId();
+    }
+
+    @Override
+    public ConfigurableType getHolderType() {
+        return ConfigurableType.BIOME;
+    }
+
+    /**
      * Get the biome configurable
      * @return The biome.
      */
     public ConfigurableBiome getBiome() {
-        return (ConfigurableBiome) this.getSubInstance();
+        return (ConfigurableBiome)this.getSubInstance();
     }
-    
+
     /**
      * Register the biome instance into the biome dictionary.
      * @see BiomeDictionary
@@ -67,10 +66,9 @@ public abstract class BiomeConfig extends ExtendedConfig<BiomeConfig>{
     public void registerBiomeDictionary() {
         BiomeDictionary.makeBestGuess(getBiome());
     }
-    
+
     @Override
     public boolean isEnabled() {
-    	return this.getId() != 0;
+        return this.getId() != 0;
     }
-
 }

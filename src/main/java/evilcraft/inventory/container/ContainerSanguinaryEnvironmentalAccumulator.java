@@ -8,29 +8,16 @@ import net.minecraft.entity.player.InventoryPlayer;
 /**
  * Container for the {@link evilcraft.block.SanguinaryEnvironmentalAccumulator}.
  * @author rubensworks
- *
  */
 public class ContainerSanguinaryEnvironmentalAccumulator extends ContainerTileWorking<TileSanguinaryEnvironmentalAccumulator> {
 
     private static final int INVENTORY_OFFSET_X = 8;
     private static final int INVENTORY_OFFSET_Y = 84;
 
-    /**
-     * Accumulate slot X coordinate.
-     */
     public static final int SLOT_ACCUMULATE_X = 54;
-    /**
-     * Accumulate slot Y coordinate.
-     */
     public static final int SLOT_ACCUMULATE_Y = 36;
 
-    /**
-     * Accumulate result slot X coordinate.
-     */
     public static final int SLOT_ACCUMULATE_RESULT_X = 108;
-    /**
-     * Accumulate result slot Y coordinate.
-     */
     public static final int SLOT_ACCUMULATE_RESULT_Y = 36;
 
     private static final int UPGRADE_INVENTORY_OFFSET_X = -22;
@@ -49,8 +36,6 @@ public class ContainerSanguinaryEnvironmentalAccumulator extends ContainerTileWo
         addSlotToContainer(new SlotRemoveOnly(tile, TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE_RESULT, SLOT_ACCUMULATE_RESULT_X, SLOT_ACCUMULATE_RESULT_Y)); // Accumulate result slot
 
         this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y);
-
         this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }
-    
 }

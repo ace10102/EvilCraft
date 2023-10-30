@@ -13,67 +13,62 @@ import net.minecraft.world.storage.WorldInfo;
 /**
  * A dummy implementation of {@link ISaveHandler}, use with caution.
  * @author rubensworks
- *
  */
 public class FakeSaveHandler implements ISaveHandler {
-	
-	private static final UUID uuid = UUID.randomUUID();
 
-	@Override
-	public WorldInfo loadWorldInfo() {
-		return null;
-	}
+    private static final UUID uuid = UUID.randomUUID();
 
-	@Override
-	public void checkSessionLock() {
-		
-	}
+    @Override
+    public WorldInfo loadWorldInfo() {
+        return null;
+    }
 
-	@Override
-	public IChunkLoader getChunkLoader(WorldProvider var1) {
-		return null;
-	}
+    @Override
+    public void checkSessionLock() {
+    }
 
-	@Override
-	public void saveWorldInfoWithPlayer(WorldInfo var1, NBTTagCompound var2) {
-		
-	}
+    @Override
+    public IChunkLoader getChunkLoader(WorldProvider var1) {
+        return null;
+    }
 
-	@Override
-	public void saveWorldInfo(WorldInfo var1) {
-		
-	}
+    @Override
+    public void saveWorldInfoWithPlayer(WorldInfo var1, NBTTagCompound var2) {
+    }
 
-	@Override
-	public IPlayerFileData getSaveHandler() {
-		return null;
-	}
+    @Override
+    public void saveWorldInfo(WorldInfo var1) {
+    }
 
-	@Override
-	public void flush() {
-	}
+    @Override
+    public IPlayerFileData getSaveHandler() {
+        return null;
+    }
 
-	@Override
-	public File getWorldDirectory() {
-		return null;
-	}
+    @Override
+    public void flush() {
+    }
 
-	@Override
-	public File getMapFileFromName(String var1) {
-		return null;
-	}
+    @Override
+    public File getWorldDirectory() {
+        return null;
+    }
 
-	@Override
-	public String getWorldDirectoryName() {
-		return null;
-	}
-	
-	/**
-	 * Overrides the getUUID method for Cauldron instances.
-	 * @return A UUID for the fake world.
-	 */
-	public UUID getUUID() {
-		return uuid;
-	}
+    @Override
+    public File getMapFileFromName(String var1) {
+        return null;
+    }
 
+    @Override
+    public String getWorldDirectoryName() {
+        return null;
+    }
+
+    /**
+     * Overrides the getUUID method for Cauldron instances.
+     * @return A UUID for the fake world.
+     */
+    public UUID getUUID() {
+        return uuid;
+    }
 }

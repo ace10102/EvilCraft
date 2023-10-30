@@ -20,27 +20,27 @@ import java.util.Random;
 /**
  * Block that extends from BlockLeaves that can hold ExtendedConfigs
  * @author rubensworks
- *
  */
-public abstract class ConfigurableBlockLeaves extends BlockLeaves implements IConfigurable{
+public abstract class ConfigurableBlockLeaves extends BlockLeaves implements IConfigurable {
 
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
 
     private IIcon iconOpaque;
     private IIcon iconTransparent;
-    
+
     /**
      * Make a new block instance.
      * @param eConfig Config for this block.
      */
-    @SuppressWarnings({ "rawtypes" })
+    @SuppressWarnings("rawtypes")
     public ConfigurableBlockLeaves(ExtendedConfig eConfig) {
         this.setConfig(eConfig);
         this.setBlockName(eConfig.getUnlocalizedName());
     }
 
-    private void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {
+    @SuppressWarnings("rawtypes")
+    private void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
 
@@ -51,25 +51,23 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements ICo
 
     @Override
     public String getTextureName() {
-        return Reference.MOD_ID+":"+eConfig.getNamedId();
+        return Reference.MOD_ID + ":" + eConfig.getNamedId();
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         iconTransparent = iconRegister.registerIcon(getTextureName());
         iconOpaque = iconRegister.registerIcon(getTextureName() + "_opaque");
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-        return !field_150121_P? iconTransparent : iconOpaque;
+        return !field_150121_P ? iconTransparent : iconOpaque;
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        return !field_150121_P? iconTransparent : iconOpaque;
+        return !field_150121_P ? iconTransparent : iconOpaque;
     }
 
     @Override
@@ -79,40 +77,36 @@ public abstract class ConfigurableBlockLeaves extends BlockLeaves implements ICo
     public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance, int fortune) {
         if(!world.isRemote) {
             ArrayList<ItemStack> items = getDrops(world, x, y, z, meta, fortune);
-
-            for (ItemStack item : items) {
-                if (world.rand.nextFloat() <= chance) {
+            for(ItemStack item : items) {
+                if(world.rand.nextFloat() <= chance) {
                     this.dropBlockAsItem(world, x, y, z, item);
                 }
             }
         }
     }
-    
+
     @Override
     public boolean isOpaqueCube() {
         return false;
     }
-    
+
     @Override
     public boolean renderAsNormalBlock() {
         return false;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
         return !(side > 7 || field_150121_P) || super.shouldSideBeRendered(world, x, y, z, side);
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
+    @Override @SuppressWarnings({ "rawtypes", "unchecked" })
     public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
         list.add(new ItemStack(item, 1, 0));
     }
-    
+
     @Override
-    public boolean isLeaves (IBlockAccess world, int x, int y, int z) {
+    public boolean isLeaves(IBlockAccess world, int x, int y, int z) {
         return true;
     }
-
 }

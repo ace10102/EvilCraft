@@ -1,11 +1,8 @@
 package evilcraft.inventory.container;
 
 import evilcraft.core.inventory.slot.SlotFluidContainer;
-import evilcraft.core.inventory.slot.SlotWorking;
-import evilcraft.core.inventory.slot.SlotWorkingRemoveOnly;
 import evilcraft.inventory.slot.SlotRepairable;
 import evilcraft.tileentity.TileColossalBloodChest;
-import evilcraft.tileentity.TileSpiritFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
@@ -14,7 +11,6 @@ import net.minecraft.inventory.Slot;
 /**
  * Container for the {@link evilcraft.block.ColossalBloodChest}.
  * @author rubensworks
- *
  */
 public class ContainerColossalBloodChest extends ContainerTileWorking<TileColossalBloodChest> {
 
@@ -25,22 +21,11 @@ public class ContainerColossalBloodChest extends ContainerTileWorking<TileColoss
 
     private static final int CHEST_INVENTORY_OFFSET_X = 59;
     private static final int CHEST_INVENTORY_OFFSET_Y = 13;
-    /**
-     * Amount of rows in the chest.
-     */
+
     public static final int CHEST_INVENTORY_ROWS = 5;
-    /**
-     * Amount of columns in the chest.
-     */
     public static final int CHEST_INVENTORY_COLUMNS = 9;
 
-    /**
-     * Container slot X coordinate.
-     */
     public static final int SLOT_CONTAINER_X = 6;
-    /**
-     * Container slot Y coordinate.
-     */
     public static final int SLOT_CONTAINER_Y = 46;
 
     private static final int UPGRADE_INVENTORY_OFFSET_X = -22;
@@ -55,23 +40,19 @@ public class ContainerColossalBloodChest extends ContainerTileWorking<TileColoss
         super(inventory, tile);
 
         tile.openInventory();
-
         // Adding inventory
-        addSlotToContainer(new SlotFluidContainer(tile, TileColossalBloodChest.SLOT_CONTAINER,
-        		SLOT_CONTAINER_X, SLOT_CONTAINER_Y,
-        		tile.getTank())); // Container emptier
-        
+        addSlotToContainer(new SlotFluidContainer(tile, TileColossalBloodChest.SLOT_CONTAINER, SLOT_CONTAINER_X, SLOT_CONTAINER_Y, tile.getTank())); // Container emptier
+
         addChestSlots(CHEST_INVENTORY_ROWS, CHEST_INVENTORY_COLUMNS);
 
         this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y);
-
         this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
         this.addPlayerArmorInventory(inventory, ARMOR_INVENTORY_OFFSET_X, ARMOR_INVENTORY_OFFSET_Y);
     }
 
     protected void addChestSlots(int rows, int columns) {
-        for (int row = 0; row < rows; row++) {
-            for (int column = 0; column < columns; column++) {
+        for(int row = 0; row < rows; row++) {
+            for(int column = 0; column < columns; column++) {
                 addSlotToContainer(makeSlot(tile, column + row * columns, CHEST_INVENTORY_OFFSET_X + column * 18, CHEST_INVENTORY_OFFSET_Y + row * 18));
             }
         }
@@ -86,5 +67,4 @@ public class ContainerColossalBloodChest extends ContainerTileWorking<TileColoss
         super.onContainerClosed(entityplayer);
         tile.closeInventory();
     }
-    
 }

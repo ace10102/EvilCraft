@@ -9,13 +9,11 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
-
 /**
  * Allows item to be rendered with a better (alpha) transparency blend.
  * @author rubensworks
- *
  */
-public class AlphaRenderItem implements IItemRenderer{
+public class AlphaRenderItem implements IItemRenderer {
 
     /**
      * The ID for this renderer.
@@ -29,8 +27,7 @@ public class AlphaRenderItem implements IItemRenderer{
     }
 
     @Override
-    public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item,
-            ItemRendererHelper helper) {
+    public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
         return false;
     }
 
@@ -41,5 +38,4 @@ public class AlphaRenderItem implements IItemRenderer{
         renderItem.renderIcon(0, 0, icon, 16, 16);
         GL11.glDisable(GL11.GL_BLEND);
     }
-
 }

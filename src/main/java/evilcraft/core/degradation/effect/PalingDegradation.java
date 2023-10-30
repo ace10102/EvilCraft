@@ -14,7 +14,6 @@ import java.util.List;
 /**
  * Degradation effect that will apply paling to entities in the degradation area.
  * @author rubensworks
- *
  */
 public class PalingDegradation extends ConfigurableDegradationEffect {
 
@@ -53,7 +52,6 @@ public class PalingDegradation extends ConfigurableDegradationEffect {
 
     @Override
     public void runClientSide(IDegradable degradable) {
-        
     }
 
     @Override
@@ -61,13 +59,9 @@ public class PalingDegradation extends ConfigurableDegradationEffect {
         List<Entity> entities = degradable.getAreaEntities();
         for(Entity entity : entities) {
             if(entity instanceof EntityLivingBase) {
-                ((EntityLivingBase) entity).addPotionEffect(
-                        new PotionEffect(
-                                PotionPalingConfig._instance.ID,
-                                (int) degradable.getDegradation() * PALING_DURATION_MULTIPLIER, Math.min(10, (int) degradable.getDegradation() / 10))
-                        );
+                ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(PotionPalingConfig._instance.ID,
+                        (int)degradable.getDegradation() * PALING_DURATION_MULTIPLIER, Math.min(10, (int)degradable.getDegradation() / 10)));
             }
         }
     }
-
 }

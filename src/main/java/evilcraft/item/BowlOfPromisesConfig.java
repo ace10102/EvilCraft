@@ -7,7 +7,6 @@ import net.minecraftforge.oredict.OreDictionary;
 /**
  * Config for the {@link evilcraft.item.BowlOfPromises}.
  * @author rubensworks
- *
  */
 public class BowlOfPromisesConfig extends ItemConfig {
 
@@ -20,12 +19,7 @@ public class BowlOfPromisesConfig extends ItemConfig {
      * Make a new instance.
      */
     public BowlOfPromisesConfig() {
-        super(
-            true,
-            "bowlOfPromises",
-            null,
-            BowlOfPromises.class
-        );
+        super(true, "bowlOfPromises", null, BowlOfPromises.class);
     }
 
     public String getBaseDictionaryName() {
@@ -45,5 +39,4 @@ public class BowlOfPromisesConfig extends ItemConfig {
             }
         }
     }
-    
 }

@@ -5,10 +5,9 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 /**
  * Config for the {@link InvertedPotentia}.
  * @author rubensworks
- *
  */
 public class InvertedPotentiaConfig extends ItemConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -18,12 +17,6 @@ public class InvertedPotentiaConfig extends ItemConfig {
      * Make a new instance.
      */
     public InvertedPotentiaConfig() {
-        super(
-            true,
-            "invertedPotentia",
-            null,
-            InvertedPotentia.class
-        );
+        super(true, "invertedPotentia", null, InvertedPotentia.class);
     }
-    
 }

@@ -40,22 +40,19 @@ public class ContainerTileWorking<T extends TileWorking<T, ?>> extends Container
 
                 @Override
                 public boolean canTakeStack(EntityPlayer player) {
-                    return super.canTakeStack(player) &&
-                            tile.canExtractItem(getSlotIndex(), getStack(), player.inventory.getItemStack());
+                    return super.canTakeStack(player) && tile.canExtractItem(getSlotIndex(), getStack(), player.inventory.getItemStack());
                 }
 
                 @Override
                 public void onSlotChanged() {
                     if(!ItemStack.areItemStacksEqual(lastSlotContents, this.getStack())) {
-                        tile.onUpgradeSlotChanged(getSlotIndex(),lastSlotContents, this.getStack());
+                        tile.onUpgradeSlotChanged(getSlotIndex(), lastSlotContents, this.getStack());
                     }
                     lastSlotContents = this.getStack();
                     if(lastSlotContents != null) lastSlotContents = lastSlotContents.copy();
                 }
-
             });
             amount++;
         }
     }
-
 }

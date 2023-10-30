@@ -9,15 +9,13 @@ import net.minecraft.world.World;
 import evilcraft.core.config.configurable.ConfigurableBlockContainer;
 
 /**
- * An extended {@link ItemBlockExtended} that will add the NBT data that is stored inside
- * the item to the placed {@link TileEntity} for the block.
- * Subinstances of {@link ConfigurableBlockContainer} will perform the inverse operation, being
- * that broken blocks will save the NBT data inside the dropped {@link ItemBlock}.
+ * An extended {@link ItemBlockExtended} that will add the NBT data that is stored inside the item to the placed {@link TileEntity} for the block.
+ * Subinstances of {@link ConfigurableBlockContainer} will perform the inverse operation,
+ * being that broken blocks will save the NBT data inside the dropped {@link ItemBlock}.
  * @author rubensworks
- *
  */
 public class ItemBlockNBT extends ItemBlockExtended {
-    
+
     /**
      * Make a new instance.
      * @param block The block instance.
@@ -26,30 +24,26 @@ public class ItemBlockNBT extends ItemBlockExtended {
         super(block);
         this.setMaxStackSize(1);
     }
-    
+
     @Override
     public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata) {
-        if (super.placeBlockAt(stack, player, world, x, y, z, side, hitX, hitY, hitZ, metadata)) {
+        if(super.placeBlockAt(stack, player, world, x, y, z, side, hitX, hitY, hitZ, metadata)) {
             TileEntity tile = world.getTileEntity(x, y, z);
 
-            if (tile != null && stack.stackTagCompound != null) {
+            if(tile != null && stack.stackTagCompound != null) {
                 tile.readFromNBT(stack.stackTagCompound);
                 readAdditionalInfo(tile, stack);
             }
-
             return true;
         }
-
         return false;
     }
-    
+
     /**
      * Read additional info about the item into the tile.
      * @param tile The tile that is being created.
      * @param itemStack The item that is placed.
      */
     protected void readAdditionalInfo(TileEntity tile, ItemStack itemStack) {
-    	
     }
-
 }

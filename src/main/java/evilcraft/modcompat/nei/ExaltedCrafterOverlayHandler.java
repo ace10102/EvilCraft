@@ -13,11 +13,8 @@ import net.minecraft.inventory.Slot;
  */
 public class ExaltedCrafterOverlayHandler extends DefaultOverlayHandler {
 
-	@Override
-	public boolean canMoveFrom(Slot slot, GuiContainer gui) {
-        return slot.inventory instanceof InventoryPlayer
-        		|| slot.inventory instanceof InventoryEnderChest
-                || slot.inventory instanceof NBTSimpleInventoryItemHeld;
+    @Override
+    public boolean canMoveFrom(Slot slot, GuiContainer gui) {
+        return slot.inventory instanceof InventoryPlayer || slot.inventory instanceof InventoryEnderChest || slot.inventory instanceof NBTSimpleInventoryItemHeld;
     }
-	
 }

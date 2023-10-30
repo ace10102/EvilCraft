@@ -9,7 +9,6 @@ import net.minecraftforge.event.entity.player.FillBucketEvent;
 /**
  * Event hook for {@link net.minecraftforge.event.entity.player.FillBucketEvent}.
  * @author rubensworks
- *
  */
 public class FillBucketEventHook {
 
@@ -21,12 +20,11 @@ public class FillBucketEventHook {
     public void onFillBucket(FillBucketEvent event) {
         stopFillWithEternalWaterBlock(event);
     }
-    
+
     private void stopFillWithEternalWaterBlock(FillBucketEvent event) {
         Block block = event.world.getBlock(event.target.blockX, event.target.blockY, event.target.blockZ);
         if(block == EternalWaterBlockConfig._instance.getBlockInstance()) {
             event.setCanceled(true);
         }
     }
-    
 }

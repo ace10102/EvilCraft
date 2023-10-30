@@ -15,7 +15,6 @@ import net.minecraft.potion.PotionEffect;
  * A dark apple that will apply a killing potion effect to the entity eating the apple.
  * After the potion effect is over, a portal will be spawned.
  * @author rubensworks
- *
  */
 public class DarkenedApple extends ConfigurableItemFood {
 
@@ -26,7 +25,7 @@ public class DarkenedApple extends ConfigurableItemFood {
     private static DarkenedApple _instance = null;
 
     /**
-     * Initialise the configurable.
+     * Initialize the configurable.
      * @param eConfig The config.
      */
     public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
@@ -57,11 +56,10 @@ public class DarkenedApple extends ConfigurableItemFood {
     public boolean itemInteractionForEntity(ItemStack itemStack, EntityPlayer player, EntityLivingBase entity) {
         if(entity instanceof IAnimals && entity.getMaxHealth() <= 10) {
             entity.addPotionEffect(new PotionEffect(POTION_ID, POTION_DURATION * 20, POTION_AMPLIFIER));
-            if(entity instanceof EntityLiving) ((EntityLiving) entity).func_110163_bv();
+            if(entity instanceof EntityLiving) ((EntityLiving)entity).func_110163_bv();
             --itemStack.stackSize;
             return true;
         }
         return super.itemInteractionForEntity(itemStack, player, entity);
     }
-
 }

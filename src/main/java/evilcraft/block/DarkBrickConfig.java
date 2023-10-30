@@ -9,10 +9,9 @@ import net.minecraft.block.material.Material;
 /**
  * Config for the Dark Brick.
  * @author rubensworks
- *
  */
 public class DarkBrickConfig extends BlockConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -22,24 +21,16 @@ public class DarkBrickConfig extends BlockConfig {
      * Make a new instance.
      */
     public DarkBrickConfig() {
-        super(
-        	true,
-            "darkBrick",
-            null,
-            null
-        );
+        super(true, "darkBrick", null, null);
     }
 
     @Override
     protected IConfigurable initSubInstance() {
-        return (ConfigurableBlock) new ConfigurableBlock(this, Material.rock).
-                setHarvestLevelDefined("pickaxe", 2).setHardness(5.0F).
-                setStepSound(Block.soundTypeStone);
+        return (ConfigurableBlock)new ConfigurableBlock(this, Material.rock).setHarvestLevelDefined("pickaxe", 2).setHardness(5.0F).setStepSound(Block.soundTypeStone);
     }
-    
+
     @Override
     public boolean isMultipartEnabled() {
         return true;
     }
-    
 }

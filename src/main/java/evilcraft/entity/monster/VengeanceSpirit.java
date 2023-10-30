@@ -46,9 +46,8 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 /**
- * A silverfish for the nether.
+ * Vengeance Spirit
  * @author rubensworks
- *
  */
 public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     /**
@@ -293,7 +292,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
         if(this.isDead)
             numParticles *= 10;
         float clearRange = width; // Particles can't spawn within this X and Z distance
-        for(int i = 0; i < numParticles; i++) {            
+        for(int i = 0; i < numParticles; i++) {
             double particleX = posX - width / 2 + width * rand.nextFloat();
             if(particleX < 0.7F && particleX >= 0) particleX += width / 2;
             if(particleX > -0.7F && particleX <= 0) particleX -= width / 2;
@@ -317,7 +316,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     @SideOnly(Side.CLIENT)
     private void spawnSwarmParticles() {
         int numParticles = 5 * (rand.nextInt((getSwarmTier() << 1) + 1) + 1);
-        for(int i = 0; i < numParticles; i++) {            
+        for(int i = 0; i < numParticles; i++) {
             double particleX = posX - width / 2 + width * rand.nextFloat();
             if(particleX < 0.7F && particleX >= 0) particleX += width / 2;
             if(particleX > -0.7F && particleX <= 0) particleX -= width / 2;
@@ -414,7 +413,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
             return innerEntity;
         Class<EntityLivingBase> clazzLog = null;
         try {
-            Class<EntityLivingBase> clazz = (Class<EntityLivingBase>) Class.forName(dataWatcher.getWatchableObjectString(WATCHERID_INNER));
+            Class<EntityLivingBase> clazz = (Class<EntityLivingBase>)Class.forName(dataWatcher.getWatchableObjectString(WATCHERID_INNER));
             if(!clazz.equals(VengeanceSpirit.class)) {
                 clazzLog = clazz;
                 String name = (String)EntityList.classToStringMapping.get(clazz);
@@ -425,11 +424,11 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
                     return innerEntity;
                 }
             }
-        } catch (ClassNotFoundException e) {
+        } catch(ClassNotFoundException e) {
             // In this case it is a vengeance swarm.
-        } catch (NullPointerException e) {
+        } catch(NullPointerException e) {
             EvilCraft.log("Tried to spirit invalid[NPE] entity of class " + clazzLog + ", removing it now.", Level.ERROR);
-        } catch (ClassCastException e) {
+        } catch(ClassCastException e) {
             EvilCraft.log("Tried to spirit invalid[CCE] entity of class " + clazzLog + ", removing it now.", Level.ERROR);
         }
         if(!this.worldObj.isRemote) {
@@ -579,7 +578,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      * @param isSwarm Is a swarm.
      */
     public void setIsSwarm(boolean isSwarm) {
-        this.dataWatcher.updateObject(WATCHERID_ISSWARM, isSwarm?1:0);
+        this.dataWatcher.updateObject(WATCHERID_ISSWARM, isSwarm ? 1 : 0);
     }
 
     /**
@@ -619,7 +618,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     }
 
     /**
-     * If the given entity can be 'spiritted'
+     * If the given entity can be 'spirited'
      * @param entityLiving The entity to check.
      * @return If it can become a spirit.
      */
@@ -633,7 +632,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     }
 
     /**
-     * If the given entity class can be 'spiritted'
+     * If the given entity class can be 'spirited'
      * @param entityLivingClazz The entity class to check.
      * @return If it can become a spirit.
      */
@@ -648,8 +647,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 
     /**
      * Check if we can spawn a new vengeance spirit in the given location.
-     * It will check if the amount of spirits in an area is below a certain threshold and if there aren't any gemstone
-     * torches in the area
+     * It will check if the amount of spirits in an area is below a certain threshold and if there aren't any gemstone torches in the area
      * @param world The world.
      * @param x X coordinate.
      * @param y Y coordinate.
@@ -658,7 +656,8 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      */
     @SuppressWarnings("unchecked")
     public static boolean canSpawnNew(World world, double x, double y, double z) {
-        if(Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z)) return false;
+        if(Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z))
+            return false;
 
         int area = VengeanceSpiritConfig.spawnLimitArea;
         int threshold = VengeanceSpiritConfig.spawnLimit;
@@ -668,13 +667,13 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
             return false;
         }
 
-        if(!Configs.isEnabled(GemStoneTorchConfig.class)) return true;
+        if(!Configs.isEnabled(GemStoneTorchConfig.class))
+            return true;
 
         return WorldHelpers.foldArea(world, GemStoneTorchConfig.area, (int)x, (int)y, (int)z, new WorldHelpers.WorldFoldingFunction<Boolean, Boolean>() {
-            @Nullable
-            @Override
+            @Override @Nullable
             public Boolean apply(@Nullable Boolean input, World world, int x, int y, int z) {
-                return (input == null ||input) && world.getBlock(x, y, z) != GemStoneTorchConfig._instance.getBlockInstance();
+                return (input == null || input) && world.getBlock(x, y, z) != GemStoneTorchConfig._instance.getBlockInstance();
             }
         }, true);
     }
@@ -748,9 +747,8 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
             int posZ = z + MathHelper.getRandomIntegerInRange(world.rand, baseDistance, baseDistance + area) * MathHelper.getRandomIntegerInRange(world.rand, -1, 1);
 
             if(World.doesBlockHaveSolidTopSurface(world, posX, posY - 1, posZ)) {
-                spirit.setPosition((double) posX + 0.5, (double) posY + 0.5, (double) posZ + 0.5);
-                if(world.checkNoEntityCollision(spirit.boundingBox) 
-                        && world.getCollidingBoundingBoxes(spirit, spirit.boundingBox).isEmpty() && !world.isAnyLiquid(spirit.boundingBox)) {
+                spirit.setPosition((double)posX + 0.5, (double)posY + 0.5, (double)posZ + 0.5);
+                if(world.checkNoEntityCollision(spirit.boundingBox) && world.getCollidingBoundingBoxes(spirit, spirit.boundingBox).isEmpty() && !world.isAnyLiquid(spirit.boundingBox)) {
                     world.spawnEntityInWorld(spirit);
                     spirit.onSpawnWithEgg((IEntityLivingData)null);
                     attempts = -1;
@@ -772,7 +770,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
         }
         String key = DEFAULT_L10N_KEY;
         if(getInnerEntity() != null) {
-            key = (String)EntityList.classToStringMapping.get(getInnerEntity().getClass()); 
+            key = (String)EntityList.classToStringMapping.get(getInnerEntity().getClass());
         }
         return L10NHelpers.getLocalizedEntityName(key);
     }
@@ -781,7 +779,6 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     protected String getDeathSound() {
         if(getInnerEntity() != null) {
             return MethodHandlesHelper.getDeathSound(getInnerEntity());
-            //return ObfuscationHelpers.getDeathSound(getInnerEntity());
         }
         return "vengeanceSpiritDeath";
     }
@@ -791,7 +788,6 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
         EntityLivingBase entity = getInnerEntity();
         if(entity != null && entity instanceof EntityLiving) {
             return MethodHandlesHelper.getLivingSound((EntityLiving)entity);
-            //return ObfuscationHelpers.getLivingSound((EntityLiving)getInnerEntity());
         }
         return "vengeanceSpirit";
     }
@@ -815,8 +811,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     }
 
     /**
-     * Add an entity class to the blacklist, every subinstance of this class will not
-     * be spirited anymore.
+     * Add an entity class to the blacklist, every subinstance of this class will not be spirited anymore.
      * @param clazz The root class that will be blocked from spiritation.
      */
     public static void addToBlacklist(Class<? extends EntityLivingBase> clazz) {
@@ -825,8 +820,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     }
 
     /**
-     * Add an entity class to the blacklist, every subinstance of this class will not
-     * be spirited anymore.
+     * Add an entity class to the blacklist, every subinstance of this class will not be spirited anymore.
      * This should only be called by IMC message handlers.
      * @param clazz The root class that will be blocked from spiritation.
      */
@@ -858,7 +852,6 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     /**
      * The changed callback for the spirit blacklist.
      * @author rubensworks
-     *
      */
     public static class SpiritBlacklistChanged implements IChangedCallback {
 
@@ -871,6 +864,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
             }
             calledOnce = true;
         }
+
         @Override
         public void onRegisteredPostInit(Object value) {
             onChanged(value);

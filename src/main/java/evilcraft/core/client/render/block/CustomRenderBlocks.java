@@ -7,21 +7,20 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
 /**
- * An extension of the {@link RenderBlocks} that has some rendering corrections used
- * for rendering connected textures. It is also able to store the current world object.
+ * An extension of the {@link RenderBlocks} that has some rendering corrections used for rendering connected textures.
+ * It is also able to store the current world object.
  * @author rubensworks
- *
  */
 public class CustomRenderBlocks extends RenderBlocks {
-    
+
     // Three renderfaces are overwritten because for some reason Minecraft randomly
     // flips the icon in some rotations, "it's a motherflippin' joke!"
-    
+
     @Override
     public void renderFaceZNeg(Block par1Block, double par2, double par4, double par6, IIcon par8Icon) {
         Tessellator tessellator = Tessellator.instance;
 
-        if (hasOverrideBlockTexture()) {
+        if(hasOverrideBlockTexture()) {
             par8Icon = this.overrideBlockTexture;
         }
 
@@ -31,18 +30,18 @@ public class CustomRenderBlocks extends RenderBlocks {
         double d6 = par8Icon.getInterpolatedV(16.0D - this.renderMinY * 16.0D);
         double d7;
 
-        if (this.flipTexture) {
+        if(this.flipTexture) {
             d7 = d3;
             d3 = d4;
             d4 = d7;
         }
 
-        if (this.renderMinX < 0.0D || this.renderMaxX > 1.0D) {
+        if(this.renderMinX < 0.0D || this.renderMaxX > 1.0D) {
             d3 = par8Icon.getMinU();
             d4 = par8Icon.getMaxU();
         }
 
-        if (this.renderMinY < 0.0D || this.renderMaxY > 1.0D) {
+        if(this.renderMinY < 0.0D || this.renderMaxY > 1.0D) {
             d5 = par8Icon.getMinV();
             d6 = par8Icon.getMaxV();
         }
@@ -52,7 +51,7 @@ public class CustomRenderBlocks extends RenderBlocks {
         double d9 = d5;
         double d10 = d6;
 
-        if (this.uvRotateEast == 2) {
+        if(this.uvRotateEast == 2) {
             d3 = par8Icon.getInterpolatedU(16.0D - this.renderMinX * 16.0D);
             d5 = par8Icon.getInterpolatedV(16.0D - this.renderMinY * 16.0D);
             d4 = par8Icon.getInterpolatedU(16.0D - this.renderMaxX * 16.0D);
@@ -63,7 +62,7 @@ public class CustomRenderBlocks extends RenderBlocks {
             d8 = d4;
             d5 = d6;
             d6 = d9;
-        } else if (this.uvRotateEast == 1) {
+        } else if(this.uvRotateEast == 1) {
             d3 = par8Icon.getInterpolatedU(this.renderMaxY * 16.0D);
             d5 = par8Icon.getInterpolatedV(this.renderMaxX * 16.0D);
             d4 = par8Icon.getInterpolatedU(this.renderMinY * 16.0D);
@@ -74,7 +73,7 @@ public class CustomRenderBlocks extends RenderBlocks {
             d4 = d8;
             d9 = d6;
             d10 = d5;
-        } else if (this.uvRotateEast == 3) {
+        } else if(this.uvRotateEast == 3) {
             d3 = par8Icon.getInterpolatedU(16.0D - this.renderMinX * 16.0D);
             d4 = par8Icon.getInterpolatedU(16.0D - this.renderMaxX * 16.0D);
             d5 = par8Icon.getInterpolatedV(this.renderMaxY * 16.0D);
@@ -91,7 +90,7 @@ public class CustomRenderBlocks extends RenderBlocks {
         double d14 = par4 + this.renderMaxY;
         double d15 = par6 + this.renderMinZ;
 
-        if (this.enableAO) {
+        if(this.enableAO) {
             tessellator.setColorOpaque_F(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft);
             tessellator.setBrightness(this.brightnessTopLeft);
             tessellator.addVertexWithUV(d11, d14, d15, d7, d9);
@@ -116,7 +115,7 @@ public class CustomRenderBlocks extends RenderBlocks {
     public void renderFaceXPos(Block par1Block, double par2, double par4, double par6, IIcon par8Icon) {
         Tessellator tessellator = Tessellator.instance;
 
-        if (hasOverrideBlockTexture()) {
+        if(hasOverrideBlockTexture()) {
             par8Icon = this.overrideBlockTexture;
         }
 
@@ -126,18 +125,18 @@ public class CustomRenderBlocks extends RenderBlocks {
         double d6 = par8Icon.getInterpolatedV(16.0D - this.renderMinY * 16.0D);
         double d7;
 
-        if (this.flipTexture) {
+        if(this.flipTexture) {
             d7 = d3;
             d3 = d4;
             d4 = d7;
         }
 
-        if (this.renderMinZ < 0.0D || this.renderMaxZ > 1.0D) {
+        if(this.renderMinZ < 0.0D || this.renderMaxZ > 1.0D) {
             d3 = par8Icon.getMinU();
             d4 = par8Icon.getMaxU();
         }
 
-        if (this.renderMinY < 0.0D || this.renderMaxY > 1.0D) {
+        if(this.renderMinY < 0.0D || this.renderMaxY > 1.0D) {
             d5 = par8Icon.getMinV();
             d6 = par8Icon.getMaxV();
         }
@@ -147,7 +146,7 @@ public class CustomRenderBlocks extends RenderBlocks {
         double d9 = d5;
         double d10 = d6;
 
-        if (this.uvRotateSouth == 2) {
+        if(this.uvRotateSouth == 2) {
             d3 = par8Icon.getInterpolatedU(16.0D - this.renderMinZ * 16.0D);
             d5 = par8Icon.getInterpolatedV(16.0D - this.renderMinY * 16.0D);
             d4 = par8Icon.getInterpolatedU(16.0D - this.renderMaxZ * 16.0D);
@@ -158,7 +157,7 @@ public class CustomRenderBlocks extends RenderBlocks {
             d8 = d4;
             d5 = d6;
             d6 = d9;
-        } else if (this.uvRotateSouth == 1) {
+        } else if(this.uvRotateSouth == 1) {
             d3 = par8Icon.getInterpolatedU(this.renderMaxY * 16.0D);
             d5 = par8Icon.getInterpolatedV(this.renderMaxZ * 16.0D);
             d4 = par8Icon.getInterpolatedU(this.renderMinY * 16.0D);
@@ -169,7 +168,7 @@ public class CustomRenderBlocks extends RenderBlocks {
             d4 = d8;
             d9 = d6;
             d10 = d5;
-        } else if (this.uvRotateSouth == 3) {
+        } else if(this.uvRotateSouth == 3) {
             d3 = par8Icon.getInterpolatedU(16.0D - this.renderMinZ * 16.0D);
             d4 = par8Icon.getInterpolatedU(16.0D - this.renderMaxZ * 16.0D);
             d5 = par8Icon.getInterpolatedV(this.renderMaxY * 16.0D);
@@ -186,7 +185,7 @@ public class CustomRenderBlocks extends RenderBlocks {
         double d14 = par6 + this.renderMinZ;
         double d15 = par6 + this.renderMaxZ;
 
-        if (this.enableAO) {
+        if(this.enableAO) {
             tessellator.setColorOpaque_F(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft);
             tessellator.setBrightness(this.brightnessTopLeft);
             tessellator.addVertexWithUV(d11, d12, d15, d8, d10);
@@ -214,7 +213,7 @@ public class CustomRenderBlocks extends RenderBlocks {
     public void setWorld(IBlockAccess world) {
         this.blockAccess = world;
     }
-    
+
     /**
      * Gets the IBlockAccess world.
      * @return the IBlockAccess world.
@@ -222,5 +221,4 @@ public class CustomRenderBlocks extends RenderBlocks {
     public IBlockAccess getWorld() {
         return this.blockAccess;
     }
-    
 }

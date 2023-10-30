@@ -5,10 +5,9 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 /**
  * Config for the {@link ContainedFlux}.
  * @author rubensworks
- *
  */
 public class ContainedFluxConfig extends ItemConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -18,17 +17,11 @@ public class ContainedFluxConfig extends ItemConfig {
      * Make a new instance.
      */
     public ContainedFluxConfig() {
-        super(
-        	true,
-            "containedFlux",
-            null,
-            ContainedFlux.class
-        );
+        super(true, "containedFlux", null, ContainedFlux.class);
     }
-    
+
     @Override
     public boolean isHardDisabled() {
-    	return true;
+        return true;
     }
-    
 }

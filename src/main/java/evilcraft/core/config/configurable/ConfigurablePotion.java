@@ -25,7 +25,7 @@ public abstract class ConfigurablePotion extends Potion implements IConfigurable
     protected ExtendedConfig eConfig = null;
 
     /**
-     * Make a new Enchantment instance
+     * Make a new Potion instance
      * @param eConfig Config for this enchantment.
      * @param badEffect If the potion effect is bad.
      * @param color The color of the potion.
@@ -39,14 +39,13 @@ public abstract class ConfigurablePotion extends Potion implements IConfigurable
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public int getStatusIconIndex() {
         Minecraft.getMinecraft().renderEngine.bindTexture(resource);
         return super.getStatusIconIndex();
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings("rawtypes")
     private void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
@@ -81,5 +80,4 @@ public abstract class ConfigurablePotion extends Potion implements IConfigurable
             onUpdate(entity);
         }
     }
-
 }

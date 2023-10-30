@@ -5,7 +5,6 @@ import net.minecraft.world.World;
 /**
  * Clear weather type.
  * @author rubensworks
- *
  */
 public class WeatherTypeClear extends WeatherType {
     @Override
@@ -15,10 +14,10 @@ public class WeatherTypeClear extends WeatherType {
 
     @Override
     public void activate(World world) {
-        if (LIGHTNING.isActive(world))
+        if(LIGHTNING.isActive(world))
             LIGHTNING.deactivate(world);
-        
-        if (RAIN.isActive(world))
+
+        if(RAIN.isActive(world))
             RAIN.deactivate(world);
     }
 
@@ -26,5 +25,4 @@ public class WeatherTypeClear extends WeatherType {
     public void deactivate(World world) {
         RAIN.activate(world);
     }
-
 }

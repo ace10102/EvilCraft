@@ -20,74 +20,68 @@ import net.minecraft.world.World;
 /**
  * Configurable item that can show a GUI on right clicking.
  * @author rubensworks
- *
  */
 public class ItemGui extends ConfigurableItem implements IGuiContainerProvider {
 
-	private int guiID;
-	
-	private Class<? extends Container> container;
+    private int guiID;
+
+    private Class<? extends Container> container;
     @SideOnly(Side.CLIENT)
     private Class<? extends GuiScreen> gui;
-	
-	/**
+
+    /**
      * Make a new item instance.
      * @param eConfig Config for this block.
      */
-    @SuppressWarnings({ "rawtypes" })
-	protected ItemGui(ExtendedConfig eConfig) {
-		super(eConfig);
-		this.guiID = Helpers.getNewId(IDType.GUI);
-	}
-    
+    @SuppressWarnings("rawtypes")
+    protected ItemGui(ExtendedConfig eConfig) {
+        super(eConfig);
+        this.guiID = Helpers.getNewId(IDType.GUI);
+    }
+
     @Override
     public int getGuiID() {
         return this.guiID;
     }
-    
-    @Override
-	@SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT)
     public void setGUI(Class<? extends GuiScreen> gui) {
         this.gui = gui;
     }
-    
+
     @Override
-	public void setContainer(Class<? extends Container> container) {
+    public void setContainer(Class<? extends Container> container) {
         this.container = container;
     }
-    
+
     @Override
-	public Class<? extends Container> getContainer() {
+    public Class<? extends Container> getContainer() {
         return container;
     }
-    
-    @Override
-	@SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT)
     public Class<? extends GuiScreen> getGUI() {
         return gui;
     }
-    
+
     @Override
-	public boolean onDroppedByPlayer(ItemStack itemstack, EntityPlayer player) {
-		if(itemstack != null
-				&& player instanceof EntityPlayerMP
-				&& player.openContainer != null
-				&& player.openContainer.getClass() == getContainer()) {
-			((EntityPlayerMP) player).closeScreen();
-		}
-		return super.onDroppedByPlayer(itemstack, player);
-	}
-    
+    public boolean onDroppedByPlayer(ItemStack itemstack, EntityPlayer player) {
+        if(itemstack != null && player instanceof EntityPlayerMP && player.openContainer != null && player.openContainer.getClass() == getContainer()) {
+            ((EntityPlayerMP)player).closeScreen();
+        }
+        return super.onDroppedByPlayer(itemstack, player);
+    }
+
     @Override
     public String getGuiTexture() {
         return getGuiTexture("");
     }
-    
+
     @Override
     public String getGuiTexture(String suffix) {
         return Reference.TEXTURE_PATH_GUI + eConfig.getNamedId() + "_gui" + suffix + ".png";
     }
-    
+
     /**
      * Open the gui for a certain item index in the player inventory.
      * @param world The world.
@@ -95,10 +89,10 @@ public class ItemGui extends ConfigurableItem implements IGuiContainerProvider {
      * @param itemIndex The item index in the player inventory.
      */
     public void openGuiForItemIndex(World world, EntityPlayer player, int itemIndex) {
-    	GuiHandler.setTemporaryItemIndex(itemIndex);
-    	if(!world.isRemote || isClientSideOnlyGui()) {
-    		player.openGui(EvilCraft._instance, getGuiID(), world, (int) player.posX, (int) player.posY, (int) player.posZ);
-    	}
+        GuiHandler.setTemporaryItemIndex(itemIndex);
+        if(!world.isRemote || isClientSideOnlyGui()) {
+            player.openGui(EvilCraft._instance, getGuiID(), world, (int)player.posX, (int)player.posY, (int)player.posZ);
+        }
     }
 
     protected boolean isClientSideOnlyGui() {
@@ -107,8 +101,7 @@ public class ItemGui extends ConfigurableItem implements IGuiContainerProvider {
 
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-    	openGuiForItemIndex(world, player, player.inventory.currentItem);
-    	return itemStack;
+        openGuiForItemIndex(world, player, player.inventory.currentItem);
+        return itemStack;
     }
-
 }

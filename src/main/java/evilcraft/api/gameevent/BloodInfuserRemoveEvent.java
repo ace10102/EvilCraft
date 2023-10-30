@@ -22,5 +22,4 @@ public class BloodInfuserRemoveEvent extends Event {
         this.player = player;
         this.output = output;
     }
-
 }

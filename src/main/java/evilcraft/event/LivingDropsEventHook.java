@@ -13,7 +13,6 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 /**
  * Event for {@link net.minecraftforge.event.entity.living.LivingDropsEvent}.
  * @author rubensworks
- *
  */
 public class LivingDropsEventHook {
 
@@ -21,12 +20,12 @@ public class LivingDropsEventHook {
      * When a living death event is received.
      * @param event The received event.
      */
-	@SubscribeEvent(priority = EventPriority.NORMAL)
+    @SubscribeEvent(priority = EventPriority.NORMAL)
     public void onLivingDrops(LivingDropsEvent event) {
         dropEnderTear(event);
     }
 
-	private void dropEnderTear(LivingDropsEvent event) {
+    private void dropEnderTear(LivingDropsEvent event) {
         Entity e = event.entity;
         if(!event.entity.worldObj.isRemote && e instanceof EntityEnderman && Configs.isEnabled(EnderTearConfig.class)) {
             int chance = EnderTearConfig.chanceDrop;
@@ -40,5 +39,4 @@ public class LivingDropsEventHook {
             }
         }
     }
-    
 }

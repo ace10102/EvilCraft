@@ -12,29 +12,19 @@ import evilcraft.core.helper.Helpers.IDType;
  * @author rubensworks
  * @see ConfigurableTypeAction
  */
-public class EntityAction extends ConfigurableTypeAction<EntityConfig>{
+public class EntityAction extends ConfigurableTypeAction<EntityConfig> {
 
     @Override
     public void preRun(EntityConfig eConfig, Configuration config, boolean startup) {
-        
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
+    @Override @SuppressWarnings("unchecked")
     public void postRun(EntityConfig eConfig, Configuration config) {
         // Save the config inside the correct element
         eConfig.save();
-        
-        // Register
-        EntityRegistry.registerModEntity(
-                eConfig.getElement(),
-                eConfig.getSubUniqueName(),
-                Helpers.getNewId(IDType.ENTITY),
-                EvilCraft._instance,
-                eConfig.getTrackingRange(),
-                eConfig.getUpdateFrequency(),
-                eConfig.sendVelocityUpdates()
-        );
-    }
 
+        // Register
+        EntityRegistry.registerModEntity(eConfig.getElement(), eConfig.getSubUniqueName(), Helpers.getNewId(IDType.ENTITY),
+                EvilCraft._instance, eConfig.getTrackingRange(), eConfig.getUpdateFrequency(), eConfig.sendVelocityUpdates());
+    }
 }

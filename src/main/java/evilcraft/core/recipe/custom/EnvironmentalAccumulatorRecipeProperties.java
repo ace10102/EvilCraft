@@ -8,8 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
 
 /**
- * Additional properties that are used to process {@link evilcraft.api.recipes.custom.IRecipe}S for the
- * {@link evilcraft.block.EnvironmentalAccumulator}.
+ * Additional properties that are used to process {@link evilcraft.api.recipes.custom.IRecipe} for the {@link evilcraft.block.EnvironmentalAccumulator}.
  * @author immortaleeb
  */
 public class EnvironmentalAccumulatorRecipeProperties implements IRecipeProperties, IDurationRecipeProperties {
@@ -21,8 +20,7 @@ public class EnvironmentalAccumulatorRecipeProperties implements IRecipeProperti
     @Getter
     private final IEAResultOverride resultOverride;
 
-    public EnvironmentalAccumulatorRecipeProperties(int duration, int cooldownTime, double processingSpeed,
-                                                    IEAProcessingFinishedEffect finishedProcessingEffect, IEAResultOverride resultOverride) {
+    public EnvironmentalAccumulatorRecipeProperties(int duration, int cooldownTime, double processingSpeed, IEAProcessingFinishedEffect finishedProcessingEffect, IEAResultOverride resultOverride) {
         this.duration = new DurationRecipeProperties(duration);
         this.processingSpeed = processingSpeed;
         this.cooldownTime = cooldownTime;
@@ -30,8 +28,7 @@ public class EnvironmentalAccumulatorRecipeProperties implements IRecipeProperti
         this.resultOverride = resultOverride;
     }
 
-    public EnvironmentalAccumulatorRecipeProperties(int duration, int cooldownTime, double processingSpeed,
-                                                    IEAProcessingFinishedEffect finishedProcessingEffect) {
+    public EnvironmentalAccumulatorRecipeProperties(int duration, int cooldownTime, double processingSpeed, IEAProcessingFinishedEffect finishedProcessingEffect) {
         this(duration, cooldownTime, processingSpeed, finishedProcessingEffect, new IEAResultOverride() {
             @Override
             public ItemStack getResult(IBlockAccess world, int x, int y, int z, ItemStack originalResult) {
@@ -61,9 +58,7 @@ public class EnvironmentalAccumulatorRecipeProperties implements IRecipeProperti
      */
     public double getProcessingSpeed() {
         // Note: we need to do this because defaultProcessItemSpeed is set AFTER the recipes are created
-        if (processingSpeed < 0)
-            return EnvironmentalAccumulatorConfig.defaultProcessItemSpeed;
-
+        if(processingSpeed < 0) return EnvironmentalAccumulatorConfig.defaultProcessItemSpeed;
         return processingSpeed;
     }
 
@@ -72,25 +67,19 @@ public class EnvironmentalAccumulatorRecipeProperties implements IRecipeProperti
      */
     public int getCooldownTime() {
         // Note: we need to do this because defaultProcessItemTickCount is set AFTER the recipes are created
-        if (cooldownTime < 0)
-            return EnvironmentalAccumulatorConfig.defaultTickCooldown;
-
+        if(cooldownTime < 0) return EnvironmentalAccumulatorConfig.defaultTickCooldown;
         return cooldownTime;
     }
 
     @Override
     public int getDuration() {
         // Note: we need to do this because defaultProcessItemTickCount is set AFTER the recipes are created
-        if (duration.getDuration() < 0)
-            return EnvironmentalAccumulatorConfig.defaultProcessItemTickCount;
-
+        if(duration.getDuration() < 0) return EnvironmentalAccumulatorConfig.defaultProcessItemTickCount;
         return duration.getDuration();
     }
 
     public interface IEAResultOverride {
 
         public ItemStack getResult(IBlockAccess world, int x, int y, int z, ItemStack originalResult);
-
     }
-
 }

@@ -18,43 +18,40 @@ import net.minecraft.entity.EntityLivingBase;
 import org.apache.logging.log4j.Level;
 
 /**
- * Config for the {@link Netherfish}.
+ * Config for the {@link VengeanceSpirit}.
  * @author rubensworks
- *
  */
 public class VengeanceSpiritConfig extends MobConfig {
-    
+
     /**
      * The unique instance.
      */
     public static VengeanceSpiritConfig _instance;
-    
+
     /**
      * Should the Vengeance Spirit be enabled?
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.MOB, comment = "Should the Vengeance Spirit be enabled?", requiresMcRestart = true)
     public static boolean isEnabled = true;
-    
+
     /**
      * The maximum amount of vengeance spirits naturally spawnable in the spawnLimitArea.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.MOB, comment = "The maximum amount of vengeance spirits naturally spawnable in the spawnLimitArea.")
     public static int spawnLimit = 5;
-    
+
     /**
      * The area in which the spawn limit will be checked on each spawn attempt.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.MOB, comment = "The area in which the spawn limit will be checked on each spawn attempt.")
     public static int spawnLimitArea = 5;
-    
+
     /**
      * The blacklisted entity spirits, by entity name.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.MOB,
-    		comment = "The blacklisted entity spirits, by entity name.",
-    		changedCallback = SpiritBlacklistChanged.class)
-    public static String[] entityBlacklist = new String[]{
-    	"werewolf",
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MOB, comment = "The blacklisted entity spirits, by entity name.", changedCallback = SpiritBlacklistChanged.class)
+    public static String[] entityBlacklist = new String[] {
+            "werewolf",
     };
 
     /**
@@ -67,14 +64,9 @@ public class VengeanceSpiritConfig extends MobConfig {
      * Make a new instance.
      */
     public VengeanceSpiritConfig() {
-        super(
-        	true,
-            "vengeanceSpirit",
-            null,
-            VengeanceSpirit.class
-        );
+        super(true, "vengeanceSpirit", null, VengeanceSpirit.class);
     }
-    
+
     @Override
     public boolean isEnabled() {
         return isEnabled;
@@ -89,9 +81,8 @@ public class VengeanceSpiritConfig extends MobConfig {
     public int getForegroundEggColor() {
         return RenderHelpers.RGBToInt(134, 60, 169);
     }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT)
     public Render getRender() {
         return new RenderVengeanceSpirit(this);
     }
@@ -102,18 +93,18 @@ public class VengeanceSpiritConfig extends MobConfig {
         if(step == IInitListener.Step.INIT) {
             EvilCraft.IMC_HANDLER.registerAction(Reference.IMC_BLACKLIST_VENGEANCESPIRIT, new IMCHandler.IIMCAction() {
 
-                @Override
+                @Override @SuppressWarnings("unchecked")
                 public boolean handle(FMLInterModComms.IMCMessage message) {
-                    if(!message.isStringMessage()) return false;
+                    if(!message.isStringMessage())
+                        return false;
                     try {
-                        Class<EntityLivingBase> clazz = (Class<EntityLivingBase>) Class.forName(message.getStringValue());
+                        Class<EntityLivingBase> clazz = (Class<EntityLivingBase>)Class.forName(message.getStringValue());
                         VengeanceSpirit.addToBlacklistIMC(clazz);
-                    } catch (ClassNotFoundException e) {
+                    } catch(ClassNotFoundException e) {
                         EvilCraft.log("IMC blacklist vengeance spirit did not provide an existing class.", Level.ERROR);
                         return false;
-                    } catch (ClassCastException e) {
-                        EvilCraft.log("IMC blacklist vengeance spirit did not provide a class of type EntityLivingBase.",
-                                Level.ERROR);
+                    } catch(ClassCastException e) {
+                        EvilCraft.log("IMC blacklist vengeance spirit did not provide a class of type EntityLivingBase.", Level.ERROR);
                         return false;
                     }
                     return true;
@@ -121,5 +112,4 @@ public class VengeanceSpiritConfig extends MobConfig {
             });
         }
     }
-    
 }

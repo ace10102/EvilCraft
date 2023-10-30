@@ -11,12 +11,11 @@ import evilcraft.entity.item.EntityRedstoneGrenade;
 /**
  * Grenade that will trigger a redstone signal.
  * @author immortaleeb
- *
  */
 public class RedstoneGrenade extends AbstractGrenade {
-    
+
     private static RedstoneGrenade _instance = null;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -27,7 +26,7 @@ public class RedstoneGrenade extends AbstractGrenade {
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -44,5 +43,4 @@ public class RedstoneGrenade extends AbstractGrenade {
     protected EntityThrowable getThrowableEntity(ItemStack itemStack, World world, EntityPlayer player) {
         return new EntityRedstoneGrenade(world, player);
     }
-
 }

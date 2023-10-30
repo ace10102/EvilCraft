@@ -5,10 +5,9 @@ import evilcraft.core.config.extendedconfig.ItemConfig;
 /**
  * Config for the {@link LightningGrenade}.
  * @author rubensworks
- *
  */
 public class LightningGrenadeConfig extends ItemConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -18,12 +17,6 @@ public class LightningGrenadeConfig extends ItemConfig {
      * Make a new instance.
      */
     public LightningGrenadeConfig() {
-        super(
-        	true,
-            "lightningGrenade",
-            null,
-            LightningGrenade.class
-        );
+        super(true, "lightningGrenade", null, LightningGrenade.class);
     }
-    
 }

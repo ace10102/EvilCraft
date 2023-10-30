@@ -10,13 +10,12 @@ import org.apache.commons.lang3.tuple.Pair;
 /**
  * Iterate over a player's inventory.
  * @author rubensworks
- *
  */
-public class PlayerInventoryIterator implements Iterator<ItemStack>{
-    
+public class PlayerInventoryIterator implements Iterator<ItemStack> {
+
     private EntityPlayer player;
     private int i;
-    
+
     /**
      * Create a new HotbarIterator.
      * @param player The player to iterate the hotbar from.
@@ -34,13 +33,13 @@ public class PlayerInventoryIterator implements Iterator<ItemStack>{
     public ItemStack next() {
         return player.inventory.mainInventory[i++];
     }
-    
+
     /**
      * Get the next item indexed.
      * @return The indexed item.
      */
     public Pair<Integer, ItemStack> nextIndexed() {
-    	return Pair.of(i, next());
+        return Pair.of(i, next());
     }
 
     @Override
@@ -57,5 +56,4 @@ public class PlayerInventoryIterator implements Iterator<ItemStack>{
         if(i - 1 >= 0 && i - 1 < player.inventory.mainInventory.length)
             player.inventory.mainInventory[i - 1] = itemStack;
     }
-
 }

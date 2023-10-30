@@ -10,10 +10,9 @@ import evilcraft.core.config.extendedconfig.EntityConfig;
 /**
  * Config for the {@link EntityNecromancersHead}.
  * @author rubensworks
- *
  */
 public class EntityNecromancersHeadConfig extends EntityConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -23,23 +22,16 @@ public class EntityNecromancersHeadConfig extends EntityConfig {
      * Make a new instance.
      */
     public EntityNecromancersHeadConfig() {
-        super(
-        	true,
-            "entityNecromancersHead",
-            null,
-            EntityNecromancersHead.class
-        );
+        super(true, "entityNecromancersHead", null, EntityNecromancersHead.class);
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     public Render getRender() {
         return new RenderSnowball(Items.skull);
     }
-    
+
     @Override
     public boolean sendVelocityUpdates() {
         return true;
     }
-    
 }

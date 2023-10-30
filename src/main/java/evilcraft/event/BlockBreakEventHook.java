@@ -10,7 +10,6 @@ import net.minecraftforge.event.world.BlockEvent;
 /**
  * Event hook for {@link net.minecraftforge.event.world.BlockEvent.BreakEvent}.
  * @author rubensworks
- *
  */
 public class BlockBreakEventHook {
 
@@ -22,15 +21,14 @@ public class BlockBreakEventHook {
     public void onEvent(BlockEvent.BreakEvent event) {
         unwrapInnerBlock(event);
     }
-    
+
     private void unwrapInnerBlock(BlockEvent.BreakEvent event) {
         if(!event.world.isRemote) {
             Block block = event.world.getBlock(event.x, event.y, event.z);
             if(block instanceof ConfigurableBlockWithInnerBlocksExtended) {
-                ((ConfigurableBlockWithInnerBlocksExtended) block).unwrapInnerBlock(event.world, event.x, event.y, event.z);
+                ((ConfigurableBlockWithInnerBlocksExtended)block).unwrapInnerBlock(event.world, event.x, event.y, event.z);
                 event.setResult(Result.ALLOW);
             }
         }
     }
-    
 }

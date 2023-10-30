@@ -23,5 +23,4 @@ public class UpgradeSensitiveEvent<O> implements IUpgradeSensitiveEvent<O> {
     public Upgrades.UpgradeEventType getType() {
         return type;
     }
-
 }

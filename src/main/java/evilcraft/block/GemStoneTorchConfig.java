@@ -9,7 +9,6 @@ import evilcraft.core.config.extendedconfig.BlockConfig;
 /**
  * Config for the Burning Gemstone Torch.
  * @author rubensworks
- *
  */
 public class GemStoneTorchConfig extends BlockConfig {
 
@@ -28,17 +27,11 @@ public class GemStoneTorchConfig extends BlockConfig {
      * Make a new instance.
      */
     public GemStoneTorchConfig() {
-        super(
-        	true,
-            "gemStoneTorch",
-            null,
-            null
-        );
+        super(true, "gemStoneTorch", null, null);
     }
 
     @Override
     protected IConfigurable initSubInstance() {
         return new ConfigurableBlockTorch(this);
     }
-    
 }

@@ -11,7 +11,7 @@ import net.minecraft.tileentity.TileEntity;
  * @see TickComponent
  */
 public interface ITickAction<T extends TileEntity> {
-    
+
     /**
      * If this action can tick for the given conditions.
      * @param tile The tile entity that ticks.
@@ -21,6 +21,7 @@ public interface ITickAction<T extends TileEntity> {
      * @return If the action can tick for the given parameters.
      */
     public boolean canTick(T tile, ItemStack itemStack, int slot, int tick);
+
     /**
      * Add one tick.
      * @param tile The tile entity that ticks.
@@ -29,6 +30,7 @@ public interface ITickAction<T extends TileEntity> {
      * @param tick The current tick.
      */
     public void onTick(T tile, ItemStack itemStack, int slot, int tick);
+
     /**
      * Get the required conditions for the given conditions.
      * @param tile The tile entity that ticks.
@@ -37,5 +39,4 @@ public interface ITickAction<T extends TileEntity> {
      * @return Get the required ticks for the given slot for the given tile.
      */
     public float getRequiredTicks(T tile, int slot, int tick);
-    
 }

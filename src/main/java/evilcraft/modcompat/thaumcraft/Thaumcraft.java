@@ -10,7 +10,6 @@ import evilcraft.entity.monster.NetherfishConfig;
 import evilcraft.entity.monster.PoisonousLibelleConfig;
 import evilcraft.entity.monster.WerewolfConfig;
 import evilcraft.item.*;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import thaumcraft.api.ThaumcraftApi;
@@ -117,7 +116,6 @@ public class Thaumcraft {
         registerObjectTagSafe(BurningGemStoneConfig._instance, new AspectList().add(Aspect.CRYSTAL, 10).add(Aspect.DARKNESS, 10).add(Aspect.FIRE, 4).add(Aspect.SOUL, 2));
         registerObjectTagSafe(GemStoneTorchConfig._instance, new AspectList().add(Aspect.CRYSTAL, 2).add(Aspect.DARKNESS, 2).add(Aspect.FIRE, 2).add(Aspect.LIGHT, 2).add(Aspect.SOUL, 1));
         registerObjectTagSafe(PotentiaSphereConfig._instance, new AspectList().add(Aspect.SLIME, 2).add(Aspect.MAGIC, 4).add(Aspect.CRYSTAL, 2).add(Aspect.LIGHT, 2).add(Aspect.MECHANISM, 1));
-
     }
 
     private static void registerEntityTagSafe(MobConfig mobConfig, AspectList aspects, ThaumcraftApi.EntityTagsNBT... nbt) {
@@ -143,5 +141,4 @@ public class Thaumcraft {
             ThaumcraftApi.registerObjectTag(new ItemStack(blockConfig.getBlockInstance()), aspects);
         }
     }
-
 }

@@ -32,16 +32,15 @@ import java.util.List;
 /**
  * Containers that holds an infinite amount of blood.
  * @author rubensworks
- *
  */
 public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidContainer {
-    
+
     private static CreativeBloodDrop _instance = null;
-    
+
     private static final int MB_FILL_PERTICK = 1000;
-    
+
     /**
-     * Initialise the configurable.
+     * Initialize the configurable.
      * @param eConfig The config.
      */
     public static void initInstance(ExtendedConfig<ItemConfig> eConfig) {
@@ -50,7 +49,7 @@ public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidConta
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -63,32 +62,29 @@ public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidConta
         super(eConfig, MB_FILL_PERTICK, Blood.getInstance());
         setPlaceFluids(true);
     }
-    
+
     @Override
     public int getCapacity(ItemStack container) {
         return MB_FILL_PERTICK;
     }
-    
+
     @Override
-    public boolean hasEffect(ItemStack itemStack){
+    public boolean hasEffect(ItemStack itemStack) {
         return ItemHelpers.isActivated(itemStack);
     }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT) @SuppressWarnings({ "rawtypes", "unchecked" })
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
-        L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
-        		getUnlocalizedName() + ".info.autoSupply");
+        L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack), getUnlocalizedName() + ".info.autoSupply");
     }
-    
+
     @Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
-    	updateAutoFill(this, itemStack, world, entity);
+        updateAutoFill(this, itemStack, world, entity);
         super.onUpdate(itemStack, world, entity, par4, par5);
     }
-    
+
     /**
      * Run an auto-fill tick for filling currently held container items from this item.
      * @param item The item type to fill from.
@@ -97,20 +93,16 @@ public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidConta
      * @param entity The entity that holds this item.
      */
     public static void updateAutoFill(ItemFluidContainer item, ItemStack itemStack, World world, Entity entity) {
-    	if(entity instanceof EntityPlayer && !world.isRemote && ItemHelpers.isActivated(itemStack)) {
+        if(entity instanceof EntityPlayer && !world.isRemote && ItemHelpers.isActivated(itemStack)) {
             FluidStack tickFluid = item.getFluid(itemStack);
             if(tickFluid != null && tickFluid.amount > 0) {
-                EntityPlayer player = (EntityPlayer) entity;
+                EntityPlayer player = (EntityPlayer)entity;
                 ItemStack held = player.getCurrentEquippedItem();
                 if(held != null && held != itemStack && held.getItem() instanceof IFluidContainerItem && !player.isUsingItem()) {
-                    IFluidContainerItem fluidContainer = (IFluidContainerItem) held.getItem();
+                    IFluidContainerItem fluidContainer = (IFluidContainerItem)held.getItem();
                     FluidStack heldFluid = fluidContainer.getFluid(held);
-                    if(/*tickFluid.amount >= MB_FILL_PERTICK Not required for creative mode filling
-                            && */(heldFluid == null || (heldFluid.isFluidEqual(tickFluid)
-                                                    && heldFluid.amount < fluidContainer.getCapacity(held)
-                                                    )
-                               )
-                            ) {
+                    if(/*tickFluid.amount >= MB_FILL_PERTICK Not required for creative mode filling && */
+                       (heldFluid == null || (heldFluid.isFluidEqual(tickFluid) && heldFluid.amount < fluidContainer.getCapacity(held)))) {
                         int filled = fluidContainer.fill(held, new FluidStack(tickFluid.getFluid(), MB_FILL_PERTICK), true);
                         item.drain(itemStack, filled, true);
                     }
@@ -118,67 +110,59 @@ public class CreativeBloodDrop extends ConfigurableDamageIndicatedItemFluidConta
             }
         }
     }
-    
+
     @Override
     public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain) {
         return new FluidStack(getFluid(), maxDrain);
     }
-    
+
     @Override
     public int fill(ItemStack container, FluidStack resource, boolean doFill) {
-        if(resource == null) {
-            return 0;
-        } else {
-            return resource.amount;
-        }
+        return resource == null ? 0 : resource.amount;
     }
-    
+
     @Override
     public FluidStack getFluid(ItemStack itemStack) {
         return new FluidStack(getFluid(), MB_FILL_PERTICK / 2);
     }
-    
+
     @Override
     public int getDisplayDamage(ItemStack itemStack) {
         return 1;
     }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked"})
-    @Override
-    @SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT) @SuppressWarnings({ "rawtypes", "unchecked" })
     public void getSubItems(Item item, CreativeTabs tab, List itemList) {
-    	itemList.add(new ItemStack(this));
+        itemList.add(new ItemStack(this));
     }
-    
+
     @Override
     public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
         Block block = world.getBlock(x, y, z);
         if(player.isSneaking()) {
-	        if(Configs.isEnabled(BloodStainedBlockConfig.class)
-	        		&& (BloodStainedBlock.getInstance().canSetInnerBlock(block, world, x, y, z) || block == BloodStainedBlock.getInstance())) {
-	        	BloodStainedBlock.getInstance().stainBlock(world, new Location(x, y, z), FluidContainerRegistry.BUCKET_VOLUME);
-		        if(world.isRemote) {
-		        	EntityBloodSplashFX.spawnParticles(world, x, y + 1, z, 5, 1 + world.rand.nextInt(2));
-		        }
-		        return false;
-	        }
-	    }
+            if(Configs.isEnabled(BloodStainedBlockConfig.class) && (BloodStainedBlock.getInstance().canSetInnerBlock(block, world, x, y, z) || block == BloodStainedBlock.getInstance())) {
+                BloodStainedBlock.getInstance().stainBlock(world, new Location(x, y, z), FluidContainerRegistry.BUCKET_VOLUME);
+                if(world.isRemote) {
+                    EntityBloodSplashFX.spawnParticles(world, x, y + 1, z, 5, 1 + world.rand.nextInt(2));
+                }
+                return false;
+            }
+        }
         return super.onItemUseFirst(itemStack, player, world, x, y, z, side, hitX, hitY, hitZ);
     }
-    
+
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
         if(!player.isSneaking()) {
             return super.onItemRightClick(itemStack, world, player);
         } else {
-        	MovingObjectPosition target = this.getMovingObjectPositionFromPlayer(world, player, false);
-        	if(target == null || target.typeOfHit == MovingObjectType.MISS) {
-        		if(!world.isRemote) {
-		            ItemHelpers.toggleActivation(itemStack);
-		    	}
-        	}
+            MovingObjectPosition target = this.getMovingObjectPositionFromPlayer(world, player, false);
+            if(target == null || target.typeOfHit == MovingObjectType.MISS) {
+                if(!world.isRemote) {
+                    ItemHelpers.toggleActivation(itemStack);
+                }
+            }
         }
         return itemStack;
     }
-
 }

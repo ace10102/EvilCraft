@@ -15,11 +15,10 @@ import java.util.List;
 /**
  * A GUI container that has support for the display of inventories and a tank.
  * @author rubensworks
- *
  * @param <T> The {@link TankInventoryTileEntity} class, mostly just the extension class.
  */
 public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extends GuiContainerExtended {
-	
+
     private boolean showTank = false;
     private int tankWidth;
     private int tankHeight;
@@ -27,7 +26,7 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
     private int tankY;
     private int tankTargetX;
     private int tankTargetY;
-    
+
     private boolean showProgress = false;
     private int progressWidth;
     private int progressHeight;
@@ -35,7 +34,7 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
     private int progressY;
     private int progressTargetX;
     private int progressTargetY;
-    
+
     protected T tile;
 
     /**
@@ -47,8 +46,8 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
         super(container);
         this.tile = tile;
     }
-    
-	protected void setTank(int tankWidth, int tankHeight, int tankX, int tankY, int tankTargetX, int tankTargetY) {
+
+    protected void setTank(int tankWidth, int tankHeight, int tankX, int tankY, int tankTargetX, int tankTargetY) {
         this.showTank = true;
         this.tankWidth = tankWidth;
         this.tankHeight = tankHeight;
@@ -58,7 +57,7 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
         this.tankTargetY = tankTargetY + offsetY;
     }
 
-	protected void setProgress(int progressWidth, int progressHeight, int progressX, int progressY, int progressTargetX, int progressTargetY) {
+    protected void setProgress(int progressWidth, int progressHeight, int progressX, int progressY, int progressTargetX, int progressTargetY) {
         this.showProgress = true;
         this.progressWidth = progressWidth;
         this.progressHeight = progressHeight;
@@ -67,16 +66,16 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
         this.progressTargetX = progressTargetX + offsetX;
         this.progressTargetY = progressTargetY + offsetY;
     }
-    
-	protected boolean isShowProgress() {
+
+    protected boolean isShowProgress() {
         return showProgress;
     }
-    
-	protected int getProgressXScaled(int width) {
+
+    protected int getProgressXScaled(int width) {
         return width;
     }
-	
-	protected int getProgressYScaled(int height) {
+
+    protected int getProgressYScaled(int height) {
         return height;
     }
 
@@ -84,15 +83,14 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
     protected void drawGuiContainerBackgroundLayer(float f, int x, int y) {
         super.drawGuiContainerBackgroundLayer(f, x, y);
         if(isShowProgress()) {
-            this.drawTexturedModalRect(guiLeft + progressTargetX, guiTop + progressTargetY, progressX, progressY,
-            		getProgressXScaled(progressWidth), getProgressYScaled(progressHeight));
+            this.drawTexturedModalRect(guiLeft + progressTargetX, guiTop + progressTargetY, progressX, progressY, getProgressXScaled(progressWidth), getProgressYScaled(progressHeight));
         }
     }
-    
-	protected void drawForgegroundString() {
-    	fontRendererObj.drawString(tile.getInventoryName(), 8 + offsetX, 4 + offsetY, 4210752);
+
+    protected void drawForgegroundString() {
+        fontRendererObj.drawString(tile.getInventoryName(), 8 + offsetX, 4 + offsetY, 4210752);
     }
-    
+
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         drawForgegroundString();
@@ -108,35 +106,36 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
         drawAdditionalForeground(mouseX, mouseY);
         GL11.glDisable(GL11.GL_BLEND);
     }
-    
-	protected void drawAdditionalForeground(int mouseX, int mouseY) {
-    	
+
+    protected void drawAdditionalForeground(int mouseX, int mouseY) {
+
     }
-    
+
     @Override
     public void drawScreen(int mouseX, int mouseY, float gameTicks) {
         super.drawScreen(mouseX, mouseY, gameTicks);
         drawTooltips(mouseX, mouseY);
     }
-    
-	protected boolean shouldRenderTank() {
+
+    protected boolean shouldRenderTank() {
         if(!showTank)
             return false;
         SingleUseTank tank = tile.getTank();
         return tank != null && tank.getAcceptedFluid() != null && tank.getFluidAmount() > 0;
     }
-    
-	protected void drawTank(int xOffset, int yOffset, int fluidID, int level) {
+
+    protected void drawTank(int xOffset, int yOffset, int fluidID, int level) {
         FluidStack stack = new FluidStack(fluidID, 1);
         if(fluidID > 0) {
             IIcon icon = stack.getFluid().getIcon();
-            if (icon == null) icon = Blocks.water.getIcon(0, 0);
-            
+            if(icon == null)
+                icon = Blocks.water.getIcon(0, 0);
+
             int verticalOffset = 0;
-            
+
             while(level > 0) {
                 int textureHeight = 0;
-                
+
                 if(level > 16) {
                     textureHeight = 16;
                     level -= 16;
@@ -144,30 +143,29 @@ public class GuiContainerTankInventory<T extends TankInventoryTileEntity> extend
                     textureHeight = level;
                     level = 0;
                 }
-                
+
                 mc.renderEngine.bindTexture(mc.renderEngine.getResourceLocation(0));
                 drawTexturedModelRectFromIcon(xOffset, yOffset - textureHeight - verticalOffset, icon, tankWidth, textureHeight);
                 verticalOffset = verticalOffset + 16;
             }
-            
+
             this.mc.renderEngine.bindTexture(texture);
             this.drawTexturedModalRect(xOffset, yOffset - tankHeight, tankX, tankY, tankWidth, tankHeight);
         }
     }
-    
-	protected void drawTooltips(int mouseX, int mouseY) {
+
+    protected void drawTooltips(int mouseX, int mouseY) {
         if(isPointInRegion(tankTargetX, tankTargetY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank()) {
             SingleUseTank tank = tile.getTank();
             String fluidName = tank.getFluid().getLocalizedName();
             drawBarTooltipTank(fluidName, tank.getFluid(), tank.getFluidAmount(), tank.getCapacity(), mouseX, mouseY);
         }
     }
-    
-	protected void drawBarTooltipTank(String name, FluidStack fluidStack, int amount, int capacity, int x, int y) {
+
+    protected void drawBarTooltipTank(String name, FluidStack fluidStack, int amount, int capacity, int x, int y) {
         List<String> lines = new ArrayList<String>();
         lines.add(name);
         lines.add(DamageIndicatedItemComponent.getInfo(fluidStack, amount, capacity));
         drawTooltip(lines, x, y);
     }
-
 }

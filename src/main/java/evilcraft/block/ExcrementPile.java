@@ -32,17 +32,16 @@ import java.util.Random;
 /**
  * The excrement that is dropped by animals.
  * @author rubensworks
- *
  */
 public class ExcrementPile extends ConfigurableBlock implements IInformationProvider {
-    
+
     private static ExcrementPile _instance = null;
-    
+
     private static final int CHANCE_DESPAWN = 1; // 1/CHANCE_DESPAWN per random tick chance for despawning and potentially triggering bonemeal event
     private static final int CHANCE_BONEMEAL = 3; // 1/CHANCE_BONEMEAL for ground below to be bonemealed or turn into grass from dirt
     private static final int POISON_DURATION = 3;
     private static final int PIG_BOOST_DURATION = 3;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -53,7 +52,7 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -68,37 +67,37 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
         this.setTickRandomly(true);
         this.setBlockBoundsForPileDepth(0);
     }
-    
+
     @Override
     public Item getItemDropped(int par1, Random random, int zero) {
         return Item.getItemFromBlock(this);
     }
-    
+
     @Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
         return null;
     }
-    
+
     @Override
     public boolean isOpaqueCube() {
         return false;
     }
-    
+
     @Override
     public boolean renderAsNormalBlock() {
         return false;
     }
-    
+
     @Override
     public void setBlockBoundsForItemRender() {
         this.setBlockBoundsForPileDepth(0);
     }
-    
+
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
         this.setBlockBoundsForPileDepth(world.getBlockMetadata(x, y, z));
     }
-    
+
     protected void setBlockBoundsForPileDepth(int meta) {
         int j = meta & 7;
         float f = (float)(2 * (1 + j)) / 16.0F;
@@ -106,18 +105,18 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
     }
 
     @Override
-    public boolean canPlaceBlockAt(World world, int x, int y, int z) {    
+    public boolean canPlaceBlockAt(World world, int x, int y, int z) {
         Block block = world.getBlock(x, y - 1, z);
-        if (block == null) return false;
-        if (block == this && (world.getBlockMetadata(x, y - 1, z) & 7) == 7) return true;
+        if(block == null)
+            return false;
+        if(block == this && (world.getBlockMetadata(x, y - 1, z) & 7) == 7)
+            return true;
         return (block.isLeaves(world, x, y - 1, z) || block.isOpaqueCube()) && block.getMaterial().blocksMovement();
     }
-    
+
     @Override
     public boolean canHarvestBlock(EntityPlayer player, int meta) {
-        return player.getCurrentEquippedItem() != null
-                && Configs.isEnabled(BroomConfig.class)
-                && player.getCurrentEquippedItem().getItem() == Broom.getInstance();
+        return player.getCurrentEquippedItem() != null && Configs.isEnabled(BroomConfig.class) && player.getCurrentEquippedItem().getItem() == Broom.getInstance();
     }
 
     @Override
@@ -130,7 +129,7 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
     public int quantityDropped(Random random) {
         return 1;
     }
-    
+
     @Override
     public int tickRate(World world) {
         return 100;
@@ -157,9 +156,8 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
             world.setBlockToAir(x, y, z);
         }
     }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World world, int x, int y, int z, Random random) {
         if(random.nextInt(100) == 0) {
             int meta = world.getBlockMetadata(x, y, z);
@@ -167,16 +165,15 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
             double d0 = (double)x + 0.5D + ((double)random.nextFloat() - 0.5D) * 0.2D;
             double d1 = (double)((float)y + 0.0625F + height);
             double d2 = (double)z + 0.5D + ((double)random.nextFloat() - 0.5D) * 0.2D;
-            
-            float f1 = 0.1F-random.nextFloat()*0.2F;
-            float f2 = 0.1F-random.nextFloat()*0.2F;
-            float f3 = 0.1F-random.nextFloat()*0.2F;
+
+            float f1 = 0.1F - random.nextFloat() * 0.2F;
+            float f2 = 0.1F - random.nextFloat() * 0.2F;
+            float f3 = 0.1F - random.nextFloat() * 0.2F;
             world.spawnParticle("happyVillager", d0, d1, d2, (double)f1, (double)f2, (double)f3);
         }
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
         return side == 1 ? true : super.shouldSideBeRendered(world, x, y, z, side);
     }
@@ -190,14 +187,14 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
     public boolean isReplaceable(IBlockAccess world, int x, int y, int z) {
         return true;
     }
-    
+
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbourBlock) {
-        if (!this.canPlaceBlockAt(world, x, y, z)) {
+        if(!this.canPlaceBlockAt(world, x, y, z)) {
             world.setBlockToAir(x, y, z);
         }
     }
-    
+
     @Override
     public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
         if(entity instanceof EntityLivingBase) {
@@ -215,12 +212,12 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
         }
         super.onEntityCollidedWithBlock(world, x, y, z, entity);
     }
-    
+
     private boolean isChanceWithHeight(World world, int x, int y, int z) {
-        float height = ((float) (world.getBlockMetadata(x, y, z) & 7) + 1) * 0.125F;
+        float height = ((float)(world.getBlockMetadata(x, y, z) & 7) + 1) * 0.125F;
         return world.rand.nextFloat() * 10 < height;
     }
-    
+
     /**
      * If the height of this block can be increased.
      * @param world the World
@@ -243,18 +240,15 @@ public class ExcrementPile extends ConfigurableBlock implements IInformationProv
      */
     public static void heightenPileAt(World world, int x, int y, int z) {
         int meta = world.getBlockMetadata(x, y, z);
-        if(meta < 7)
-            world.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
+        if(meta < 7) world.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
     }
-    
+
     @Override
     public String getInfo(ItemStack itemStack) {
         return IInformationProvider.INFO_PREFIX + "Will form below animals.";
     }
 
-    @SuppressWarnings("rawtypes")
-    @Override
-    public void provideInformation(ItemStack itemStack,
-            EntityPlayer entityPlayer, List list, boolean par4) {}
-
+    @Override @SuppressWarnings("rawtypes")
+    public void provideInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
+    }
 }

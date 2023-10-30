@@ -19,28 +19,27 @@ import java.util.Random;
 /**
  * Block that represents an in-world fluid that can hold ExtendedConfigs
  * @author rubensworks
- *
  */
-public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic implements IConfigurable, IEntityDropParticleFXBlock{
-    
-	private Fluid fluid;
-	
+public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic implements IConfigurable, IEntityDropParticleFXBlock {
+
+    private Fluid fluid;
+
     @SuppressWarnings("rawtypes")
     protected ExtendedConfig eConfig = null;
-    
+
     @SideOnly(Side.CLIENT)
     protected IIcon[] icon;
-    
+
     @SideOnly(Side.CLIENT)
     protected EntityDropParticleFXBlockComponent entityDropParticleFXBlockComponent;
-    
+
     /**
      * Make a new block instance.
      * @param eConfig Config for this block.
      * @param fluid The fluid this block has to represent
      * @param material Material of this block.
      */
-    @SuppressWarnings({ "rawtypes" })
+    @SuppressWarnings("rawtypes")
     public ConfigurableBlockFluidClassic(ExtendedConfig eConfig, Fluid fluid, Material material) {
         super(fluid, material);
         this.setConfig(eConfig);
@@ -50,7 +49,8 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
         this.fluid = fluid;
     }
 
-    private void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {
+    @SuppressWarnings("rawtypes")
+    private void setConfig(ExtendedConfig eConfig) {
         this.eConfig = eConfig;
     }
 
@@ -58,24 +58,23 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
     public ExtendedConfig<?> getConfig() {
         return eConfig;
     }
-    
+
     @Override
     public String getTextureName() {
-        return Reference.MOD_ID+":"+eConfig.getNamedId();
+        return Reference.MOD_ID + ":" + eConfig.getNamedId();
     }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        this.icon = new IIcon[] { iconRegister.registerIcon(getTextureName()+"_still"), iconRegister.registerIcon(Reference.MOD_ID+":"+eConfig.getNamedId()+"_flow") };
+        this.icon = new IIcon[] { iconRegister.registerIcon(getTextureName() + "_still"), iconRegister.registerIcon(Reference.MOD_ID + ":" + eConfig.getNamedId() + "_flow") };
         fluid.setIcons(icon[0], icon[1]);
     }
-    
+
     @Override
     public IIcon getIcon(int side, int meta) {
         return side != 0 && side != 1 ? this.icon[1] : this.icon[0];
     }
-    
+
     /**
      * Set the drop particle color.
      * @param particleRed Red color.
@@ -88,16 +87,14 @@ public abstract class ConfigurableBlockFluidClassic extends BlockFluidClassic im
         entityDropParticleFXBlockComponent = new EntityDropParticleFXBlockComponent(particleRed, particleGreen, particleBlue);
         return this;
     }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
+
     /**
      * For the particle effects underneath a block that has the liquid on top.
      */
+    @Override @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
         super.randomDisplayTick(world, x, y, z, rand);
         if(entityDropParticleFXBlockComponent != null)
             entityDropParticleFXBlockComponent.randomDisplayTick(world, x, y, z, rand);
     }
-
 }

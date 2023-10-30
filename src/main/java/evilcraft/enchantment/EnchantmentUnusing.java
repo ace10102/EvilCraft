@@ -9,12 +9,11 @@ import net.minecraft.item.ItemStack;
 /**
  * Enchantment that stop your tool from being usable when it only has durability left.
  * @author rubensworks
- *
  */
 public class EnchantmentUnusing extends ConfigurableEnchantment {
-    
+
     private static EnchantmentUnusing _instance = null;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -25,7 +24,7 @@ public class EnchantmentUnusing extends ConfigurableEnchantment {
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -37,17 +36,17 @@ public class EnchantmentUnusing extends ConfigurableEnchantment {
     private EnchantmentUnusing(ExtendedConfig<EnchantmentConfig> eConfig) {
         super(eConfig, 1, EnumEnchantmentType.all);
     }
-    
+
     @Override
     public int getMinEnchantability(int par1) {
         return 10;
     }
-    
+
     @Override
     public int getMaxEnchantability(int par1) {
         return 50;
     }
-    
+
     @Override
     public int getMaxLevel() {
         return 1;
@@ -57,7 +56,7 @@ public class EnchantmentUnusing extends ConfigurableEnchantment {
     public boolean canApply(ItemStack itemStack) {
         return itemStack != null && itemStack.getItem().isItemTool(itemStack);
     }
-    
+
     /**
      * Check if the given item can be used.
      * @param itemStack The {@link ItemStack} that will be unused.
@@ -71,5 +70,4 @@ public class EnchantmentUnusing extends ConfigurableEnchantment {
         }
         return false;
     }
-
 }

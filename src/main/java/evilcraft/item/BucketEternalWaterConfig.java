@@ -17,7 +17,6 @@ import net.minecraftforge.fluids.*;
 /**
  * Config for the Eternal Water Bucket.
  * @author rubensworks
- *
  */
 public class BucketEternalWaterConfig extends ItemBucketConfig {
 
@@ -30,12 +29,7 @@ public class BucketEternalWaterConfig extends ItemBucketConfig {
      * Make a new instance.
      */
     public BucketEternalWaterConfig() {
-        super(
-        	true,
-            "bucketEternalWater",
-            null,
-            null
-        );
+        super(true, "bucketEternalWater", null, null);
     }
 
     @Override
@@ -52,27 +46,22 @@ public class BucketEternalWaterConfig extends ItemBucketConfig {
                         return itemStack;
                     }
                 }
-
                 ItemStack result = super.onItemRightClick(itemStack, world, player);
                 if(result != null && result.getItem() == Items.bucket) return new ItemStack(getContainerItem());
-
                 return result;
             }
 
             @Override
-            public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
-                                     float hitX, float hitY, float hitZ) {
+            public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
                 TileEntity tile = world.getTileEntity(x, y, z);
                 if(tile instanceof IFluidHandler) {
                     if(!world.isRemote) {
-                        ((IFluidHandler) tile).fill(ForgeDirection.getOrientation(side),
-                                new FluidStack(FluidRegistry.WATER, FluidContainerRegistry.BUCKET_VOLUME), true);
+                        ((IFluidHandler)tile).fill(ForgeDirection.getOrientation(side), new FluidStack(FluidRegistry.WATER, FluidContainerRegistry.BUCKET_VOLUME), true);
                         return true;
                     }
                 }
                 return super.onItemUseFirst(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
             }
-
         };
         bucket.setContainerItem(bucket);
         bucket.setMaxStackSize(64);
@@ -88,5 +77,4 @@ public class BucketEternalWaterConfig extends ItemBucketConfig {
     public Block getFluidBlockInstance() {
         return Blocks.water;
     }
-    
 }

@@ -26,13 +26,12 @@ import java.util.Random;
 /**
  * A large werewolf, only appears at night by transforming from a werewolf villager.
  * @author rubensworks
- *
  */
-public class Werewolf extends EntityMob implements IConfigurable{
-    
+public class Werewolf extends EntityMob implements IConfigurable {
+
     private NBTTagCompound villagerNBTTagCompound = new NBTTagCompound();
     private boolean fromVillager = false;
-    
+
     private static int BARKCHANCE = 1000;
     private static int BARKLENGTH = 40;
     private static int barkprogress = -1;
@@ -43,12 +42,12 @@ public class Werewolf extends EntityMob implements IConfigurable{
      */
     public Werewolf(World world) {
         super(world);
-        
+
         this.getNavigator().setAvoidsWater(true);
         this.setSize(0.6F, 2.9F);
         this.stepHeight = 1.0F;
         this.isImmuneToFire = false;
-        
+
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIWander(this, 1.0F));
         this.tasks.addTask(2, new EntityAILookIdle(this));
@@ -56,18 +55,18 @@ public class Werewolf extends EntityMob implements IConfigurable{
 
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, false));
-    
+
         // This sets the default villager profession ID.
         if(Configs.isEnabled(WerewolfVillagerConfig.class)) {
             this.villagerNBTTagCompound.setInteger("Profession", WerewolfVillagerConfig._instance.getId());
         }
     }
-    
+
     @Override
     protected float getSoundPitch() {
         return super.getSoundPitch() * 0.75F;
     }
-    
+
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
@@ -75,7 +74,7 @@ public class Werewolf extends EntityMob implements IConfigurable{
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(2.0D);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(7.0D);
     }
-    
+
     @Override
     public void writeEntityToNBT(NBTTagCompound NBTTagCompound) {
         super.writeEntityToNBT(NBTTagCompound);
@@ -89,18 +88,16 @@ public class Werewolf extends EntityMob implements IConfigurable{
         this.villagerNBTTagCompound = NBTTagCompound.getCompoundTag("villager");
         this.fromVillager = NBTTagCompound.getBoolean("fromVillager");
     }
-    
+
     /**
      * If at the current time in the given world werewolves can appear.
      * @param world The world.
      * @return If it is werewolf party time.
      */
     public static boolean isWerewolfTime(World world) {
-        return world.getCurrentMoonPhaseFactor() == 1.0
-                && !MinecraftHelpers.isDay(world)
-                && world.difficultySetting != EnumDifficulty.PEACEFUL;
+        return world.getCurrentMoonPhaseFactor() == 1.0 && !MinecraftHelpers.isDay(world) && world.difficultySetting != EnumDifficulty.PEACEFUL;
     }
-    
+
     private static void replaceEntity(EntityLiving old, EntityLiving neww, World world) {
         // TODO: A nice update effect?
         // Maybe something like this: https://github.com/iChun/Morph/blob/master/morph/client/model/ModelMorphAcquisition.java
@@ -111,7 +108,7 @@ public class Werewolf extends EntityMob implements IConfigurable{
         world.spawnEntityInWorld(neww);
         world.playAuxSFXAtEntity((EntityPlayer)null, 1016, (int)old.posX, (int)old.posY, (int)old.posZ, 0);
     }
-    
+
     /**
      * Replace this entity with the stored villager.
      */
@@ -122,7 +119,7 @@ public class Werewolf extends EntityMob implements IConfigurable{
             villager.readEntityFromNBT(villagerNBTTagCompound);
         }
     }
-    
+
     /**
      * Replace the given villager with a werewolf and store the data of that villager.
      * @param villager The villager to replace.
@@ -135,15 +132,15 @@ public class Werewolf extends EntityMob implements IConfigurable{
             replaceEntity(villager, werewolf, villager.worldObj);
         }
     }
-    
+
     @Override
-    public void onLivingUpdate() {        
+    public void onLivingUpdate() {
         if(!worldObj.isRemote && (!isWerewolfTime(worldObj) || worldObj.difficultySetting == EnumDifficulty.PEACEFUL)) {
             replaceWithVillager();
         } else {
             super.onLivingUpdate();
         }
-        
+
         // Random barking
         Random random = worldObj.rand;
         if(random.nextInt(BARKCHANCE) == 0 && barkprogress == -1) {
@@ -156,7 +153,7 @@ public class Werewolf extends EntityMob implements IConfigurable{
             }
         }
     }
-    
+
     /**
      * Get the bark progress scaled to the given parameter.
      * @param scale The scale.
@@ -168,7 +165,7 @@ public class Werewolf extends EntityMob implements IConfigurable{
         else
             return (float)barkprogress / (float)BARKLENGTH * scale;
     }
-    
+
     @Override
     protected Item getDropItem() {
         if(Configs.isEnabled(WerewolfBoneConfig.class))
@@ -176,13 +173,13 @@ public class Werewolf extends EntityMob implements IConfigurable{
         else
             return super.getDropItem();
     }
-    
+
     @Override
     protected void dropRareDrop(int chance) {
         if(Configs.isEnabled(WerewolfFurConfig.class))
             this.dropItem(WerewolfFurConfig._instance.getItemInstance(), 1);
     }
-    
+
     @Override
     protected String getLivingSound() {
         return "mob.wolf.growl";
@@ -197,23 +194,22 @@ public class Werewolf extends EntityMob implements IConfigurable{
     protected String getDeathSound() {
         return "mob.wolf.death";
     }
-    
-    //playStepSound
+
     @Override
-    protected void func_145780_a(int x, int y, int z, Block block) {
+    protected void func_145780_a(int x, int y, int z, Block block) { // playStepSound
         this.playSound("mob.zombie.step", 0.15F, 1.0F);
     }
-    
+
     @Override
     public EnumCreatureAttribute getCreatureAttribute() {
         return EnumCreatureAttribute.ARTHROPOD;
     }
-    
+
     @Override
     protected boolean canDespawn() {
         return !isFromVillager();
     }
-    
+
     /**
      * Get the villager data.
      * @return Villager data.
@@ -221,7 +217,7 @@ public class Werewolf extends EntityMob implements IConfigurable{
     public NBTTagCompound getVillagerNBTTagCompound() {
         return villagerNBTTagCompound;
     }
-    
+
     /**
      * If this werewolf was created from a transforming villager.
      * @return If it was a villager.
@@ -229,7 +225,7 @@ public class Werewolf extends EntityMob implements IConfigurable{
     public boolean isFromVillager() {
         return fromVillager;
     }
-    
+
     /**
      * Set is from villager.
      * @param fromVillager If this werewolf is a transformed villager.
@@ -242,5 +238,4 @@ public class Werewolf extends EntityMob implements IConfigurable{
     public ExtendedConfig<?> getConfig() {
         return null;
     }
-
 }

@@ -1,4 +1,5 @@
 package evilcraft.block;
+
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -14,12 +15,11 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 /**
  * Glass that holds back some light.
  * @author rubensworks
- *
  */
 public class ObscuredGlass extends ConfigurableBlockConnectedTexture {
-    
+
     private static ObscuredGlass _instance = null;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -30,7 +30,7 @@ public class ObscuredGlass extends ConfigurableBlockConnectedTexture {
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -45,37 +45,35 @@ public class ObscuredGlass extends ConfigurableBlockConnectedTexture {
         this.setStepSound(soundTypeGlass);
         this.setLightOpacity(10);
     }
-    
+
     @Override
     public boolean hasSeperateInventoryBlockIcon() {
         return true;
     }
-    
+
     @Override
     public Item getItemDropped(int par1, Random random, int zero) {
         return Item.getItemFromBlock(this);
     }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
-    public boolean shouldSideBeRendered (IBlockAccess world, int x, int y, int z, int side) {
+
+    @Override @SideOnly(Side.CLIENT)
+    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
         Block block = world.getBlock(x, y, z);
         return block == this ? false : super.shouldSideBeRendered(world, x, y, z, side);
     }
-    
+
     @Override
     public int getRenderBlockPass() {
         return 1;
     }
-    
+
     @Override
     public boolean renderAsNormalBlock() {
         return false;
     }
-    
+
     @Override
     public boolean isOpaqueCube() {
         return false;
     }
-
 }

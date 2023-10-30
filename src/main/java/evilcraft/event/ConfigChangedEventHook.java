@@ -8,10 +8,9 @@ import evilcraft.core.config.ConfigHandler;
 /**
  * Event hook for {@link ConfigChangedEvent}.
  * @author rubensworks
- *
  */
 public class ConfigChangedEventHook {
-    
+
     /**
      * Update the configurables when the options are changed from the config gui.
      * @param eventArgs The Forge event required for this.
@@ -19,7 +18,7 @@ public class ConfigChangedEventHook {
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
         if(eventArgs.modID.equals(Reference.MOD_ID)) {
-        	ConfigHandler.getInstance().syncProcessedConfigs();
+            ConfigHandler.getInstance().syncProcessedConfigs();
         }
     }
 }

@@ -11,10 +11,9 @@ import evilcraft.fluid.Blood;
 /**
  * Config for the Blood Bucket.
  * @author rubensworks
- *
  */
 public class BucketBloodConfig extends ItemBucketConfig {
-    
+
     /**
      * The unique instance.
      */
@@ -24,12 +23,7 @@ public class BucketBloodConfig extends ItemBucketConfig {
      * Make a new instance.
      */
     public BucketBloodConfig() {
-        super(
-        	true,
-            "bucketBlood",
-            null,
-            null
-        );
+        super(true, "bucketBlood", null, null);
     }
 
     @Override
@@ -46,10 +40,9 @@ public class BucketBloodConfig extends ItemBucketConfig {
     public ConfigurableBlockFluidClassic getFluidBlockInstance() {
         return FluidBlockBlood.getInstance();
     }
-    
+
     @Override
     public boolean isDisableable() {
         return false;
     }
-    
 }

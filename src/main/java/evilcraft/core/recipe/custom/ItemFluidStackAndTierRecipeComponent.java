@@ -27,7 +27,7 @@ public class ItemFluidStackAndTierRecipeComponent extends ItemAndFluidStackRecip
 
     @Override
     public boolean equals(Object o) {
-        ItemFluidStackAndTierRecipeComponent oc = ((ItemFluidStackAndTierRecipeComponent) o);
+        ItemFluidStackAndTierRecipeComponent oc = ((ItemFluidStackAndTierRecipeComponent)o);
         return super.equals(o) && (oc.getTier() >= this.tier || this.tier == -1 || oc.getTier() == -1);
     }
 

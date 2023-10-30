@@ -18,12 +18,11 @@ import net.minecraft.world.World;
 /**
  * Entity for the {@link WeatherContainer}.
  * @author rubensworks
- *
  */
 public class EntityWeatherContainer extends EntityThrowable implements IConfigurable {
-    
+
     private static final int ITEMSTACK_INDEX = 15;
-    
+
     /**
      * Make a new instance in the given world.
      * @param world The world to make it in.
@@ -54,10 +53,10 @@ public class EntityWeatherContainer extends EntityThrowable implements IConfigur
     }
 
     public static void playImpactSounds(World world) {
-        if (!world.isRemote) {
+        if(!world.isRemote) {
             // Play evil sounds at the players in that world
             for(Object o : world.playerEntities) {
-                EntityPlayer entityPlayer = (EntityPlayer) o;
+                EntityPlayer entityPlayer = (EntityPlayer)o;
                 world.playSoundAtEntity(entityPlayer, "mob.endermen.portal", 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
                 world.playSoundAtEntity(entityPlayer, "mob.ghast.moan", 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
                 world.playSoundAtEntity(entityPlayer, "mob.wither.death", 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
@@ -72,14 +71,12 @@ public class EntityWeatherContainer extends EntityThrowable implements IConfigur
         containerType.onUse(worldObj, stack);
 
         playImpactSounds(worldObj);
-        
         // Play sound and show particles of splash potion of harming
         // TODO: make custom particles for this
         this.worldObj.playAuxSFX(2002, (int)Math.round(this.posX), (int)Math.round(this.posY), (int)Math.round(this.posZ), 16428);
-        
         setDead();
     }
-    
+
     @Override
     protected float getGravityVelocity() {
         // The bigger, the faster the entity falls to the ground
@@ -102,15 +99,14 @@ public class EntityWeatherContainer extends EntityThrowable implements IConfigur
     public ItemStack getItemStack() {
         return dataWatcher.getWatchableObjectItemStack(ITEMSTACK_INDEX);
     }
-    
+
     private void setItemStack(ItemStack stack) {
         dataWatcher.updateObject(ITEMSTACK_INDEX, stack);
     }
-    
+
     @Override
     protected void entityInit() {
         super.entityInit();
-        
         dataWatcher.addObject(ITEMSTACK_INDEX, WeatherContainer.createItemStack(WeatherContainerTypes.EMPTY, 1));
     }
 

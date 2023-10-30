@@ -1,4 +1,5 @@
 package evilcraft.block;
+
 import java.util.Random;
 
 import net.minecraft.init.Blocks;
@@ -16,14 +17,13 @@ import evilcraft.core.helper.MinecraftHelpers;
 /**
  * Leaves for the Undead Tree.
  * @author rubensworks
- *
  */
 public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDropParticleFXBlock {
-    
+
     private static UndeadLeaves _instance = null;
-    
+
     private EntityDropParticleFXBlockComponent entityDropParticleFXBlockComponent;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -34,7 +34,7 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -45,12 +45,12 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
 
     private UndeadLeaves(ExtendedConfig<BlockConfig> eConfig) {
         super(eConfig);
-        
+
         setHardness(0.2F);
         setLightOpacity(1);
         setStepSound(soundTypeGrass);
-        
-        if (MinecraftHelpers.isClientSide()) {
+
+        if(MinecraftHelpers.isClientSide()) {
             entityDropParticleFXBlockComponent = new EntityDropParticleFXBlockComponent(1.0F, 0.0F, 0.0F);
             entityDropParticleFXBlockComponent.setOffset(0);
             entityDropParticleFXBlockComponent.setChance(50);
@@ -61,17 +61,15 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
     public Item getItemDropped(int meta, Random random, int zero) {
         return Item.getItemFromBlock(Blocks.deadbush);
     }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World world, int x, int y, int z, Random random) {
         super.randomDisplayTick(world, x, y, z, random);
         entityDropParticleFXBlockComponent.randomDisplayTick(world, x, y, z, random);
     }
 
-	@Override
-	public String[] func_150125_e() {
-		return null;
-	}
-
+    @Override
+    public String[] func_150125_e() {
+        return null;
+    }
 }

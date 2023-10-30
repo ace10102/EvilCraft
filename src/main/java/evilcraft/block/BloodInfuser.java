@@ -32,12 +32,11 @@ import java.util.Random;
 /**
  * A machine that can infuse stuff with blood.
  * @author rubensworks
- *
  */
 public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implements IMachine<BloodInfuser, ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> {
-    
+
     private static BloodInfuser _instance = null;
-    
+
     @SideOnly(Side.CLIENT)
     private IIcon sideIcon;
     @SideOnly(Side.CLIENT)
@@ -46,7 +45,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
     private IIcon frontIconOn;
     @SideOnly(Side.CLIENT)
     private IIcon frontIconOff;
-    
+
     /**
      * Initialise the configurable.
      * @param eConfig The config.
@@ -57,7 +56,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
         else
             eConfig.showDoubleInitError();
     }
-    
+
     /**
      * Get the unique instance.
      * @return The instance.
@@ -70,35 +69,32 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
         super(eConfig, Material.rock, TileBloodInfuser.class);
         this.setStepSound(soundTypeStone);
         this.setRotatable(true);
-        
-        if (MinecraftHelpers.isClientSide())
+
+        if(MinecraftHelpers.isClientSide())
             setGUI(GuiBloodInfuser.class);
         setContainer(ContainerBloodInfuser.class);
     }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
+
+    @Override @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         topIcon = iconRegister.registerIcon(getTextureName() + "_" + ForgeDirection.UP.name());
         sideIcon = iconRegister.registerIcon(getTextureName() + "_" + "side");
         frontIconOn = iconRegister.registerIcon(getTextureName() + "_" + ForgeDirection.NORTH.name() + "_on");
         frontIconOff = iconRegister.registerIcon(getTextureName() + "_" + ForgeDirection.NORTH.name() + "_off");
     }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT)
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-        TileBloodInfuser tile = (TileBloodInfuser) world.getTileEntity(x, y, z);
+        TileBloodInfuser tile = (TileBloodInfuser)world.getTileEntity(x, y, z);
         ForgeDirection rotatedDirection = DirectionHelpers.TEXTURESIDE_ORIENTATION[tile.getRotation().ordinal()][side];
-        return getIcon(rotatedDirection.ordinal(), tile.isVisuallyWorking()?1:0);
+        return getIcon(rotatedDirection.ordinal(), tile.isVisuallyWorking() ? 1 : 0);
     }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
+
+    @Override @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
         if(side == ForgeDirection.UP.ordinal() || side == ForgeDirection.DOWN.ordinal()) {
             return topIcon;
-        } else if (side == ForgeDirection.SOUTH.ordinal()) {
+        } else if(side == ForgeDirection.SOUTH.ordinal()) {
             if(meta == 1) {
                 return frontIconOn;
             } else {
@@ -108,7 +104,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
             return sideIcon;
         }
     }
-    
+
     @Override
     public Item getItemDropped(int par1, Random random, int zero) {
         return Item.getItemFromBlock(this);
@@ -129,16 +125,15 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
         return RegistryManager.getRegistry(ISuperRecipeRegistry.class).getRecipeRegistry(this);
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
+    @Override @SideOnly(Side.CLIENT) @SuppressWarnings("rawtypes")
     public void randomDisplayTick(World world, int x, int y, int z, Random random) {
-        EntityBloodBubbleFX.randomDisplayTick((WorkingTileEntity) world.getTileEntity(x, y, z), world, x, y, z, random);
+        EntityBloodBubbleFX.randomDisplayTick((WorkingTileEntity)world.getTileEntity(x, y, z), world, x, y, z, random);
         super.randomDisplayTick(world, x, y, z, random);
     }
 
     @Override
     public int getLightValue(IBlockAccess world, int x, int y, int z) {
-        TileBloodInfuser tile = (TileBloodInfuser) world.getTileEntity(x, y, z);
+        TileBloodInfuser tile = (TileBloodInfuser)world.getTileEntity(x, y, z);
         return tile.isVisuallyWorking() ? 4 : super.getLightValue(world, x, y, z);
     }
 }

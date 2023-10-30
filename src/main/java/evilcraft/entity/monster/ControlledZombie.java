@@ -15,7 +15,6 @@ import net.minecraft.world.World;
 /**
  * A zombie that is controlled by the player that spawned them with the {@link evilcraft.item.NecromancerStaff}.
  * @author rubensworks
- *
  */
 public class ControlledZombie extends EntityMob implements IConfigurable {
 
@@ -58,9 +57,9 @@ public class ControlledZombie extends EntityMob implements IConfigurable {
     @Override
     protected void entityInit() {
         super.entityInit();
-        this.getDataWatcher().addObject(12, Byte.valueOf((byte) 0));
-        this.getDataWatcher().addObject(13, Byte.valueOf((byte) 0));
-        this.getDataWatcher().addObject(14, Byte.valueOf((byte) 0));
+        this.getDataWatcher().addObject(12, Byte.valueOf((byte)0));
+        this.getDataWatcher().addObject(13, Byte.valueOf((byte)0));
+        this.getDataWatcher().addObject(14, Byte.valueOf((byte)0));
         this.dataWatcher.addObject(WATCHERID_TTL, 0);
     }
 
@@ -84,13 +83,14 @@ public class ControlledZombie extends EntityMob implements IConfigurable {
         this.dataWatcher.updateObject(WATCHERID_TTL, ttl);
     }
 
-    @Override
+    @Override @SuppressWarnings("rawtypes")
     public boolean canAttackClass(Class clazz) {
         return true;
     }
 
     @Override
-    protected void dropFewItems(boolean p_70628_1_, int p_70628_2_) {}
+    protected void dropFewItems(boolean p_70628_1_, int p_70628_2_) {
+    }
 
     @Override
     public ExtendedConfig<?> getConfig() {
@@ -123,7 +123,7 @@ public class ControlledZombie extends EntityMob implements IConfigurable {
         if(!worldObj.isRemote) {
             int ttl = getTtl();
             setTtl(--ttl);
-            if (ttl == 0) {
+            if(ttl == 0) {
                 setDead();
             }
         }
