@@ -22,12 +22,12 @@ public class ContainerSpiritFurnace extends ContainerTileWorking<TileSpiritFurna
     public static final int SLOT_BOX_X = 79;
     public static final int SLOT_BOX_Y = 36;
 
-    private static final int SLOTS_X = 2;
+    private static final int SLOTS_X = 3;
     private static final int SLOTS_Y = 2;
 
     public static final int SLOTS_DROP = SLOTS_X * SLOTS_Y;
     public static final int SLOT_DROP_X = 134;
-    public static final int SLOT_DROP_Y = 28;
+    public static final int SLOT_DROP_Y = 18;
 
     private static final int UPGRADE_INVENTORY_OFFSET_X = -22;
     private static final int UPGRADE_INVENTORY_OFFSET_Y = 6;

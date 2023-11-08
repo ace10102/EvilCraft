@@ -68,7 +68,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     /**
      * The id of the drops slot.
      */
-    public static final int[] SLOTS_DROP = new int[] { 2, 3, 4, 5 };
+    public static final int[] SLOTS_DROP = new int[] { 2, 3, 4, 5, 6, 7 };
 
     /**
      * The total amount of slots in this machine.
@@ -243,8 +243,8 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     }
 
     /**
-     * If the size is valid for the contained entity to cook. It will check the inner size of the furnace and the size of
-     * the entity.
+     * If the size is valid for the contained entity to cook.
+     * It will check the inner size of the furnace and the size of the entity.
      * @return If it is valid.
      */
     public boolean isSizeValidForEntity() {

@@ -149,7 +149,6 @@ public class SpiritFurnaceConfig extends BlockContainerConfig {
     /**
      * Callback for when the player drops property is changed.
      * @author rubensworks
-     *
      */
     public static class OverridePlayerDrop implements IChangedCallback {
 
