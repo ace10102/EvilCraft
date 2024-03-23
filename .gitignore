@@ -5,6 +5,7 @@ doc/info.txt
 /run
 /libs
 /tools
+/sources
 
 # Ignore project specific files
 .classpath

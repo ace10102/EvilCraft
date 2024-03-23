@@ -21,7 +21,6 @@ import evilcraft.core.entity.monster.EntityNoMob;
 import evilcraft.core.helper.L10NHelpers;
 import evilcraft.core.helper.WorldHelpers;
 import evilcraft.core.helper.obfuscation.MethodHandlesHelper;
-//import evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import evilcraft.item.BurningGemStone;
 import evilcraft.item.BurningGemStoneConfig;
 import net.minecraft.client.Minecraft;

@@ -7,6 +7,8 @@ import java.lang.reflect.Method;
 
 import org.apache.logging.log4j.Level;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.ReflectionHelper.UnableToFindFieldException;
 import cpw.mods.fml.relauncher.ReflectionHelper.UnableToFindMethodException;
 import evilcraft.EvilCraft;
@@ -35,7 +37,7 @@ public class MethodHandlesHelper {
     // net.minecraft.entity.EntityLiving.
     private static final String ENTITYLIVING_GETLIVINGSOUND = DEV_ENVIRONMENT ? "getLivingSound" : "func_70639_aQ";
 
-    public static Field panoramaPaths = findFieldFaster(GuiMainMenu.class, GUIMAINMENU_TITLEPANORAMAPATHS);
+    public static Field panoramaPaths = FMLCommonHandler.instance().getSide() == Side.CLIENT ? findFieldFaster(GuiMainMenu.class, GUIMAINMENU_TITLEPANORAMAPATHS) : null;
     public static Field potionTypes = findFieldFaster(Potion.class, POTION_POTIONTYPES);
     public static Field recipeWidth = findFieldFaster(ShapedOreRecipe.class, SHAPEDORERECIPE_WIDTH);
     public static Field recipeHeight = findFieldFaster(ShapedOreRecipe.class, SHAPEDORERECIPE_HEIGHT);
@@ -52,7 +54,7 @@ public class MethodHandlesHelper {
     private static final MethodHandle MH_getLivingSound;
     static {
         try {
-            MH_GuiMainMenu_titlePanoramaPaths = MethodHandles.lookup().unreflectSetter(panoramaPaths);
+            MH_GuiMainMenu_titlePanoramaPaths = panoramaPaths != null ? MethodHandles.lookup().unreflectSetter(panoramaPaths) : null;
             MH_Potion_potionTypes = MethodHandles.lookup().unreflectSetter(potionTypes);
             MH_ShapedOreRecipe_width = MethodHandles.lookup().unreflectGetter(recipeWidth);
             MH_ShapedOreRecipe_height = MethodHandles.lookup().unreflectGetter(recipeHeight);
