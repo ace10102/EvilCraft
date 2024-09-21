@@ -17,6 +17,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
@@ -33,6 +34,7 @@ public class MethodHandlesHelper {
     private static final String SHAPEDORERECIPE_HEIGHT = "height";
 
     // net.minecraft.entity.EntityLivingBase.
+    private static final String ENTITYLIVINGBASE_ONCHANGEDPOTIONEFFECT = DEV_ENVIRONMENT ? "onChangedPotionEffect" : "func_70695_b";
     private static final String ENTITYLIVINGBASE_GETDEATHSOUND = DEV_ENVIRONMENT ? "getDeathSound" : "func_70673_aS";
     // net.minecraft.entity.EntityLiving.
     private static final String ENTITYLIVING_GETLIVINGSOUND = DEV_ENVIRONMENT ? "getLivingSound" : "func_70639_aQ";
@@ -42,6 +44,7 @@ public class MethodHandlesHelper {
     public static Field recipeWidth = findFieldFaster(ShapedOreRecipe.class, SHAPEDORERECIPE_WIDTH);
     public static Field recipeHeight = findFieldFaster(ShapedOreRecipe.class, SHAPEDORERECIPE_HEIGHT);
 
+    public static Method onChangedPotionEffect = findMethodFaster(EntityLivingBase.class, ENTITYLIVINGBASE_ONCHANGEDPOTIONEFFECT, PotionEffect.class, boolean.class);
     public static Method getDeathSound = findMethodFaster(EntityLivingBase.class, ENTITYLIVINGBASE_GETDEATHSOUND);
     public static Method getLivingSound = findMethodFaster(EntityLiving.class, ENTITYLIVING_GETLIVINGSOUND);
 
@@ -50,6 +53,7 @@ public class MethodHandlesHelper {
     private static final MethodHandle MH_ShapedOreRecipe_width;
     private static final MethodHandle MH_ShapedOreRecipe_height;
 
+    private static final MethodHandle MH_onChangedPotionEffect;
     private static final MethodHandle MH_getDeathSound;
     private static final MethodHandle MH_getLivingSound;
     static {
@@ -58,6 +62,7 @@ public class MethodHandlesHelper {
             MH_Potion_potionTypes = MethodHandles.lookup().unreflectSetter(potionTypes);
             MH_ShapedOreRecipe_width = MethodHandles.lookup().unreflectGetter(recipeWidth);
             MH_ShapedOreRecipe_height = MethodHandles.lookup().unreflectGetter(recipeHeight);
+            MH_onChangedPotionEffect = MethodHandles.lookup().unreflect(onChangedPotionEffect);
             MH_getDeathSound = MethodHandles.lookup().unreflect(getDeathSound);
             MH_getLivingSound = MethodHandles.lookup().unreflect(getLivingSound);
         } catch(Exception e) {
@@ -101,6 +106,14 @@ public class MethodHandlesHelper {
             EvilCraft.log("MethodHandle getShapedOreRecipeHeight errored on recipe: " + recipe.getClass().getName(), Level.ERROR);
         }
         return 0;
+    }
+
+    public static void onChangedPotionEffect(EntityLivingBase entity, PotionEffect effect, boolean reapply) {
+        try {
+            MH_onChangedPotionEffect.invoke(entity, effect, reapply);
+        } catch(Throwable e) {
+            EvilCraft.log("MethodHandle onChangedPotionEffect errored on entity: " + entity.getClass().getName() + " involving PotionEffect: " + effect.getEffectName(), Level.ERROR);
+        }
     }
 
     public static String getDeathSound(EntityLivingBase entity) {

@@ -10,6 +10,7 @@ import evilcraft.core.config.extendedconfig.ExtendedConfig;
 import evilcraft.core.config.extendedconfig.ItemConfig;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.helper.WorldHelpers;
+import evilcraft.core.helper.obfuscation.MethodHandlesHelper;
 import evilcraft.fluid.Blood;
 import evilcraft.modcompat.baubles.BaublesModCompat;
 import net.minecraft.entity.Entity;
@@ -96,7 +97,7 @@ public class InvigoratingPendant extends ConfigurableDamageIndicatedItemFluidCon
                         player.removePotionEffect(potionID);
                     } else {
                         effect.duration = remaining - toReduce;
-                        player.onChangedPotionEffect(effect, true);
+                        MethodHandlesHelper.onChangedPotionEffect(player, effect, true);
                         toDrain = (int)Math.ceil((double)(reductionMultiplier * amount) * ((double)toReduce / (double)originalReducableDuration));
                     }
                     consume(toDrain, itemStack, player);
