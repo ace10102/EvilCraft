@@ -4,6 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import evilcraft.api.ILocation;
 import evilcraft.core.config.extendedconfig.ExtendedConfig;
+import evilcraft.core.helper.LoggerHelper;
 import evilcraft.core.helper.MinecraftHelpers;
 import evilcraft.core.tileentity.InnerBlocksTileEntity;
 import net.minecraft.block.Block;
@@ -21,6 +22,8 @@ import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.logging.log4j.Level;
 
 /**
  * A block that is based on inner blocks that are stored in a tile entity.
@@ -62,7 +65,7 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     public InnerBlocksTileEntity getTile(IBlockAccess world, int x, int y, int z) throws InvalidInnerBlocksTileException {
         TileEntity tile = world.getTileEntity(x, y, z);
         if(tile == null || !(tile instanceof InnerBlocksTileEntity)) {
-            throw new InvalidInnerBlocksTileException();
+            throw new InvalidInnerBlocksTileException("Tile Entity was " + tile + " at coordinates [ x: " + x + ", y: " + y + ", z: " + z + " ] for Block:" + world.getBlock(x, y, z).getLocalizedName());
         }
         return (InnerBlocksTileEntity)tile;
     }
@@ -220,5 +223,15 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
      * @author rubensworks
      */
     public static class InvalidInnerBlocksTileException extends Exception {
+
+        public InvalidInnerBlocksTileException(String message) {
+            super(message);
+        }
+
+        @Override
+        public void printStackTrace() {
+            LoggerHelper.log(Level.WARN, this.getMessage());
+            super.printStackTrace();
+        }
     }
 }

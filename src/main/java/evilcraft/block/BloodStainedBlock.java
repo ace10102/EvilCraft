@@ -77,7 +77,7 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
     @Override @SideOnly(Side.CLIENT)
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
         try {
-            return this.getIcon(side, world.getBlockMetadata(x, y, z), pass, alternatingBlockIconComponent.getAlternateIcon(world, x, y, z, side), getTile(world, x, y, z).getInnerBlock());
+            return this.getIcon(x, y, z, world.getBlockMetadata(x, y, z), side, pass, alternatingBlockIconComponent.getAlternateIcon(world, x, y, z, side), getTile(world, x, y, z).getInnerBlock());
         } catch(InvalidInnerBlocksTileException e) {
             return super.getIcon(world, x, y, z, side);
         }
@@ -94,9 +94,9 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
      * @throws InvalidInnerBlocksTileException If an error occurred while getting the icon.
      */
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int meta, int renderPass, IIcon defaultIcon, Block baseBlock) throws InvalidInnerBlocksTileException {
+    public IIcon getIcon(int x, int y, int z, int meta, int side, int renderPass, IIcon defaultIcon, Block baseBlock) throws InvalidInnerBlocksTileException {
         if(baseBlock == null) {
-            throw new InvalidInnerBlocksTileException();
+            throw new InvalidInnerBlocksTileException("Blood Stained Block at [ x:" + x + ", y:" + y + ", z:" + z + " ] contained Block null");
         }
         if(renderPass < 0) {
             return RenderHelpers.EMPTYICON;
