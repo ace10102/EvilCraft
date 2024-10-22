@@ -203,9 +203,9 @@ public abstract class InventoryContainer extends Container {
     }
 
     @Override
-    public ItemStack slotClick(int slotId, int arg, int function, EntityPlayer player) {
-        ItemStack itemStack = super.slotClick(slotId, arg, function, player);
-        if(arg == 0 && function == 0 && slotId >= 0) {
+    public ItemStack slotClick(int slotId, int keyOrdinal, int clickType, EntityPlayer player) {
+        ItemStack itemStack = super.slotClick(slotId, keyOrdinal, clickType, player);
+        if(keyOrdinal == 0 && clickType == 0 && slotId >= 0) {
             getSlot(slotId).putStack(getSlot(slotId).getStack());
         }
         return itemStack;
