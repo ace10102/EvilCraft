@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 import evilcraft.core.helper.MinecraftHelpers;
@@ -84,6 +85,15 @@ public class ClientSoulNetworkHandler {
     // @SideOnly(Side.SERVER)
     public void addUpdatePlayer(String player) {
         UPDATE_PLAYERS.add(player);
+    }
+
+    /**
+     * When a player login is received Add player to Soul Network update list
+     * @param event the login event
+     */
+    @SubscribeEvent
+    public void playerLogin(PlayerLoggedInEvent event) {
+        addUpdatePlayer(event.player.getCommandSenderName());
     }
 
     /**
