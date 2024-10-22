@@ -32,6 +32,7 @@ public class GuiPrimedPendant extends GuiContainerExtended {
     protected void drawGuiContainerForegroundLayer(int x, int y) {
         super.drawGuiContainerForegroundLayer(x, y);
         ItemStack itemStack = InventoryHelpers.getItemFromIndex(player, itemIndex);
-        this.fontRendererObj.drawString(itemStack.getDisplayName(), 28, 6, 4210752);
+        if(itemStack != null)
+            this.fontRendererObj.drawString(itemStack.getDisplayName(), 28, 6, 4210752);
     }
 }

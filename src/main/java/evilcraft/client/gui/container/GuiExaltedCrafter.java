@@ -77,7 +77,7 @@ public class GuiExaltedCrafter extends GuiContainerExtended {
         super.drawGuiContainerForegroundLayer(x, y);
         ItemStack itemStack = InventoryHelpers.getItemFromIndex(player, itemIndex);
         String name = L10NHelpers.localize("gui.exaltedCrafting");
-        if(itemStack.hasDisplayName()) {
+        if(itemStack != null && itemStack.hasDisplayName()) {
             name = itemStack.getDisplayName();
         }
         this.fontRendererObj.drawString(name, 28, 6, 4210752);
