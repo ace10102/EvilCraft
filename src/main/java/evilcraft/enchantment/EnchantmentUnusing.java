@@ -7,15 +7,16 @@ import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.ItemStack;
 
 /**
- * Enchantment that stop your tool from being usable when it only has durability left.
+ * Enchantment that stop your tool from being usable when on low durability.
  * @author rubensworks
+ * @Maintainer Spoilers
  */
 public class EnchantmentUnusing extends ConfigurableEnchantment {
 
     private static EnchantmentUnusing _instance = null;
 
     /**
-     * Initialise the configurable.
+     * Initialize the configurable.
      * @param eConfig The config.
      */
     public static void initInstance(ExtendedConfig<EnchantmentConfig> eConfig) {
@@ -54,7 +55,7 @@ public class EnchantmentUnusing extends ConfigurableEnchantment {
 
     @Override
     public boolean canApply(ItemStack itemStack) {
-        return itemStack != null && itemStack.getItem().isItemTool(itemStack);
+        return itemStack != null && itemStack.getItem().isItemTool(itemStack) && !itemStack.getHasSubtypes();
     }
 
     /**
@@ -64,7 +65,7 @@ public class EnchantmentUnusing extends ConfigurableEnchantment {
      */
     public static boolean unuseTool(ItemStack itemStack) {
         int damageBorder = itemStack.getMaxDamage() - 5;
-        if(itemStack.getItemDamage() >= damageBorder) {
+        if(!itemStack.getHasSubtypes() && itemStack.getItemDamage() >= damageBorder) {
             itemStack.setItemDamage(damageBorder);
             return true;
         }
