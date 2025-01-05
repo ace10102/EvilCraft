@@ -9,6 +9,7 @@ import evilcraft.fluid.Blood;
 /**
  * Config for the {@link CreativeBloodDrop}.
  * @author rubensworks
+ * @Maintainer Spoilers
  */
 public class CreativeBloodDropConfig extends ItemConfig {
 
@@ -27,6 +28,6 @@ public class CreativeBloodDropConfig extends ItemConfig {
     @Override
     public void onRegistered() {
         ItemStack itemStack = new ItemStack(CreativeBloodDrop.getInstance(), 1);
-        FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(Blood.getInstance().getName(), CreativeBloodDrop.getInstance().getCapacity(itemStack)), itemStack);
+        FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(Blood.getInstance().getName(), CreativeBloodDrop.getInstance().getCapacity(itemStack)), itemStack, itemStack);
     }
 }
