@@ -1,7 +1,10 @@
 package evilcraft.modcompat.thermalexpansion;
 
 import cpw.mods.fml.common.event.FMLInterModComms;
-import evilcraft.*;
+import evilcraft.Configs;
+import evilcraft.EvilCraft;
+import evilcraft.IInitListener;
+import evilcraft.Reference;
 import evilcraft.api.recipes.custom.IRecipe;
 import evilcraft.block.*;
 import evilcraft.core.recipe.custom.DurationXpRecipeProperties;
@@ -11,8 +14,6 @@ import evilcraft.fluid.Blood;
 import evilcraft.fluid.Poison;
 import evilcraft.item.*;
 import evilcraft.modcompat.IModCompat;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.Fluid;
@@ -22,11 +23,11 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 
 /**
  * Compatibility plugin for Thermal Expansion.
  * @author rubensworks
+ * @Maintainer Spoilers
  */
 public class ThermalExpansionModCompat implements IModCompat {
 
@@ -45,6 +46,7 @@ public class ThermalExpansionModCompat implements IModCompat {
     private void registerThermalExpansionRecipes() {
         String TE = getModID();
         EvilCraft.log("Registering " + TE + " recipes");
+
         // Sawmill undead wood
         if(Configs.isEnabled(UndeadLogConfig.class) && Configs.isEnabled(UndeadPlankConfig.class)) {
             NBTTagCompound sawmillUndeadWood = new NBTTagCompound();
@@ -151,21 +153,6 @@ public class ThermalExpansionModCompat implements IModCompat {
                     FMLInterModComms.sendMessage(TE, "TransposerFillRecipe", bloodInfuse);
                 }
             }
-        }
-
-        // Fluid Transposer: buckets
-        for(Entry<Item, FluidStack> entry : Recipes.BUCKETS.entrySet()) {
-            NBTTagCompound fill = new NBTTagCompound();
-            fill.setInteger("energy", 2000);
-            fill.setTag("input", new NBTTagCompound());
-            fill.setTag("output", new NBTTagCompound());
-            fill.setTag("fluid", new NBTTagCompound());
-
-            new ItemStack(entry.getKey()).writeToNBT(fill.getCompoundTag("input"));
-            new ItemStack(Items.bucket).writeToNBT(fill.getCompoundTag("output"));
-            fill.setBoolean("reversible", true);
-            entry.getValue().copy().writeToNBT(fill.getCompoundTag("fluid"));
-            FMLInterModComms.sendMessage(TE, "TransposerFillRecipe", fill);
         }
 
         // Pulverize Blood-Waxed Coal
