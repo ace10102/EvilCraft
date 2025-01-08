@@ -47,7 +47,7 @@ public class ThermalExpansionModCompat implements IModCompat {
         String TE = getModID();
         EvilCraft.log("Registering " + TE + " recipes");
 
-        // Sawmill undead wood
+        // Sawmill: Undead Wood
         if(Configs.isEnabled(UndeadLogConfig.class) && Configs.isEnabled(UndeadPlankConfig.class)) {
             NBTTagCompound sawmillUndeadWood = new NBTTagCompound();
             sawmillUndeadWood.setInteger("energy", 2000);
@@ -59,7 +59,7 @@ public class ThermalExpansionModCompat implements IModCompat {
             FMLInterModComms.sendMessage(TE, "SawmillRecipe", sawmillUndeadWood);
         }
 
-        // Pulverizer dark ore
+        // Pulverizer: Dark Ore
         if(Configs.isEnabled(DarkOreConfig.class) && Configs.isEnabled(DarkGemConfig.class)) {
             boolean crushedEnabled = Configs.isEnabled(DarkGemCrushedConfig.class);
             NBTTagCompound pulverizerDarkOre = new NBTTagCompound();
@@ -79,7 +79,7 @@ public class ThermalExpansionModCompat implements IModCompat {
             FMLInterModComms.sendMessage(TE, "PulverizerRecipe", pulverizerDarkOre);
         }
 
-        // Pulverizer dark ore -> crushed
+        // Pulverizer: Dark Gem -> Crushed
         if(Configs.isEnabled(DarkGemConfig.class) && Configs.isEnabled(DarkGemCrushedConfig.class)) {
             NBTTagCompound pulverizerDarkOre = new NBTTagCompound();
             pulverizerDarkOre.setInteger("energy", 4000);
@@ -91,7 +91,7 @@ public class ThermalExpansionModCompat implements IModCompat {
             FMLInterModComms.sendMessage(TE, "PulverizerRecipe", pulverizerDarkOre);
         }
 
-        // Crucible poison
+        // Crucible: Poison
         ArrayList<ItemStack> materialPoisonousList = OreDictionary.getOres(Reference.DICT_MATERIALPOISONOUS);
         for(ItemStack materialPoisonous : materialPoisonousList) {
             NBTTagCompound cruciblePoison = new NBTTagCompound();
@@ -107,7 +107,7 @@ public class ThermalExpansionModCompat implements IModCompat {
             FMLInterModComms.sendMessage(TE, "CrucibleRecipe", cruciblePoison);
         }
 
-        // Crucible ender
+        // Crucible: Ender
         if(Configs.isEnabled(EnderTearConfig.class)) {
             Fluid ender = FluidRegistry.getFluid("ender");
             if(ender != null) {
@@ -122,7 +122,7 @@ public class ThermalExpansionModCompat implements IModCompat {
             }
         }
 
-        // Crucible hardened blood shard
+        // Crucible: Hardened Blood Shard
         if(Configs.isEnabled(HardenedBloodShardConfig.class)) {
             NBTTagCompound crucibleBloodShard = new NBTTagCompound();
             crucibleBloodShard.setInteger("energy", 200);
@@ -134,7 +134,7 @@ public class ThermalExpansionModCompat implements IModCompat {
             FMLInterModComms.sendMessage(TE, "CrucibleRecipe", crucibleBloodShard);
         }
 
-        // Fluid Transposer: blood infuse
+        // Fluid Transposer: Blood Infuse
         if(Configs.isEnabled(BloodInfuserConfig.class)) {
             for(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe : BloodInfuser.getInstance().getRecipeRegistry().allRecipes()) {
                 if(recipe.getInput().getTier() == 0) {
@@ -155,7 +155,20 @@ public class ThermalExpansionModCompat implements IModCompat {
             }
         }
 
-        // Pulverize Blood-Waxed Coal
+        // Fluid Transposer: Condensed Blood
+        if(Configs.isEnabled(CondensedBloodConfig.class)) {
+            NBTTagCompound condensedBlood = new NBTTagCompound();
+            condensedBlood.setInteger("energy", 400);
+            condensedBlood.setTag("input", new NBTTagCompound());
+            condensedBlood.setTag("fluid", new NBTTagCompound());
+            condensedBlood.setBoolean("overwrite", true);
+
+            new ItemStack(CondensedBloodConfig._instance.getItemInstance()).writeToNBT(condensedBlood.getCompoundTag("input"));
+            new FluidStack(Blood.getInstance(), 500).writeToNBT(condensedBlood.getCompoundTag("fluid"));
+            FMLInterModComms.sendMessage(TE, "TransposerExtractRecipe", condensedBlood);
+        }
+
+        // Pulverizer: Blood-Waxed Coal
         if(Configs.isEnabled(BloodWaxedCoalConfig.class)) {
             NBTTagCompound pulverizerDustCoal = new NBTTagCompound();
             pulverizerDustCoal.setInteger("energy", 2400);

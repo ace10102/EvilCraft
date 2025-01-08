@@ -10,7 +10,7 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
 /**
- * Config for the Dull Dust.
+ * Config for the Condensed Blood.
  * @author rubensworks
  */
 public class CondensedBloodConfig extends ItemConfig {
